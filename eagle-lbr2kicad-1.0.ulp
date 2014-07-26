@@ -10,6 +10,9 @@
 
 /*
  * CHANGELOG=(dd.mm.yyyy)===============================================
+ * 26.07.2014: Fix Squ Pad size 0 problem in module
+ *             Thanks to: Lachlan Audas (laudas1 at gmail.com )
+ *
  * 14.07.2014: Add option allows combining of device's into one KiCad lib part if the pin name/number match exactly.
  *             Note: Pin number/name IS the deciding factor! NOT package type or package pin count.
  *             Thanks to: Lachlan Audas (laudas1 at gmail.com )
