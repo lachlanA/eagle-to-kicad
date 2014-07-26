@@ -616,9 +616,52 @@ void write_kicad_mod_shapes(UL_PACKAGE PAC)
 //------------------------------------------------------
 void write_kicad_mod_text(UL_PACKAGE PAC)
 {
-    int textnum = 0;
-    int xoffs, yoffs, size;
-    string text;
+  int textnum = 0;
+  int offset = 0;
+  int xoffs, yoffs, size;
+  string text;
+
+  string NAME = "";
+  string VALUE = "";
+
+    PAC.texts(T)
+      {
+	// check for part prefix/>NAME
+	if( textnum == 0 )
+	  {
+	    if (strupr(T.value) == ">NAME" )
+	      {
+		NAME = strupr(T.value);
+		textnum++;
+		continue;
+	      }
+	    else 
+	      {  // Ok,  prefix but No >NAME
+		textnum++;
+		offset++;
+		continue;
+	      }
+	  }
+	else
+	  {
+	    offset++;
+	  }
+
+	// check for part value/>VALUE
+	if( textnum == 1 )
+	  if (strupr(T.value) == ">VALUE" )
+	    {
+	      VALUE = strupr(T.value);
+	      textnum++;
+	      continue;
+	    }
+	  else
+	    {
+	      textnum++;
+	      offset++;
+	      continue;
+	    }
+      }
 
     PAC.texts(T)
     {
@@ -647,10 +690,18 @@ void write_kicad_mod_text(UL_PACKAGE PAC)
 
         }
 
+	// check for part prefix/>NAME
+	if( textnum == 0 )
+	  {
+	    
+	  }
 
-        if (strupr(T.value) == ">NAME" || strupr(T.value) == ">VALUE" )
-	  continue;
-	else
+	//        if (strupr(T.value) == ">NAME" || strupr(T.value) == ">VALUE" )
+
+
+	//        if (strupr(T.value) == ">NAME" || strupr(T.value) == ">VALUE" )
+	//	  continue;
+	//	else
 	  {
 	    printf("T%d %d %d %d %d %d %d N V \"%s\"\n",
 		   textnum, egl2ki(T.x + xoffs), -egl2ki(T.y + yoffs),
