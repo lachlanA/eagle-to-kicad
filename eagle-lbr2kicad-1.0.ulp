@@ -1,0 +1,2011 @@
+#usage "<b>KiCAD module exporting tool  version 1.0)</b>\n"
+        "<p>"
+        "This ULP can exports Eagle CAD Package and Symbol contents into KiCAD lib and module format."
+        "<p>"
+        "Load any library from the library directory and execute the ULP."
+        "<p>"
+        "<author>Author: Dmitri N. Sytov sdn (at) openhardware.ru</author>"
+        "<author>Author: juergen.messerer (at) freesurf.ch</author>"
+	"<author>Author: laudas1 (at) gmail.com</author>"
+
+/*
+ * CHANGELOG=(dd.mm.yyyy)===============================================
+ * 14.07.2014: Add option allows combining of device's into one KiCad lib part if the pin name/number match exactly.
+ *             Note: Pin number/name IS the deciding factor! NOT package type or package pin count.
+ *             Thanks to: Lachlan Audas (laudas1 at gmail.com )
+ *
+ * 12.07.2014: Add option to allows adding $PACKAGE list to KiCad where parts Shari'a common pin refances.
+ *             Thanks to: Lachlan Audas (laudas1 at gmail.com )
+ *
+ * 21.06.2014: Fix bug where, >NAME and >VALUE  were getting past thou from eage to kicad libs
+ * 	       because there were not in upper case.
+ *	       thanks to: Lachlan Audas (laudas1 at gmail.com )
+ *
+ * 20.06.2014: Add option to Remove Text after @, this works bit like the hide after @ in Eagle SCH
+ *	       thanks to: Lachlan Audas (laudas1 at gmail.com )
+ *
+ * 20.06.2014: Fix bug in str_replace(string search, string replace, string subject)
+ *             Bug was, it did not return the Original string,  if the search string was not
+ *	       found,  but returned the replacement string !!   
+ *	       thanks to: Lachlan Audas (laudas1 at gmail.com )
+ *
+ * 12.06.2014: Fix \r \n in value import,  which eagle allows but KiCAD dos not like.
+ * 	       also remove any other charters which are not printable
+ *	       thanks to: Lachlan Audas (laudas1 at gmail.com )
+ *
+ * 14.02.2014: - Fix "Multiple contacts on pin, use contacts() instead" error in
+ *               Eagle 6.0 (and later) when multiple pads are connected to same pin. (caspencer)
+ *             - Fix issue with incorrect smd/pad angles
+ *               thanks to: Jan Phillip Willmann (jantek.willmann at gmail.com)
+ *
+ * 28.12.2012: Fixed BUG: wrong scaling of elements
+ *             Now compatible with Eagle 6.3 and KiCad Build 2012-01-19 by Wawszczak
+ *
+ * 02.01.2012: Fixed BUGS: (that it is compatible with the new KiCad versions)
+ *             KiCad "undefined draw command"
+ *             KiCad "unexpected end of file / module"
+ *
+ * 01.12.2006: Little changes on the script with DEV.package. Always check if
+ *             DEV.package exist otherwise an error will occur.
+ *
+ * 22.08.2006: - Changes made by Sergiusz Urbaniak (mieszkoman (at) gmx.de)
+ *             - Selection of export of Pin Names and Pin Numbers
+ *             - Prefixing each module with the Eagle library name (easier to navigate in the netlist)
+ *             - Support of multiple units
+ *
+ * 17.07.2006: The positions of the name and the prefix are fixed for multi part devices
+ *
+ * 17.07.2006: Now the script creates also devices without packages.
+ *             When a device has more then one part then it use symbol name
+ *             for the alias "F0, F1, .."
+ *             When it has more then one package then it use the device name
+ *
+ * 19.06.2006: Bugfix, devices with more then one packages will now generate
+ *             a device for each package
+ *
+ * 14.06.2006: Add the translation feature for multipart devices
+ *
+ * 12.06.2006: Fixed the arc problem. There is still a text position problem
+ *
+ * 08.06.2006: Now it converts also the symbol from eagle
+ *
+ * 14.11.2005: Fixed BUGS:
+ *             - Invalid layers in $PAD section
+ *             - Text fields has right coords but bad align
+ *             - Polygonal areas draws twice
+ *           Thanks to:
+ *             Biglacko <biglacko (at) startolj.hu>
+*/
+
+/* ==========================================================================
+ * License: This file is released under the license of the GNU Public license
+ *          Version 2.
+ * ==========================================================================*/
+
+real VERSION   = 1.0;
+
+int rect_conv  = 1; // many QFP-like packages use rectangles as a pin contour (too much segments in the ki-format)
+int poly_conv  = 1;
+int holes_conv = 1;
+
+string g_lib_prefix ;
+int writePins = 0;
+int drawPinNumber = 1;
+int drawPinName = 1;
+int outPutAlias = 1;
+int outPutFootPrint = 1;     // Controls the Out pout foot print in F2
+int outPutFootPrints = 1;     // Controls the Outputt footprints in $FPLIST
+string footPrintList = "";
+string footPrintPreFix = "";     // Prefix for footPrint note maybe blank
+string undefinedPartPreFix = "M"; 
+string aliasList = "";     // list of part alias's
+
+int wildCardPrefix = 1;  // 1 = pre add * wild card to $FPLIST footprint list names
+int wildPostfix  = 1; // 1 = post add * wild card to $FPLIST footprint list names
+
+int eaglePartToKiCadPartConversion = 0;
+
+int devicesetsCount = 0;
+int devicesCount = 0;
+
+int deleteTextArfterATsysbolInPinName = 1;   //Eagle dos not show any text in pin name's arfter the @ sysbold.
+int deleteNameTextSCH = 1;   //Delete >Name from schematic
+int deleteValueTextSCH = 1;   //Delete >Value from schematic
+string  symbolicPrefix;      /*list  symbolic prefix(s)(commer seperated) not to show pin's or pad's or Part,
+
+ 			       or symbolic prefix for,  Note list format is D, C, X, V, #  */
+
+int dontShowPin = 1;   //Dont show pin's from symbloicPrefix list
+int dontShowPad = 1;   //Dont show Pad's from symbloicPrefix list
+int dontShowPartName = 1;   //Dont show part name from symbloicPrefix list
+int dontShowPartValue = 1;   //Dont show part name from symbloicPrefix list
+
+string pinNamePnumberList[]; // Holds aray of pint number and name + padcount
+string packageNameList[]; // Holds aray of package names
+string packageNameListMatch[]; // Holds aray of package names
+
+string NameSCH = ">Name";
+string ValueSCH = ">Value";
+
+int RECT_WIDTH = 26;
+
+
+string infoDeviceConversion = "Allows combining of device's into one KiCad lib part if the pin name/number match exactly."+
+                              " Note pin number/name not package type or the number of pins on the package is the deciding factor. "+
+                              " If not enabled conversion will make a new KiCad library part for every eagle devices/footprint this of course"+
+                              " make's for a very large KiCad library so this give's the option of combining the eagle part's where"+
+                              " possible to make a Kicad library, there is some risk to this, as the matching process could have <b>bug's!!!!</b>"+
+                              " So it's import you check the results when using this option<b>!!!</b>";
+
+string infoTechnologies = "Make KiCad part Alias's from the Technologies definition in Eagle device\'s";
+
+string infoDeleArfter = "Eagle SCH/PCB will not show any charters after '@' in pin names\n"
+                        "Checking this,  will delete any charters after and including the '@' so it wont show in KiCad";
+
+string infoPreFixSeach = "Add a wild card prefix '*' to each footprint in the footprint list,  this allows easy footprint searching in CvPCB.";
+string infoPostFixSeach = "Add a wild card post-fix '*' to each footprint in the footprint list,  this allows easy footprint searching in CvPCB.";
+
+string infoNoPrefix = "If a eagle lib part has no prefix IE:  \"U\", \"R\", \"C\" etc, then we use this letter(s) for SCH/Part Prefix";
+
+string infoFootPrintList = "KiCad use's the footprint list to help select the PCB footprint to use. This option controls the output, and output format"
+                           " given to KiCad Note: This is not the same as footprint, footprint is the assign first PCB footprint eagle use's";
+
+string infoFootPrint = "Use the device/footprint in eagle for the footprint in KiCad,  Note: This is not the same as the footprint list. In KiCad"
+                       " the footprint list is used to filter the module footprints displayed.";
+
+
+string infoFootPrintPrefix = "You can overite the default eagle lib name which is the prefix to the KiCad footprint name here, Note: that this programe always add's '-' arfter this prefix name.";
+
+// please edit this LUT if you found mistakes,
+// and send your corrections to sdn (at) openhardware.ru.
+/*
+ LAYER_CMP_N            15
+ CMP_N                  15
+ NB_COPPER_LAYERS       (CMP_N+1)
+ FIRST_NO_COPPER_LAYER  16
+ ADHESIVE_N_CU          16
+ ADHESIVE_N_CMP         17
+ SOLDERPASTE_N_CU       18
+ SOLDERPASTE_N_CMP      19
+ SILKSCREEN_N_CU        20
+ SILKSCREEN_N_CMP       21
+ SOLDERMASK_N_CU        22
+ SOLDERMASK_N_CMP       23
+ DRAW_N                 24
+ COMMENT_N              25
+ ECO1_N                 26
+ ECO2_N                 27
+ EDGE_N                 28
+*/
+
+// Lookup table for shape layers
+int layer_lut[] =
+{
+    0,
+    15,         //LAYER_TOP
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   //inner layers
+    16,         //LAYER_BOTTOM
+    16,         //LAYER_PADS
+    16,         //LAYER_VIAS
+    21,         //LAYER_UNROUTED
+    21,         //LAYER_DIMENSION
+    21,         //LAYER_TPLACE
+    21,         //LAYER_BPLACE
+    21,         //LAYER_TORIGINS
+    21,         //LAYER_BORIGINS
+    21,         //LAYER_TNAMES
+    21,         //LAYER_BNAMES
+    21,         //LAYER_TVALUES
+    21,         //LAYER_BVALUES
+    21,         //LAYER_TSTOP
+    21,         //LAYER_BSTOP
+    21,         //LAYER_TCREAM
+    21,         //LAYER_BCREAM
+    21,         //LAYER_TFINISH
+    21,         //LAYER_BFINISH
+    21,         //LAYER_TGLUE
+    21,         //LAYER_BGLUE
+    21,         //LAYER_TTEST
+    21,         //LAYER_BTEST
+    21,         //LAYER_TKEEPOUT
+    21,         //LAYER_BKEEPOUT
+    21,         //LAYER_TRESTRICT
+    21,         //LAYER_BRESTRICT
+    21,         //LAYER_VRESTRICT
+    21,         //LAYER_DRILLS
+    21,         //LAYER_HOLES
+    21,         //LAYER_MILLING
+    21,         //LAYER_MEASURES
+    21,         //LAYER_DOCUMENT
+    21,         //LAYER_REFERENCE
+    21,         //LAYER_TDOCU
+    20,         //LAYER_BDOCU
+    21,         //LAYER_NETS
+    21,         //LAYER_BUSSES
+    21,         //LAYER_PINS
+    21,         //LAYER_SYMBOLS
+    21,         //LAYER_NAMES
+    21          //LAYER_VALUES
+};
+
+// Lookup table for pad layers
+
+//CUIVRE_LAYER          0x00000001
+//CMP_LAYER             0x00008000
+//ADHESIVE_LAYER_CU     0x00010000
+//ADHESIVE_LAYER_CMP    0x00020000
+//SOLDERPASTE_LAYER_CU  0x00040000
+//SOLDERPASTE_LAYER_CMP 0x00080000
+//SILKSCREEN_LAYER_CU   0x00100000
+//SILKSCREEN_LAYER_CMP  0x00200000
+//SOLDERMASK_LAYER_CU   0x00400000
+//SOLDERMASK_LAYER_CMP  0x00800000
+//DRAW_LAYER            0x01000000
+//COMMENT_LAYER         0x02000000
+//ECO1_LAYER            0x04000000
+//ECO2_LAYER            0x08000000
+//EDGE_LAYER            0x10000000
+//intS_LAYER            0xE0000000
+//ALL_LAYERS            0x1FFFFFFF
+//ALL_NO_CU_LAYERS      0x1FFF0000
+//ALL_CU_LAYERS         0x0000FFFF
+//INTERNAL_LAYERS       0x00007FFE
+//EXTERNAL_LAYERS       0x00008001
+
+int pad_lut[] =
+{
+    0,
+    0x00008000 | 0x00800000 | 0x00080000,       //LAYER_TOP
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   //inner layers
+    0x00000001 | 0x00400000,                    //LAYER_BOTTOM
+    0x00008001 | 0x00A00000 | 0x00080000,       //LAYER_PADS
+    0x00008001 | 0x00800000 | 0x00400000,       //LAYER_VIAS
+    0,              //LAYER_UNROUTED
+    0,              //LAYER_DIMENSION
+    0,              //LAYER_TPLACE
+    0,              //LAYER_BPLACE
+    0,              //LAYER_TORIGINS
+    0,              //LAYER_BORIGINS
+    0,              //LAYER_TNAMES
+    0,              //LAYER_BNAMES
+    0,              //LAYER_TVALUES
+    0,              //LAYER_BVALUES
+    0,              //LAYER_TSTOP
+    0,              //LAYER_BSTOP
+    0,              //LAYER_TCREAM
+    0,              //LAYER_BCREAM
+    0,              //LAYER_TFINISH
+    0,              //LAYER_BFINISH
+    0,              //LAYER_TGLUE
+    0,              //LAYER_BGLUE
+    0,              //LAYER_TTEST
+    0,              //LAYER_BTEST
+    0,              //LAYER_TKEEPOUT
+    0,              //LAYER_BKEEPOUT
+    0,              //LAYER_TRESTRICT
+    0,              //LAYER_BRESTRICT
+    0,              //LAYER_VRESTRICT
+    0x01000000,     //LAYER_DRILLS
+    0x01000000,     //LAYER_HOLES
+    0x01000000,     //LAYER_MILLING
+    0,              //LAYER_MEASURES
+    0,              //LAYER_DOCUMENT
+    0,              //LAYER_REFERENCE
+    0,              //LAYER_TDOCU
+    0,              //LAYER_BDOCU
+    0,              //LAYER_NETS
+    0,              //LAYER_BUSSES
+    0x00008001 | 0x00A00000 | 0x00080000,       //LAYER_PINS
+    0,              //LAYER_SYMBOLS
+    0,              //LAYER_NAMES
+    0               //LAYER_VALUES
+};
+
+
+//------------------------------------------------------
+// utils
+//------------------------------------------------------
+
+int layer_lookup(int layer)
+{
+    if (layer > 42) return 21;
+    return layer_lut[layer + 1];
+}
+
+//Units conversion routine | 1.0 inch = 10000 Ki-units |
+int egl2ki(int units)
+{
+    real inch = u2inch(units);
+    return int(inch * 10000);
+}
+
+// check for smd pads in package
+int issmd(UL_PACKAGE PAC)
+{
+    int res = 0;
+
+    PAC.contacts(C)
+    {
+        res |= C.smd ? 1 : 0;
+    }
+    return res;
+
+}
+
+//------------------------------------------------------
+//Replaces all occurrences of a substring found within a string.
+//------------------------------------------------------
+string str_replace(string search, string replace, string subject)
+{
+    int lastpos = 0;
+
+    // Check if there is any thing to replace
+    if( strstr(subject, search, lastpos) == -1)
+    	return subject;  // No so just return input string
+
+
+//    printf( "\n found \n");
+    
+    while (strstr(subject, search, lastpos) >= 0)
+    {
+        int pos = strstr(subject, search, lastpos);
+        string before = strsub(subject, 0, pos);
+        string after = strsub(subject, pos + strlen(search));
+        subject = before + replace + after;
+        lastpos = pos + strlen(replace);
+    }
+    return subject;
+}
+
+string escape_quotes(string input)
+{
+//    return str_replace(input, "\"", "\\\"");
+    return str_replace( "\"", "\\\"", input);
+}
+
+//****
+//  Truncats string, from delimiter charter in string
+//  Return trancated  string
+string stripArfterAT(string name, char delimiter, int flag)
+{
+	string a[];
+	int lastpos = 0;
+
+	if(flag == 0)	
+	 return name;
+
+// Split,  if more the 1 deilimiter take ony the first part, if not found return with  no change
+    if( strsplit(a, name, delimiter) >= 1 )
+       return a[0];  
+    else
+       return name;
+}
+
+
+//------------------------------------------------------
+//write index of modules
+//------------------------------------------------------
+void write_kikad_mod_idx(UL_LIBRARY LIB)
+{
+    // write INDEX start tag
+    printf("$INDEX\n");
+
+    // write index of modules
+    LIB.packages(PAC) printf("%s-%s\n", escape_quotes(g_lib_prefix), escape_quotes(strupr(PAC.name)));
+
+    // write INDEX end tag
+    printf("$EndINDEX\n");
+
+}
+
+//------------------------------------------------------
+// pad conversion
+//------------------------------------------------------
+void write_kikad_mod_pad(UL_PACKAGE PAC)
+{
+    char shp = 'R';
+    string signal, type = "STD";
+    int angle = 0, dx, dy, drill, layset;
+
+    PAC.contacts(CN)
+    {
+        // write PAD start tag
+        printf("$PAD\n");
+
+        signal = CN.signal;
+
+	//        if (CN.smd)
+	//	  printf("#SMD Sh \"%s\" %c %d %d %d %d %d\n", CN.name, shp, dx, CN.smd.dy, 0, 0, angle * 10);
+
+	//        if (CN.pad)
+	//	  printf("#PAD Sh \"%s\" %c %d %d %d %d %d\n", CN.name, shp, dx, CN.smd.dy, 0, 0, angle * 10);
+
+
+        if (CN.smd)
+        {
+            type = "SMD";
+
+            if (CN.smd.roundness > 40)
+            {
+                if (CN.smd.dx == CN.smd.dy)
+                    shp = 'C';
+                else
+                    shp = 'O';
+            }
+            angle = CN.smd.angle;
+            dx = CN.smd.dx;
+            dy = CN.smd.dy;
+            layset = CN.smd.layer;
+        }
+
+        if (CN.pad)
+        {
+            type = "STD";
+            if (CN.pad.shape[LAYER_TOP] == PAD_SHAPE_ROUND )
+            {
+                shp = 'C';
+                dy = CN.pad.diameter[LAYER_TOP];
+            }
+            if (CN.pad.shape[LAYER_TOP] == PAD_SHAPE_OCTAGON)
+            {
+                shp = 'C';
+                dy = CN.pad.diameter[LAYER_TOP] * 2;
+            }
+            if (CN.pad.shape[LAYER_TOP] == PAD_SHAPE_LONG )
+	      {
+                shp = 'O';
+                angle = CN.pad.angle + 90;
+                dy = CN.pad.diameter[LAYER_TOP] * 2;
+	      }
+	    if (CN.pad.shape[LAYER_TOP] == PAD_SHAPE_SQUARE )
+	      {
+                shp = 'R';
+                dy = CN.pad.diameter[LAYER_TOP];
+	      }
+
+            dx = CN.pad.diameter[LAYER_TOP];
+            drill = CN.pad.drill;
+            layset = LAYER_PADS ;
+
+        }
+
+
+	// Zero size dy for sq pad ? check
+	//	if( (shp == 'R') && ( egl2ki(dy) == 0) )
+	//	  { // Ok  zero size dy is bad..  so use dx !!
+	//	    dy = dx;
+	//	  }
+
+        // pad shape
+        printf("Sh \"%s\" %c %d %d %d %d %d\n",
+               CN.name, shp, egl2ki(dx), egl2ki(dy), 0, 0, angle * 10);
+
+        printf("Dr %d %d %d \n", egl2ki(drill), 0, 0);
+
+        printf("At %s N %08X\n", type, pad_lut[layset]);
+
+	//        printf("Ne 0 \"%s\"\n", signal);
+        printf("Ne 0 \"%s\"\n", "");    // should always be a null not signal name !
+
+        printf("Po %d %d \n", egl2ki(CN.x), -egl2ki(CN.y));
+
+        // write PAD end tag
+        printf("$EndPAD\n");
+    }
+
+}
+
+
+//------------------------------------------------------
+// shape conversion
+//------------------------------------------------------
+void write_kicad_mod_shapes(UL_PACKAGE PAC)
+{
+    //writing shapes
+    //also we must convert inverted y-coordinates (take it with minus)
+    //
+    //segments (always from eagle's rectangles,wires and optional polygons)
+
+    // converting rectangles -------------------------------------------------------------
+    int layer;
+
+    if (rect_conv)
+        PAC.rectangles(R)
+    {
+        layer =  layer_lookup(R.layer);
+
+        printf("DS %d %d %d %d %d %d\n",
+               egl2ki(R.x1), -egl2ki(R.y1), egl2ki(R.x2), -egl2ki(R.y1), RECT_WIDTH, layer);
+        printf("DS %d %d %d %d %d %d\n",
+               egl2ki(R.x2), -egl2ki(R.y1), egl2ki(R.x2), -egl2ki(R.y2), RECT_WIDTH, layer);
+        printf("DS %d %d %d %d %d %d\n",
+               egl2ki(R.x1), -egl2ki(R.y2), egl2ki(R.x2), -egl2ki(R.y2), RECT_WIDTH, layer);
+        printf("DS %d %d %d %d %d %d\n",
+               egl2ki(R.x1), -egl2ki(R.y1), egl2ki(R.x1), -egl2ki(R.y2), RECT_WIDTH, layer);
+    }
+
+    // converting wires---------------------------------------------------------------------
+    PAC.wires(W)
+    {
+        layer =  layer_lookup(W.layer);
+
+        if (!W.arc)
+            printf("DS %d %d %d %d %d %d\n",
+                   egl2ki(W.x1), -egl2ki(W.y1), egl2ki(W.x2), -egl2ki(W.y2), egl2ki(W.width), layer);
+    }
+
+    // polygons converting ------------------------------------------------------------------
+    if (poly_conv)
+        PAC.polygons(P)
+    {
+
+        P.contours(CONT)
+        {
+            layer = layer_lookup(CONT.layer);
+
+            printf("DS %d %d %d %d %d %d\n",
+                   egl2ki(CONT.x1), -egl2ki(CONT.y1), egl2ki(CONT.x2), -egl2ki(CONT.y2), egl2ki(CONT.width), layer);
+        }
+        // draws twice, fixed.
+        //  P.wires(W) {
+        //   printf("DS %d %d %d %d %d %d\n",
+        //   egl2ki(W.x1), egl2ki(W.y1), egl2ki(W.x2), egl2ki(W.y2), egl2ki(W.width), layer);
+        //  }
+
+    }
+
+
+
+    //circles (always from eagle's circles and optional from holes)
+
+    //converting circles --------------------------------------------------------------------
+    PAC.circles(C)
+    {
+
+        layer = layer_lookup(C.layer);
+
+        printf("DC %d %d %d %d %d %d\n", egl2ki(C.x) , -egl2ki(C.y) ,
+               egl2ki(C.x) + ((egl2ki(C.x) > 0) ? 1 : (-1)) *  egl2ki(C.radius / 2),
+               -egl2ki(C.y) - ((egl2ki(C.y) > 0) ? 1 : (-1)) * egl2ki(C.radius / 2), egl2ki(C.width / 2), layer);
+    }
+    if (holes_conv)
+        PAC.holes(H)
+    {
+
+        layer = 21;
+
+        printf("DC %d %d %d %d %d %d\n",
+               egl2ki(H.x), -egl2ki(H.y),
+               egl2ki(H.x) + ((egl2ki(H.x) > 0) ? 1 : (-1)) * egl2ki(H.drill / 4),
+               -egl2ki(H.y) - ((egl2ki(H.y) > 0) ? 1 : (-1)) * egl2ki(H.drill / 4),
+               50, layer);
+
+        printf("DS %d %d %d %d %d %d\n",
+               egl2ki(H.x - (H.drill / 2)), -egl2ki(H.y),
+               egl2ki(H.x + (H.drill / 2)), -egl2ki(H.y), 50, layer);
+
+        printf("DS %d %d %d %d %d %d\n",
+               egl2ki(H.x), -egl2ki(H.y - (H.drill / 2)),
+               egl2ki(H.x), -egl2ki(H.y + (H.drill / 2)), 50, layer);
+    }
+
+
+
+    //converting (always from wires)arcs ----------------------------------------------------
+
+    PAC.wires(W)
+    {
+        if (W.arc)
+        {
+
+            layer = layer_lookup(W.layer);
+
+            printf("DA %d %d %d %d %d %d %d \n",
+                   egl2ki(W.arc.xc ), -egl2ki(W.arc.yc),
+                   egl2ki(W.arc.x2), -egl2ki(W.arc.y2),
+                   int((360 + abs(W.curve)) * 10) ,
+                   egl2ki(W.arc.width), layer);
+        }
+    }
+
+}
+
+
+//------------------------------------------------------
+// field conversion
+//------------------------------------------------------
+void write_kicad_mod_text(UL_PACKAGE PAC)
+{
+    int textnum = 0;
+    int xoffs, yoffs, size;
+    string text;
+
+    PAC.texts(T)
+    {
+        size = egl2ki(T.size );
+        switch (int(T.angle))
+        {
+        case 0:
+            xoffs = (T.size * strlen(T.value)) / 2;
+            yoffs = T.size / 2;
+            break;
+
+        case 90:
+            xoffs = -T.size / 2;
+            yoffs = (T.size * strlen(T.value)) / 2;
+            break;
+
+        case 180:
+            xoffs = -(T.size * strlen(T.value)) / 2;
+            yoffs = -T.size / 2;
+            break;
+
+        case 270:
+            xoffs = (T.size / 2);
+            yoffs = -(T.size * strlen(T.value)) / 2;
+            break;
+
+        }
+
+
+        if (strupr(T.value) == ">NAME" || strupr(T.value) == ">VALUE" )
+	  continue;
+	else
+	  {
+	    printf("T%d %d %d %d %d %d %d N V \"%s\"\n",
+		   textnum, egl2ki(T.x + xoffs), -egl2ki(T.y + yoffs),
+		   size, size,
+		   int((abs(T.angle)) * 10), 35, T.value);
+	    textnum++;
+	  }
+    }
+}
+
+//------------------------------------------------------
+// Mod body conversion
+//------------------------------------------------------
+void write_kikad_mod_body(UL_LIBRARY LIB)
+{
+    //for all packages in library
+    LIB.packages(PAC)
+    {
+        // write MODULE start tag
+      printf("$MODULE %s-%s\n", escape_quotes(g_lib_prefix), escape_quotes(strupr(PAC.name)));
+
+        //write module position
+        printf("Po %d %d %d %d 00200000 00000000 ~~\n",
+               0, // what's it?
+               0, // and here?
+               0, // orient
+               15 // layer
+              );
+
+        //write name & description
+        printf("Li %s-%s\n", escape_quotes(g_lib_prefix), escape_quotes(strupr(PAC.name)));
+        printf("Cd %s\n", strupr(PAC.headline));
+        printf("Kw %s\n", strupr(PAC.headline));
+
+        //write timestamp
+        printf("Sc 00000000\n");
+
+        //write orientation
+        printf("Op 0 0 0\n");
+
+        //write attributes
+        printf("At %s\n", issmd(PAC) ? "SMD" : "VIRTUAL");
+
+        write_kicad_mod_shapes(PAC);
+        write_kicad_mod_text(PAC);
+        // write module pads
+        write_kikad_mod_pad(PAC);
+
+        // write MODULE end tag
+        printf("$EndMODULE %s\n", escape_quotes(strupr(PAC.name)));
+    }
+}
+
+
+//------------------------------------------------------
+//ki-format high-level writing functions
+//------------------------------------------------------
+void write_kikad_mod(string name)
+{
+    output(name, "wt")
+    {
+        if (library)
+            library(L)
+        {
+            int t = time();
+            printf("PCBNEW-LibModule-V1   %02d/%02d/%04d-%02d:%02d:%02d\n",
+                   t2day(t), t2month(t) + 1, t2year(t), t2hour(t), t2minute(t), t2second(t));
+            write_kikad_mod_idx(L);
+            write_kikad_mod_body(L);
+            printf("$EndLIBRARY\n");
+        }
+    }
+}
+
+//==============================================================================================================
+// Eagle Symbol conversion to kicad lib file 08.06.2006
+//=============================================================================================================
+
+//------------------------------------------------------
+// Global variables
+//------------------------------------------------------
+string g_mod_name ;
+string g_lib_name ;
+real   g_Fact = 254 * 32;      // global uMeter to uInch conversion factor
+int    g_missingPrefix = 0; // global Indicator if an eagle devices hasn't got an prefix
+int warnings_count = 0;
+int errors_count = 0;
+
+//------------------------------------------------------
+//write kicad multipoint polygone entries
+//------------------------------------------------------
+void write_kikad_polygon( UL_GATE G, int transX, int transY, int gatePos )
+{
+    G.symbol.polygons(POLY)
+    {
+        string polyCoord   = "";
+        int countPolyCoord = 0;
+        char fillPattern;
+
+        switch ( POLY.pour )
+        {
+        case POLYGON_POUR_SOLID:
+            fillPattern = 'F';
+            break;
+        case POLYGON_POUR_HATCH:
+            fillPattern = 'f';
+            break;
+        default:
+            fillPattern = 'F';
+            break;
+        }
+
+        POLY.wires(W)
+        {
+            int x1 = (W.x1 / g_Fact) - transX;
+            int y1 = (W.y1 / g_Fact) - transY;
+            int x2 = (W.x2 / g_Fact) - transX;
+            int y2 = (W.y2 / g_Fact) - transY;
+
+            sprintf( polyCoord, "%s %d %d %d %d", polyCoord, x1, y1, x2, y2 );
+            countPolyCoord += 2;
+        }
+
+	if( polyCoord[0] == ' ' )  // Remove leading space, not shure how it get's in the string !!
+	  polyCoord = strsub( polyCoord, 1);	  
+	  
+	  printf("P %d %d %d %d %s %c\n", countPolyCoord, gatePos, 1, 0, polyCoord, fillPattern);
+
+    }
+}
+
+//------------------------------------------------------
+//write kicad arc and polygone (line) entries
+//------------------------------------------------------
+void write_kikad_arc_line( UL_GATE G, int transX, int transY, int gatePos )
+{
+    G.symbol.wires(WIRE)
+    {
+        if ( WIRE.arc)
+        {
+            int x1     = WIRE.arc.x1 / g_Fact - transX;
+            int y1     = WIRE.arc.y1 / g_Fact - transY;
+            int x2     = WIRE.arc.x2 / g_Fact - transX;
+            int y2     = WIRE.arc.y2 / g_Fact - transY;
+            int xc     = WIRE.arc.xc / g_Fact - transX;
+            int yc     = WIRE.arc.yc / g_Fact - transY;
+            int radius = WIRE.arc.radius / g_Fact;
+            int angle1 = (WIRE.arc.angle1 * 10) - 3599;
+            int angle2 = (WIRE.arc.angle2 * 10) - 3601;
+
+            printf("A %d %d %d %d %d %d %d %d N %d %d %d %d\n", xc, yc, radius, angle1, angle2,
+                    gatePos, 1, 0, x1, y1, x2, y2 );
+        }
+        else
+        {
+            int x1     = WIRE.x1 / g_Fact - transX;
+            int y1     = WIRE.y1 / g_Fact - transY;
+            int x2     = WIRE.x2 / g_Fact - transX;
+            int y2     = WIRE.y2 / g_Fact - transY;
+            printf("P 2 %d %d %d %d %d %d %d\n", gatePos, 0, 0, x1, y1, x2, y2 );
+        }
+    }
+}
+
+//------------------------------------------------------
+//write kicad rectangle entries
+//------------------------------------------------------
+void write_kikad_rectangle( UL_GATE G, int transX, int transY, int gatePos )
+{
+    G.symbol.rectangles(RECT)
+    {
+        int x1 = (RECT.x1 / g_Fact) - transX;
+        int y1 = (RECT.y1 / g_Fact) - transY;
+        int x2 = (RECT.x2 / g_Fact) - transX;
+        int y2 = (RECT.y2 / g_Fact) - transY;
+        printf("S %d %d %d %d %d %d %d F\n", x1, y1, x2, y2, gatePos, 1, 0 );
+    }
+}
+
+//------------------------------------------------------
+//write kicad circle entries
+//------------------------------------------------------
+void write_kikad_circle( UL_GATE G, int transX, int transY, int gatePos )
+{
+    G.symbol.circles(C)
+    {
+        int x = (C.x / g_Fact) - transX;
+        int y = (C.y / g_Fact) - transY;
+        int radius = C.radius / g_Fact;
+
+        if ( radius > 0 && radius < 10 )
+        {
+            printf("C %d %d %d %d %d %d F\n", x, y, radius, gatePos, 1, 0);
+        }
+        else
+        {
+            printf("C %d %d %d %d %d %d N\n", x, y, radius, gatePos, 1, 0);
+        }
+    }
+}
+
+//------------------------------------------------------
+//write kicad text entries
+//------------------------------------------------------
+void write_kikad_text( UL_GATE G, int transX, int transY, int gatePos )
+{
+    char orient       = 0;
+    char hAlign       = 'C';
+    char vAlign       = 'C';
+
+    G.symbol.texts(T)
+    {
+        int    textAngle   = T.angle;
+        string textString  = T.value;
+        real   fontSize    = T.size / g_Fact;
+        int    posX        = (T.x / g_Fact) - transX;
+        int    posY        = (T.y / g_Fact) - transY;
+        int offset = ((T.size * strlen(T.value)) / 2) / g_Fact;
+
+	// Check for valid charters and replace with '~' if not
+	// Note that includes ' '  will be replaced with '~'
+	for (int idx = 0; textString[idx]; ++idx)
+	{
+	    if( !(isprint( textString[idx])) ||  textString[idx] == ' ' )
+                textString[idx] = '~';
+	}
+
+        // Replace all spaces with '~'
+//        for (int idx = 0; textString[idx]; ++idx)
+//        {
+//            if ( textString[idx] == ' ' '\n' )
+//                textString[idx] = '~';
+//        }
+
+        switch ( textAngle )
+        {
+        case 0:
+            orient = 0;
+            hAlign = 'L';
+            vAlign = 'B';
+            posX   = posX + offset;
+            posY   = posY + fontSize / 2;
+            break;
+
+        case 90:
+            orient = 1;
+            hAlign = 'L';
+            vAlign = 'B';
+            posX   = posX - fontSize / 2;
+            posY   = posY + offset;
+            break;
+
+        case 180:
+            orient = 0;
+            hAlign = 'R';
+            vAlign = 'T';
+            posX   = posX - offset;
+            posY   = posY - fontSize / 2;
+            break;
+
+        case 270:
+            orient = 1;
+            hAlign = 'L';
+            vAlign = 'B';
+            posX   = posX + fontSize / 2;
+            posY   = posY - offset;
+            break;
+
+        }
+
+        if (strupr(T.value) == ">NAME" || strupr(T.value) == ">VALUE" )
+	   return;
+        else
+           printf("T %d %d %d %.0f %d %d %d %s\n", orient, posX, posY,
+                   fontSize, 0, gatePos, 0, textString );
+    }
+}
+
+//------------------------------------------------------
+//write kicad pin entries
+//------------------------------------------------------
+void write_kikad_pins( UL_GATE G, int  transX, int transY, int gatePos )
+{
+    int pinCount = 1;
+
+    G.symbol.pins(P)
+    {
+        int    pinAngle   = 0;
+        char   orient     = 'L';
+        int    pinLength  = 0;
+        char   pinType    = 'U';
+        string pinShape   = "";
+        string pinContact = "";
+        int    posX       = P.x / g_Fact - transX;
+        int    posY       = P.y / g_Fact - transY;
+        int    padCount   = 0;
+
+        if (pinCount >= 9999 )
+        {
+            dlgMessageBox("Canceled! To many pin numbers. (>9999)" );
+            exit(EXIT_FAILURE);
+        }
+
+        pinAngle = P.angle;
+
+        switch ( pinAngle )
+        {
+        case 0:
+            orient = 'R';
+            break;
+
+        case 90:
+            orient = 'U';
+            break;
+
+        case 180:
+            orient = 'L';
+            break;
+
+        case 270:
+            orient = 'D';
+            break;
+
+        default:
+            orient = 'R';
+            break;
+        }
+
+        switch (P.length)
+        {
+        case PIN_LENGTH_POINT:
+            pinLength = 0;
+            break;
+
+        case PIN_LENGTH_SHORT:
+            pinLength = 100;
+            break;
+
+        case PIN_LENGTH_MIDDLE:
+            pinLength = 200;
+            break;
+
+        case PIN_LENGTH_LONG:
+            pinLength = 300;
+            break;
+
+        default:
+            pinLength = 200;
+            break;
+        }
+
+        switch (P.direction)
+        {
+        case PIN_DIRECTION_NC:
+            pinType = 'U';
+            break;
+
+        case PIN_DIRECTION_IN:
+            pinType = 'I';
+            break;
+
+        case PIN_DIRECTION_OUT:
+            pinType = 'O';
+            break;
+
+        case PIN_DIRECTION_IO:
+            pinType = 'B';
+            break;
+
+        case PIN_DIRECTION_OC:
+            pinType = 'C';
+            break;
+
+        case PIN_DIRECTION_PWR:
+            pinType = 'W';
+            break;
+
+        case PIN_DIRECTION_PAS:
+            pinType = 'P';
+            break;
+
+        case PIN_DIRECTION_HIZ:
+            pinType = 'T';
+            break;
+
+        case PIN_DIRECTION_SUP:
+            pinType = 'w';
+            break;
+
+        default:
+            pinType = 'U';
+            break;
+        }
+
+        switch (P.function)
+        {
+        case PIN_FUNCTION_FLAG_NONE:
+            pinShape  = "";
+            break;
+
+        case PIN_FUNCTION_FLAG_DOT:
+            pinShape  = "I";
+            break;
+
+        case PIN_FUNCTION_FLAG_CLK:
+            pinShape  = "C";
+            break;
+
+        case PIN_FUNCTION_FLAG_CLK|PIN_FUNCTION_FLAG_DOT:
+            pinShape  = "IC";
+            break;
+
+        default:
+            pinShape  = "";
+            break;
+        }
+
+
+//	printf( "# Visable flag =%d\n", P.visible);
+
+        P.contacts(pad)
+        {
+            if (padCount > 0)
+            {
+                pinShape = "N";
+            }
+
+            printf( "X %s %s %d %d %d %c %d %d %d %d %c %s\n", stripArfterAT(P.name, '@', deleteTextArfterATsysbolInPinName), pad.name,
+                    posX, posY,
+                    pinLength, orient,
+                    40, 40, gatePos, 1,
+                    pinType, pinShape );
+            padCount++;
+        }
+
+        if (padCount == 0)
+        {
+            printf( "X %s %s %d %d %d %c %d %d %d %d %c %s\n", stripArfterAT(P.name, '@', deleteTextArfterATsysbolInPinName), "~",
+                    posX, posY,
+                    pinLength, orient,
+                    40, 40, gatePos, 1,
+                    pinType, pinShape );
+        }
+    }
+}
+//------------------------------------------------------
+//write rectangles entries
+//------------------------------------------------------
+void write_kikad_elements( UL_GATE G, int gatePos )
+{
+    int transX = G.x / g_Fact;
+    int transY = G.y / g_Fact;
+
+    //Write the polygon entries
+    write_kikad_polygon( G, transX, transY, gatePos );
+
+    //Write the arc and polygon (line) entries
+    write_kikad_arc_line( G, transX, transY, gatePos );
+
+    //Write the rectangle entries
+    write_kikad_rectangle( G, transX, transY, gatePos );
+
+    //Write the circle entries
+    write_kikad_circle( G, transX, transY, gatePos );
+
+    //Write the text entries
+    write_kikad_text( G, transX, transY, gatePos );
+
+    //Write the pin entries
+    write_kikad_pins( G, transX, transY, gatePos );
+}
+
+//------------------------------------------------------
+//Write kicad alias entries
+//------------------------------------------------------
+void write_kikad_def_alias( UL_DEVICE DEV, UL_GATE G, string symbolName, int countPart, string prefixString )
+{
+    int prefix_X = 0;
+    int prefix_Y = 0;
+    int name_X   = 0;
+    int name_Y   = 0;
+
+    char orient   = 'H';
+    char hAlign   = 'C';
+    char vAlign   = 'C';
+
+    char hasName = 0;
+    char hasValue = 0;
+
+//    string nameString   = "";
+//    string prefixString = "";
+
+    G.symbol.texts(T)
+    {
+        if ( strupr(T.value) == ">VALUE" || strupr(T.value) == ">NAME" )
+        {
+            int transX = G.x / g_Fact;
+            int transY = G.y / g_Fact;
+            int angle = T.angle;
+            int posX   = 0;
+            int posY   = 0;
+            int offset = 0;
+
+            switch ( angle )
+            {
+            case 0:
+                orient = 'H';
+                hAlign = 'L';
+                vAlign = 'B';
+                break;
+
+            case 90:
+                offset = -(T.size / 2) / g_Fact;
+                orient = 'V';
+                hAlign = 'L';
+                vAlign = 'B';
+                break;
+
+            case 180:
+                orient = 'H';
+                hAlign = 'R';
+                vAlign = 'T';
+                break;
+
+            case 270:
+                orient = 'V';
+                hAlign = 'L';
+                vAlign = 'B';
+                break;
+            }
+
+            if ( strupr(T.value) == ">VALUE" )
+            {
+                name_X = T.x / g_Fact - transX + offset;
+                name_Y = T.y / g_Fact - transY;
+		hasValue = 1;  // Mark to display Value
+
+
+            }
+
+            if ( strupr(T.value) == ">NAME" )
+            {
+                prefix_X = T.x / g_Fact - transX + offset;
+                prefix_Y = T.y / g_Fact - transY;
+		hasName = 1;  // Mark to display Name
+            }
+        }
+    }
+
+
+    if ( DEV.prefix == "" ) // No prefix ?
+    { 
+         if ( hasName  )  // dos it have a >Name  so use the genrated prifix
+	    printf("F0 \"%s\" %d %d %d %c %c %c %c\n", prefixString, prefix_X, prefix_Y, 50, orient, 'V', hAlign, vAlign);
+	 else       
+	    printf("F0 \"%s\" %d %d %d %c %c %c %c\n", prefixString, prefix_X, prefix_Y, 50, orient, 'I', hAlign, vAlign);
+    }
+    else  // good we have prifix so use that
+    {
+         if ( hasName  )  // dos it have a >Name prifix 
+	    printf("F0 \"%s\" %d %d %d %c %c %c %c\n", DEV.prefix, prefix_X, prefix_Y, 50, orient, 'V', hAlign, vAlign);
+	 else       
+	    printf("F0 \"%s\" %d %d %d %c %c %c %c\n", DEV.prefix, prefix_X, prefix_Y, 50, orient, 'I', hAlign, vAlign);
+    }
+
+
+    if ( hasValue )  
+         printf("F1 \"%s\" %d %d %d %c %c %c %c\n", escape_quotes(symbolName), name_X, name_Y, 50, orient, 'V', hAlign, vAlign);  // Display then 
+    else
+         printf("F1 \"%s\" %d %d %d %c %c %c %c\n", escape_quotes(symbolName), name_X, name_Y, 50, orient, 'I', hAlign, vAlign);  // Else no display
+
+
+   if ( DEV.package )
+     switch( outPutFootPrint )
+       {
+       case 0: // Dont prefix lib name to footprint name
+	 printf("F2 \"%s\" 0 150 50 H I C C\n", escape_quotes(DEV.package.name));
+	 break;
+       case 1: // Prexfix lib name to footprint name
+	 printf("F2 \"%s-%s\" 0 150 50 H I C C\n", footPrintPreFix, escape_quotes(DEV.package.name));
+	 //	 printf("F2 \"%s-%s\" 0 150 50 H I C C\n", DEV.library, DEV.package.name);
+	 break;
+       case 2: // Prexfix name to footprint name
+	 printf("F2 \"%s-%s\" 0 150 50 H I C C\n", footPrintPreFix, escape_quotes(DEV.package.name));
+	 break;
+       }
+
+
+
+   if( outPutAlias )
+     {
+       if( strlen( aliasList ) > 0 )  // check for any alias's 
+	  printf("ALIAS %s\n", aliasList );
+     }
+
+
+   if ( DEV.package )
+     {
+       switch ( outPutFootPrints )
+	 {
+	 case 0:
+	   break;
+	 case 1:
+	 case 2:
+	   printf("$FPLIST\n%s$ENDFPLIST\n", footPrintList );
+	   break;
+	 }
+     }
+}
+
+
+
+//------------------------------------------------------
+//write lib header
+//------------------------------------------------------
+void write_kikad_lib( string fileName )
+{
+  // write INDEX start tag
+  //printf("######################################################################\n");
+  //printf("# Name: %s\n", LIB.name);
+  //printf("# Headline: %s\n", LIB.headline);
+  //printf("######################################################################\n");
+  int oneRun = 0;
+  int output_part = 0;
+
+  output(fileName, "wt")
+    {
+      if (library)
+        {
+	  library(LIB)
+	  {
+	    int t = time();
+	    printf("EESchema-LIBRARY Version 2.3  %02d/%02d/%04d-%02d:%02d:%02d",
+		   t2day(t), t2month(t) + 1, t2year(t), t2hour(t), t2minute(t), t2second(t));
+	    printf("\n# Converted with eagle-lbr2kicad.ulp Version %.2f", VERSION);
+
+	    int countDevices = 0;
+	    LIB.devices(DEV)
+	      {
+		countDevices++;
+	      }
+
+	    printf("\n# Device count = %d", countDevices);
+
+	    /*
+	      LIB.devicesets(D)
+	      {
+	      printf("Device set: %s, Description: %s\n", D.name, D.description);
+	      D.devices(DEV)
+	      {
+	      printf("# DEV activetechnology  %s:  \n", DEV.activetechnology ); 
+	      printf("# DEV description %s: \n", DEV.description ); 
+	      printf("# DEV headline %s: \n", DEV.headline ); 
+	      printf("# DEV library %s: \n", DEV.library ); 
+	      printf("# DEV name %s: \n", DEV.name ); 
+	      printf("# DEV technologies %s: \n", DEV.technologies ); 
+	      printf("# DEV package %s: \n", DEV.package.name );
+
+	      }
+	      }
+	    */		
+	    LIB.devicesets(D)
+	      {
+		devicesetsCount++;
+		D.devices(DEV)
+		  {
+		    devicesCount++;
+		  }
+	      }
+	    //	    printf("# devicesets = %d  devicescount =%d\n", devicesetsCount, devicesCount );
+
+
+
+// ****************  DeviceSets section *******************
+	    LIB.devicesets(D)
+	      {
+		string nameDeviceSet = D.name;
+		string nameDeviceSetDescrtiption = D.description;
+		footPrintList = " ";
+
+		devicesCount = 0;
+
+		/*
+		D.devices(DEV)
+		  {
+
+		    if (DEV.package)
+		      {
+			devicesCount++;
+			continue;
+		      }
+		    else
+		      {
+			printf("#Device set:%s\n#1    :%s    %d\n", D.name, D.description, devicesCount);
+			break;
+		      }
+		  }
+
+		printf("#Device set:%s\n#2    :%s    %d\n", D.name, D.description, devicesCount);
+
+		if (devicesCount == 0)
+		  {
+		    printf("#Device set:%s\n#Description:%s\n", D.name, D.description);
+		    continue;
+		  }
+		*/
+
+	    //********************************
+		//	    LIB.devicesets(D)
+		//	      {
+
+		int DVnumber = 0;
+
+		//		printf( "\nDS");
+		D.devices(DEV)
+		  {
+		    int padCount = 0;
+		    //		    printf( "\nDV:%d Package:%s ", DVnumber, DEV.package.name);
+
+		    if (DEV.package)
+		      packageNameList[DVnumber] = DEV.package.name;  // Add to package list
+		    
+
+		    DEV.gates(G)
+		      {
+			string temp = "";
+			G.symbol.pins(P)
+			  {
+			    P.contacts(pad)
+			      {
+				padCount++;
+				sprintf( temp ,  "%s%s%d",  P.name, pad.name, padCount );
+				pinNamePnumberList[DVnumber] +=  temp;
+			      }
+			  }
+		      }
+		    DVnumber++;
+		  }
+		int ct = 0;
+		int ct1 =  0;
+		int matchCt = 0;
+		int mt = 0;
+
+		for( ct1 = 0; ((ct1 + 1) < DVnumber) && ( ( matchCt + 1 ) < DVnumber); ct1++)
+		  {
+		    for( ct = ct1; ( ct + 1) < DVnumber; ct++ )
+		      {
+			if( strstr( pinNamePnumberList[ ct1 ], pinNamePnumberList[ ct + 1 ]) == 0)
+			{
+			  if( mt )
+			    packageNameListMatch[ ct1 ] += " ";
+
+			  packageNameListMatch[ ct1 ] += packageNameList[ ct + 1 ]; // Add to matched package list
+			  matchCt++;
+			  mt++;
+			}
+			//			printf("\nmatchCt:%d DV:%d", matchCt, DVnumber);
+		      }
+		    mt = 0;
+
+		  }
+		/*		ct1 = DVnumber;
+				for( ct = 0 ; ct1; ct1--)
+				{
+				printf("\n#packageNameList:%s", packageNameList[ct]);
+				printf("\n#packageNameListMatch:%s", packageNameListMatch[ct]);
+				printf("\n#pinNamePnumberList:%s", pinNamePnumberList[ct]);
+				ct++;
+				} */
+
+		ct1 = DVnumber;
+		ct = 0;
+
+		/*		ct1 = DVnumber;      
+				for( ct = 0 ; ct1; ct1--)  // clear list
+				{
+				packageNameList[ct] = "";
+				packageNameListMatch[ct] = "";
+				pinNamePnumberList[ct] = "";
+				ct++;
+				} */
+		//	      }
+		//************************
+
+		/*
+		  if (DEV.package)
+		  {
+		  if( outPutFootPrints )
+		  {
+		  switch ( outPutFootPrints )
+		  {
+		  case 1:
+		  D.devices(DEV)
+		  {
+		  footPrintList +=  " " + DEV.package.name;
+		  }
+		  break;
+		  case 2:
+		  D.devices(DEV)
+		  {
+		  footPrintList +=  " " + DEV.library + "-" + DEV.package.name;
+		  }
+		  break;
+		  }
+		  }
+		  } */
+		//		printf("\n# footPrintList =%s", footPrintList );
+
+
+		int currentDeviceCt = 0;
+		ct1 = DVnumber;
+		ct = 0;
+// ****************  Device's section *******************
+		D.devices(DEV)
+		  {
+		    int countGates = 0;
+
+                    // retrieve amount of gates
+                    DEV.gates(G)
+		      {
+                        countGates++;
+		      }
+
+		    string nameString;
+                    if( DEV.name == "\'\'" )
+		      nameString =  str_replace( "*", "", D.name );
+		    else
+		      nameString =  str_replace( "*", "", D.name ) + DEV.name;
+
+		    //                    string nameString   = D.name + DEV.name;
+                    string prefixString = DEV.prefix;
+                    string drawPinNumberStr  = "N";
+                    string drawPinNameStr  = "N";
+
+
+                    // check for missing prefix
+                    if ( DEV.prefix == "" )
+		      {
+                        g_missingPrefix++;
+			sprintf( prefixString, "%s", undefinedPartPreFix);
+		      }
+
+		    // Scan thou  pins looking for visabele not visable status
+		    int pinNameVisable = 0;
+		    int pinNumberVisable = 0;
+                    DEV.gates(G)
+		      {
+         		G.symbol.pins(P)
+			  {
+
+			    if( P.visible == 0)
+			      continue;
+			    else
+			      {
+				if ( P.visible == 1 || P.visible == 3 )
+				  pinNameVisable++;
+
+				if ( P.visible == 2 || P.visible == 3 )
+				  pinNumberVisable++;
+			      }
+			  }
+		      }
+
+
+		    switch (drawPinNumber)		    
+		      {
+		      case 0:   // Always show pin numbers ?,   as KiCad only has globale controle !
+			drawPinNumberStr = "Y";
+			break;
+
+		      case 1:  // Never show pin numbers ?,   as KiCad only has globale controle !
+			if( pinNumberVisable )
+			  drawPinNumberStr = "Y";
+			break;	    
+
+		      case 2: // Never show Number
+			drawPinNumberStr = "N";
+			break;	    
+		      }			    
+
+
+
+		    switch (drawPinName)
+		      {
+		      case 0:   // Always show pin Names ?,   as KiCad only has globale controle !
+			drawPinNameStr = "Y";
+			break;
+
+		      case 1:   // Show pin name base on eagle sysmbol ?,   as KiCad only has globale controle !
+			if( pinNameVisable )
+			  drawPinNameStr = "Y";
+			break;
+
+		      case 2: // Dont show pin names
+			drawPinNameStr = "N";
+			break;
+		      }
+
+
+		    aliasList = "";
+		    if( outPutAlias )  // output alias if enabled
+		      {
+			string alias[];
+			int count = 0;
+			int aliasCt = strsplit(alias, DEV.technologies, ' '); 
+
+			//			printf("\n#aliasCt:%d\n", aliasCt );
+
+			/*			int ct = 0;
+			int ct1 = aliasCt;
+
+			for( ; ct1; ct1--)
+			  printf("#alias list:%d:%s\n", ct,  alias[ct++] );
+			printf("#D.name + Dev.name: %s\n",  D.name + DEV.name );
+			*/
+
+			while( aliasCt )
+			  {
+			    //			    printf("\n#loop aliasCt:%d", aliasCt );
+			    //			    printf("\n#alias list:%s", alias[count] );
+
+    			    if( alias[count] == "''" )
+			      {
+				aliasCt--;
+				count++;
+				continue;
+			      }
+
+			    if( DEV.name != "''" ) // We DEV.name ? then  add it.
+			      {  // DEV.nanme found so add it
+				if( strstr(D.name, "*", 0) != -1)  // is there a place to put the Tec ?
+				  aliasList += str_replace( "*", alias[count++], D.name ) + DEV.name;
+				else
+				  aliasList += D.name + alias[count++] + DEV.name;   // No so just add to end
+			      }
+			    else
+			      {  // DEV.name not found so don't add it
+				if( strstr(D.name, "*", 0) != -1)  // is there a place to put the Tec ?
+				  aliasList += str_replace( "*", alias[count++], D.name );
+				else
+				  aliasList +=  D.name + alias[count++];    // No so just add to end
+			      }
+
+			    
+			    if( aliasCt )  // check for zero count ?
+			      aliasCt--; 
+
+
+			    if (aliasCt)  // last one ?
+			      aliasList += " ";  // Not last so add space
+			  }
+		      }
+
+		    /*
+		      printf("# DEV activetechnology  %s:  \n", DEV.activetechnology ); 
+		      printf("# DEV description %s: \n", DEV.description ); 
+		      printf("# DEV headline %s: \n", DEV.headline ); 
+		      printf("# DEV library %s: \n", DEV.library ); 
+		      printf("# DEV name %s: \n", DEV.name ); 
+		      printf("# DEV technologies %s: \n", DEV.technologies ); 
+		      if (DEV.package)
+		      printf("# DEV package %s: \n", DEV.package.name );
+		    */
+
+
+		    //		    printf("\n#ct1:%d ct:%d", ct1, ct );
+
+		    // combine common footprints ?
+		    if( eaglePartToKiCadPartConversion  == 0 )
+		      {
+			for( ; ct1; ct1--) 			// ct1 contians DVnumber;
+			  {
+			    if( ct == 0 )  // first package ?
+			      {     // allways put out the first package
+				output_part = 1;  // force output of part
+				ct1--;
+				ct ++;
+				break;
+			      }
+
+			    for( int j = 0; j < ct; j++)  // Seach to see if we have a package/pin match ?
+			      {
+
+				//				printf("\npackageNameList:%s,  packageNameListMatch:%s:   strstr result=%d", packageNameListMatch[ j ], packageNameList[ ct ], strstr( packageNameListMatch[ j ],  packageNameList[ ct ]) );
+
+				if ( strstr( packageNameListMatch[ j ], packageNameList[ ct ] ) != -1 )
+				  {  // Match found so dont out put part
+				    output_part = 0;
+				    //				    printf("\n# 1.0 output_part:%d", output_part );
+				    break;
+				  }
+
+
+				// Match not found so continue looking
+				output_part = 1;
+				//				printf("\n# 2 output_part:%d", output_part );
+				//  			    if( strstr( pinNamePnumberList[ ct + 1 ], pinNamePnumberList[ ct1 ]) == 0)
+				//			    printf("\n#Match:%s", packageNameListMatch[ct]);
+				//			    printf("\n#pinNamePnumberList:%s", pinNamePnumberList[ct]);
+				//			    ct++;
+			      }
+			    ct++;
+			    //			    printf("\n# 4 output_part:%d", output_part );
+			    break;
+			  }
+			//			printf("\n# 5 output_part:%d", output_part );
+		      }
+		    else //  Ok seprate part for every device !
+		      {
+			output_part = 1;	
+			//			printf("\n# 7 output_part:%d", output_part );
+		      }
+
+		    //		    printf("\n# 8 output_part:%d", output_part );
+
+
+		    //		    printf("\n# Foot Print list =%s", footPrintList );
+
+
+		    footPrintList = "";
+
+		    if( outPutFootPrints && DEV.package )
+		      {
+			string ws[];
+			//			string ws1[];
+			int c = 0;
+
+			switch ( outPutFootPrints )
+			  {
+			  case 1:
+			    footPrintList += escape_quotes(packageNameList[ currentDeviceCt ] + " " + packageNameListMatch[ currentDeviceCt ]);
+			    //			    printf("\n# Foot Print list =%s", footPrintList );
+			    break;
+			  case 2:
+			    footPrintList += escape_quotes(DEV.library + "-" + packageNameList[ currentDeviceCt ] + " " + packageNameListMatch[ currentDeviceCt ]);
+			    break;
+			  }
+
+			c = strsplit( ws, footPrintList, ' ');
+			footPrintList = "";
+
+			for( int c1 = 0; c1 < c ; c1++ )
+			  {
+			    if( ws[c1] == "" )
+			      continue;
+
+			    //		    	    printf("\n# footPrintList =:%s:", ws[c1] );
+
+			    ws[c1] = ( wildCardPrefix ? "*" : "") + ws[c1] +  (wildPostfix ? "*\n" : "\n");
+			  }
+
+			for( c1 = 0; c1 < c ; c1++ )
+			  {
+			    if( ws[c1] == "" )
+			      continue;
+
+			    //		    	    printf("\n# footPrintList =:%s:", ws[c1] );
+
+			    footPrintList += " " + escape_quotes(ws[c1]);
+			  }
+			//			footPrintList = strjoin( ws, ' '); 			
+		      }
+
+
+
+
+		    if(output_part)
+		      {
+			printf("\n#");
+			printf("\n# %s", nameString);
+			printf("\n#");
+			printf("\nDEF %s %s %d %d %s %s %d %c %c\n", escape_quotes(nameString), prefixString, 0, 40, drawPinNumberStr, drawPinNameStr, countGates, 'L', 'N');
+			int gatePos = 0;
+			DEV.gates(G)
+			  {
+			    gatePos++;
+
+			    if ( gatePos == 1)
+			      {
+				// Write kicad alias entries
+				write_kikad_def_alias(DEV, G, nameString, gatePos, prefixString );
+				printf("DRAW\n");
+			      }
+			    write_kikad_elements(G, gatePos);
+			  }
+			printf("ENDDRAW\n");
+			printf("ENDDEF");
+		      }
+
+		    currentDeviceCt++;
+		  } // D.devices(DEV)
+
+		// clear device's info
+		ct1 = DVnumber;      
+		for( ct = 0 ; ct1; ct1--)  // clear list
+		  {
+		    packageNameList[ct] = "";
+		    packageNameListMatch[ct] = "";
+		    pinNamePnumberList[ct] = "";
+		    ct++;
+		  }
+	      } // LIB.devicesets(D)
+	    printf("\n#End Library");
+	  }
+        }
+    }
+}
+
+
+//------------------------------------------------------
+// Select the path where the modfile will be saved
+//------------------------------------------------------
+void openModPath( string startPath )
+{
+  string dirName = "";
+  dirName = dlgDirectory("Select a directory", startPath);
+
+  if ( dirName != "" )
+    {
+      library(L)
+      {
+	L.devices(DEV)
+	  {
+	    g_mod_name = dirName + "/" + DEV.library + ".mod";
+	  }
+      }
+    }
+}
+
+//------------------------------------------------------
+// Select the path where the libfile will be saved
+//------------------------------------------------------
+void openLibPath( string startPath )
+{
+    string dirName = "";
+    dirName = dlgDirectory("Select a directory", startPath);
+
+    if ( dirName != "" )
+    {
+        library(L)
+        {
+            L.devices(DEV)
+            {
+                g_lib_name = dirName + "/" + DEV.library + ".lib";
+            }
+        }
+    }
+}
+
+//------------------------------------------------------
+// main program
+//------------------------------------------------------
+int result;
+string ref;
+int sameDir = 0;
+string titleString;
+string showPinNames[] = { "Always show pin names",  "Only show pin names if enabled in eagle symbol", "Never show Pin names" };
+string showPinNumbers[] = { "Always show pin Numbers",  "Only show pin Numbers if enabled in eagle symbol", "Never show Pin numbers" };
+string addFootPrintList[] = { "No Footprints list",  "Output footprint list", "Output lib prefix in footprint list" };
+string outPutFootPrintOptions[] = { "Don't prefix lib-name to footprint name", "Prefix lib name to footprint name" };
+string eaglePartToKiCadPartConversiontion[] = {"Combine Parts/package variants where poss-able", "Out put new part for every foot print type"};
+
+int showPinNamesSelected = 1; // initially "
+int showPinNumbersSelected = 1; // initially "
+
+int defaultWidth = 1;
+int defaultHeight = 2;
+int width = 2;
+int height = 2;
+//dlgPushButton("&Reset defaults") {   width = defaultWidth;   height = defaultHeight;  }
+
+sprintf( titleString, "Export to KiCAD, Version %.2f, Use this programe at your own Risk!", VERSION );
+
+if (library)
+  {
+    library(L)
+    {
+      L.devices(DEV)
+        {
+	  g_lib_prefix = DEV.library;
+	  footPrintPreFix = DEV.library;
+        }
+
+      g_mod_name = strsub(L.name, 0, strlen(L.name) - 3) + "mod";
+      g_lib_name = strsub(L.name, 0, strlen(L.name) - 3) + "lib";
+      //g_lib_name = "G:/PCB-Tools/kicad/library/1test.lib";
+      //g_lib_name = "/opt/kicad/library/" + g_lib_prefix + ".lib";
+      //g_mod_name = "/opt/kicad/modules/" + g_lib_prefix + ".mod";
+
+
+
+    }
+  }
+ else
+   {
+     dlgMessageBox("Please run from library or board editor." );
+     exit(EXIT_FAILURE);
+   }
+
+result = dlgDialog( titleString )
+{
+
+
+
+
+  dlgHBoxLayout dlgSpacing(600);
+  dlgStretch(0);
+  dlgLabel("Output Module/Pcb lib footprint file:");
+  dlgStretch(0);
+  dlgHBoxLayout
+  {
+    dlgStringEdit(g_mod_name);
+    dlgPushButton("...") openModPath("C:\\");
+  }
+  dlgHBoxLayout
+  {
+    //dlgCheckBox("&Same output directory", sameDir);
+  }
+
+
+
+  dlgStretch(0);
+  dlgLabel("Output Sch lib file:");
+  dlgStretch(0);
+  dlgHBoxLayout
+  {
+    dlgStringEdit(g_lib_name);
+    dlgPushButton("...") openLibPath("C:\\");
+  }
+  //            dlgHBoxLayout
+  dlgVBoxLayout
+  {
+
+    dlgComboBox(showPinNames, drawPinName ); dlgStretch(0);
+    dlgComboBox(showPinNumbers, drawPinNumber ); dlgStretch(0);
+
+    dlgHBoxLayout
+    {
+      dlgLabel("FootPrint Lib Prefix and over ride");
+      dlgStretch(0); dlgStringEdit(footPrintPreFix);
+      dlgStretch(0); dlgPushButton("Info") { if (dlgMessageBox(infoFootPrintPrefix, "Ok") == 0); }  dlgSpacing(20);
+    }
+
+    dlgHBoxLayout
+    {
+      dlgComboBox( outPutFootPrintOptions, outPutFootPrint );
+      dlgStretch(0); dlgPushButton("Info") { if (dlgMessageBox(infoFootPrint, "Ok") == 0); }  dlgSpacing(20);
+    }
+    dlgHBoxLayout
+    {
+      dlgComboBox( addFootPrintList, outPutFootPrints );
+      dlgStretch(0); dlgPushButton("Info") { if (dlgMessageBox(infoFootPrintList, "Ok") == 0); }   dlgSpacing(20);
+    }
+    dlgHBoxLayout
+    {
+      dlgComboBox( eaglePartToKiCadPartConversiontion, eaglePartToKiCadPartConversion );
+      dlgStretch(0); dlgPushButton("Info") { if (dlgMessageBox( infoDeviceConversion, "Ok") == 0); }  dlgSpacing(20);
+    }
+    dlgHBoxLayout
+    {
+      dlgLabel("Defult Prefix for for sch parts which have no prefix");
+      dlgStringEdit(undefinedPartPreFix);
+      dlgStretch(0); dlgPushButton("Info") { if (dlgMessageBox( infoNoPrefix, "Ok") == 0); }  dlgSpacing(20);
+    }
+
+
+    dlgHBoxLayout
+    {
+      dlgCheckBox("Use eagle Technologies to gerate KiCad part Alias", outPutAlias);
+      dlgStretch(0); dlgPushButton("Info") { if (dlgMessageBox( infoTechnologies, "Ok") == 0); }  dlgSpacing(20);
+    }
+    dlgHBoxLayout
+    {
+      dlgCheckBox("Delete Text after \'@\'", deleteTextArfterATsysbolInPinName );
+      dlgStretch(0); dlgPushButton("Info") { if (dlgMessageBox( infoDeleArfter, "Ok") == 0); }   dlgSpacing(20);
+    }
+    dlgHBoxLayout
+    {
+      dlgCheckBox("Add wild card '*' prefix to FootPrint list parts", wildCardPrefix );
+      dlgStretch(0); dlgPushButton("Info") { if (dlgMessageBox( infoPreFixSeach, "Ok") == 0); }   dlgSpacing(20);
+    }
+    dlgHBoxLayout
+    {
+      dlgCheckBox("Add wild card '*' postfix to FootPrint list parts", wildPostfix );
+      dlgStretch(0); dlgPushButton("Info") { if (dlgMessageBox( infoPostFixSeach, "Ok") == 0); }   dlgSpacing(20);
+    }
+
+
+    //                dlgCheckBox("OutPut FootPrint", outPutFootPrint);
+
+    /*                dlgCheckBox("Delete ">Name from part",\(applies to schematic only\)", deleteNameTextSCH );
+		      dlgCheckBox("Delete ">Value from part",\(applies to schematic only\)", deleteValueTextSCH );
+		      dlgCheckBox("Delete ">Name from part",\(applies to schematic only\)", deleteNameTextSCH );
+		      dlgCheckBox("Delete ">Value from part",\(applies to schematic only\)", deleteValueTextSCH );
+    */
+  }
+  dlgVBoxLayout
+  {
+    dlgStretch(0);
+    dlgVBoxLayout
+    {
+      dlgHBoxLayout
+	{
+	  dlgStretch(0);
+	  dlgPushButton("+OK") {  width = defaultWidth;   height = defaultHeight;  dlgAccept();}
+	  dlgStretch(0);
+	}
+    }
+
+    dlgVBoxLayout
+    {
+      dlgHBoxLayout
+      {
+	dlgStretch(0);
+	dlgPushButton("Cancel") dlgReject();
+	dlgStretch(0);
+      }
+    }
+    dlgStretch(0);
+  };
+
+  ;};
+
+
+if (result)
+  {
+    write_kikad_mod(g_mod_name);
+    write_kikad_lib(g_lib_name);
+    // A success message is useful
+    //    dlgMessageBox("Conversion finished");
+  }
+// but a cancel message only confuses the user
+//  else
+//    dlgMessageBox("Canceled!" );
+
+//if ( g_missingPrefix == 1 )
+if ( g_missingPrefix || warnings_count || errors_count )
+  {
+    //    string msgString  = "Prefix is missing a device. It will be replaced by \"??\".\n";
+    //    string msgString  = "Prefix is missing  device(s). It will be replaced by M";
+    string msgString, msgString1,  msgString2;
+
+    if( warnings_count )
+      sprintf( msgString, ":\n<h2><font color=\"red\">There are: %d   ERRORS.</font></h3>\n", errors_count);
+
+    if( warnings_count )
+      sprintf( msgString1, "!\n<h3><font color=\"brown\">!There are: %d   Warnings.</font></h2>\n", warnings_count);
+
+    if( g_missingPrefix )
+      sprintf( msgString2, ";\nThere are: %d  missing part prefix(s)\n", g_missingPrefix);
+
+    dlgMessageBox(msgString + msgString1 + msgString2  );
+  }
+ else
+   dlgMessageBox("Conversion finished");
+
+exit(EXIT_SUCCESS);
+
