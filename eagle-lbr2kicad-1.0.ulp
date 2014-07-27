@@ -193,13 +193,13 @@ int layer_lut[] =
     21,         //LAYER_UNROUTED
     21,         //LAYER_DIMENSION
     21,         //LAYER_TPLACE
-    21,         //LAYER_BPLACE
+    20,         //LAYER_BPLACE
     21,         //LAYER_TORIGINS
-    21,         //LAYER_BORIGINS
+    20,         //LAYER_BORIGINS
     21,         //LAYER_TNAMES
-    21,         //LAYER_BNAMES
+    20,         //LAYER_BNAMES
     21,         //LAYER_TVALUES
-    21,         //LAYER_BVALUES
+    20,         //LAYER_BVALUES
     21,         //LAYER_TSTOP
     21,         //LAYER_BSTOP
     21,         //LAYER_TCREAM
@@ -622,6 +622,9 @@ void write_kicad_mod_text(UL_PACKAGE PAC)
   int textnum = 0;
   int offset = 0;
   int xoffs, yoffs, size;
+  int nameCt = 0;
+  int valueCt = 0;
+  int textCt = 0;
   string text;
 
   string NAME = "";
@@ -629,42 +632,89 @@ void write_kicad_mod_text(UL_PACKAGE PAC)
 
     PAC.texts(T)
       {
+
+        size = egl2ki(T.size );
+        switch (int(T.angle))
+        {
+        case 0:
+            xoffs = (T.size * strlen(T.value)) / 2;
+            yoffs = T.size / 2;
+            break;
+
+        case 90:
+            xoffs = -T.size / 2;
+            yoffs = (T.size * strlen(T.value)) / 2;
+            break;
+
+        case 180:
+            xoffs = -(T.size * strlen(T.value)) / 2;
+            yoffs = -T.size / 2;
+            break;
+
+        case 270:
+            xoffs = (T.size / 2);
+            yoffs = -(T.size * strlen(T.value)) / 2;
+            break;
+        }
+
+
 	// check for part prefix/>NAME
-	if( textnum == 0 )
+
+	if (strupr(T.value) == ">NAME" )
 	  {
-	    if (strupr(T.value) == ">NAME" )
+	    if ( nameCt == 0 )
 	      {
 		NAME = strupr(T.value);
-		textnum++;
+		sprintf(NAME, "T%d %d %d %d %d %d %d N V \"%s\"\n",
+			0, egl2ki(T.x + xoffs), -egl2ki(T.y + yoffs),
+			size, size,
+			int((abs(T.angle)) * 10), layer_lut[T.layer], strupr(T.value) );
+		nameCt++;
+		textCt++;
 		continue;
 	      }
-	    else 
-	      {  // Ok,  prefix but No >NAME
-		textnum++;
-		offset++;
+	    else
+	      {
+		nameCt++;
+		textCt++;
 		continue;
 	      }
-	  }
-	else
-	  {
-	    offset++;
 	  }
 
-	// check for part value/>VALUE
-	if( textnum == 1 )
-	  if (strupr(T.value) == ">VALUE" )
-	    {
-	      VALUE = strupr(T.value);
-	      textnum++;
-	      continue;
-	    }
-	  else
-	    {
-	      textnum++;
-	      offset++;
-	      continue;
-	    }
-      }
+	// check for part prefix/>VALUE
+	if (strupr(T.value) == ">VALUE" )
+	  {
+	    if ( valueCt == 0 )
+	      {
+		sprintf(VALUE, "T%d %d %d %d %d %d %d N V \"%s\"\n",
+			1, egl2ki(T.x + xoffs), -egl2ki(T.y + yoffs),
+			size, size,
+			int((abs(T.angle)) * 10), layer_lut[T.layer], strupr(T.value) );
+		valueCt++;
+		textCt++;
+		continue;
+	      }
+	    else
+	      {
+		valueCt++;
+		textCt++;
+		continue;
+	      }
+	  }
+	textCt++;
+      } //PAC.text
+
+    // Add dummy name ?
+    //    if( nameCt == 0 )
+    //      {
+    //	sprintf(VALUE, "T%d %d %d %d %d %d %d N V \"%s\"\n",
+    //			0, egl2ki( 0), -egl2ki( 0),
+    //			size, size,
+    //			int((abs(T.angle)) * 10), layer_lut[T.layer], strupr(T.value) );
+    //      }
+
+
+    textnum = 0;
 
     PAC.texts(T)
     {
@@ -690,26 +740,34 @@ void write_kicad_mod_text(UL_PACKAGE PAC)
             xoffs = (T.size / 2);
             yoffs = -(T.size * strlen(T.value)) / 2;
             break;
-
         }
 
 	// check for part prefix/>NAME
 	if( textnum == 0 )
 	  {
-	    
+	    if( nameCt )
+	      printf("%s", NAME );
+	    textnum++;
+	    continue;
 	  }
-
+	if( textnum == 1 )
+	  {
+	    if( valueCt )
+	      printf("%s", VALUE );
+	    textnum++;
+	    continue;
+	  }
 	//        if (strupr(T.value) == ">NAME" || strupr(T.value) == ">VALUE" )
 
 
-	//        if (strupr(T.value) == ">NAME" || strupr(T.value) == ">VALUE" )
-	//	  continue;
-	//	else
+	if (strupr(T.value) == ">NAME" || strupr(T.value) == ">VALUE" )
+	  continue;
+	else
 	  {
 	    printf("T%d %d %d %d %d %d %d N V \"%s\"\n",
 		   textnum, egl2ki(T.x + xoffs), -egl2ki(T.y + yoffs),
 		   size, size,
-		   int((abs(T.angle)) * 10), 35, T.value);
+		   int((abs(T.angle)) * 10), layer_lut[T.layer], T.value);
 	    textnum++;
 	  }
     }
