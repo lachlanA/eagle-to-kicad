@@ -630,8 +630,18 @@ void write_kicad_mod_text(UL_PACKAGE PAC)
   string NAME = "";
   string VALUE = "";
 
+  int textWidth = 0;
+
     PAC.texts(T)
       {
+	textWidth = 0;
+	// find the max with of font/text
+	T.wires(W)
+	  {
+	      textWidth =  W.width/808;
+	      break;
+	  }
+
 
         size = egl2ki(T.size );
         switch (int(T.angle))
@@ -665,10 +675,10 @@ void write_kicad_mod_text(UL_PACKAGE PAC)
 	    if ( nameCt == 0 )
 	      {
 		NAME = strupr(T.value);
-		sprintf(NAME, "T%d %d %d %d %d %d %d N V \"%s\"\n",
+		sprintf(NAME, "T%d %d %d %d %d %d %d N %d V \"%s\"\n",
 			0, egl2ki(T.x + xoffs), -egl2ki(T.y + yoffs),
 			size, size,
-			int((abs(T.angle)) * 10), layer_lut[T.layer], strupr(T.value) );
+			int((abs(T.angle)) * 10), textWidth, layer_lut[T.layer], strupr(T.value) );
 		nameCt++;
 		textCt++;
 		continue;
@@ -686,10 +696,10 @@ void write_kicad_mod_text(UL_PACKAGE PAC)
 	  {
 	    if ( valueCt == 0 )
 	      {
-		sprintf(VALUE, "T%d %d %d %d %d %d %d N V \"%s\"\n",
+		sprintf(VALUE, "T%d %d %d %d %d %d %d N %d V \"%s\"\n",
 			1, egl2ki(T.x + xoffs), -egl2ki(T.y + yoffs),
 			size, size,
-			int((abs(T.angle)) * 10), layer_lut[T.layer], strupr(T.value) );
+			int((abs(T.angle)) * 10), textWidth, layer_lut[T.layer], strupr(T.value) );
 		valueCt++;
 		textCt++;
 		continue;
@@ -704,20 +714,21 @@ void write_kicad_mod_text(UL_PACKAGE PAC)
 	textCt++;
       } //PAC.text
 
-    // Add dummy name ?
-    //    if( nameCt == 0 )
-    //      {
-    //	sprintf(VALUE, "T%d %d %d %d %d %d %d N V \"%s\"\n",
-    //			0, egl2ki( 0), -egl2ki( 0),
-    //			size, size,
-    //			int((abs(T.angle)) * 10), layer_lut[T.layer], strupr(T.value) );
-    //      }
-
 
     textnum = 0;
 
     PAC.texts(T)
     {
+
+	textWidth = 0;
+	// find the max with of font/text
+	T.wires(W)
+	  {
+	      textWidth =  W.width/808;
+	      break;
+	  }
+
+
         size = egl2ki(T.size );
         switch (int(T.angle))
         {
@@ -757,17 +768,15 @@ void write_kicad_mod_text(UL_PACKAGE PAC)
 	    textnum++;
 	    continue;
 	  }
-	//        if (strupr(T.value) == ">NAME" || strupr(T.value) == ">VALUE" )
-
 
 	if (strupr(T.value) == ">NAME" || strupr(T.value) == ">VALUE" )
 	  continue;
 	else
 	  {
-	    printf("T%d %d %d %d %d %d %d N V \"%s\"\n",
+	    printf("T%d %d %d %d %d %d %d N %d V \"%s\"\n",
 		   textnum, egl2ki(T.x + xoffs), -egl2ki(T.y + yoffs),
 		   size, size,
-		   int((abs(T.angle)) * 10), layer_lut[T.layer], T.value);
+		   int((abs(T.angle)) * 10), textWidth, layer_lut[T.layer], T.value);
 	    textnum++;
 	  }
     }
@@ -990,13 +999,6 @@ void write_kikad_text( UL_GATE G, int transX, int transY, int gatePos )
                 textString[idx] = '~';
 	}
 
-        // Replace all spaces with '~'
-//        for (int idx = 0; textString[idx]; ++idx)
-//        {
-//            if ( textString[idx] == ' ' '\n' )
-//                textString[idx] = '~';
-//        }
-
         switch ( textAngle )
         {
         case 0:
@@ -1179,9 +1181,6 @@ void write_kikad_pins( UL_GATE G, int  transX, int transY, int gatePos )
             pinShape  = "";
             break;
         }
-
-
-//	printf( "# Visable flag =%d\n", P.visible);
 
         P.contacts(pad)
         {
@@ -1407,23 +1406,6 @@ void write_kikad_lib( string fileName )
 
 	    printf("\n# Device count = %d", countDevices);
 
-	    /*
-	      LIB.devicesets(D)
-	      {
-	      printf("Device set: %s, Description: %s\n", D.name, D.description);
-	      D.devices(DEV)
-	      {
-	      printf("# DEV activetechnology  %s:  \n", DEV.activetechnology ); 
-	      printf("# DEV description %s: \n", DEV.description ); 
-	      printf("# DEV headline %s: \n", DEV.headline ); 
-	      printf("# DEV library %s: \n", DEV.library ); 
-	      printf("# DEV name %s: \n", DEV.name ); 
-	      printf("# DEV technologies %s: \n", DEV.technologies ); 
-	      printf("# DEV package %s: \n", DEV.package.name );
-
-	      }
-	      }
-	    */		
 	    LIB.devicesets(D)
 	      {
 		devicesetsCount++;
@@ -1445,42 +1427,14 @@ void write_kikad_lib( string fileName )
 
 		devicesCount = 0;
 
-		/*
-		D.devices(DEV)
-		  {
-
-		    if (DEV.package)
-		      {
-			devicesCount++;
-			continue;
-		      }
-		    else
-		      {
-			printf("#Device set:%s\n#1    :%s    %d\n", D.name, D.description, devicesCount);
-			break;
-		      }
-		  }
-
-		printf("#Device set:%s\n#2    :%s    %d\n", D.name, D.description, devicesCount);
-
-		if (devicesCount == 0)
-		  {
-		    printf("#Device set:%s\n#Description:%s\n", D.name, D.description);
-		    continue;
-		  }
-		*/
-
 	    //********************************
-		//	    LIB.devicesets(D)
-		//	      {
 
 		int DVnumber = 0;
 
-		//		printf( "\nDS");
+
 		D.devices(DEV)
 		  {
 		    int padCount = 0;
-		    //		    printf( "\nDV:%d Package:%s ", DVnumber, DEV.package.name);
 
 		    if (DEV.package)
 		      packageNameList[DVnumber] = DEV.package.name;  // Add to package list
@@ -1524,52 +1478,10 @@ void write_kikad_lib( string fileName )
 		    mt = 0;
 
 		  }
-		/*		ct1 = DVnumber;
-				for( ct = 0 ; ct1; ct1--)
-				{
-				printf("\n#packageNameList:%s", packageNameList[ct]);
-				printf("\n#packageNameListMatch:%s", packageNameListMatch[ct]);
-				printf("\n#pinNamePnumberList:%s", pinNamePnumberList[ct]);
-				ct++;
-				} */
 
 		ct1 = DVnumber;
 		ct = 0;
 
-		/*		ct1 = DVnumber;      
-				for( ct = 0 ; ct1; ct1--)  // clear list
-				{
-				packageNameList[ct] = "";
-				packageNameListMatch[ct] = "";
-				pinNamePnumberList[ct] = "";
-				ct++;
-				} */
-		//	      }
-		//************************
-
-		/*
-		  if (DEV.package)
-		  {
-		  if( outPutFootPrints )
-		  {
-		  switch ( outPutFootPrints )
-		  {
-		  case 1:
-		  D.devices(DEV)
-		  {
-		  footPrintList +=  " " + DEV.package.name;
-		  }
-		  break;
-		  case 2:
-		  D.devices(DEV)
-		  {
-		  footPrintList +=  " " + DEV.library + "-" + DEV.package.name;
-		  }
-		  break;
-		  }
-		  }
-		  } */
-		//		printf("\n# footPrintList =%s", footPrintList );
 
 
 		int currentDeviceCt = 0;
