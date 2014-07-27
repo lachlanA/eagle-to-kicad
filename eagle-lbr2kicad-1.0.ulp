@@ -10,6 +10,12 @@
 
 /*
  * CHANGELOG=(dd.mm.yyyy)===============================================
+ * 26.07.2014: Fix >NAME and >VALUE in in module, so eagle text is not lost, or confused with module prefix/value
+ *             Thanks to: Lachlan Audas (laudas1 at gmail.com )
+ *
+ * 26.07.2014: Fix text width in module, so module text use's eagles text width.
+ *             Thanks to: Lachlan Audas (laudas1 at gmail.com )
+ *
  * 26.07.2014: Fix Squ Pad size 0 problem in module
  *             Thanks to: Lachlan Audas (laudas1 at gmail.com )
  *
@@ -346,9 +352,6 @@ string str_replace(string search, string replace, string subject)
     if( strstr(subject, search, lastpos) == -1)
     	return subject;  // No so just return input string
 
-
-//    printf( "\n found \n");
-    
     while (strstr(subject, search, lastpos) >= 0)
     {
         int pos = strstr(subject, search, lastpos);
@@ -362,7 +365,6 @@ string str_replace(string search, string replace, string subject)
 
 string escape_quotes(string input)
 {
-//    return str_replace(input, "\"", "\\\"");
     return str_replace( "\"", "\\\"", input);
 }
 
@@ -417,13 +419,6 @@ void write_kikad_mod_pad(UL_PACKAGE PAC)
 
         signal = CN.signal;
 
-	//        if (CN.smd)
-	//	  printf("#SMD Sh \"%s\" %c %d %d %d %d %d\n", CN.name, shp, dx, CN.smd.dy, 0, 0, angle * 10);
-
-	//        if (CN.pad)
-	//	  printf("#PAD Sh \"%s\" %c %d %d %d %d %d\n", CN.name, shp, dx, CN.smd.dy, 0, 0, angle * 10);
-
-
         if (CN.smd)
         {
             type = "SMD";
@@ -472,13 +467,6 @@ void write_kikad_mod_pad(UL_PACKAGE PAC)
 
         }
 
-
-	// Zero size dy for sq pad ? check
-	//	if( (shp == 'R') && ( egl2ki(dy) == 0) )
-	//	  { // Ok  zero size dy is bad..  so use dx !!
-	//	    dy = dx;
-	//	  }
-
         // pad shape
         printf("Sh \"%s\" %c %d %d %d %d %d\n",
                CN.name, shp, egl2ki(dx), egl2ki(dy), 0, 0, angle * 10);
@@ -487,7 +475,6 @@ void write_kikad_mod_pad(UL_PACKAGE PAC)
 
         printf("At %s N %08X\n", type, pad_lut[layset]);
 
-	//        printf("Ne 0 \"%s\"\n", signal);
         printf("Ne 0 \"%s\"\n", "");    // should always be a null not signal name !
 
         printf("Po %d %d \n", egl2ki(CN.x), -egl2ki(CN.y));
@@ -549,12 +536,6 @@ void write_kicad_mod_shapes(UL_PACKAGE PAC)
             printf("DS %d %d %d %d %d %d\n",
                    egl2ki(CONT.x1), -egl2ki(CONT.y1), egl2ki(CONT.x2), -egl2ki(CONT.y2), egl2ki(CONT.width), layer);
         }
-        // draws twice, fixed.
-        //  P.wires(W) {
-        //   printf("DS %d %d %d %d %d %d\n",
-        //   egl2ki(W.x1), egl2ki(W.y1), egl2ki(W.x2), egl2ki(W.y2), egl2ki(W.width), layer);
-        //  }
-
     }
 
 
@@ -1581,21 +1562,9 @@ void write_kikad_lib( string fileName )
 			int count = 0;
 			int aliasCt = strsplit(alias, DEV.technologies, ' '); 
 
-			//			printf("\n#aliasCt:%d\n", aliasCt );
-
-			/*			int ct = 0;
-			int ct1 = aliasCt;
-
-			for( ; ct1; ct1--)
-			  printf("#alias list:%d:%s\n", ct,  alias[ct++] );
-			printf("#D.name + Dev.name: %s\n",  D.name + DEV.name );
-			*/
 
 			while( aliasCt )
 			  {
-			    //			    printf("\n#loop aliasCt:%d", aliasCt );
-			    //			    printf("\n#alias list:%s", alias[count] );
-
     			    if( alias[count] == "''" )
 			      {
 				aliasCt--;
@@ -1628,20 +1597,6 @@ void write_kikad_lib( string fileName )
 			  }
 		      }
 
-		    /*
-		      printf("# DEV activetechnology  %s:  \n", DEV.activetechnology ); 
-		      printf("# DEV description %s: \n", DEV.description ); 
-		      printf("# DEV headline %s: \n", DEV.headline ); 
-		      printf("# DEV library %s: \n", DEV.library ); 
-		      printf("# DEV name %s: \n", DEV.name ); 
-		      printf("# DEV technologies %s: \n", DEV.technologies ); 
-		      if (DEV.package)
-		      printf("# DEV package %s: \n", DEV.package.name );
-		    */
-
-
-		    //		    printf("\n#ct1:%d ct:%d", ct1, ct );
-
 		    // combine common footprints ?
 		    if( eaglePartToKiCadPartConversion  == 0 )
 		      {
@@ -1657,56 +1612,35 @@ void write_kikad_lib( string fileName )
 
 			    for( int j = 0; j < ct; j++)  // Seach to see if we have a package/pin match ?
 			      {
-
-				//				printf("\npackageNameList:%s,  packageNameListMatch:%s:   strstr result=%d", packageNameListMatch[ j ], packageNameList[ ct ], strstr( packageNameListMatch[ j ],  packageNameList[ ct ]) );
-
 				if ( strstr( packageNameListMatch[ j ], packageNameList[ ct ] ) != -1 )
 				  {  // Match found so dont out put part
 				    output_part = 0;
-				    //				    printf("\n# 1.0 output_part:%d", output_part );
 				    break;
 				  }
 
-
 				// Match not found so continue looking
 				output_part = 1;
-				//				printf("\n# 2 output_part:%d", output_part );
-				//  			    if( strstr( pinNamePnumberList[ ct + 1 ], pinNamePnumberList[ ct1 ]) == 0)
-				//			    printf("\n#Match:%s", packageNameListMatch[ct]);
-				//			    printf("\n#pinNamePnumberList:%s", pinNamePnumberList[ct]);
-				//			    ct++;
 			      }
 			    ct++;
-			    //			    printf("\n# 4 output_part:%d", output_part );
 			    break;
 			  }
-			//			printf("\n# 5 output_part:%d", output_part );
 		      }
 		    else //  Ok seprate part for every device !
 		      {
 			output_part = 1;	
-			//			printf("\n# 7 output_part:%d", output_part );
 		      }
-
-		    //		    printf("\n# 8 output_part:%d", output_part );
-
-
-		    //		    printf("\n# Foot Print list =%s", footPrintList );
-
 
 		    footPrintList = "";
 
 		    if( outPutFootPrints && DEV.package )
 		      {
 			string ws[];
-			//			string ws1[];
 			int c = 0;
 
 			switch ( outPutFootPrints )
 			  {
 			  case 1:
 			    footPrintList += escape_quotes(packageNameList[ currentDeviceCt ] + " " + packageNameListMatch[ currentDeviceCt ]);
-			    //			    printf("\n# Foot Print list =%s", footPrintList );
 			    break;
 			  case 2:
 			    footPrintList += escape_quotes(DEV.library + "-" + packageNameList[ currentDeviceCt ] + " " + packageNameListMatch[ currentDeviceCt ]);
@@ -1721,8 +1655,6 @@ void write_kikad_lib( string fileName )
 			    if( ws[c1] == "" )
 			      continue;
 
-			    //		    	    printf("\n# footPrintList =:%s:", ws[c1] );
-
 			    ws[c1] = ( wildCardPrefix ? "*" : "") + ws[c1] +  (wildPostfix ? "*\n" : "\n");
 			  }
 
@@ -1731,14 +1663,9 @@ void write_kikad_lib( string fileName )
 			    if( ws[c1] == "" )
 			      continue;
 
-			    //		    	    printf("\n# footPrintList =:%s:", ws[c1] );
-
 			    footPrintList += " " + escape_quotes(ws[c1]);
 			  }
-			//			footPrintList = strjoin( ws, ' '); 			
 		      }
-
-
 
 
 		    if(output_part)
@@ -1844,7 +1771,6 @@ int defaultWidth = 1;
 int defaultHeight = 2;
 int width = 2;
 int height = 2;
-//dlgPushButton("&Reset defaults") {   width = defaultWidth;   height = defaultHeight;  }
 
 sprintf( titleString, "Export to KiCAD, Version %.2f, Use this programe at your own Risk!", VERSION );
 
@@ -1891,7 +1817,7 @@ result = dlgDialog( titleString )
   }
   dlgHBoxLayout
   {
-    //dlgCheckBox("&Same output directory", sameDir);
+
   }
 
 
@@ -1904,7 +1830,7 @@ result = dlgDialog( titleString )
     dlgStringEdit(g_lib_name);
     dlgPushButton("...") openLibPath("C:\\");
   }
-  //            dlgHBoxLayout
+
   dlgVBoxLayout
   {
 
@@ -1961,15 +1887,6 @@ result = dlgDialog( titleString )
       dlgCheckBox("Add wild card '*' postfix to FootPrint list parts", wildPostfix );
       dlgStretch(0); dlgPushButton("Info") { if (dlgMessageBox( infoPostFixSeach, "Ok") == 0); }   dlgSpacing(20);
     }
-
-
-    //                dlgCheckBox("OutPut FootPrint", outPutFootPrint);
-
-    /*                dlgCheckBox("Delete ">Name from part",\(applies to schematic only\)", deleteNameTextSCH );
-		      dlgCheckBox("Delete ">Value from part",\(applies to schematic only\)", deleteValueTextSCH );
-		      dlgCheckBox("Delete ">Name from part",\(applies to schematic only\)", deleteNameTextSCH );
-		      dlgCheckBox("Delete ">Value from part",\(applies to schematic only\)", deleteValueTextSCH );
-    */
   }
   dlgVBoxLayout
   {
@@ -2004,17 +1921,12 @@ if (result)
     write_kikad_mod(g_mod_name);
     write_kikad_lib(g_lib_name);
     // A success message is useful
-    //    dlgMessageBox("Conversion finished");
-  }
-// but a cancel message only confuses the user
-//  else
-//    dlgMessageBox("Canceled!" );
 
-//if ( g_missingPrefix == 1 )
+  }
+
+
 if ( g_missingPrefix || warnings_count || errors_count )
   {
-    //    string msgString  = "Prefix is missing a device. It will be replaced by \"??\".\n";
-    //    string msgString  = "Prefix is missing  device(s). It will be replaced by M";
     string msgString, msgString1,  msgString2;
 
     if( warnings_count )
