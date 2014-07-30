@@ -141,7 +141,7 @@ int RECT_WIDTH = 26;
 
 real linMaxWidth = 10.0;
 real linMinWidth = 0.01;
-int limitTextLineWidth = 1;
+int limitTextLineWidth = 0;
 int minMaxUnitsSelect = 0;
 int minMaxUnitsSelectOld = 0;
 
@@ -149,7 +149,7 @@ string infoDeviceConversion = "Allows combining of device's into one KiCad lib p
                               " Note pin number/name not package type or the number of pins on the package is the deciding factor. "+
                               " If not enabled conversion will make a new KiCad library part for every eagle devices/footprint this of course"+
                               " make's for a very large KiCad library so this give's the option of combining the eagle part's where"+
-                              " possible to make a Kicad library, there is some risk to this, as the matching process could have <b>bug's!!!!</b>"+
+                              " possible to make a Kicad library, there is some risk to this, as the matching process could have <b>BUGS!!!!</b>"+
                               " So it's import you check the results when using this option<b>!!!</b>";
 
 string infoTechnologies = "Make KiCad part Alias's from the Technologies definition in Eagle device\'s";
@@ -162,18 +162,18 @@ string infoPostFixSeach = "Add a wild card post-fix '*' to each footprint in the
 
 string infoNoPrefix = "If a eagle lib part has no prefix IE:  \"U\", \"R\", \"C\" etc, then we use this letter(s) for SCH/Part Prefix";
 
-string infoFootPrintList = "KiCad use's the footprint list to help select the PCB footprint to use. This option controls the output, and output format"
+string infoFootPrintList = "KiCad use's the footprint list to help select the PCB footprint to use. This option controls the output, and output format"+
                            " given to KiCad Note: This is not the same as footprint, footprint is the assign first PCB footprint eagle use's";
 
-string infoFootPrint = "Use the device/footprint in eagle for the footprint in KiCad,  Note: This is not the same as the footprint list. In KiCad"
+string infoFootPrint = "Use the device/footprint in eagle for the footprint in KiCad,  Note: This is not the same as the footprint list. In KiCad"+
                        " the footprint list is used to filter the module footprints displayed.";
 
 
-string infoFootPrintPrefix = "You can override the default eagle lib name, which is the prefix to the KiCad footprint name.\n <b>Note: that this program always adds '-' between  prefix name and foot print name.</b>";
+string infoFootPrintPrefix = "You can override the default eagle lib name, which is the prefix to the KiCad footprint name.\nNote: that this program always adds '-' between  prefix name and foot print name.";
 string infoTextMaxMinValue = "You can override text font line size in eagle and use the Max and Min line with width, which KiCad use's to dray the text on the silk screen";
-string infoProgramHowTo = "This program converts a eagle lib in to a KiCad lib and mod lib.\n You have a number of options to how this conversion is done.\n"
-                           "<b><font color=red>WARNING: You should check the results of the conversion with dew care, as there is no way that this program will make a perfect conversion from eagle to KiCad lib format !!</font></b>"
-                           "<b><font color=purple>BUGS and and warnings: TO BE ADDED!!!</font></b>";
+string infoProgramHowTo = "This program converts a eagle lib in to a KiCad lib and mod lib.\nYou have a number of options to how this conversion is done.\n"+
+                           "WARNING: You should check the results of the conversion with dew care, as there is no way that this program will make a perfect conversion from eagle to KiCad lib format\n"+
+                           "BUGS and and warnings:\nWindow Close, runs the prgram, it should just exit\nMORE TO BE ADDED!!!";
 
 // please edit this LUT if you found mistakes,
 // and send your corrections to sdn (at) openhardware.ru.
@@ -2012,7 +2012,7 @@ result = dlgDialog( titleString )
       dlgHBoxLayout
       {
 	dlgStretch(0);
-	dlgPushButton("How to use this program</font>") { if( dlgMessageBox( infoProgramHowTo, "+Ok") == 0); };
+	dlgPushButton("How to use this program") { if( dlgMessageBox( infoProgramHowTo, "+Ok") == 0); };
 	dlgStretch(0);
       }
     }
