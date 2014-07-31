@@ -6,41 +6,41 @@
         "<p>"
         "<author>Author: Dmitri N. Sytov sdn (at) openhardware.ru</author>"
         "<author>Author: juergen.messerer (at) freesurf.ch</author>"
-	"<author>Author: laudas1 (at) gmail.com</author>"
+	"<author>Author: \"lachlanA (at) users.noreply.github.com\"</author>"
 
 /*
  * CHANGELOG=(dd.mm.yyyy)===============================================
  * 26.07.2014: Fix >NAME and >VALUE in in module, so eagle text is not lost, or confused with module prefix/value
- *             Thanks to: Lachlan Audas (laudas1 at gmail.com )
+ *             Thanks to: Lachlan  "lachlanA (at) users.noreply.github.com" 
  *
  * 26.07.2014: Fix text width in module, so module text use's eagles text width.
- *             Thanks to: Lachlan Audas (laudas1 at gmail.com )
+ *             Thanks to: Lachlan  "lachlanA (at) users.noreply.github.com" 
  *
  * 26.07.2014: Fix Squ Pad size 0 problem in module
- *             Thanks to: Lachlan Audas (laudas1 at gmail.com )
+ *             Thanks to: Lachlan  "lachlanA (at) users.noreply.github.com" 
  *
  * 14.07.2014: Add option allows combining of device's into one KiCad lib part if the pin name/number match exactly.
  *             Note: Pin number/name IS the deciding factor! NOT package type or package pin count.
- *             Thanks to: Lachlan Audas (laudas1 at gmail.com )
+ *             Thanks to: Lachlan  "lachlanA (at) users.noreply.github.com" 
  *
  * 12.07.2014: Add option to allows adding $PACKAGE list to KiCad where parts Shari'a common pin refances.
- *             Thanks to: Lachlan Audas (laudas1 at gmail.com )
+ *             Thanks to: Lachlan  "lachlanA (at) users.noreply.github.com" 
  *
  * 21.06.2014: Fix bug where, >NAME and >VALUE  were getting past thou from eage to kicad libs
  * 	       because there were not in upper case.
- *	       thanks to: Lachlan Audas (laudas1 at gmail.com )
+ *	       thanks to: Lachlan  "lachlanA (at) users.noreply.github.com" 
  *
  * 20.06.2014: Add option to Remove Text after @, this works bit like the hide after @ in Eagle SCH
- *	       thanks to: Lachlan Audas (laudas1 at gmail.com )
+ *	       thanks to: Lachlan  "lachlanA (at) users.noreply.github.com" 
  *
- * 20.06.2014: Fix bug in str_replace(string search, string replace, string subject)
+ * 20.06.2014: Fix bug in str_replace(string search, string replace, string subject
  *             Bug was, it did not return the Original string,  if the search string was not
  *	       found,  but returned the replacement string !!   
- *	       thanks to: Lachlan Audas (laudas1 at gmail.com )
+ *	       thanks to: Lachlan  "lachlanA (at) users.noreply.github.com" 
  *
  * 12.06.2014: Fix \r \n in value import,  which eagle allows but KiCAD dos not like.
  * 	       also remove any other charters which are not printable
- *	       thanks to: Lachlan Audas (laudas1 at gmail.com )
+ *	       thanks to: Lachlan  "lachlanA (at) users.noreply.github.com"
  *
  * 14.02.2014: - Fix "Multiple contacts on pin, use contacts() instead" error in
  *               Eagle 6.0 (and later) when multiple pads are connected to same pin. (caspencer)
@@ -89,7 +89,21 @@
 /* ==========================================================================
  * License: This file is released under the license of the GNU Public license
  *          Version 2.
- * ==========================================================================*/
+ * ==========================================================================
+ This program is free software; you can redistribute it and/or
+ modify it under the terms of the GNU General Public License
+ as published by the Free Software Foundation; either version 2
+ of the License, or (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+*/
 
 real VERSION   = 1.0;
 
@@ -145,19 +159,24 @@ int limitTextLineWidth = 0;
 int minMaxUnitsSelect = 0;
 int minMaxUnitsSelectOld = 0;
 
-string infoDeviceConversion = "Allows combining of device's into one KiCad lib part if the pin name/number match exactly."+
+real eagleToKiCadUnitCoversionFactor1 = 808;
+real eagleToKiCadUnitCoversionFactor2 = 404;
+
+
+string infoDeviceConversion = "<pre>Allows combining of device's into one KiCad lib part if the pin name/number match exactly."+
                               " Note pin number/name not package type or the number of pins on the package is the deciding factor. "+
                               " If not enabled conversion will make a new KiCad library part for every eagle devices/footprint this of course"+
                               " make's for a very large KiCad library so this give's the option of combining the eagle part's where"+
                               " possible to make a Kicad library, there is some risk to this, as the matching process could have <b>BUGS!!!!</b>"+
-                              " So it's import you check the results when using this option<b>!!!</b>";
+                              " So it's import you check the results when using this option<b>!!!</b></pre>";
 
-string infoTechnologies = "Make KiCad part Alias's from the Technologies definition in Eagle device\'s";
+string infoTechnologies = "Make KiCad part Alias's from the <i>Eagle</i> Technologies definition in Eagle device\'s";
 
-string infoDeleArfter = "Eagle SCH/PCB will not show any charters after '@' in pin names\n"
-                        "Checking this,  will delete any charters after and including the '@' so it wont show in KiCad";
+string infoDeleArfter = "<pre>Eagle SCH/PCB will not show any charters after \'@\' in pin names<br>"+
+                        "Checking this will delete any charters after and including the <b>'@'</b><br>so it wont show in KiCad</pre>";
 
 string infoPreFixSeach = "Add a wild card prefix '*' to each footprint in the footprint list,  this allows easy footprint searching in CvPCB.";
+
 string infoPostFixSeach = "Add a wild card post-fix '*' to each footprint in the footprint list,  this allows easy footprint searching in CvPCB.";
 
 string infoNoPrefix = "If a eagle lib part has no prefix IE:  \"U\", \"R\", \"C\" etc, then we use this letter(s) for SCH/Part Prefix";
@@ -165,15 +184,20 @@ string infoNoPrefix = "If a eagle lib part has no prefix IE:  \"U\", \"R\", \"C\
 string infoFootPrintList = "KiCad use's the footprint list to help select the PCB footprint to use. This option controls the output, and output format"+
                            " given to KiCad Note: This is not the same as footprint, footprint is the assign first PCB footprint eagle use's";
 
-string infoFootPrint = "Use the device/footprint in eagle for the footprint in KiCad,  Note: This is not the same as the footprint list. In KiCad"+
-                       " the footprint list is used to filter the module footprints displayed.";
+string infoFootPrint = "<pre>Use the device/footprint in eagle for the footprint in KiCad,  Note: This is not the same as the footprint list. In KiCad"+
+                       " the footprint list is used to filter the module footprints displayed.</pre>";
 
 
-string infoFootPrintPrefix = "You can override the default eagle lib name, which is the prefix to the KiCad footprint name.\nNote: that this program always adds '-' between  prefix name and foot print name.";
+string infoFootPrintPrefix = "You can override the default eagle lib name, which is the prefix to the KiCad footprint name.<br>Note: that this program always adds '-' between  prefix name and foot print name.";
+
 string infoTextMaxMinValue = "You can override text font line size in eagle and use the Max and Min line with width, which KiCad use's to dray the text on the silk screen";
-string infoProgramHowTo = "This program converts a eagle lib in to a KiCad lib and mod lib.\nYou have a number of options to how this conversion is done.\n"+
-                           "WARNING: You should check the results of the conversion with dew care, as there is no way that this program will make a perfect conversion from eagle to KiCad lib format\n"+
-                           "BUGS and and warnings:\nWindow Close, runs the prgram, it should just exit\nMORE TO BE ADDED!!!";
+
+string infoProgramHowTo = "This program converts a eagle lib to KiCad lib and mod lib.<br>You have a number of options to how this conversion is done.<br>"+
+                           "<b><i>WARNING: You should check the results of the conversion! As there is no way this program will make a perfect conversion<i></b>"+
+                           "<pre><b><font color=red>BUGS and and warnings:<br>  1: Text can appear on any layer in Eagle lib's, where as KiCad only allows Text on top layer<br>"+
+                           "    This will result in all text from eagle appearing on the top silk screen layer, and mirrored text will no longer be mirrored !</pre></font>"+
+                           "<i>This version of eagle-to-kicad is hosted on <a href=\"http://github.com/lachlanA/eagle-to-kicad/\">https://github.com/lachlanA/eagle-to-kicad</a><br>"+
+                           "Please check this site for latest version, bug reports, and to make suggestions/improvement<br><i>";
 
 // please edit this LUT if you found mistakes,
 // and send your corrections to sdn (at) openhardware.ru.
@@ -652,18 +676,18 @@ void write_kicad_mod_text(UL_PACKAGE PAC)
 	// find the max with of font/text
 	T.wires(W)
 	  {
-	      textWidth =  W.width/808;
+	    textWidth =  W.width / eagleToKiCadUnitCoversionFactor1;
 	      break;
 	  }
 
 	// Limit line width ?
 	if( limitTextLineWidth )
 	  {
-	    if( textWidth <  ( unitConver( 0, minMaxUnitsSelect, linMinWidth )*404))
-	      textWidth = unitConver( 0, minMaxUnitsSelect, linMinWidth ) * 404;
+	    if( textWidth <  ( unitConver( 0, minMaxUnitsSelect, linMinWidth )*eagleToKiCadUnitCoversionFactor2))
+	      textWidth = unitConver( 0, minMaxUnitsSelect, linMinWidth ) * eagleToKiCadUnitCoversionFactor2;
 
-	    if( textWidth >  ( unitConver( 0, minMaxUnitsSelect, linMaxWidth )*404 ))
-	      textWidth = unitConver( 0, minMaxUnitsSelect, linMaxWidth ) * 404;
+	    if( textWidth >  ( unitConver( 0, minMaxUnitsSelect, linMaxWidth )*eagleToKiCadUnitCoversionFactor2 ))
+	      textWidth = unitConver( 0, minMaxUnitsSelect, linMaxWidth ) * eagleToKiCadUnitCoversionFactor2;
 	  }
 
         size = egl2ki(T.size );
@@ -747,18 +771,18 @@ void write_kicad_mod_text(UL_PACKAGE PAC)
 	// find the max with of font/text
 	T.wires(W)
 	  {
-	      textWidth =  W.width/808;
+	      textWidth =  W.width/eagleToKiCadUnitCoversionFactor1;
 	      break;
 	  }
 
 
 	if( limitTextLineWidth )
 	  {
-	    if( textWidth <  ( unitConver( 0, minMaxUnitsSelect, linMinWidth )*404))
-	      textWidth = unitConver( 0, minMaxUnitsSelect, linMinWidth ) * 404;
+	    if( textWidth <  ( unitConver( 0, minMaxUnitsSelect, linMinWidth )*eagleToKiCadUnitCoversionFactor2))
+	      textWidth = unitConver( 0, minMaxUnitsSelect, linMinWidth ) * eagleToKiCadUnitCoversionFactor2;
 
-	    if( textWidth >  ( unitConver( 0, minMaxUnitsSelect, linMaxWidth )*404 ))
-	      textWidth = unitConver( 0, minMaxUnitsSelect, linMaxWidth ) * 404;
+	    if( textWidth >  ( unitConver( 0, minMaxUnitsSelect, linMaxWidth )*eagleToKiCadUnitCoversionFactor2 ))
+	      textWidth = unitConver( 0, minMaxUnitsSelect, linMaxWidth ) * eagleToKiCadUnitCoversionFactor2;
 	  }
 
 
@@ -1858,10 +1882,6 @@ if (library)
 
 result = dlgDialog( titleString )
 {
-
-
-
-
   dlgHBoxLayout dlgSpacing(600);
   dlgStretch(0);
   dlgLabel("Output Module/Pcb lib footprint file:");
@@ -2002,7 +2022,8 @@ result = dlgDialog( titleString )
       {
 	dlgStretch(0);
 	//	dlgPushButton("Cancel") dlgReject();
-	dlgPushButton("+Cancel") exit(0);
+	//	dlgPushButton("+Cancel") exit(0);
+	dlgPushButton("-Cancel") dlgReject();
 	dlgStretch(0);
       }
     }
@@ -2018,8 +2039,7 @@ result = dlgDialog( titleString )
     }
     dlgStretch(0);
   };
-
-  ;};
+};
 
 
 if (result)
@@ -2027,8 +2047,9 @@ if (result)
     write_kikad_mod(g_mod_name);
     write_kikad_lib(g_lib_name);
     // A success message is useful
-
   }
+ else
+   exit(-1);
 
 
 if ( g_missingPrefix || warnings_count || errors_count )
