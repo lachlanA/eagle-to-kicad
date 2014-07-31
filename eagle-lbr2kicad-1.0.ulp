@@ -6,41 +6,41 @@
         "<p>"
         "<author>Author: Dmitri N. Sytov sdn (at) openhardware.ru</author>"
         "<author>Author: juergen.messerer (at) freesurf.ch</author>"
-	"<author>Author: \"lachlanA (at) users.noreply.github.com\"</author>"
+	"<author>Author: \"lachlanusa (at) gmail.com\"</author>"
 
 /*
  * CHANGELOG=(dd.mm.yyyy)===============================================
  * 26.07.2014: Fix >NAME and >VALUE in in module, so eagle text is not lost, or confused with module prefix/value
- *             Thanks to: Lachlan  "lachlanA (at) users.noreply.github.com" 
+ *             Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
  *
  * 26.07.2014: Fix text width in module, so module text use's eagles text width.
- *             Thanks to: Lachlan  "lachlanA (at) users.noreply.github.com" 
+ *             Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
  *
  * 26.07.2014: Fix Squ Pad size 0 problem in module
- *             Thanks to: Lachlan  "lachlanA (at) users.noreply.github.com" 
+ *             Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
  *
  * 14.07.2014: Add option allows combining of device's into one KiCad lib part if the pin name/number match exactly.
  *             Note: Pin number/name IS the deciding factor! NOT package type or package pin count.
- *             Thanks to: Lachlan  "lachlanA (at) users.noreply.github.com" 
+ *             Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
  *
  * 12.07.2014: Add option to allows adding $PACKAGE list to KiCad where parts Shari'a common pin refances.
- *             Thanks to: Lachlan  "lachlanA (at) users.noreply.github.com" 
+ *             Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
  *
  * 21.06.2014: Fix bug where, >NAME and >VALUE  were getting past thou from eage to kicad libs
  * 	       because there were not in upper case.
- *	       thanks to: Lachlan  "lachlanA (at) users.noreply.github.com" 
+ *	       thanks to: Lachlan  "lachlanusa (at) gmail.com" 
  *
  * 20.06.2014: Add option to Remove Text after @, this works bit like the hide after @ in Eagle SCH
- *	       thanks to: Lachlan  "lachlanA (at) users.noreply.github.com" 
+ *	       thanks to: Lachlan  "lachlanusa (at) gmail.com" 
  *
  * 20.06.2014: Fix bug in str_replace(string search, string replace, string subject
  *             Bug was, it did not return the Original string,  if the search string was not
  *	       found,  but returned the replacement string !!   
- *	       thanks to: Lachlan  "lachlanA (at) users.noreply.github.com" 
+ *	       thanks to: Lachlan  "lachlanusa (at) gmail.com" 
  *
  * 12.06.2014: Fix \r \n in value import,  which eagle allows but KiCAD dos not like.
  * 	       also remove any other charters which are not printable
- *	       thanks to: Lachlan  "lachlanA (at) users.noreply.github.com"
+ *	       thanks to: Lachlan  "lachlanusa (at) gmail.com"
  *
  * 14.02.2014: - Fix "Multiple contacts on pin, use contacts() instead" error in
  *               Eagle 6.0 (and later) when multiple pads are connected to same pin. (caspencer)
@@ -163,12 +163,12 @@ real eagleToKiCadUnitCoversionFactor1 = 808;
 real eagleToKiCadUnitCoversionFactor2 = 404;
 
 
-string infoDeviceConversion = "<pre>Allows combining of device's into one KiCad lib part if the pin name/number match exactly."+
-                              " Note pin number/name not package type or the number of pins on the package is the deciding factor. "+
-                              " If not enabled conversion will make a new KiCad library part for every eagle devices/footprint this of course"+
-                              " make's for a very large KiCad library so this give's the option of combining the eagle part's where"+
-                              " possible to make a Kicad library, there is some risk to this, as the matching process could have <b>BUGS!!!!</b>"+
-                              " So it's import you check the results when using this option<b>!!!</b></pre>";
+string infoDeviceConversion = "<pre>Allows combining of device's into one KiCad lib part if the pin name/number match exactly.<br>"+
+                              "Note pin number/name not package type or the number of pins on the package is the deciding factor.<br>"+
+                              "If not enabled conversion will make a new KiCad library part/module for every one of eagle<br>devices/footprint this of course "+
+                              "make's for a very large KiCad library so this give's<br>the option of combining the eagle part's where"+
+                              " possible to make a Kicad library,<br>there is some risk to this, as the matching process could have<br>"+
+                              "<b><br>So it's import you check the results when using this option<b>!!!</b></pre>";
 
 string infoTechnologies = "Make KiCad part Alias's from the <i>Eagle</i> Technologies definition in Eagle device\'s";
 
@@ -181,21 +181,26 @@ string infoPostFixSeach = "Add a wild card post-fix '*' to each footprint in the
 
 string infoNoPrefix = "If a eagle lib part has no prefix IE:  \"U\", \"R\", \"C\" etc, then we use this letter(s) for SCH/Part Prefix";
 
-string infoFootPrintList = "KiCad use's the footprint list to help select the PCB footprint to use. This option controls the output, and output format"+
-                           " given to KiCad Note: This is not the same as footprint, footprint is the assign first PCB footprint eagle use's";
+string infoFootPrintList = "KiCad use's the footprint list to help select from the list of PCB module/footprint(s) in KiCad's module lib.<br>This option controls the output, and output format"+
+                           " given to KiCad<br>Note: This is not the same as KiCad footprint";
 
-string infoFootPrint = "<pre>Use the device/footprint in eagle for the footprint in KiCad,  Note: This is not the same as the footprint list. In KiCad"+
-                       " the footprint list is used to filter the module footprints displayed.</pre>";
+string infoFootPrint = "<pre>You have 2 options, for the footprint name in KiCad.<br>Just use eagle device name for the footprint name in KiCad,<br>"+
+                       "OR prefix the eagle lbr name to the eagle device name to crate the the KiCad footprint name.<br>"+
+                       "IE: \"eagleLbrName-eagleDeviceName\".<br>"+
+                       "Note: is not the same as the footprint list. In KiCad<br>"+
+                       "Which is used to filter the module footprints displayed in KiCad's CvPcb program.</pre>";
 
 
 string infoFootPrintPrefix = "You can override the default eagle lib name, which is the prefix to the KiCad footprint name.<br>Note: that this program always adds '-' between  prefix name and foot print name.";
 
-string infoTextMaxMinValue = "You can override text font line size in eagle and use the Max and Min line with width, which KiCad use's to dray the text on the silk screen";
+string infoTextMaxMinValue = "<pre>You can override text font line width size in eagle, and use the Max and Min line width,<br>which KiCad use's to draw the text<br>"+
+                             "IE:  Any text line width which is bigger than Max line will be replaced with Max value.<br>"+
+                             "     Any text line width which is less than Min line will be replaced with Min width value.</pre>";
 
 string infoProgramHowTo = "This program converts a eagle lib to KiCad lib and mod lib.<br>You have a number of options to how this conversion is done.<br>"+
-                           "<b><i>WARNING: You should check the results of the conversion! As there is no way this program will make a perfect conversion<i></b>"+
+                           "<b><br><i>WARNING: You should check the results of the conversion!<br>As there is no way this program will make a perfect conversion<i></b>"+
                            "<pre><b><font color=red>BUGS and and warnings:<br>  1: Text can appear on any layer in Eagle lib's, where as KiCad only allows Text on top layer<br>"+
-                           "    This will result in all text from eagle appearing on the top silk screen layer, and mirrored text will no longer be mirrored !</pre></font>"+
+                           "     This will result in all text from eagle appearing on the top silk screen layer,<br>     and mirrored text will no longer be mirrored !</pre></font>"+
                            "<i>This version of eagle-to-kicad is hosted on <a href=\"http://github.com/lachlanA/eagle-to-kicad/\">https://github.com/lachlanA/eagle-to-kicad</a><br>"+
                            "Please check this site for latest version, bug reports, and to make suggestions/improvement<br><i>";
 
@@ -1838,7 +1843,7 @@ string showPinNames[] = { "Always show pin names",  "Only show pin names if enab
 string showPinNumbers[] = { "Always show pin Numbers",  "Only show pin Numbers if enabled in eagle symbol", "Never show Pin numbers" };
 string addFootPrintList[] = { "No Footprints list",  "Output footprint list", "Output lib prefix in footprint list" };
 string outPutFootPrintOptions[] = { "Don't prefix lib-name to footprint name", "Prefix lib name to footprint name" };
-string eaglePartToKiCadPartConversiontion[] = {"Combine Parts/package variants where poss-able", "Out put new part for every foot print type"};
+string eaglePartToKiCadPartConversiontion[] = {"Combine Parts/package variants where possible", "Out put new part for every foot print type"};
 
 int showPinNamesSelected = 1; // initially "
 int showPinNumbersSelected = 1; // initially "
