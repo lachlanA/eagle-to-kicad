@@ -1,4 +1,4 @@
-#usage "<b>Eagle schematic exporting tool  version 0.3 </b>\n"
+#usage "<b>Eagle schematic exporting tool  version 0.31 </b>\n"
        "<p>"
        "This ULP can convert an Eagle CAD schematic into KiCAD schematic."
        "<p>"
@@ -8,6 +8,9 @@
 /*
  * CHANGELOG================================================
  * 
+ * 03.08.2014: Bug fix, size conversion bug.
+ *             Thanks  Lachlan   lachlanusa (at) gmail.com
+ *
  * 03.08.2014: Bug fix, remove bank \n \r from output,  as KiCad wont dos not like bank line's in sch files
  *             Thanks  Lachlan   lachlanusa (at) gmail.com
  *
@@ -23,6 +26,8 @@
  * ==========================================================================*/   
  
 real VERSION   = 0.4;
+
+
 
 string g_comboBoxArray[] = { "A0 (1188mm x 840mm)", "A1 (840mm x 594mm)", "A2(594mm x 420mm)",
                              "A3 (420mm x 297mm)", "A4(297mm x 210mm)", 
@@ -59,6 +64,9 @@ string g_comment4   = "";
 real   g_Fact  = 254*32;        // global uMeter to uInch conversion factor
 int    g_transY = 11000;         // Y-axis translation factor, depending on the sheet size
 
+// Default version of KiCad sch file
+int outPutVersion = 2;
+
 //------------------------------------------------------
 //write kicad schematic dotted wire notes
 //------------------------------------------------------
@@ -79,7 +87,7 @@ void write_kicad_dotted_segments( UL_SHEET SH )
 //------------------------------------------------------
 //write text of an instance smashed or not smashed
 //------------------------------------------------------
-void writeInstanceText( UL_TEXT T, int count )
+void writeInstanceText( UL_TEXT T, int count, string partPreFix )
 {
    // Smashed text of an instance
    int  x        = T.x / g_Fact;
@@ -117,7 +125,20 @@ void writeInstanceText( UL_TEXT T, int count )
          vAlign = 'T';
       break;
    }
-   printf( "F %d \"%s\" %c %d %d %d %.4d %c %c\n", count, T.value, orient, x, -y, fontSize, 0, hAlign, vAlign );
+
+   if( outPutVersion == 1 )
+     //     printf( "F %d \"%s\" %c %d %d %d %.4d %c %c\n", count, T.value, orient, x, -y, fontSize, 0, hAlign, vAlign );
+     if(count == 0 )
+       printf( "F %d \"%s\" %c %d %d %d %.4d %c %c\n", count, partPreFix, orient, x, -y, fontSize, 0, hAlign, vAlign );
+     else
+       printf( "F %d \"%s\" %c %d %d %d %.4d %c %c\n", count, T.value, orient, x, -y, fontSize, 0, hAlign, vAlign );
+
+   if( outPutVersion == 2 )
+     //     printf( "F %d \"%s\" %c %d %d %d %.4d %c %cNN\n", count, T.value, orient, x, -y, fontSize, 0, hAlign, vAlign );
+     if(count == 0 )
+       printf( "F %d \"%s\" %c %d %d %d %.4d %c %cNN\n", count, partPreFix, orient, x, -y, fontSize, 0, hAlign, vAlign );
+     else
+       printf( "F %d \"%s\" %c %d %d %d %.4d %c %cNN\n", count, T.value, orient, x, -y, fontSize, 0, hAlign, vAlign );
 }
 
 //------------------------------------------------------
@@ -208,7 +229,11 @@ void write_kicad_wire_segments( UL_SHEET SH )
             int y2 = W.y2/g_Fact - g_transY;
 
             printf( "Wire Wire Line\n" );
-            printf( "%d %d %d %d\n", x1, -y1, x2, -y2 );
+
+	    if( outPutVersion == 1 )
+	      printf( "%d %d %d %d\n", x1, -y1, x2, -y2 );
+	    if( outPutVersion == 2 )
+	      printf( "\t%d %d %d %d\n", x1, -y1, x2, -y2 );
          }
 	 
          SEG.junctions(J)
@@ -241,22 +266,45 @@ void write_kicad_text_notes( UL_SHEET S )
       int    posX        = T.x/g_Fact;
       int    posY        = T.y/g_Fact - g_transY;
       int    offset      = ((T.size * strlen(T.value))/2)/g_Fact;
-      int     idx        = 0;
+      int    idx        = 0;
+      int    idx2        = 0;
+      string newString = "";
+
       //remove \n \r from eagle text string and replace with ' ' space
-      for ( idx = 0; textString[idx]; ++idx)
+      //      for ( idx = 0; textString[idx]; ++idx)
+      //      	{
+      //      	  if( !(isprint( textString[idx] )))
+      //      	    textString[idx] = ' ';
+      //      	}
+
+      //replace new line charter with string '\n' as kicad can handel that, but not new line chareter
+
+      for ( idx = 0; textString[idx];)
       	{
-      	  if( !(isprint( textString[idx] )))
-      	    textString[idx] = ' ';
+      	  if(( textString[idx] == '\n') || ( textString[idx] == '\r' ) )
+	    {
+	      newString =  newString + "\\n"; 
+	      idx++;
+	      idx2 = idx2 + 2;
+	    }
+	  else
+	    {
+	      newString[idx2] = textString[idx];
+	      idx++;
+	      idx2++;
+	    }
       	}
 
+
+
       //remove  or strip leading space's ' ' if any
-      for ( idx = 0; textString[idx]; ++idx)
-      	{
-      	  if(  textString[idx] == ' ')
-	    textString = strsub( textString, idx + 1);
-	  else
-	    break;
-      	}
+      //      for ( idx = 0; textString[idx]; ++idx)
+      //      	{
+      //      	  if(  textString[idx] == ' ')
+      //	    textString = strsub( textString, idx + 1);
+      //	  else
+      //	    break;
+      //      	}
 
                 
       switch( textAngle )
@@ -277,8 +325,14 @@ void write_kicad_text_notes( UL_SHEET S )
          orient = 1;
       break;
       }
-      printf("Text Notes %d %d %d %d ~\n", posX, -posY, orient, fontSize);
-      printf("%s\n", textString);
+
+      if( outPutVersion == 1 )
+	printf("Text Notes %d %d %d %d ~\n", posX, -posY, orient, fontSize);
+      if( outPutVersion == 2 )
+	printf("Text Notes %d %d %d %d ~ %s %d\n", posX, -posY, orient, fontSize, "", 0 );
+
+
+      printf("%s\n", newString);
    } 
 }
 
@@ -347,8 +401,9 @@ void write_kicad_components( UL_SHEET S )
 
 	      printf( "$Comp\n" );
 	      printf( "L %s %s\n", valueStr, nameStr );
-	      //	      printf( "U %d %d %X\n", 1, 1, time() );
-	      printf( "U %d %d %X\n", instanceCount++, 1, time() );
+    //	      printf( "U %d %d %X\n", 1, 1, time() );
+    //	      printf( "U %d %d %X\n", instanceCount++, 1, time()  );
+	      printf( "U %d %d %X\n", instanceCount, 1, time()  );
 
 
 	      printf( "P %d %d\n", posX, posY );
@@ -356,7 +411,8 @@ void write_kicad_components( UL_SHEET S )
 	      I.texts(T)
 		{   
 		  // Smashed text of an instance
-		  writeInstanceText( T, count );
+		  //		  writeInstanceText( T, count );
+		  writeInstanceText( T, count, nameStr );
 		  count++;
 		}
        
@@ -365,12 +421,25 @@ void write_kicad_components( UL_SHEET S )
 	      I.gate.symbol.texts(T)
 		{
 		  // Non smashed text of an instance
-		  writeInstanceText( T, count );
+		  //		  writeInstanceText( T, count );
+		  writeInstanceText( T, count, nameStr );
 		  count++;  
 		}
-	      printf("F 2 \"%s\" V %d %d 70 %.4d %c %c\n", P.device.package.name, 
-		     posX, -posY, 0, hAlign, vAlign );
-	      printf( "\t%-4d %-4d %-4d\n", 1, posX, -posY );
+
+	      if( outPutVersion == 1 )
+		printf("F 2 \"%s\" V %d %d 70 %.4d %c %c\n", P.device.package.name, 
+		       posX, -posY, 0, hAlign, vAlign );
+	      if( outPutVersion == 2 )
+		printf("F 2 \"%s\" V %d %d 70 %.4d %c %cNN\n", P.device.package.name, 
+		       posX, -posY, 0, hAlign, vAlign );
+
+
+
+
+	      //	      printf( "\t%-4d %-4d %-4d\n", 1, posX, -posY );
+	      printf( "\t%-4d %-4d %-4d\n", instanceCount++, posX, -posY );
+
+
 	      printf( "\t%-4d %-4d %-4d %-4d\n", 1, 0, 0, -1 );
 
 	  printf( "$EndComp\n" );
@@ -387,8 +456,13 @@ void write_kicad_header( UL_SCHEMATIC SCH )
 {
   int totalSheets = 0;
    int t = time();
-   
-   printf("EELAYER %d %d\n", 23, 0 );
+
+   if(outPutVersion == 1)
+     printf("EELAYER %d %d\n", 23, 0 );
+
+   if(outPutVersion == 2)
+     printf("EELAYER %d %d\n", 24, 0 );
+
    printf("EELAYER END\n");
    
    if( g_selected >= 0 && g_selected < 16 )
@@ -396,6 +470,9 @@ void write_kicad_header( UL_SCHEMATIC SCH )
    else
       printf("$Descr User %d %d\n", g_dimX, g_dimY );
    
+   if(outPutVersion == 2)
+     printf("encoding utf-8\n");
+
    SCH.sheets(S)
    {
       ++totalSheets;
@@ -441,15 +518,32 @@ void write_kicad_schematics( string fileName )
          { 
             string libString;
             int t = time();
-            printf("EESchema Schematic File Version 1\n"); 
-            printf("LIBS:");
-            SCH.libraries(LIB)
-            {
-               string tmpString = "";
-               sprintf(tmpString, "%s,", LIB.name);
-               libString = libString + tmpString;
-            }	
-            printf("%s\n", strsub(libString, 0, strlen(libString)-1 ) );     
+
+	    if(outPutVersion == 1)
+	      {
+		printf("EESchema Schematic File Version 1\n"); 
+		printf("LIBS:");
+		SCH.libraries(LIB)
+		  {
+		    string tmpString = "";
+		    sprintf(tmpString, "%s,", LIB.name);
+		    libString = libString + tmpString;
+		  }	
+		printf("%s\n", strsub(libString, 0, strlen(libString)-1 ) );     
+	      }
+
+	    if(outPutVersion == 2)
+	      {
+		printf("EESchema Schematic File Version 2\n"); 
+
+		SCH.libraries(LIB)
+		  {
+		    printf("LIBS:");
+		    string tmpString = "";
+		    printf("%s\n", LIB.name);
+		  }	
+	      }
+
 
             SCH.sheets(SH)
             {
