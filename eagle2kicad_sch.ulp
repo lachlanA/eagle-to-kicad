@@ -7,6 +7,9 @@
        "<author>Author: juergen.messerer (at) freesurf.ch</author>"
 /*
  * CHANGELOG================================================
+ * 
+ * 03.08.2014: Bug fix, remove bank \n \r from output,  as KiCad wont dos not like bank line's in sch files
+ *             Thanks  Lachlan   lachlanusa (at) gmail.com
  *
  * 10.07.2906: Bug fix, thank to Tom Morrison 
  *             Add function write_kicad_dotted_segments()
@@ -19,7 +22,7 @@
  *          Version 2.
  * ==========================================================================*/   
  
-real VERSION   = 0.3;
+real VERSION   = 0.4;
 
 string g_comboBoxArray[] = { "A0 (1188mm x 840mm)", "A1 (840mm x 594mm)", "A2(594mm x 420mm)",
                              "A3 (420mm x 297mm)", "A4(297mm x 210mm)", 
@@ -37,7 +40,7 @@ string g_sheetSizes[]     = { "46800 33070", "33070 23400", "23400 16535", "1653
                               "11000 8500", "14000 8500", "13000 8500", "10500", "7250",
 			      "11000 8000", "16000 11000", "22000 16000", "32000 22000", "44000 32000" };
 			  
-int g_selected = 4; // initially selects "A4" 
+int g_selected = 0; // initially selects "A4" 
 
 int g_dimX = 16000;
 int g_dimY = 11000;
@@ -53,7 +56,7 @@ string g_comment2   = "";
 string g_comment3   = "";
 string g_comment4   = "";
 
-real   g_Fact  = 254;        // global uMeter to uInch conversion factor
+real   g_Fact  = 254*32;        // global uMeter to uInch conversion factor
 int    g_transY = 11000;         // Y-axis translation factor, depending on the sheet size
 
 //------------------------------------------------------
@@ -83,6 +86,7 @@ void writeInstanceText( UL_TEXT T, int count )
    int  y        = T.y / g_Fact - g_transY;
    int  angle    = T.angle;
    int  fontSize = T.size/g_Fact;
+     //   int  fontSize = T.size/(g_Fact*32);
    char hAlign   = 'L';
    char vAlign   = 'B';
    char orient   = 'H';
@@ -237,6 +241,23 @@ void write_kicad_text_notes( UL_SHEET S )
       int    posX        = T.x/g_Fact;
       int    posY        = T.y/g_Fact - g_transY;
       int    offset      = ((T.size * strlen(T.value))/2)/g_Fact;
+      int     idx        = 0;
+      //remove \n \r from eagle text string and replace with ' ' space
+      for ( idx = 0; textString[idx]; ++idx)
+      	{
+      	  if( !(isprint( textString[idx] )))
+      	    textString[idx] = ' ';
+      	}
+
+      //remove  or strip leading space's ' ' if any
+      for ( idx = 0; textString[idx]; ++idx)
+      	{
+      	  if(  textString[idx] == ' ')
+	    textString = strsub( textString, idx + 1);
+	  else
+	    break;
+      	}
+
                 
       switch( textAngle )
       {
@@ -289,64 +310,74 @@ void write_kicad_noconnect( UL_SHEET SH )
 //------------------------------------------------------
 void write_kicad_components( UL_SHEET S )
 {
-   S.parts(P)
-   {
+  S.parts(P)
+    {
       if(P.device.package)
-      {
-         string valueStr = P.device.name;
-         string nameStr  = P.name;
+	{
+	  string valueStr = P.device.name;
+	  string nameStr  = P.name;
+	  int instanceCount = 1;
 
-         if(nameStr == "")
+	  if(nameStr == "")
             nameStr= "NNN";
          
-         if( strlen(valueStr) < 1 )
+	  if( strlen(valueStr) < 1 )
             valueStr = "1uF";
  
-         // Replace all spaces with '~'
-         for (int idx = 0; valueStr[idx]; ++idx)
-         {
-            if( valueStr[idx] == ' ' || valueStr[idx] == '/')
-               valueStr[idx] = '_';
-         }
+	  // Replace all spaces with '~'
+	  for (int idx = 0; valueStr[idx]; ++idx)
+	    {
+	      if( valueStr[idx] == ' ' || valueStr[idx] == '/')
+		valueStr[idx] = '_';
+	    }
 
-         printf( "$Comp\n" );
-         printf( "L %s %s\n", valueStr, nameStr );
-         printf( "U %d %d %X\n", 1, 1, time() );
+	  //	  printf( "$Comp\n" );
+	  //	  printf( "L %s %s\n", valueStr, nameStr );
+	  //	  printf( "U %d %d %X\n", 1, 1, time() );
      
-         P.instances(I)   
-         {
-            char orient = 'H';
-            char hAlign = 'L';
-            char vAlign = 'T';
-            int posX = I.x / g_Fact;
-            int posY = I.y / g_Fact - g_transY;
-            int count = 0;
+	  P.instances(I)   
+	    {
+	      char orient = 'H';
+	      char hAlign = 'L';
+	      char vAlign = 'T';
+	      int posX = I.x / g_Fact;
+	      int posY = I.y / g_Fact - g_transY;
+	      int count = 0;
         
-            printf( "P %d %d\n", posX, posY );
+
+	      printf( "$Comp\n" );
+	      printf( "L %s %s\n", valueStr, nameStr );
+	      //	      printf( "U %d %d %X\n", 1, 1, time() );
+	      printf( "U %d %d %X\n", instanceCount++, 1, time() );
+
+
+	      printf( "P %d %d\n", posX, posY );
         
-            I.texts(T)
-            {   
-               // Smashed text of an instance
-               writeInstanceText( T, count );
-               count++;
-            }
+	      I.texts(T)
+		{   
+		  // Smashed text of an instance
+		  writeInstanceText( T, count );
+		  count++;
+		}
        
-            count = 0;
+	      count = 0;
            
-        I.gate.symbol.texts(T)
-        {
-           // Non smashed text of an instance
-           writeInstanceText( T, count );
-               count++;  
-        }
-            printf("F 2 \"%s\" V %d %d 70 %.4d %c %c\n", P.device.package.name, 
-                                                         posX, -posY, 0, hAlign, vAlign );
-            printf( "\t%-4d %-4d %-4d\n", 1, posX, -posY );
-            printf( "\t%-4d %-4d %-4d %-4d\n", 1, 0, 0, -1 );
-         }
-         printf( "$EndComp\n\n" );
-      }
-   }
+	      I.gate.symbol.texts(T)
+		{
+		  // Non smashed text of an instance
+		  writeInstanceText( T, count );
+		  count++;  
+		}
+	      printf("F 2 \"%s\" V %d %d 70 %.4d %c %c\n", P.device.package.name, 
+		     posX, -posY, 0, hAlign, vAlign );
+	      printf( "\t%-4d %-4d %-4d\n", 1, posX, -posY );
+	      printf( "\t%-4d %-4d %-4d %-4d\n", 1, 0, 0, -1 );
+
+	  printf( "$EndComp\n" );
+	    }
+	  //	  printf( "$EndComp\n" );
+	}
+    }
 }
 
 //------------------------------------------------------
@@ -354,7 +385,7 @@ void write_kicad_components( UL_SHEET S )
 //------------------------------------------------------
 void write_kicad_header( UL_SCHEMATIC SCH )
 {
-   int totalSheets = 0;
+  int totalSheets = 0;
    int t = time();
    
    printf("EELAYER %d %d\n", 23, 0 );
@@ -424,7 +455,7 @@ void write_kicad_schematics( string fileName )
             {
                write_kicad_header(SCH);   
                write_kicad_text_notes( SH );
-	       printf("\n");
+//	       printf("\n");
 	       write_kicad_components( SH );
 	       write_kicad_noconnect( SH );
                write_kicad_wire_segments( SH );
