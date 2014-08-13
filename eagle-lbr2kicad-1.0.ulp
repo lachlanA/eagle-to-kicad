@@ -116,8 +116,8 @@ int writePins = 0;
 int drawPinNumber = 1;
 int drawPinName = 1;
 int outPutAlias = 1;
-int outPutFootPrint = 1;     // Controls the Out pout foot print in F2
-int outPutFootPrints = 1;     // Controls the Outputt footprints in $FPLIST
+int outPutFootPrint = 1;     // Controls the Out put foot print in F2
+int outPutFootPrints = 1;     // Controls the Out put footprints in $FPLIST
 string footPrintList = "";
 string footPrintPreFix = "";     // Prefix for footPrint note maybe blank
 string undefinedPartPreFix = "M"; 
@@ -126,7 +126,7 @@ string aliasList = "";     // list of part alias's
 int wildCardPrefix = 1;  // 1 = pre add * wild card to $FPLIST footprint list names
 int wildPostfix  = 1; // 1 = post add * wild card to $FPLIST footprint list names
 
-int eaglePartToKiCadPartConversion = 0;
+int eaglePartToKiCadPartConversion = 1; // control's if we cobine footprints or not
 
 int devicesetsCount = 0;
 int devicesCount = 0;
@@ -1466,7 +1466,7 @@ void write_kikad_lib( string fileName )
 		countDevices++;
 	      }
 
-	    printf("\n# Device count = %d", countDevices);
+	    //	    printf("\n# Device count = %d", countDevices);
 
 	    LIB.devicesets(D)
 	      {
@@ -1476,11 +1476,11 @@ void write_kikad_lib( string fileName )
 		    devicesCount++;
 		  }
 	      }
-	    //	    printf("# devicesets = %d  devicescount =%d\n", devicesetsCount, devicesCount );
+	    printf("\n# devicesets = %d  devicescount =%d", devicesetsCount, devicesCount );
 
+	  
 
-
-// ****************  DeviceSets section *******************
+	    // ****************  DeviceSets section *******************
 	    LIB.devicesets(D)
 	      {
 		string nameDeviceSet = D.name;
@@ -1489,20 +1489,20 @@ void write_kikad_lib( string fileName )
 
 		devicesCount = 0;
 
-	    //********************************
+		//********************************
 
-		int DVnumber = 0;
-
-
-		D.devices(DEV)
+		// Find the number of deivce's and add the name's to a aray list of device names/package name lists,
+		// Orso pin list for compair
+		int DevSetPackageCount = 0;
+		D.devices(DEV) 
 		  {
 		    int padCount = 0;
 
 		    if (DEV.package)
-		      packageNameList[DVnumber] = DEV.package.name;  // Add to package list
+		      packageNameList[DevSetPackageCount] = DEV.package.name;  // Add to package list
 		    
 
-		    DEV.gates(G)
+		    DEV.gates(G)    // Make a list of pine's for the device match
 		      {
 			string temp = "";
 			G.symbol.pins(P)
@@ -1511,45 +1511,47 @@ void write_kikad_lib( string fileName )
 			      {
 				padCount++;
 				sprintf( temp ,  "%s%s%d",  P.name, pad.name, padCount );
-				pinNamePnumberList[DVnumber] +=  temp;
+				pinNamePnumberList[DevSetPackageCount] +=  temp;   // Make a list of pine's for the divice match
 			      }
 			  }
 		      }
-		    DVnumber++;
-		  }
+
+		    if (DEV.package) // Any packages for this deivice ?
+		      DevSetPackageCount++; // Inc package count then.
+
+		  } // end of D.devices(DEV) 
+
 		int ct = 0;
 		int ct1 =  0;
 		int matchCt = 0;
 		int mt = 0;
 
-		for( ct1 = 0; ((ct1 + 1) < DVnumber) && ( ( matchCt + 1 ) < DVnumber); ct1++)
+		for( ct1 = 0; ((ct1 + 1) < DevSetPackageCount) && ( ( matchCt + 1 ) < DevSetPackageCount); ct1++)
 		  {
-		    for( ct = ct1; ( ct + 1) < DVnumber; ct++ )
+		    for( ct = ct1; ( ct + 1) < DevSetPackageCount; ct++ )
 		      {
 			if( strstr( pinNamePnumberList[ ct1 ], pinNamePnumberList[ ct + 1 ]) == 0)
-			{
-			  if( mt )
-			    packageNameListMatch[ ct1 ] += " ";
+			  {
+			    if( mt )
+			      packageNameListMatch[ ct1 ] += " ";
 
-			  packageNameListMatch[ ct1 ] += packageNameList[ ct + 1 ]; // Add to matched package list
-			  matchCt++;
-			  mt++;
-			}
-			//			printf("\nmatchCt:%d DV:%d", matchCt, DVnumber);
+			    packageNameListMatch[ ct1 ] += packageNameList[ ct + 1 ]; // Add to matched package list
+			    matchCt++;
+			    mt++;
+			  }
+			//			printf("\nmatchCt:%d DV:%d", matchCt, DevSetPackageCount);
 		      }
 		    mt = 0;
 
 		  }
-
-		ct1 = DVnumber;
-		ct = 0;
-
-
+	      
+		//		ct1 = DevSetPackageCount;
+		//		ct = 0;
 
 		int currentDeviceCt = 0;
-		ct1 = DVnumber;
+		ct1 = DevSetPackageCount;
 		ct = 0;
-// ****************  Device's section *******************
+		// ****************  Device's section *******************
 		D.devices(DEV)
 		  {
 		    int countGates = 0;
@@ -1564,27 +1566,49 @@ void write_kikad_lib( string fileName )
                     if( DEV.name == "\'\'" )
 		      nameString =  str_replace( "*", "", D.name );
 		    else
-		      nameString =  str_replace( "*", "", D.name ) + DEV.name;
-
-		    //                    string nameString   = D.name + DEV.name;
-                    string prefixString = DEV.prefix;
-                    string drawPinNumberStr  = "N";
-                    string drawPinNameStr  = "N";
-
-
-                    // check for missing prefix
-                    if ( DEV.prefix == "" )
 		      {
-                        g_missingPrefix++;
+			if( eaglePartToKiCadPartConversion ) // yes so clean up the mess to alow the eagle to kicad sch to work
+			  nameString =  str_replace( "*", "", D.name ) + DEV.name;
+			else
+			  nameString =  str_replace( "*", "", D.name );
+			//		      nameString =  str_replace( "*", "", D.name ) + DEV.package.name;
+			//		      nameString =  str_replace( "*", "", D.name ) + DEV.name;
+
+
+
+			// combine common footprints ?
+			if( eaglePartToKiCadPartConversion ) // yes so clean up the mess to alow the eagle to kicad sch to work
+			  {	// Replace all spaces or '/' with '_' in part number
+			    for (int idx = 0; nameString[idx]; ++idx)
+			      {
+				if( nameString[idx] == ' ' || nameString[idx] == '/')
+				  nameString[idx] = '_';
+			      }
+			  }
+		      }
+		    //                    string nameString   = D.name + DEV.name;
+
+
+
+
+		    string prefixString = DEV.prefix;
+		    string drawPinNumberStr  = "N";
+		    string drawPinNameStr  = "N";
+
+
+		    // check for missing prefix
+		    if ( DEV.prefix == "" )
+		      {
+			g_missingPrefix++;
 			sprintf( prefixString, "%s", undefinedPartPreFix);
 		      }
 
 		    // Scan thou  pins looking for visabele not visable status
 		    int pinNameVisable = 0;
 		    int pinNumberVisable = 0;
-                    DEV.gates(G)
+		    DEV.gates(G)
 		      {
-         		G.symbol.pins(P)
+			G.symbol.pins(P)
 			  {
 
 			    if( P.visible == 0)
@@ -1646,7 +1670,7 @@ void write_kikad_lib( string fileName )
 
 			while( aliasCt )
 			  {
-    			    if( alias[count] == "''" )
+			    if( alias[count] == "''" )
 			      {
 				aliasCt--;
 				count++;
@@ -1681,7 +1705,7 @@ void write_kikad_lib( string fileName )
 		    // combine common footprints ?
 		    if( eaglePartToKiCadPartConversion  == 0 )
 		      {
-			for( ; ct1; ct1--) 			// ct1 contians DVnumber;
+			for( ; ct1; ct1--) 			// ct1 contians DevSetPackageCount;
 			  {
 			    if( ct == 0 )  // first package ?
 			      {     // allways put out the first package
@@ -1775,8 +1799,8 @@ void write_kikad_lib( string fileName )
 		    currentDeviceCt++;
 		  } // D.devices(DEV)
 
-		// clear device's info
-		ct1 = DVnumber;      
+		    // clear device's info
+		ct1 = DevSetPackageCount;      
 		for( ct = 0 ; ct1; ct1--)  // clear list
 		  {
 		    packageNameList[ct] = "";
@@ -1787,7 +1811,7 @@ void write_kikad_lib( string fileName )
 	      } // LIB.devicesets(D)
 	    printf("\n#End Library");
 	  }
-        }
+	}
     }
 }
 

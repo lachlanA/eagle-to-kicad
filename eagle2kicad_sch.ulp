@@ -66,6 +66,38 @@ int    g_transY = 11000;         // Y-axis translation factor, depending on the 
 
 // Default version of KiCad sch file
 int outPutVersion = 2;
+int outPutCombineFootPrints = 1;  // Output part Name's and foot prints which work with the combined footprint KiCad Library
+                                  //  Not this is very trick,  we have to conver the Eagle lib to KiKad lib, and output a conflict
+                                  //  list which this programe can use to do the part number tranlastion !
+
+// Genrate KiCad Matrix
+string angleToKiCadMatrix(int angle, int mirror )
+{
+
+  switch(angle)
+    {
+    case 0: // 0 deg's
+      return ((mirror ? "-1" : "1") + " 0 0 -1");
+      break;
+
+    case 90:  // 90 deg's
+      //      return ("0 -1 " + (mirror ? "1" : "-1") + " 0");
+      return ("0 " + (mirror ? "1 -1" : "-1 -1") + " 0");
+      break;
+
+      case 180: // 180 Deg's
+	return ((mirror ? "1" : "-1") + " 0 0 1");
+	//	return ("-1 0 0 " + (mirror ? "-1" : "1") );
+      break;
+
+    case 270:  // -90 Deg's or 270 Degs
+      return ("0 " + (mirror ? "-1" : "1") + " 1 0");
+      //      return ("0 1 " + (mirror ? "-1" : "1") + " 0");
+
+      break;
+    }
+}
+
 
 //------------------------------------------------------
 //write kicad schematic dotted wire notes
@@ -368,17 +400,21 @@ void write_kicad_components( UL_SHEET S )
     {
       if(P.device.package)
 	{
+
+	  //	  printf("\nP.deviceset.name:%s, P.name:%s, P.device.package.name:%s\n", P.deviceset.name, P.name, P.device.package.name );
+
+
 	  string valueStr = P.device.name;
 	  string nameStr  = P.name;
-	  int instanceCount = 1;
+	  int instanceCount = 0;
 
 	  if(nameStr == "")
             nameStr= "NNN";
          
-	  if( strlen(valueStr) < 1 )
+	  if( strlen(valueStr) < 1 ) // ????
             valueStr = "1uF";
  
-	  // Replace all spaces with '~'
+	  // Replace all spaces or '/' with '_' in part number
 	  for (int idx = 0; valueStr[idx]; ++idx)
 	    {
 	      if( valueStr[idx] == ' ' || valueStr[idx] == '/')
@@ -397,13 +433,32 @@ void write_kicad_components( UL_SHEET S )
 	      int posX = I.x / g_Fact;
 	      int posY = I.y / g_Fact - g_transY;
 	      int count = 0;
-        
+	      int partAngle = I.angle;
+	      int partMirror = I.mirror;
+	      string gateNameSplit[];
+	      int getNameSplitCount = 0;
 
 	      printf( "$Comp\n" );
 	      printf( "L %s %s\n", valueStr, nameStr );
     //	      printf( "U %d %d %X\n", 1, 1, time() );
     //	      printf( "U %d %d %X\n", instanceCount++, 1, time()  );
 	      printf( "U %d %d %X\n", instanceCount, 1, time()  );
+
+
+	      //	      printf( "\n## I.name:%s  I.gate.name:%s  I.gate.symbol.name:%s  X:%d  Y:%d\n", I.name, I.gate.name, I.gate.symbol.name,  I.x, I.y );
+
+	      // split the gate name to get number form the gate name IE: G$1...
+	      if( (getNameSplitCount = strsplit( gateNameSplit, I.gate.name, '$')) < 2 )
+		{
+		  instanceCount = 1;
+		}
+	      else
+		{
+		  instanceCount = strtol( gateNameSplit[1] );
+		  if( instanceCount == 0 )
+		    instanceCount = 1;  // error of some kind ?
+		}
+
 
 
 	      printf( "P %d %d\n", posX, posY );
@@ -437,10 +492,14 @@ void write_kicad_components( UL_SHEET S )
 
 
 	      //	      printf( "\t%-4d %-4d %-4d\n", 1, posX, -posY );
-	      printf( "\t%-4d %-4d %-4d\n", instanceCount++, posX, -posY );
+	      printf( "\t%-4d %-4d %-4d\n", instanceCount, posX, -posY );
 
 
-	      printf( "\t%-4d %-4d %-4d %-4d\n", 1, 0, 0, -1 );
+	      
+	      //              printf( "\n#t\tAngle:%d,    Mirror:%d\n", partAngle, partMirror );	      
+
+	      printf( "\t%s\n", angleToKiCadMatrix(partAngle, partMirror ));
+		//	      printf( "\t%-4d %-4d %-4d %-4d\n", 1, 0, 0, -1 );
 
 	  printf( "$EndComp\n" );
 	    }
