@@ -7,8 +7,11 @@
        "<author>Author: juergen.messerer (at) freesurf.ch</author>"
 /*
  * CHANGELOG================================================
- * 
- * 03.08.2014: Bug fix, size conversion bug.
+ *
+ * 13.08.2014: Add more suport for muliti parts
+ *             Thanks  Lachlan   lachlanusa (at) gmail.com
+ *
+ * 08.08.2014: Bug fix, size conversion bug.
  *             Thanks  Lachlan   lachlanusa (at) gmail.com
  *
  * 03.08.2014: Bug fix, remove bank \n \r from output,  as KiCad wont dos not like bank line's in sch files
@@ -60,6 +63,8 @@ string g_comment1   = "";
 string g_comment2   = "";
 string g_comment3   = "";
 string g_comment4   = "";
+
+string libsUsed;
 
 real   g_Fact  = 254*32;        // global uMeter to uInch conversion factor
 int    g_transY = 11000;         // Y-axis translation factor, depending on the sheet size
@@ -398,7 +403,7 @@ void write_kicad_components( UL_SHEET S )
 {
   S.parts(P)
     {
-      if(P.device.package)
+      if(P.device.package)  // Do we have a package ?
 	{
 
 	  //	  printf("\nP.deviceset.name:%s, P.name:%s, P.device.package.name:%s\n", P.deviceset.name, P.name, P.device.package.name );
@@ -438,14 +443,113 @@ void write_kicad_components( UL_SHEET S )
 	      string gateNameSplit[];
 	      int getNameSplitCount = 0;
 
+	      // split the gate name to get number form the gate name IE: G$1...
+	      if( (getNameSplitCount = strsplit( gateNameSplit, I.gate.name, '$')) < 2 )
+		{
+		  instanceCount = 1;
+		}
+	      else
+		{
+		  instanceCount = strtol( gateNameSplit[1] );
+		  if( instanceCount == 0 )
+		    instanceCount = 1;  // error of some kind ?
+		}
+
 	      printf( "$Comp\n" );
 	      printf( "L %s %s\n", valueStr, nameStr );
-    //	      printf( "U %d %d %X\n", 1, 1, time() );
-    //	      printf( "U %d %d %X\n", instanceCount++, 1, time()  );
+	      //	      printf( "U %d %d %X\n", 1, 1, time() );
+	      //	      printf( "U %d %d %X\n", instanceCount++, 1, time()  );
 	      printf( "U %d %d %X\n", instanceCount, 1, time()  );
 
 
 	      //	      printf( "\n## I.name:%s  I.gate.name:%s  I.gate.symbol.name:%s  X:%d  Y:%d\n", I.name, I.gate.name, I.gate.symbol.name,  I.x, I.y );
+
+
+
+
+	      printf( "P %d %d\n", posX, posY );
+        
+	      /*
+	      I.texts(T)
+		{   
+		  writeInstanceText( T, count, nameStr );
+		  count++;
+		}
+	      */
+
+	      //	      count = 0;
+	      I.gate.symbol.texts(T)
+		{
+		  writeInstanceText( T, count, nameStr );
+		  count++;  
+		}
+
+
+	      /*
+	      if( outPutVersion == 1 )
+		printf("F 2 \"%s\" V %d %d 70 %.4d %c %c\n", P.device.package.name, 
+		       posX, -posY, 0, hAlign, vAlign );
+	      if( outPutVersion == 2 )
+		printf("F 2 \"%s\" V %d %d 70 %.4d %c %cNN\n", P.device.package.name, 
+		       posX, -posY, 0, hAlign, vAlign );
+
+	      */
+
+
+	      //	      printf( "\t%-4d %-4d %-4d\n", 1, posX, -posY );
+	      printf( "\t%-4d %-4d %-4d\n", instanceCount, posX, -posY );
+
+
+	      
+	      //              printf( "\n#t\tAngle:%d,    Mirror:%d\n", partAngle, partMirror );	      
+
+	      printf( "\t%s\n", angleToKiCadMatrix(partAngle, partMirror ));
+	      //	      printf( "\t%-4d %-4d %-4d %-4d\n", 1, 0, 0, -1 );
+
+	      printf( "$EndComp\n" );
+	    }
+	  //	  printf( "$EndComp\n" );
+	}
+      else 
+	{  //*****  Ok no package but it may be a power/ground.. ?
+
+	  //	  printf("\nP.deviceset.name:%s, P.name:%s, P.device.package.name:%s\n", P.deviceset.name, P.name, P.device.package.name );
+
+
+	  string valueStr = P.device.name;
+	  string nameStr  = P.name;
+	  int instanceCount = 10;
+
+	  if(nameStr == "")
+            nameStr= "NNN";
+         
+	  if( strlen(valueStr) < 1 ) // ????
+            valueStr = "1uF";
+ 
+	  // Replace all spaces or '/' with '_' in part number
+	  for (int idx = 0; valueStr[idx]; ++idx)
+	    {
+	      if( valueStr[idx] == ' ' || valueStr[idx] == '/')
+		valueStr[idx] = '_';
+	    }
+
+	  //	  printf( "$Comp\n" );
+	  //	  printf( "L %s %s\n", valueStr, nameStr );
+	  //	  printf( "U %d %d %X\n", 1, 1, time() );
+     
+	  P.instances(I)   
+	    {
+	      char orient = 'H';
+	      char hAlign = 'L';
+	      char vAlign = 'T';
+	      int posX = I.x / g_Fact;
+	      int posY = I.y / g_Fact - g_transY;
+	      int count = 0;
+	      int partAngle = I.angle;
+	      int partMirror = I.mirror;
+	      string gateNameSplit[];
+	      int getNameSplitCount = 0;
+
 
 	      // split the gate name to get number form the gate name IE: G$1...
 	      if( (getNameSplitCount = strsplit( gateNameSplit, I.gate.name, '$')) < 2 )
@@ -461,33 +565,42 @@ void write_kicad_components( UL_SHEET S )
 
 
 
+	      printf( "$Comp\n" );
+	      printf( "L %s %s\n", valueStr, nameStr );
+	      //	      printf( "U %d %d %X\n", 1, 1, time() );
+	      //	      printf( "U %d %d %X\n", instanceCount++, 1, time()  );
+	      printf( "U %d %d %X\n", instanceCount, 1, time()  );
+
+
+	      //	      printf( "\n## I.name:%s  I.gate.name:%s  I.gate.symbol.name:%s  X:%d  Y:%d\n", I.name, I.gate.name, I.gate.symbol.name,  I.x, I.y );
+
+
+
+
 	      printf( "P %d %d\n", posX, posY );
         
 	      I.texts(T)
 		{   
-		  // Smashed text of an instance
-		  //		  writeInstanceText( T, count );
 		  writeInstanceText( T, count, nameStr );
 		  count++;
 		}
-       
-	      count = 0;
-           
-	      I.gate.symbol.texts(T)
+	      //	      count = 0;
+	      /*	      I.gate.symbol.texts(T)
 		{
-		  // Non smashed text of an instance
-		  //		  writeInstanceText( T, count );
 		  writeInstanceText( T, count, nameStr );
 		  count++;  
 		}
+	      */
 
+
+	      /*
 	      if( outPutVersion == 1 )
-		printf("F 2 \"%s\" V %d %d 70 %.4d %c %c\n", P.device.package.name, 
+		printf("F 2 \"%s\" V %d %d 70 %.4d %c %c\n", P.device.name, 
 		       posX, -posY, 0, hAlign, vAlign );
 	      if( outPutVersion == 2 )
-		printf("F 2 \"%s\" V %d %d 70 %.4d %c %cNN\n", P.device.package.name, 
+		printf("F 2 \"%s\" V %d %d 70 %.4d %c %cNN\n", P.device.name, 
 		       posX, -posY, 0, hAlign, vAlign );
-
+	      */
 
 
 
@@ -499,13 +612,15 @@ void write_kicad_components( UL_SHEET S )
 	      //              printf( "\n#t\tAngle:%d,    Mirror:%d\n", partAngle, partMirror );	      
 
 	      printf( "\t%s\n", angleToKiCadMatrix(partAngle, partMirror ));
-		//	      printf( "\t%-4d %-4d %-4d %-4d\n", 1, 0, 0, -1 );
+	      //	      printf( "\t%-4d %-4d %-4d %-4d\n", 1, 0, 0, -1 );
 
-	  printf( "$EndComp\n" );
+	      printf( "$EndComp\n" );
 	    }
 	  //	  printf( "$EndComp\n" );
+
+
 	}
-    }
+    } // Parts
 }
 
 //------------------------------------------------------
@@ -586,6 +701,7 @@ void write_kicad_schematics( string fileName )
 		  {
 		    string tmpString = "";
 		    sprintf(tmpString, "%s,", LIB.name);
+		    libsUsed += LIB.name + "\n";
 		    libString = libString + tmpString;
 		  }	
 		printf("%s\n", strsub(libString, 0, strlen(libString)-1 ) );     
@@ -600,6 +716,7 @@ void write_kicad_schematics( string fileName )
 		    printf("LIBS:");
 		    string tmpString = "";
 		    printf("%s\n", LIB.name);
+		    libsUsed += LIB.name + "\n";
 		  }	
 	      }
 
@@ -809,6 +926,7 @@ result = dlgDialog(titleStr)
   if(result)
   {
     write_kicad_schematics(sch_name);
+    dlgMessageBox("CONVERSION  COMPLETE\n" + "Libs list used\n\n" + libsUsed ); 
   }
   else 
     dlgMessageBox("Canceled!" ); 

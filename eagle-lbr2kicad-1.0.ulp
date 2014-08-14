@@ -1044,6 +1044,12 @@ void write_kikad_text( UL_GATE G, int transX, int transY, int gatePos )
     char hAlign       = 'C';
     char vAlign       = 'C';
 
+    //    printf("got to write text\n");
+
+
+
+
+
     G.symbol.texts(T)
     {
         int    textAngle   = T.angle;
@@ -1052,6 +1058,9 @@ void write_kikad_text( UL_GATE G, int transX, int transY, int gatePos )
         int    posX        = (T.x / g_Fact) - transX;
         int    posY        = (T.y / g_Fact) - transY;
         int offset = ((T.size * strlen(T.value)) / 2) / g_Fact;
+
+	//    printf("writeing text\n");
+
 
 	// Check for valid charters and replace with '~' if not
 	// Note that includes ' '  will be replaced with '~'
@@ -1097,10 +1106,10 @@ void write_kikad_text( UL_GATE G, int transX, int transY, int gatePos )
 
         }
 
-        if (strupr(T.value) == ">NAME" || strupr(T.value) == ">VALUE" )
-	   return;
-        else
-           printf("T %d %d %d %.0f %d %d %d %s\n", orient, posX, posY,
+	if ((strupr(T.value) == ">NAME") || (strupr(T.value) == ">VALUE" ))
+	  continue;
+	else
+	  printf("T %d %d %d %.0f %d %d %d %s  Normal 0 C C\n", orient, posX, posY,
                    fontSize, 0, gatePos, 0, textString );
     }
 }
@@ -1400,14 +1409,14 @@ void write_kikad_def_alias( UL_DEVICE DEV, UL_GATE G, string symbolName, int cou
      switch( outPutFootPrint )
        {
        case 0: // Dont prefix lib name to footprint name
-	 printf("F2 \"%s\" 0 150 50 H I C C\n", escape_quotes(DEV.package.name));
+	 printf("F2 \"%s\" 30 150 20 H I C C\n", escape_quotes(DEV.package.name));
 	 break;
        case 1: // Prexfix lib name to footprint name
-	 printf("F2 \"%s-%s\" 0 150 50 H I C C\n", footPrintPreFix, escape_quotes(DEV.package.name));
+	 printf("F2 \"%s-%s\" 30 150 20 H I C C\n", footPrintPreFix, escape_quotes(DEV.package.name));
 	 //	 printf("F2 \"%s-%s\" 0 150 50 H I C C\n", DEV.library, DEV.package.name);
 	 break;
        case 2: // Prexfix name to footprint name
-	 printf("F2 \"%s-%s\" 0 150 50 H I C C\n", footPrintPreFix, escape_quotes(DEV.package.name));
+	 printf("F2 \"%s-%s\" 30 150 20 H I C C\n", footPrintPreFix, escape_quotes(DEV.package.name));
 	 break;
        }
 
