@@ -349,6 +349,41 @@ int pad_lut[] =
     0               //LAYER_VALUES
 };
 
+//
+//replace new line charter with string '\n' as kicad can handel that, but not new line chareter
+//
+string stripLfCrToEscCRLF( string textString )
+{
+  string newString;
+  int idx = 0;
+  int idx2 = 0;
+
+      for ( idx = 0; textString[idx];)
+      	{
+	  if( ( isspace( textString[idx] )) || ( isprint( textString[idx] )))
+	    {
+	      if(( textString[idx] == '\n') || ( textString[idx] == '\r' ) )
+		{
+		  newString =  newString + "\\n"; 
+		  idx++;
+		  idx2 = idx2 + 2;
+		}
+	      else
+		{
+		  newString[idx2] = textString[idx];
+		  idx++;
+		  idx2++;
+		}
+	    }
+	  else
+	    {  // Ok bad chart so replace with ~
+	      newString[idx2] = '~';
+	      idx++;
+	      idx2++;
+	    }
+      	}
+      return newString;
+ }
 
 //------------------------------------------------------
 // utils
@@ -1046,10 +1081,6 @@ void write_kikad_text( UL_GATE G, int transX, int transY, int gatePos )
 
     //    printf("got to write text\n");
 
-
-
-
-
     G.symbol.texts(T)
     {
         int    textAngle   = T.angle;
@@ -1064,11 +1095,14 @@ void write_kikad_text( UL_GATE G, int transX, int transY, int gatePos )
 
 	// Check for valid charters and replace with '~' if not
 	// Note that includes ' '  will be replaced with '~'
-	for (int idx = 0; textString[idx]; ++idx)
-	{
-	    if( !(isprint( textString[idx])) ||  textString[idx] == ' ' )
-                textString[idx] = '~';
-	}
+	//	for (int idx = 0; textString[idx]; ++idx)
+	//	{
+	//	    if( !(isprint( textString[idx])) ||  textString[idx] == ' ' )
+	//                textString[idx] = '~';
+	//	}
+
+      textString =  stripLfCrToEscCRLF( textString );
+
 
         switch ( textAngle )
         {
@@ -1109,7 +1143,7 @@ void write_kikad_text( UL_GATE G, int transX, int transY, int gatePos )
 	if ((strupr(T.value) == ">NAME") || (strupr(T.value) == ">VALUE" ))
 	  continue;
 	else
-	  printf("T %d %d %d %.0f %d %d %d %s  Normal 0 C C\n", orient, posX, posY,
+	  printf("T %d %d %d %.0f %d %d %d \"%s\"  Normal 0 C C\n", orient, posX, posY,
                    fontSize, 0, gatePos, 0, textString );
     }
 }
@@ -1386,37 +1420,37 @@ void write_kikad_def_alias( UL_DEVICE DEV, UL_GATE G, string symbolName, int cou
     if ( DEV.prefix == "" ) // No prefix ?
     { 
          if ( hasName  )  // dos it have a >Name  so use the genrated prifix
-	    printf("F0 \"%s\" %d %d %d %c %c %c %c\n", prefixString, prefix_X, prefix_Y, 50, orient, 'V', hAlign, vAlign);
+	    printf("F0 \"%s\" %d %d %d %c %c %c %cNN\n", prefixString, prefix_X, prefix_Y, 50, orient, 'V', hAlign, vAlign);
 	 else       
-	    printf("F0 \"%s\" %d %d %d %c %c %c %c\n", prefixString, prefix_X, prefix_Y, 50, orient, 'I', hAlign, vAlign);
+	    printf("F0 \"%s\" %d %d %d %c %c %c %cNN\n", prefixString, prefix_X, prefix_Y, 50, orient, 'I', hAlign, vAlign);
     }
     else  // good we have prifix so use that
     {
          if ( hasName  )  // dos it have a >Name prifix 
-	    printf("F0 \"%s\" %d %d %d %c %c %c %c\n", DEV.prefix, prefix_X, prefix_Y, 50, orient, 'V', hAlign, vAlign);
+	    printf("F0 \"%s\" %d %d %d %c %c %c %cNN\n", DEV.prefix, prefix_X, prefix_Y, 50, orient, 'V', hAlign, vAlign);
 	 else       
-	    printf("F0 \"%s\" %d %d %d %c %c %c %c\n", DEV.prefix, prefix_X, prefix_Y, 50, orient, 'I', hAlign, vAlign);
+	    printf("F0 \"%s\" %d %d %d %c %c %c %cNN\n", DEV.prefix, prefix_X, prefix_Y, 50, orient, 'I', hAlign, vAlign);
     }
 
 
     if ( hasValue )  
-         printf("F1 \"%s\" %d %d %d %c %c %c %c\n", escape_quotes(symbolName), name_X, name_Y, 50, orient, 'V', hAlign, vAlign);  // Display then 
+         printf("F1 \"%s\" %d %d %d %c %c %c %cNN\n", escape_quotes(symbolName), name_X, name_Y, 50, orient, 'V', hAlign, vAlign);  // Display then 
     else
-         printf("F1 \"%s\" %d %d %d %c %c %c %c\n", escape_quotes(symbolName), name_X, name_Y, 50, orient, 'I', hAlign, vAlign);  // Else no display
+         printf("F1 \"%s\" %d %d %d %c %c %c %cNN\n", escape_quotes(symbolName), name_X, name_Y, 50, orient, 'I', hAlign, vAlign);  // Else no display
 
 
    if ( DEV.package )
      switch( outPutFootPrint )
        {
        case 0: // Dont prefix lib name to footprint name
-	 printf("F2 \"%s\" 30 150 20 H I C C\n", escape_quotes(DEV.package.name));
+	 printf("F2 \"%s\" 30 150 20 H I C CNN\n", escape_quotes(DEV.package.name));
 	 break;
        case 1: // Prexfix lib name to footprint name
-	 printf("F2 \"%s-%s\" 30 150 20 H I C C\n", footPrintPreFix, escape_quotes(DEV.package.name));
+	 printf("F2 \"%s-%s\" 30 150 20 H I C CNN\n", footPrintPreFix, escape_quotes(DEV.package.name));
 	 //	 printf("F2 \"%s-%s\" 0 150 50 H I C C\n", DEV.library, DEV.package.name);
 	 break;
        case 2: // Prexfix name to footprint name
-	 printf("F2 \"%s-%s\" 30 150 20 H I C C\n", footPrintPreFix, escape_quotes(DEV.package.name));
+	 printf("F2 \"%s-%s\" 30 150 20 H I C CNN\n", footPrintPreFix, escape_quotes(DEV.package.name));
 	 break;
        }
 

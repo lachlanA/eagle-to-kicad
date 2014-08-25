@@ -1,4 +1,4 @@
-#usage "<b>Eagle schematic exporting tool  version 0.31 </b>\n"
+#usage "<b>Eagle schematic exporting tool  version 1.0 </b>\n"
        "<p>"
        "This ULP can convert an Eagle CAD schematic into KiCAD schematic."
        "<p>"
@@ -28,7 +28,7 @@
  *          Version 2.
  * ==========================================================================*/   
  
-real VERSION   = 0.4;
+real VERSION   = 1.0;
 
 
 
@@ -48,7 +48,7 @@ string g_sheetSizes[]     = { "46800 33070", "33070 23400", "23400 16535", "1653
                               "11000 8500", "14000 8500", "13000 8500", "10500", "7250",
 			      "11000 8000", "16000 11000", "22000 16000", "32000 22000", "44000 32000" };
 			  
-int g_selected = 0; // initially selects "A4" 
+int g_selected = 4; // initially selects "A0" 
 
 int g_dimX = 16000;
 int g_dimY = 11000;
@@ -75,7 +75,46 @@ int outPutCombineFootPrints = 1;  // Output part Name's and foot prints which wo
                                   //  Not this is very trick,  we have to conver the Eagle lib to KiKad lib, and output a conflict
                                   //  list which this programe can use to do the part number tranlastion !
 
-// Genrate KiCad Matrix
+
+//
+//replace new line charter with string '\n' as kicad can handel that, but not new line chareter
+//
+string stripLfCrToEscCRLF( string textString )
+{
+  string newString;
+  int idx = 0;
+  int idx2 = 0;
+
+
+      for ( idx = 0; textString[idx];)
+      	{
+	  if( ( isspace( textString[idx] )) || ( isprint( textString[idx] )))
+	    {
+	      if(( textString[idx] == '\n') || ( textString[idx] == '\r' ) )
+		{
+		  newString =  newString + "\\n"; 
+		  idx++;
+		  idx2 = idx2 + 2;
+		}
+	      else
+		{
+		  newString[idx2] = textString[idx];
+		  idx++;
+		  idx2++;
+		}
+	    }
+	  else
+	    {  // Ok bad chart so replace with ~
+	      newString[idx2] = '~';
+	      idx++;
+	      idx2++;
+	    }
+      	}
+      return newString;
+ }
+//
+// ***** Genrate KiCad Matrix
+//
 string angleToKiCadMatrix(int angle, int mirror )
 {
 
@@ -124,39 +163,82 @@ void write_kicad_dotted_segments( UL_SHEET SH )
 //------------------------------------------------------
 //write text of an instance smashed or not smashed
 //------------------------------------------------------
-void writeInstanceText( UL_TEXT T, int count, string partPreFix )
+string writeInstanceText( UL_TEXT T, string partPreFix, string partName, int visable, int symYPostionRaw, int enyCorrection, int partAngle, int partMirror  )
 {
    // Smashed text of an instance
    int  x        = T.x / g_Fact;
    int  y        = T.y / g_Fact - g_transY;
+   //   int  y        symYPostionRaw - ( T.y / g_Fact - g_transY);
    int  angle    = T.angle;
    int  fontSize = T.size/g_Fact;
      //   int  fontSize = T.size/(g_Fact*32);
    char hAlign   = 'L';
    char vAlign   = 'B';
    char orient   = 'H';
+   string result;
 
-   switch(angle)
-   {
-      case 0:
-         orient = 'H';
-         hAlign = 'L';
-         vAlign = 'B';
-      break;
 
-      case 90:
+   //   printf("\n# Text.angle=%d,  Text.mirror=%d,  PartAngle=%d, PartMirror=%d, T.x=%d, T.y=%d\n", angle, T.mirror, partAngle, partMirror, T.x, T.y );
+
+   //   if(( partAngle - angle ) < 0 )
+   //     printf("\n# Text.angle=%d,  Text.mirror=%d,  PartAngle=%d, PartMirror=%d\n", angle, T.mirror, partAngle, partMirror );
+
+   
+
+   // add correction to Y  for..   
+   //   if( enyCorrection )
+   if( 1 )
+     {
+       if(  symYPostionRaw < T.y )
+	   y = ( symYPostionRaw - abs( symYPostionRaw - T.y )) / g_Fact - g_transY ;  // If postive offset, nigtive !
+       if ( symYPostionRaw > T.y )
+	 y = ( symYPostionRaw + (symYPostionRaw - T.y )) / g_Fact - g_transY;  // if negtive offset 
+     }
+   
+
+   switch( partAngle - angle )
+     {
+     case 0:  // funny biz..    even thou text  may show no rowtation,    if the part is rotated we still have to change the postion of the text !!!
+       if( partMirror - T.mirror)
+	 { // Mirror
+	   orient = 'H';
+	   hAlign = 'R';
+	   vAlign = 'B';
+	 }
+       else
+	 {  // No Mirror
+	   orient = 'H';
+	   hAlign = 'L';
+	   vAlign = 'B';
+	 }
+       break;
+
+     case 90:
+     case -90:
+       //       printf("\n# Text.angle=%d,\n", partAngle - angle );
          orient = 'V';
          hAlign = 'L';
          vAlign = 'B';
       break;
 
       case 180:
-         orient = 'H';
-         hAlign = 'R';
-         vAlign = 'T';
+      case -180:
+	if( partMirror - T.mirror )
+	  {
+	    orient = 'H';
+	    hAlign = 'L';
+	    vAlign = 'B';
+	  }
+	else
+	  {
+	    orient = 'H';
+	    hAlign = 'R';
+	    vAlign = 'T';
+	  }
       break;
 
       case 270:
+      case -270:
          orient = 'V';
          hAlign = 'R';
          vAlign = 'T';
@@ -164,18 +246,11 @@ void writeInstanceText( UL_TEXT T, int count, string partPreFix )
    }
 
    if( outPutVersion == 1 )
-     //     printf( "F %d \"%s\" %c %d %d %d %.4d %c %c\n", count, T.value, orient, x, -y, fontSize, 0, hAlign, vAlign );
-     if(count == 0 )
-       printf( "F %d \"%s\" %c %d %d %d %.4d %c %c\n", count, partPreFix, orient, x, -y, fontSize, 0, hAlign, vAlign );
-     else
-       printf( "F %d \"%s\" %c %d %d %d %.4d %c %c\n", count, T.value, orient, x, -y, fontSize, 0, hAlign, vAlign );
-
+     sprintf( result, "\"%s\" %c %d %d %d %.4d %c %c\n", stripLfCrToEscCRLF( T.value ), orient, x, -y, fontSize, visable, hAlign, vAlign );
    if( outPutVersion == 2 )
-     //     printf( "F %d \"%s\" %c %d %d %d %.4d %c %cNN\n", count, T.value, orient, x, -y, fontSize, 0, hAlign, vAlign );
-     if(count == 0 )
-       printf( "F %d \"%s\" %c %d %d %d %.4d %c %cNN\n", count, partPreFix, orient, x, -y, fontSize, 0, hAlign, vAlign );
-     else
-       printf( "F %d \"%s\" %c %d %d %d %.4d %c %cNN\n", count, T.value, orient, x, -y, fontSize, 0, hAlign, vAlign );
+     sprintf( result, "\"%s\" %c %d %d %d %.4d %c %cNN\n", stripLfCrToEscCRLF( T.value ), orient, x, -y, fontSize, visable, hAlign, vAlign );
+
+   return result;
 }
 
 //------------------------------------------------------
@@ -307,47 +382,16 @@ void write_kicad_text_notes( UL_SHEET S )
       int    idx2        = 0;
       string newString = "";
 
-      //remove \n \r from eagle text string and replace with ' ' space
-      //      for ( idx = 0; textString[idx]; ++idx)
-      //      	{
-      //      	  if( !(isprint( textString[idx] )))
-      //      	    textString[idx] = ' ';
-      //      	}
-
       //replace new line charter with string '\n' as kicad can handel that, but not new line chareter
+      newString =  stripLfCrToEscCRLF( textString );
 
-      for ( idx = 0; textString[idx];)
-      	{
-      	  if(( textString[idx] == '\n') || ( textString[idx] == '\r' ) )
-	    {
-	      newString =  newString + "\\n"; 
-	      idx++;
-	      idx2 = idx2 + 2;
-	    }
-	  else
-	    {
-	      newString[idx2] = textString[idx];
-	      idx++;
-	      idx2++;
-	    }
-      	}
-
-
-
-      //remove  or strip leading space's ' ' if any
-      //      for ( idx = 0; textString[idx]; ++idx)
-      //      	{
-      //      	  if(  textString[idx] == ' ')
-      //	    textString = strsub( textString, idx + 1);
-      //	  else
-      //	    break;
-      //      	}
-
-                
       switch( textAngle )
       {
       case 0:
-         orient = 0;
+	if(T.mirror)
+	  orient = 2;
+	else
+	  orient = 0;
       break;
  
       case 90:
@@ -355,11 +399,11 @@ void write_kicad_text_notes( UL_SHEET S )
       break;
 
       case 180:
-         orient = 0;
+         orient = 2;
       break;
 
       case 270:
-         orient = 1;
+         orient = 3;
       break;
       }
 
@@ -367,7 +411,6 @@ void write_kicad_text_notes( UL_SHEET S )
 	printf("Text Notes %d %d %d %d ~\n", posX, -posY, orient, fontSize);
       if( outPutVersion == 2 )
 	printf("Text Notes %d %d %d %d ~ %s %d\n", posX, -posY, orient, fontSize, "", 0 );
-
 
       printf("%s\n", newString);
    } 
@@ -412,6 +455,7 @@ void write_kicad_components( UL_SHEET S )
 	  string valueStr = P.device.name;
 	  string nameStr  = P.name;
 	  int instanceCount = 0;
+	  int numberOfSubParts = 0;
 
 	  if(nameStr == "")
             nameStr= "NNN";
@@ -427,9 +471,15 @@ void write_kicad_components( UL_SHEET S )
 	    }
 
 	  //	  printf( "$Comp\n" );
-	  //	  printf( "L %s %s\n", valueStr, nameStr );
+	  //	  	  printf( "##L %s %s\n", valueStr, nameStr );
 	  //	  printf( "U %d %d %X\n", 1, 1, time() );
      
+	  P.instances(I)
+	    {
+	      numberOfSubParts++;
+	    }
+
+
 	  P.instances(I)   
 	    {
 	      char orient = 'H';
@@ -437,11 +487,21 @@ void write_kicad_components( UL_SHEET S )
 	      char vAlign = 'T';
 	      int posX = I.x / g_Fact;
 	      int posY = I.y / g_Fact - g_transY;
+	      int posYraw = I.y;
 	      int count = 0;
 	      int partAngle = I.angle;
 	      int partMirror = I.mirror;
 	      string gateNameSplit[];
 	      int getNameSplitCount = 0;
+	      string strF0F1F2[];
+	      int strF0F1F2foundFlag[] = {0,0,0};
+	      string strItext[];
+	      string strItextOutPut[];
+	      int strItextFoundflag[];
+	      string IgateSymText[];
+	      string IgateSymTextOutPut[];
+	      int IgateSymTextFoundFlag[];
+
 
 	      // split the gate name to get number form the gate name IE: G$1...
 	      if( (getNameSplitCount = strsplit( gateNameSplit, I.gate.name, '$')) < 2 )
@@ -462,50 +522,166 @@ void write_kicad_components( UL_SHEET S )
 	      printf( "U %d %d %X\n", instanceCount, 1, time()  );
 
 
-	      //	      printf( "\n## I.name:%s  I.gate.name:%s  I.gate.symbol.name:%s  X:%d  Y:%d\n", I.name, I.gate.name, I.gate.symbol.name,  I.x, I.y );
+	      //	      	      printf( "\n## I.name:%s  I.gate.name:%s  I.gate.symbol.name:%s   I.value:%s  X:%d  Y:%d\n", I.name, I.gate.name, I.gate.symbol.name, I.value,  I.x, I.y );
 
 
 
-
-	      printf( "P %d %d\n", posX, posY );
+	      printf( "P %d %d\n", posX, -posY );
         
-	      /*
-	      I.texts(T)
-		{   
-		  writeInstanceText( T, count, nameStr );
-		  count++;
-		}
-	      */
+	      count = 0;
 
-	      //	      count = 0;
+	      int ItextCount = 0;
+	      int IgateSymolTextCount = 0;
+
+	      strF0F1F2[ 0 ] = nameStr;
+	      strF0F1F2[ 1 ] = I.value;
+ 	      strF0F1F2[ 2 ] = P.device.package.name;
+
+	      // Smash text section, note only the >NAME and >VALUE can be smashed !
+	      // if >NAME and >VALUE are not smashed, they wont apear here.
+	      // But in  I.gate.symbol.texts(T) section, also note depending on if the 
+	      // >NAME and/or >VALUE have been changed deleted/added back in the eagle lib,  then sch is update from
+	      // that eagle lib's, the >NAME and/or >VALUE they may apear in any order in I.gate.symbol.texts(T)
+	      // text section's !! how brain dead is that.. !!
+	      I.texts(T)
+		{
+		  strItext[ ItextCount ] = T.value;
+		  strItextOutPut[ ItextCount ] = writeInstanceText(  T, nameStr, valueStr, 0, posYraw, numberOfSubParts-1, partAngle, partMirror );
+		  strItextFoundflag[ ItextCount ] = 0;
+		  strF0F1F2foundFlag[ ItextCount ] = 0;
+		  ItextCount++;
+		}
+	      // None smash section
 	      I.gate.symbol.texts(T)
 		{
-		  writeInstanceText( T, count, nameStr );
-		  count++;  
+		  IgateSymText[ IgateSymolTextCount ] = T.value;
+		  IgateSymTextOutPut[ IgateSymolTextCount ] = writeInstanceText( T, nameStr, valueStr, 0, posYraw, numberOfSubParts-1, partAngle, partMirror );
+		  IgateSymTextFoundFlag[ IgateSymolTextCount ] = 0;
+		  strF0F1F2foundFlag[ IgateSymolTextCount ] = 0;
+		  IgateSymolTextCount++;  
 		}
 
-
 	      /*
-	      if( outPutVersion == 1 )
-		printf("F 2 \"%s\" V %d %d 70 %.4d %c %c\n", P.device.package.name, 
-		       posX, -posY, 0, hAlign, vAlign );
-	      if( outPutVersion == 2 )
-		printf("F 2 \"%s\" V %d %d 70 %.4d %c %cNN\n", P.device.package.name, 
-		       posX, -posY, 0, hAlign, vAlign );
-
+	      for( count = 0; count < ItextCount; count++ )
+		{
+		  printf("\n#count:%d\tstrItext: %s", count, strItext[ count ] );
+		  printf("\n#count:%d\tstrItextOut: %s", count, strItextOutPut[ count ] );
+		}
+	      printf("\n");
+	      for( count = 0; count < IgateSymolTextCount; count++ )
+		{
+		  printf("\n#count:%d\tIgateSymolText: %s", count,  IgateSymText[ count ] );
+		  printf("\n#count:%d\tIgateSymolTextOut: %s", count, IgateSymTextOutPut[  count ] );
+		}
+	      printf("\n");
 	      */
+
+	      count =  0;
+
+	      int ct = 0;
+	      int found = 0;
+	      //Out Put F0...
+	      //	      for( count = 0; count < 3; count++ )
+	      //		{
+
+		  for( ct = 0; ct < 3; ct++)  // find header 
+		    {
+		      for( int ct1 = 0; ct1 < ItextCount; ct1++ )
+			{
+			  if( ( strstr( strItext[ ct1 ], strF0F1F2[ ct ], 0) == 0) && ( ct == 0) || ( strF0F1F2[ ct ] == strItext[ ct1 ] ))
+			    //			  if( strF0F1F2[ ct ] == strItext[ ct1 ] )  // found  so output it
+			    {
+			      //			      printf("\nfound!!!  ct=%d ct1=%d  %s   %s", ct, ct1,  strF0F1F2[ct], strItext[ ct1 ] );
+
+			      printf("F %d %s", ct,  strItextOutPut[ ct1 ]);
+
+			      strF0F1F2foundFlag[ ct ] = 1;
+			      strItextFoundflag[ ct1 ] = 1;  //  Mark so we don't output this
+			      found = 1;
+			      break;
+			    }
+			  else
+			    strF0F1F2foundFlag[ ct ] = 0; // Mark as not found
+			}
+		      if(found)
+			{
+			  found = 0;
+			  continue;
+			}
+
+		      for( ct1 = 0; ct1 < IgateSymolTextCount; ct1++ )
+			{
+			  if( ( strstr( IgateSymText[ ct1 ], strF0F1F2[ ct ], 0) == 0) && ( ct == 0) || ( strF0F1F2[ ct ] == IgateSymText[ ct1 ] ))
+			    //			  if( strF0F1F2[ ct ] == IgateSymText[ ct1 ] )  // found  so output it
+			    {
+			      //			      printf("\nXXfound!!!  ct=%d ct1=%d %s    %s",  ct, ct1, strF0F1F2[ct], IgateSymText[ ct1 ] );
+
+			      printf("F %d %s", ct,  IgateSymTextOutPut[ ct1 ]);
+			      //			      printf("Fx %d %s", ct,  IgateSymTextOutPut[ ct1 ]);
+
+			      strF0F1F2foundFlag[ ct ] = 1;
+			      IgateSymTextFoundFlag[ ct1 ] = 1;  //  Mark so we don't output this
+			      found = 1;
+			      break;
+			    }
+			  else
+			    strF0F1F2foundFlag[ ct ] = 0; // Mark as not found
+			}
+		      if(found)
+			{
+			  found = 0;
+			  continue;
+			}
+
+		      //		      printf("\n****Not found!!!  ct=%d ct1=%d  %s\n",  ct, ct1, strF0F1F2[ct] );
+		      // Ok no place to put it so just sick it above the refance point
+		      if( outPutVersion == 1 )
+			printf("F %d \"%s\" H %d %d 70 %.4d %c %c\n", ct,  strF0F1F2[ ct ], 
+			       (posX - 10), -(posY+10+(ct*100)), 1, hAlign, vAlign );
+		      if( outPutVersion == 2 )
+			printf("F %d \"%s\" H %d %d 70 %.4d %c %cNN\n", ct, strF0F1F2[ ct ], 
+			       (posX - 10), -(posY+10+(ct*100)), 1, hAlign, vAlign );
+
+		    }
+		    
+		  //		}
+
+	      // Out put smashed text
+	      ct = 3;
+	      for( int ct1 = 0; ct1 < ItextCount; ct1++ )
+		{
+		  if( strItextFoundflag[ ct1 ] == 0 )  // found  so output it
+		    {
+		      printf("F %d %s", ct,  strItextOutPut[ ct1 ] );
+		      strItextFoundflag[ ct1 ] = 1;  //  Mark so we don't output this
+		    }
+		  ct++;
+		}
+	      // Out put none smashed text
+	      for( ct1 = 0; ct1 < IgateSymolTextCount; ct1++ )
+		{
+		  if( IgateSymTextFoundFlag[ ct1 ] == 0 )  // found  so output it
+		    {
+		      printf("F %d %s", ct,  IgateSymTextOutPut[ ct1 ] );
+		      IgateSymTextFoundFlag[ ct1 ] = 1;  //  Mark so we don't output this
+		    }
+		  ct++;
+		}
+	    
+
+	      //	      if( outPutVersion == 1 )
+	      //		printf("F 2 \"%s\" H %d %d 70 %.4d %c %c\n", strF0F1F2[ 2 ], 
+	      //		       (posX - 10), -(posY+10), 1, hAlign, vAlign );
+	      //	      if( outPutVersion == 2 )
+	      //		printf("F 2 \"%s\" H %d %d 70 %.4d %c %cNN\n", strF0F1F2[ 2 ], 
+	      //		       (posX - 10), -(posY+10), 1, hAlign, vAlign );
 
 
 	      //	      printf( "\t%-4d %-4d %-4d\n", 1, posX, -posY );
 	      printf( "\t%-4d %-4d %-4d\n", instanceCount, posX, -posY );
-
-
-	      
 	      //              printf( "\n#t\tAngle:%d,    Mirror:%d\n", partAngle, partMirror );	      
-
 	      printf( "\t%s\n", angleToKiCadMatrix(partAngle, partMirror ));
 	      //	      printf( "\t%-4d %-4d %-4d %-4d\n", 1, 0, 0, -1 );
-
 	      printf( "$EndComp\n" );
 	    }
 	  //	  printf( "$EndComp\n" );
@@ -518,7 +694,13 @@ void write_kicad_components( UL_SHEET S )
 
 	  string valueStr = P.device.name;
 	  string nameStr  = P.name;
-	  int instanceCount = 10;
+	  int instanceCount = 1;
+	  int numberOfSubParts = 0;
+
+	  P.instances(I)
+	    {
+	      numberOfSubParts++;
+	    }
 
 	  if(nameStr == "")
             nameStr= "NNN";
@@ -544,6 +726,7 @@ void write_kicad_components( UL_SHEET S )
 	      char vAlign = 'T';
 	      int posX = I.x / g_Fact;
 	      int posY = I.y / g_Fact - g_transY;
+	      int posYraw = I.y;
 	      int count = 0;
 	      int partAngle = I.angle;
 	      int partMirror = I.mirror;
@@ -578,16 +761,15 @@ void write_kicad_components( UL_SHEET S )
 
 
 	      printf( "P %d %d\n", posX, posY );
-        
 	      I.texts(T)
 		{   
-		  writeInstanceText( T, count, nameStr );
+		  printf("F %d %s", count,  writeInstanceText( T, nameStr,  valueStr, 1, posYraw, numberOfSubParts-1, partAngle, partMirror));
 		  count++;
 		}
 	      //	      count = 0;
 	      /*	      I.gate.symbol.texts(T)
 		{
-		  writeInstanceText( T, count, nameStr );
+		  writeInstanceText( T, count, nameStr, posY );
 		  count++;  
 		}
 	      */
@@ -929,6 +1111,6 @@ result = dlgDialog(titleStr)
     dlgMessageBox("CONVERSION  COMPLETE\n" + "Libs list used\n\n" + libsUsed ); 
   }
   else 
-    dlgMessageBox("Canceled!" ); 
+    exit(EXIT_FAILURE);
     
   exit(EXIT_SUCCESS);
