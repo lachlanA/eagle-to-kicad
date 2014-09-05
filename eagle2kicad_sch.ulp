@@ -7,6 +7,11 @@
        "<author>Author: juergen.messerer (at) freesurf.ch</author>"
 /*
  * CHANGELOG================================================
+ * 07.09.2014: Inc version too 1.1 
+ *             Thanks  Lachlan   lachlanusa (at) gmail.com
+ *
+ * 07.09.2014: Fix's for part name placement, and part rowtation.
+ *             Thanks  Lachlan   lachlanusa (at) gmail.com
  *
  * 13.08.2014: Add more suport for muliti parts
  *             Thanks  Lachlan   lachlanusa (at) gmail.com
@@ -449,7 +454,7 @@ void write_kicad_components( UL_SHEET S )
       if(P.device.package)  // Do we have a package ?
 	{
 
-	  //	  printf("\nP.deviceset.name:%s, P.name:%s, P.device.package.name:%s\n", P.deviceset.name, P.name, P.device.package.name );
+	  //  	  printf("\nP.deviceset.name:%s, P.name:%s, P.device.package.name:%s\n", P.deviceset.name, P.name, P.device.package.name );
 
 
 	  string valueStr = P.device.name;
@@ -463,10 +468,12 @@ void write_kicad_components( UL_SHEET S )
 	  if( strlen(valueStr) < 1 ) // ????
             valueStr = "1uF";
  
+	  // Replace all spaces with '_' in part number
 	  // Replace all spaces or '/' with '_' in part number
 	  for (int idx = 0; valueStr[idx]; ++idx)
 	    {
-	      if( valueStr[idx] == ' ' || valueStr[idx] == '/')
+	      //	      if( valueStr[idx] == ' ' || valueStr[idx] == '/')
+	      if( valueStr[idx] == ' ' )
 		valueStr[idx] = '_';
 	    }
 

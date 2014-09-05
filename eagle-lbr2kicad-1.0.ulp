@@ -1,4 +1,4 @@
-#usage "<b>KiCAD module exporting tool  version 1.0)</b>\n"
+#usage "<b>KiCAD module exporting tool  version 1.1)</b>\n"
         "<p>"
         "This ULP can exports Eagle CAD Package and Symbol contents into KiCAD lib and module format."
         "<p>"
@@ -10,6 +10,13 @@
 
 /*
  * CHANGELOG=(dd.mm.yyyy)===============================================
+ * 07.09.2014: Inc version number to 1.1
+ *
+ * 07.09.2014: Try a number of fix's for part name, and ALISA list,  to work better with eagle2kicad_sch.ulp
+ *             Note there are many problems here. See as badly name eagle lib's will make for lot's of devices name collisions!
+ *             Which will make KiCad stop loading the lib/mod!
+ *             Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
+ *
  * 26.07.2014: Fix >NAME and >VALUE in in module, so eagle text is not lost, or confused with module prefix/value
  *             Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
  *
@@ -105,7 +112,7 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-real VERSION   = 1.0;
+real VERSION   = 1.1;
 
 int rect_conv  = 1; // many QFP-like packages use rectangles as a pin contour (too much segments in the ki-format)
 int poly_conv  = 1;
@@ -126,7 +133,7 @@ string aliasList = "";     // list of part alias's
 int wildCardPrefix = 1;  // 1 = pre add * wild card to $FPLIST footprint list names
 int wildPostfix  = 1; // 1 = post add * wild card to $FPLIST footprint list names
 
-int eaglePartToKiCadPartConversion = 1; // control's if we cobine footprints or not
+int eaglePartToKiCadPartConversion = 1; // control's if we cobine footprints or not, 0 = combine, 1 = dont combine
 
 int devicesetsCount = 0;
 int devicesCount = 0;
@@ -1446,11 +1453,11 @@ void write_kikad_def_alias( UL_DEVICE DEV, UL_GATE G, string symbolName, int cou
 	 printf("F2 \"%s\" 30 150 20 H I C CNN\n", escape_quotes(DEV.package.name));
 	 break;
        case 1: // Prexfix lib name to footprint name
-	 printf("F2 \"%s-%s\" 30 150 20 H I C CNN\n", footPrintPreFix, escape_quotes(DEV.package.name));
+	 printf("F2 \"%s:%s\" 30 150 20 H I C CNN\n", footPrintPreFix, escape_quotes(DEV.package.name));
 	 //	 printf("F2 \"%s-%s\" 0 150 50 H I C C\n", DEV.library, DEV.package.name);
 	 break;
        case 2: // Prexfix name to footprint name
-	 printf("F2 \"%s-%s\" 30 150 20 H I C CNN\n", footPrintPreFix, escape_quotes(DEV.package.name));
+	 printf("F2 \"%s:%s\" 30 150 20 H I C CNN\n", footPrintPreFix, escape_quotes(DEV.package.name));
 	 break;
        }
 
@@ -1535,7 +1542,7 @@ void write_kikad_lib( string fileName )
 		//********************************
 
 		// Find the number of deivce's and add the name's to a aray list of device names/package name lists,
-		// Orso pin list for compair
+		// Also pin list for compair
 		int DevSetPackageCount = 0;
 		D.devices(DEV) 
 		  {
@@ -1606,21 +1613,80 @@ void write_kikad_lib( string fileName )
 		      }
 
 		    string nameString;
-                    if( DEV.name == "\'\'" )
-		      nameString =  str_replace( "*", "", D.name );
+
+
+
+
+
+		    {
+		      string alias[];
+		      alias[0] = "";
+		      int aliasCt = strsplit(alias, DEV.technologies, ' '); 
+
+		      // dose name have place holder for Teck ?
+		      if( strstr(D.name, "*", 0) != -1 )
+			{ // Yes!
+			  nameString = str_replace( "*", alias[0], D.name );
+			}
+		      else
+			nameString = D.name;
+
+		      // Dose name have place holder for package variant name ?
+		      if( strstr(nameString, "?", 0) != -1 )
+			{ // Yes!
+			  if( DEV.name != "\'\'" ) //  variant have '' ?
+			    nameString = str_replace( "?", DEV.name, nameString ); // No '', so we can used the variant name.. for device name.
+			  else
+			    { // Yes we have package name variant of '',  and we have a place holder for it in the name, so replace the '?' with space
+			      nameString = str_replace( "?", "", nameString );
+			    }
+			}
+		      else // No ! place holder for variant name !
+			{  // So just append the Variant named to the device name.
+			  nameString = nameString + ((DEV.name != "\'\'") ? DEV.name : "");
+			}
+			
+
+		      /*
+		      if( DEV.name == "\'\'" ) // '' dose it have a package variant name of '', Note this is not the package name !!
+			nameString = D.name;   // if package variant name = ''  don't add it to deivce name
+		      else
+			{
+			  //    if( strstr(D.name, "*", 0) != -1 ) // is there place holder for part tec ?
+			  nameString = str_replace( "*", alias[0], D.name );
+
+			  if( strstr(D.name, "?", 0) != -1 ) // is there a place to put the package name alias ?
+			    nameString = str_replace( "?", DEV.name, nameString);
+			  else // Ok no place holder for package name alias so put at end
+			    nameString = nameString + DEV.name;
+			}
+		      */
+		    }
+
+
+		    /*		    
+		    nameString = str_replace( "?", DEV.name, D.name);
+		    nameString = str_replace( "*", DEV.name, nameString);
+		    int aliasCt = strsplit(alias, DEV.technologies, ' '); 
+					       str_replace( "*", "", D.name ));
+		    */
+
+		    /*
+
+                    if( DEV.name == "\'\'" ) // '' dose it have a package variant name of the package, Note this is not the package name !!
+		      {
+			nameString =  str_replace( "?", "", str_replace( "*", "", D.name ));
+		      }
 		    else
 		      {
 			if( eaglePartToKiCadPartConversion ) // yes so clean up the mess to alow the eagle to kicad sch to work
-			  nameString =  str_replace( "*", "", D.name ) + DEV.name;
+			  nameString =  str_replace( "*", "", D.name ) + DEV.name; // Add package variant name,  part name
 			else
 			  nameString =  str_replace( "*", "", D.name );
 			//		      nameString =  str_replace( "*", "", D.name ) + DEV.package.name;
 			//		      nameString =  str_replace( "*", "", D.name ) + DEV.name;
 
-
-
-			// combine common footprints ?
-			if( eaglePartToKiCadPartConversion ) // yes so clean up the mess to alow the eagle to kicad sch to work
+			if( eaglePartToKiCadPartConversion ) // combine common footprints ?
 			  {	// Replace all spaces or '/' with '_' in part number
 			    for (int idx = 0; nameString[idx]; ++idx)
 			      {
@@ -1630,9 +1696,7 @@ void write_kikad_lib( string fileName )
 			  }
 		      }
 		    //                    string nameString   = D.name + DEV.name;
-
-
-
+		    */
 
 		    string prefixString = DEV.prefix;
 		    string drawPinNumberStr  = "N";
@@ -1714,34 +1778,42 @@ void write_kikad_lib( string fileName )
 			while( aliasCt )
 			  {
 			    if( alias[count] == "''" )
-			      {
-				aliasCt--;
-				count++;
-				continue;
-			      }
+			      alias[count] = "";
 
 			    if( DEV.name != "''" ) // We DEV.name ? then  add it.
 			      {  // DEV.nanme found so add it
-				if( strstr(D.name, "*", 0) != -1)  // is there a place to put the Tec ?
-				  aliasList += str_replace( "*", alias[count++], D.name ) + DEV.name;
-				else
-				  aliasList += D.name + alias[count++] + DEV.name;   // No so just add to end
+				if(( strstr(D.name, "*", 0) != -1 ) && (strstr(D.name, "?", 0) != -1) )  // is there a place to put the Tec alias and package alas ?
+				  aliasList += str_replace( "*", alias[count++],  str_replace( "?", DEV.name, D.name ));  // Put the Alias's in.
+
+				if(( strstr(D.name, "*", 0) != -1 ) && (strstr(D.name, "?", 0) == -1 ))  // Is there a place for Tec alias but no package alias ?
+				  aliasList += str_replace( "*", alias[count++], D.name ) + DEV.name ;  // Put the Alias's in. and apend the package alias
+
+				if(( strstr(D.name, "*", 0) == -1 ) && (strstr(D.name, "?", 0) != -1 ))  // Is there no place holder for Tec alias but place holder for package alias ?
+				  aliasList += str_replace( "?", DEV.name, D.name ) + alias[count++];  // And append the Alias's, and put the  package alias in
+
+				if(( strstr(D.name, "*", 0) == -1) && (strstr(D.name, "?", 0) == -1 )) // No place holders for Alias's ?
+				  aliasList +=  D.name + alias[count++] + DEV.name;  // No place holders so append to the end
 			      }
-			    else
-			      {  // DEV.name not found so don't add it
+			    else  // DEV.name not found,  so check for Tec/Alias to add
+			      {
 				if( strstr(D.name, "*", 0) != -1)  // is there a place to put the Tec ?
 				  aliasList += str_replace( "*", alias[count++], D.name );
 				else
 				  aliasList +=  D.name + alias[count++];    // No so just add to end
-			      }
-
+			      }  
 			    
 			    if( aliasCt )  // check for zero count ?
 			      aliasCt--; 
 
-
-			    if (aliasCt)  // last one ?
+			    if( aliasCt )  // last one ?
 			      aliasList += " ";  // Not last so add space
+
+			    // Do we have part name in Alisa list ?
+			    if( strstr( aliasList, nameString, 0) != -1 )
+			      {
+				//				printf("\n# found !");
+				aliasList = str_replace( nameString, "", aliasList ); // yes so remove !
+			      }
 			  }
 		      }
 
@@ -1791,7 +1863,7 @@ void write_kikad_lib( string fileName )
 			    footPrintList += escape_quotes(packageNameList[ currentDeviceCt ] + " " + packageNameListMatch[ currentDeviceCt ]);
 			    break;
 			  case 2:
-			    footPrintList += escape_quotes(DEV.library + "-" + packageNameList[ currentDeviceCt ] + " " + packageNameListMatch[ currentDeviceCt ]);
+			    footPrintList += escape_quotes(DEV.library + ":" + packageNameList[ currentDeviceCt ] + " " + packageNameListMatch[ currentDeviceCt ]);
 			    break;
 			  }
 
