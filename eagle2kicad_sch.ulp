@@ -5,12 +5,22 @@
        "Load any schematic and execute the ULP in the eagle."
        "<p>"
        "<author>Author: juergen.messerer (at) freesurf.ch</author>"
+
+#require 6.0000
+	//#require 5.0000
+
+
 /*
  * CHANGELOG================================================
- * 07.09.2014: Inc version too 1.1 
+ * 25.09.2014: Add version reqired, to alows us to make 2 scripts.  One for 6.0+  and one for 5.0
+ *
+ * 06.09.2014: Move some code to main(), bit easy to understand!
+ *             Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
+ *
+ * 05.09.2014: Inc version too 1.1 
  *             Thanks  Lachlan   lachlanusa (at) gmail.com
  *
- * 07.09.2014: Fix's for part name placement, and part rowtation.
+ * 05.09.2014: Fix's for part name placement, and part rotation.
  *             Thanks  Lachlan   lachlanusa (at) gmail.com
  *
  * 13.08.2014: Add more suport for muliti parts
@@ -35,6 +45,10 @@
  
 real VERSION   = 1.0;
 
+string infoAddLibName = "<b> <a href=\'http://www.w3schools.com/html/'>Visit our HTML tutorial</a><Eagle SCH/PCB will not show any charters after \'@\' in pin names<br>"+
+                        "Checking this will delete any charters after and including the <b>'@'</b><br>so it wont show in KiCad</pre>";
+
+string infoHelp =  "<pre>This Ealge converts the current sch to  KiCad</pre>";
 
 
 string g_comboBoxArray[] = { "A0 (1188mm x 840mm)", "A1 (840mm x 594mm)", "A2(594mm x 420mm)",
@@ -69,7 +83,8 @@ string g_comment2   = "";
 string g_comment3   = "";
 string g_comment4   = "";
 
-string libsUsed;
+string libsUsed = "";  // list of libs
+int addLibPrifix = 1; // add lib prifix
 
 real   g_Fact  = 254*32;        // global uMeter to uInch conversion factor
 int    g_transY = 11000;         // Y-axis translation factor, depending on the sheet size
@@ -451,6 +466,8 @@ void write_kicad_components( UL_SHEET S )
 {
   S.parts(P)
     {
+      string libName = P.deviceset.library;
+
       if(P.device.package)  // Do we have a package ?
 	{
 
@@ -523,7 +540,12 @@ void write_kicad_components( UL_SHEET S )
 		}
 
 	      printf( "$Comp\n" );
-	      printf( "L %s %s\n", valueStr, nameStr );
+	      if( addLibPrifix )
+		printf( "L %s %s\n", strupr( libName ) + "_" + valueStr, nameStr );
+	      else
+		printf( "L %s %s\n", valueStr, nameStr );
+
+	      //	      printf( "L %s %s\n", valueStr, nameStr );
 	      //	      printf( "U %d %d %X\n", 1, 1, time() );
 	      //	      printf( "U %d %d %X\n", instanceCount++, 1, time()  );
 	      printf( "U %d %d %X\n", instanceCount, 1, time()  );
@@ -539,6 +561,7 @@ void write_kicad_components( UL_SHEET S )
 
 	      int ItextCount = 0;
 	      int IgateSymolTextCount = 0;
+
 
 	      strF0F1F2[ 0 ] = nameStr;
 	      strF0F1F2[ 1 ] = I.value;
@@ -642,11 +665,27 @@ void write_kicad_components( UL_SHEET S )
 
 		      //		      printf("\n****Not found!!!  ct=%d ct1=%d  %s\n",  ct, ct1, strF0F1F2[ct] );
 		      // Ok no place to put it so just sick it above the refance point
-		      if( outPutVersion == 1 )
+		      /*		      if( outPutVersion == 1 )
 			printf("F %d \"%s\" H %d %d 70 %.4d %c %c\n", ct,  strF0F1F2[ ct ], 
 			       (posX - 10), -(posY+10+(ct*100)), 1, hAlign, vAlign );
 		      if( outPutVersion == 2 )
 			printf("F %d \"%s\" H %d %d 70 %.4d %c %cNN\n", ct, strF0F1F2[ ct ], 
+			       (posX - 10), -(posY+10+(ct*100)), 1, hAlign, vAlign );
+		      */
+
+		      string tmp = strF0F1F2[ ct ];
+
+		      if(( ct == 0 ) && addLibPrifix )
+			tmp = strupr( libName ) + "_" + tmp;
+		      if(( ct == 2 ) && addLibPrifix )
+			tmp = strupr( libName ) + "_" + tmp;
+			  
+
+		      if( outPutVersion == 1 )
+			printf("F %d \"%s\" H %d %d 70 %.4d %c %c\n", ct,  tmp, 
+			       (posX - 10), -(posY+10+(ct*100)), 1, hAlign, vAlign );
+		      if( outPutVersion == 2 )
+			printf("F %d \"%s\" H %d %d 70 %.4d %c %cNN\n", ct, tmp, 
 			       (posX - 10), -(posY+10+(ct*100)), 1, hAlign, vAlign );
 
 		    }
@@ -753,19 +792,18 @@ void write_kicad_components( UL_SHEET S )
 		    instanceCount = 1;  // error of some kind ?
 		}
 
-
-
 	      printf( "$Comp\n" );
-	      printf( "L %s %s\n", valueStr, nameStr );
+	      if( addLibPrifix )
+		printf( "L %s %s\n", strupr( libName ) + "_" + valueStr, nameStr );
+	      else
+		printf( "L %s %s\n", valueStr, nameStr );
+
+	      //	      printf( "L %s %s\n", valueStr, nameStr );
 	      //	      printf( "U %d %d %X\n", 1, 1, time() );
 	      //	      printf( "U %d %d %X\n", instanceCount++, 1, time()  );
 	      printf( "U %d %d %X\n", instanceCount, 1, time()  );
 
-
 	      //	      printf( "\n## I.name:%s  I.gate.name:%s  I.gate.symbol.name:%s  X:%d  Y:%d\n", I.name, I.gate.name, I.gate.symbol.name,  I.x, I.y );
-
-
-
 
 	      printf( "P %d %d\n", posX, posY );
 	      I.texts(T)
@@ -966,151 +1004,182 @@ void openSchematicPath( string startPath )
    }
 }
 
+//
 //------------------------------------------------------
 // main program 
 //------------------------------------------------------
+//
 int result;
 int space = 10;
 string ref;
 string titleStr;
 
-sprintf(titleStr, "Export Eagle schematic to KiCAD, Version: %.1f", VERSION);
+int mainDialog( string titleString )
+{
 
-if (schematic)  
-{
-   schematic(S) 
-   {
-      sch_name = strsub(S.name, 0, strlen(S.name) - 4) + "_.sch";
-   }
-}
-else 
-{
-   dlgMessageBox("Please run from schematic editor." ); 
-   exit(EXIT_FAILURE);
-}
+  int result;
 
-result = dlgDialog(titleStr)
-{
+  result = dlgDialog(titleStr)
+    {
 	  
-   dlgTabWidget 
-   {
-      //=====================TAB1=============================================================
-      dlgTabPage("Output:") 
-      {     
+      dlgTabWidget 
+      {
+	//=====================TAB1=============================================================
+	dlgTabPage("Output:") 
+	{     
 
-        dlgHBoxLayout dlgSpacing(400);
-        dlgStretch(0);
-	dlgSpacing(space);
-        dlgLabel("Export to file:");
-        dlgStretch(0);
-        dlgHBoxLayout
-	{
-	   dlgSpacing(space);
-           dlgStringEdit(sch_name);
-	   dlgSpacing(space);
-	   dlgPushButton("...") openSchematicPath("C:\\");
-	   dlgSpacing(space);
+	  dlgHBoxLayout dlgSpacing(600);
+	  dlgStretch(0);
+	  dlgSpacing(space);
+	  dlgLabel("Export to file:");
+	  dlgStretch(0);
+	  dlgHBoxLayout
+	  {
+	    dlgSpacing(space);
+	    dlgStringEdit(sch_name);
+	    dlgSpacing(space);
+	    dlgPushButton("Edit") openSchematicPath("C:\\");
+	    dlgSpacing(space);
+	  }
+	  dlgHBoxLayout
+	  {
+	    dlgCheckBox("", addLibPrifix ); dlgLabel("Add libname to Part Name"); dlgStretch(0);
+	    dlgSpacing(2); dlgPushButton("Info") { if (dlgMessageBox( infoAddLibName, "Ok") == 0); } dlgStretch(10); dlgSpacing(20);
+	  }
+	  dlgHBoxLayout
+	  {
+	  }
+	  dlgHBoxLayout
+	  {
+	    dlgStretch(0); dlgPushButton("Help") { if (dlgMessageBox( infoHelp, "Ok") == 0); } dlgStretch(0); 
+	  }
+
+
+	  dlgStretch(10);
 	}
-	dlgStretch(10);
-     }
-     //=====================TAB2=============================================================
-      dlgTabPage("Sheet:") 
-      { 
-         dlgSpacing(space);
-	dlgHBoxLayout
-	{
-	   dlgSpacing(space);
-	   dlgComboBox(g_comboBoxArray, g_selected)
-	   { 
-              setTransY();
-	   }
-	   dlgStretch(1);
-	   dlgSpacing(space);
+	//=====================TAB2=============================================================
+	dlgTabPage("Sheet Size:") 
+	{ 
+	  dlgSpacing(space);
+	  dlgHBoxLayout
+	  {
+	    dlgSpacing(space);
+	    dlgComboBox(g_comboBoxArray, g_selected)
+	      { 
+		setTransY();
+	      }
+	    dlgStretch(1);
+	    dlgSpacing(space);
+	  }
+	  dlgSpacing(space);
+	
+	  dlgGroup("User defined:")
+	  {
+	
+	    dlgHBoxLayout
+	      {
+		dlgLabel("Size X:");
+		dlgIntEdit(g_dimX, 0, 99999);
+	      
+		dlgSpacing(space);
+	      
+		dlgLabel("Size Y:");
+		dlgIntEdit(g_dimY, 0, 99999);
+	      }
+	  }
 	}
-	dlgSpacing(space);
-	
-	dlgGroup("User defined:")
-	{
-	
-	   dlgHBoxLayout
-	   {
-              dlgLabel("Size X:");
-	      dlgIntEdit(g_dimX, 0, 99999);
-	      
-	      dlgSpacing(space);
-	      
-	      dlgLabel("Size Y:");
-	      dlgIntEdit(g_dimY, 0, 99999);
-	    }
-	 }
-      }
-      //=====================TAB1=============================================================
-      dlgTabPage("Comments:") 
-      {  
-         dlgHBoxLayout
-         {
+	//=====================TAB1=============================================================
+	dlgTabPage("Comments:") 
+	{  
+	  dlgHBoxLayout
+	  {
             dlgLabel("Title:");
-	          dlgStringEdit(g_strTitle);
-	       }
+	    dlgStringEdit(g_strTitle);
+	  }
 	       
-	       dlgHBoxLayout
-         {
+	  dlgHBoxLayout
+	  {
             dlgLabel("Date:");
-	          dlgStringEdit(g_strDate);
-	       }
+	    dlgStringEdit(g_strDate);
+	  }
 	 
-         dlgHBoxLayout
-         {
+	  dlgHBoxLayout
+	  {
             dlgLabel("Rev:");
             dlgStringEdit(g_strRev);
-         }
+	  }
 	 
-         dlgHBoxLayout
-         {
+	  dlgHBoxLayout
+	  {
             dlgLabel("Comp:");
             dlgStringEdit(g_strComp);
-         }
+	  }
 	 
-         dlgHBoxLayout
-         {
+	  dlgHBoxLayout
+	  {
             dlgLabel("Comment1:");
             dlgStringEdit(g_comment1);
-         }
+	  }
 	 
-         dlgHBoxLayout
-         {
+	  dlgHBoxLayout
+	  {
             dlgLabel("Comment2:");
             dlgStringEdit(g_comment2);
-         }
+	  }
 	 
-         dlgHBoxLayout
-         {
+	  dlgHBoxLayout
+	  {
             dlgLabel("Comment3:");
             dlgStringEdit(g_comment3);
-         }
+	  }
 	 
-         dlgHBoxLayout
-         {
+	  dlgHBoxLayout
+	  {
             dlgLabel("Comment4:");
             dlgStringEdit(g_comment4);
-         }  
+	  }  
+	}
       }
-   }
-   dlgVBoxLayout 
-   {
-      dlgStretch(0);
-      dlgHBoxLayout 
+      dlgVBoxLayout 
       {
-         dlgStretch(1);
-         dlgPushButton("+OK") dlgAccept();
-	 dlgSpacing(space);
-         dlgPushButton("-Cancel") dlgReject();
-         dlgStretch(0);
-	 dlgSpacing(space);
+	dlgStretch(0);
+	dlgHBoxLayout 
+	{
+	  dlgStretch(1);
+	  dlgPushButton("+OK") dlgAccept();
+	  dlgSpacing(space);
+	  dlgPushButton("-Cancel") dlgReject();
+	  dlgStretch(0);
+	  dlgSpacing(space);
+	}
+	dlgStretch(10);
       }
-      dlgStretch(10);
-   };
-};
+    };
+  return result;
+}
+
+int main()
+{
+
+  sprintf(titleStr, "Export Eagle schematic to KiCAD, Version: %.1f,  Use this programe at your own Risk!", VERSION);
+
+  if (schematic)  
+    {
+      schematic(S) 
+      {
+	sch_name = strsub(S.name, 0, strlen(S.name) - 4) + "_.sch";
+
+	result = mainDialog( titleStr );
+      }
+    }
+  else 
+    {
+      dlgMessageBox("Please run from schematic editor." ); 
+      exit(EXIT_FAILURE);
+    }
+
+
+
 
   if(result)
   {
@@ -1121,3 +1190,5 @@ result = dlgDialog(titleStr)
     exit(EXIT_FAILURE);
     
   exit(EXIT_SUCCESS);
+  return 0;
+}

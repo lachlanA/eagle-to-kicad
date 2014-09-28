@@ -8,11 +8,25 @@
         "<author>Author: juergen.messerer (at) freesurf.ch</author>"
 	"<author>Author: \"lachlanusa (at) gmail.com\"</author>"
 
+#require 6.0000
+	//#require 5.0000
+
 /*
  * CHANGELOG=(dd.mm.yyyy)===============================================
- * 07.09.2014: Inc version number to 1.1
+ * 25.09.2014: Add version reqired, to alows us to make 2 scripts.  One for 6.0+  and one for 5.0
+ *             Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
  *
- * 07.09.2014: Try a number of fix's for part name, and ALISA list,  to work better with eagle2kicad_sch.ulp
+ * 06.09.2014: Fix device alaias, to put in zero size string in * place holder when
+ *             '' is found in part Tecknowage/alias name.
+ *             Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
+ *
+ * 06.09.2014: Move some code to main(), bit easy to understand!
+ *             Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
+ *
+ * 05.09.2014: Inc version number to 1.1
+ *             Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
+ *
+ * 05.09.2014: Try a number of fix's for part name, and ALISA list,  to work better with eagle2kicad_sch.ulp
  *             Note there are many problems here. See as badly name eagle lib's will make for lot's of devices name collisions!
  *             Which will make KiCad stop loading the lib/mod!
  *             Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
@@ -1424,20 +1438,20 @@ void write_kikad_def_alias( UL_DEVICE DEV, UL_GATE G, string symbolName, int cou
     }
 
 
-    if ( DEV.prefix == "" ) // No prefix ?
-    { 
-         if ( hasName  )  // dos it have a >Name  so use the genrated prifix
-	    printf("F0 \"%s\" %d %d %d %c %c %c %cNN\n", prefixString, prefix_X, prefix_Y, 50, orient, 'V', hAlign, vAlign);
-	 else       
-	    printf("F0 \"%s\" %d %d %d %c %c %c %cNN\n", prefixString, prefix_X, prefix_Y, 50, orient, 'I', hAlign, vAlign);
-    }
-    else  // good we have prifix so use that
-    {
-         if ( hasName  )  // dos it have a >Name prifix 
-	    printf("F0 \"%s\" %d %d %d %c %c %c %cNN\n", DEV.prefix, prefix_X, prefix_Y, 50, orient, 'V', hAlign, vAlign);
-	 else       
-	    printf("F0 \"%s\" %d %d %d %c %c %c %cNN\n", DEV.prefix, prefix_X, prefix_Y, 50, orient, 'I', hAlign, vAlign);
-    }
+    //    if ( DEV.prefix == "" ) // No prefix ?
+    //    { 
+    if ( hasName  )  // dose it have a >Name  so use the genrated prifix
+      printf("F0 \"%s\" %d %d %d %c %c %c %cNN\n", prefixString, prefix_X, prefix_Y, 50, orient, 'V', hAlign, vAlign);
+    else       
+      printf("F0 \"%s\" %d %d %d %c %c %c %cNN\n", prefixString, prefix_X, prefix_Y, 50, orient, 'I', hAlign, vAlign);
+    //    }
+    //    else  // good we have prifix so use that
+    //    {
+    //         if ( hasName  )  // dos it have a >Name prifix 
+    //	    printf("F0 \"%s\" %d %d %d %c %c %c %cNN\n", DEV.prefix, prefix_X, prefix_Y, 50, orient, 'V', hAlign, vAlign);
+    //	 else       
+    //	    printf("F0 \"%s\" %d %d %d %c %c %c %cNN\n", DEV.prefix, prefix_X, prefix_Y, 50, orient, 'I', hAlign, vAlign);
+    //    }
 
 
     if ( hasValue )  
@@ -1491,11 +1505,6 @@ void write_kikad_def_alias( UL_DEVICE DEV, UL_GATE G, string symbolName, int cou
 //------------------------------------------------------
 void write_kikad_lib( string fileName )
 {
-  // write INDEX start tag
-  //printf("######################################################################\n");
-  //printf("# Name: %s\n", LIB.name);
-  //printf("# Headline: %s\n", LIB.headline);
-  //printf("######################################################################\n");
   int oneRun = 0;
   int output_part = 0;
 
@@ -1548,7 +1557,7 @@ void write_kikad_lib( string fileName )
 		  {
 		    int padCount = 0;
 
-		    if (DEV.package)
+		    if( DEV.package )
 		      packageNameList[DevSetPackageCount] = DEV.package.name;  // Add to package list
 		    
 
@@ -1566,7 +1575,7 @@ void write_kikad_lib( string fileName )
 			  }
 		      }
 
-		    if (DEV.package) // Any packages for this deivice ?
+		    if( DEV.package ) // Any packages for this deivice ?
 		      DevSetPackageCount++; // Inc package count then.
 
 		  } // end of D.devices(DEV) 
@@ -1601,9 +1610,15 @@ void write_kikad_lib( string fileName )
 		int currentDeviceCt = 0;
 		ct1 = DevSetPackageCount;
 		ct = 0;
+
+		//		printf("\n****\n****DevSetPackageCount=%d\n****\n", DevSetPackageCount);
+
 		// ****************  Device's section *******************
 		D.devices(DEV)
 		  {
+
+		    //		    printf("\nDevSetPackageCount=%d", DevSetPackageCount);
+
 		    int countGates = 0;
 
                     // retrieve amount of gates
@@ -1614,10 +1629,6 @@ void write_kikad_lib( string fileName )
 
 		    string nameString;
 
-
-
-
-
 		    {
 		      string alias[];
 		      alias[0] = "";
@@ -1626,9 +1637,12 @@ void write_kikad_lib( string fileName )
 		      // dose name have place holder for Teck ?
 		      if( strstr(D.name, "*", 0) != -1 )
 			{ // Yes!
-			  nameString = str_replace( "*", alias[0], D.name );
+			  if( alias[0] == "\'\'" )
+			    nameString = str_replace( "*", "", D.name );
+			  else
+			    nameString = str_replace( "*", alias[0], D.name );
 			}
-		      else
+		      else // No!
 			nameString = D.name;
 
 		      // Dose name have place holder for package variant name ?
@@ -1703,20 +1717,16 @@ void write_kikad_lib( string fileName )
 		    string drawPinNameStr  = "N";
 
 
-		    // check for missing prefix
-		    if ( DEV.prefix == "" )
-		      {
-			g_missingPrefix++;
-			sprintf( prefixString, "%s", undefinedPartPreFix);
-		      }
 
 		    // Scan thou  pins looking for visabele not visable status
 		    int pinNameVisable = 0;
 		    int pinNumberVisable = 0;
+		    int pinCt = 0;
 		    DEV.gates(G)
 		      {
 			G.symbol.pins(P)
 			  {
+			    pinCt++;
 
 			    if( P.visible == 0)
 			      continue;
@@ -1730,6 +1740,16 @@ void write_kikad_lib( string fileName )
 			      }
 			  }
 		      }
+
+		    // check for missing prefix
+		    if ( DEV.prefix == "" )
+		      {
+			g_missingPrefix++;
+			sprintf( prefixString, "%s", undefinedPartPreFix);
+		      }
+		    if( (!( DEV.package )) && ( pinCt <= 1 )) // dos it have package and pint count <= 1 ?
+		      prefixString = "#" + prefixString; //  No, so mark as virtual componet
+
 
 
 		    switch (drawPinNumber)		    
@@ -1971,6 +1991,9 @@ void openLibPath( string startPath )
     }
 }
 
+
+
+
 //------------------------------------------------------
 // main program
 //------------------------------------------------------
@@ -1996,223 +2019,228 @@ int defaultHeight = 2;
 int width = 2;
 int height = 2;
 
-sprintf( titleString, "Export to KiCAD, Version %.2f, Use this programe at your own Risk!", VERSION );
 
-if (library)
-  {
-    library(L)
-    {
-      L.devices(DEV)
-        {
-	  g_lib_prefix = DEV.library;
-	  footPrintPreFix = DEV.library;
-        }
-
-      g_mod_name = strsub(L.name, 0, strlen(L.name) - 3) + "mod";
-      g_lib_name = strsub(L.name, 0, strlen(L.name) - 3) + "lib";
-      //g_lib_name = "G:/PCB-Tools/kicad/library/1test.lib";
-      //g_lib_name = "/opt/kicad/library/" + g_lib_prefix + ".lib";
-      //g_mod_name = "/opt/kicad/modules/" + g_lib_prefix + ".mod";
-
-
-
-    }
-  }
- else
-   {
-     dlgMessageBox("Please run from library or board editor." );
-     exit(EXIT_FAILURE);
-   }
-
-result = dlgDialog( titleString )
+int mainDialog( string titleString )
 {
-  dlgHBoxLayout dlgSpacing(600);
-  dlgStretch(0);
-  dlgLabel("Output Module/Pcb lib footprint file:");
-  dlgStretch(0);
-  dlgHBoxLayout
-  {
-    dlgStringEdit(g_mod_name);
-    dlgPushButton("...") openModPath("C:\\");
-  }
-  dlgHBoxLayout
-  {
+  int result;
 
-  }
-
-
-
-  dlgStretch(0);
-  dlgLabel("Output Sch lib file:");
-  dlgStretch(0);
-  dlgHBoxLayout
-  {
-    dlgStringEdit(g_lib_name);
-    dlgPushButton("...") openLibPath("C:\\");
-  }
-
-  dlgVBoxLayout
-  {
-
-    dlgComboBox(showPinNames, drawPinName ); dlgStretch(0);
-    dlgComboBox(showPinNumbers, drawPinNumber ); dlgStretch(0);
-
-    dlgHBoxLayout
+  result = dlgDialog( titleString )
     {
-      dlgLabel("FootPrint Lib Prefix and over ride");
-      dlgStretch(0); dlgStringEdit(footPrintPreFix);
-      dlgStretch(0); dlgPushButton("Info") { if (dlgMessageBox(infoFootPrintPrefix, "Ok") == 0); }  dlgSpacing(20);
-    }
-
-    dlgHBoxLayout
-    {
-      dlgComboBox( outPutFootPrintOptions, outPutFootPrint );
-      dlgStretch(0); dlgPushButton("Info") { if (dlgMessageBox(infoFootPrint, "Ok") == 0); }  dlgSpacing(20);
-    }
-    dlgHBoxLayout
-    {
-      dlgComboBox( addFootPrintList, outPutFootPrints );
-      dlgStretch(0); dlgPushButton("Info") { if (dlgMessageBox(infoFootPrintList, "Ok") == 0); }   dlgSpacing(20);
-    }
-    dlgHBoxLayout
-    {
-      dlgComboBox( eaglePartToKiCadPartConversiontion, eaglePartToKiCadPartConversion );
-      dlgStretch(0); dlgPushButton("Info") { if (dlgMessageBox( infoDeviceConversion, "Ok") == 0); }  dlgSpacing(20);
-    }
-    dlgHBoxLayout
-    {
-      dlgLabel("Defult Prefix for for sch parts which have no prefix");
-      dlgStringEdit(undefinedPartPreFix);
-      dlgStretch(0); dlgPushButton("Info") { if (dlgMessageBox( infoNoPrefix, "Ok") == 0); }  dlgSpacing(20);
-    }
-
-
-    dlgHBoxLayout
-    {
-      dlgCheckBox("Use eagle Technologies to gerate KiCad part Alias", outPutAlias);
-      dlgStretch(0); dlgPushButton("Info") { if (dlgMessageBox( infoTechnologies, "Ok") == 0); }  dlgSpacing(20);
-    }
-    dlgHBoxLayout
-    {
-      dlgCheckBox("Delete Text after \'@\'", deleteTextArfterATsysbolInPinName );
-      dlgStretch(0); dlgPushButton("Info") { if (dlgMessageBox( infoDeleArfter, "Ok") == 0); }   dlgSpacing(20);
-    }
-    dlgHBoxLayout
-    {
-      dlgCheckBox("Add wild card '*' prefix to FootPrint list parts", wildCardPrefix );
-      dlgStretch(0); dlgPushButton("Info") { if (dlgMessageBox( infoPreFixSeach, "Ok") == 0); }   dlgSpacing(20);
-    }
-    dlgHBoxLayout
-    {
-      dlgCheckBox("Add wild card '*' postfix to FootPrint list parts", wildPostfix );
-      dlgStretch(0); dlgPushButton("Info") { if (dlgMessageBox( infoPostFixSeach, "Ok") == 0); }   dlgSpacing(20);
-    }
-
-    dlgHBoxLayout
-    {
-      dlgCheckBox("", limitTextLineWidth ); dlgLabel("Set Text Strings Max/Min line Width"); dlgStretch(0);
-    }
-    dlgHBoxLayout
-    {
-      dlgLabel("Max");
-      dlgStretch(0); dlgRealEdit( linMaxWidth, 0.001, 10000.0);  dlgLabel("   Min");  dlgRealEdit( linMinWidth, 0.001, 10000.0);
-      dlgComboBox(minMaxUnits, minMaxUnitsSelect )
-	{
-	  if( minMaxUnitsSelect !=  minMaxUnitsSelectOld )
-	    {
-	      linMaxWidth =  unitConver( minMaxUnitsSelect, minMaxUnitsSelectOld, linMaxWidth);
-	      linMinWidth =  unitConver( minMaxUnitsSelect, minMaxUnitsSelectOld, linMinWidth);
-	      minMaxUnitsSelectOld  = minMaxUnitsSelect; 
-	    }
-	  if( linMaxWidth < linMinWidth )
-	    {
-	      dlgMessageBox(":<h3><font color=red>Text line MAX Width Can't be less Text line MIN Width!!!</font></h3>", "", "+OK", "                 ");
-	      linMaxWidth = linMinWidth;
-	    }
-
-	}; dlgStretch(0);//      dlgStretch(0); dlgStringEdit(footPrintPreFix);
-      dlgStretch(0); dlgPushButton("Info") { if( dlgMessageBox( infoTextMaxMinValue, "+Ok") == 0); }  dlgSpacing(20);
-    }
-
-  }
-  dlgVBoxLayout
-  {
-    dlgStretch(0);
-    dlgVBoxLayout
-    {
+      dlgHBoxLayout dlgSpacing(600);
+      dlgStretch(0);
+      dlgLabel("Output Module/Pcb lib footprint file:");
+      dlgStretch(0);
       dlgHBoxLayout
-	{
-	  dlgStretch(0);
-	  dlgPushButton("+OK")
-	    {
-	      width = defaultWidth;
-	      height = defaultHeight;
+      {
+	dlgStringEdit(g_mod_name);
+	dlgPushButton("...") openModPath("C:\\");
+      }
+      dlgHBoxLayout
+      {
 
-	      if( linMaxWidth < linMinWidth )
-		{
-		  dlgMessageBox(":<h3><font color=red>Text line MAX Width Can't be less Text line MIN Width!!!</font></h3>", "", "+Ok", "                ");
-		  linMaxWidth = linMinWidth;
-		}
-	      else
-		dlgAccept();
-	    }
-	  dlgStretch(0);
+      }
+
+      dlgStretch(0);
+      dlgLabel("Output Sch lib file:");
+      dlgStretch(0);
+      dlgHBoxLayout
+      {
+	dlgStringEdit(g_lib_name);
+	dlgPushButton("...") openLibPath("C:\\");
+      }
+      dlgVBoxLayout
+      {
+	dlgComboBox(showPinNames, drawPinName ); dlgStretch(0);
+	dlgComboBox(showPinNumbers, drawPinNumber ); dlgStretch(0);
+
+	dlgHBoxLayout
+	{
+	  dlgLabel("FootPrint Lib Prefix and over ride");
+	  dlgStretch(0); dlgStringEdit(footPrintPreFix);
+	  dlgStretch(0); dlgPushButton("Info") { if (dlgMessageBox(infoFootPrintPrefix, "Ok") == 0); }  dlgSpacing(20);
 	}
-    }
 
-    dlgVBoxLayout
-    {
-      dlgHBoxLayout
+	dlgHBoxLayout
+	{
+	  dlgComboBox( outPutFootPrintOptions, outPutFootPrint );
+	  dlgStretch(0); dlgPushButton("Info") { if (dlgMessageBox(infoFootPrint, "Ok") == 0); }  dlgSpacing(20);
+	}
+	dlgHBoxLayout
+	{
+	  dlgComboBox( addFootPrintList, outPutFootPrints );
+	  dlgStretch(0); dlgPushButton("Info") { if (dlgMessageBox(infoFootPrintList, "Ok") == 0); }   dlgSpacing(20);
+	}
+	dlgHBoxLayout
+	{
+	  dlgComboBox( eaglePartToKiCadPartConversiontion, eaglePartToKiCadPartConversion );
+	  dlgStretch(0); dlgPushButton("Info") { if (dlgMessageBox( infoDeviceConversion, "Ok") == 0); }  dlgSpacing(20);
+	}
+	dlgHBoxLayout
+	{
+	  dlgLabel("Defult Prefix for for sch parts which have no prefix");
+	  dlgStringEdit(undefinedPartPreFix);
+	  dlgStretch(0); dlgPushButton("Info") { if (dlgMessageBox( infoNoPrefix, "Ok") == 0); }  dlgSpacing(20);
+	}
+
+
+	dlgHBoxLayout
+	{
+	  dlgCheckBox("Use eagle Technologies to gerate KiCad part Alias", outPutAlias);
+	  dlgStretch(0); dlgPushButton("Info") { if (dlgMessageBox( infoTechnologies, "Ok") == 0); }  dlgSpacing(20);
+	}
+	dlgHBoxLayout
+	{
+	  dlgCheckBox("Delete Text after \'@\'", deleteTextArfterATsysbolInPinName );
+	  dlgStretch(0); dlgPushButton("Info") { if (dlgMessageBox( infoDeleArfter, "Ok") == 0); }   dlgSpacing(20);
+	}
+	dlgHBoxLayout
+	{
+	  dlgCheckBox("Add wild card '*' prefix to FootPrint list parts", wildCardPrefix );
+	  dlgStretch(0); dlgPushButton("Info") { if (dlgMessageBox( infoPreFixSeach, "Ok") == 0); }   dlgSpacing(20);
+	}
+	dlgHBoxLayout
+	{
+	  dlgCheckBox("Add wild card '*' postfix to FootPrint list parts", wildPostfix );
+	  dlgStretch(0); dlgPushButton("Info") { if (dlgMessageBox( infoPostFixSeach, "Ok") == 0); }   dlgSpacing(20);
+	}
+
+	dlgHBoxLayout
+	{
+	  dlgCheckBox("", limitTextLineWidth ); dlgLabel("Set Text Strings Max/Min line Width"); dlgStretch(0);
+	}
+	dlgHBoxLayout
+	{
+	  dlgLabel("Max");
+	  dlgStretch(0); dlgRealEdit( linMaxWidth, 0.001, 10000.0);  dlgLabel("   Min");  dlgRealEdit( linMinWidth, 0.001, 10000.0);
+	  dlgComboBox(minMaxUnits, minMaxUnitsSelect )
+	  {
+	    if( minMaxUnitsSelect !=  minMaxUnitsSelectOld )
+	      {
+		linMaxWidth =  unitConver( minMaxUnitsSelect, minMaxUnitsSelectOld, linMaxWidth);
+		linMinWidth =  unitConver( minMaxUnitsSelect, minMaxUnitsSelectOld, linMinWidth);
+		minMaxUnitsSelectOld  = minMaxUnitsSelect; 
+	      }
+	    if( linMaxWidth < linMinWidth )
+	      {
+		dlgMessageBox(":<h3><font color=red>Text line MAX Width Can't be less Text line MIN Width!!!</font></h3>", "", "+OK", "                 ");
+		linMaxWidth = linMinWidth;
+	      }
+
+	  }; dlgStretch(0);//      dlgStretch(0); dlgStringEdit(footPrintPreFix);
+	  dlgStretch(0); dlgPushButton("Info") { if( dlgMessageBox( infoTextMaxMinValue, "+Ok") == 0); }  dlgSpacing(20);
+	}
+      }
+      dlgVBoxLayout
       {
 	dlgStretch(0);
-	//	dlgPushButton("Cancel") dlgReject();
-	//	dlgPushButton("+Cancel") exit(0);
-	dlgPushButton("-Cancel") dlgReject();
+	dlgVBoxLayout
+	{
+	  dlgHBoxLayout
+	    {
+	      dlgStretch(0);
+	      dlgPushButton("+OK")
+		{
+		  width = defaultWidth;
+		  height = defaultHeight;
+
+		  if( linMaxWidth < linMinWidth )
+		    {
+		      dlgMessageBox(":<h3><font color=red>Text line MAX Width Can't be less Text line MIN Width!!!</font></h3>", "", "+Ok", "                ");
+		      linMaxWidth = linMinWidth;
+		    }
+		  else
+		    dlgAccept();
+		}
+	      dlgStretch(0);
+	    }
+	}
+	dlgVBoxLayout
+	{
+	  dlgHBoxLayout
+	  {
+	    dlgStretch(0);
+	    //	dlgPushButton("Cancel") dlgReject();
+	    //	dlgPushButton("+Cancel") exit(0);
+	    dlgPushButton("-Cancel") dlgReject();
+	    dlgStretch(0);
+	  }
+	}
+	dlgVBoxLayout
+	{
+	  dlgHBoxLayout
+	  {
+	    dlgStretch(0);
+	    dlgPushButton("How to use this program") { if( dlgMessageBox( infoProgramHowTo, "+Ok") == 0); };
+	    dlgStretch(0);
+	  }
+	}
 	dlgStretch(0);
       }
-    }
+    };
+  return result;
+}
 
-    dlgVBoxLayout
+//
+//*****************************
+// main program
+//*****************************
+//
+int main()
+{
+
+  sprintf( titleString, "Export Eagle lib to KiCAD lib/mod, Version %.2f, Use this programe at your own Risk!", VERSION );
+
+  if (library)
     {
-      dlgHBoxLayout
+      library(L)
       {
-	dlgStretch(0);
-	dlgPushButton("How to use this program") { if( dlgMessageBox( infoProgramHowTo, "+Ok") == 0); };
-	dlgStretch(0);
+	L.devices(DEV)
+	  {
+	    g_lib_prefix = DEV.library;
+	    footPrintPreFix = DEV.library;
+	  }
+
+	g_mod_name = strsub(L.name, 0, strlen(L.name) - 3) + "mod";
+	g_lib_name = strsub(L.name, 0, strlen(L.name) - 3) + "lib";
       }
     }
-    dlgStretch(0);
-  };
-};
+  else
+    {
+      dlgMessageBox("Please run from library or board editor." );
+      exit(EXIT_FAILURE);
+    }
+
+  result =  mainDialog( titleString );
+
+  if (result)
+    {
+      write_kikad_mod(g_mod_name);
+      write_kikad_lib(g_lib_name);
+      // A success message is useful
+    }
+  else
+    exit(-1);
 
 
-if (result)
-  {
-    write_kikad_mod(g_mod_name);
-    write_kikad_lib(g_lib_name);
-    // A success message is useful
-  }
- else
-   exit(-1);
+  if ( g_missingPrefix || warnings_count || errors_count )
+    {
+      string msgString, msgString1,  msgString2;
 
+      if( warnings_count )
+	sprintf( msgString, ":\n<h2><font color=\"red\">There are: %d   ERRORS.</font></h3>\n", errors_count);
 
-if ( g_missingPrefix || warnings_count || errors_count )
-  {
-    string msgString, msgString1,  msgString2;
+      if( warnings_count )
+	sprintf( msgString1, "!\n<h3><font color=\"brown\">!There are: %d   Warnings.</font></h2>\n", warnings_count);
 
-    if( warnings_count )
-      sprintf( msgString, ":\n<h2><font color=\"red\">There are: %d   ERRORS.</font></h3>\n", errors_count);
+      if( g_missingPrefix )
+	sprintf( msgString2, ";\nThere are: %d  missing part prefix(s)\n", g_missingPrefix);
 
-    if( warnings_count )
-      sprintf( msgString1, "!\n<h3><font color=\"brown\">!There are: %d   Warnings.</font></h2>\n", warnings_count);
+      dlgMessageBox(msgString + msgString1 + msgString2  );
+    }
+  else
+    dlgMessageBox("Conversion finished");
 
-    if( g_missingPrefix )
-      sprintf( msgString2, ";\nThere are: %d  missing part prefix(s)\n", g_missingPrefix);
+  exit(EXIT_SUCCESS);
 
-    dlgMessageBox(msgString + msgString1 + msgString2  );
-  }
- else
-   dlgMessageBox("Conversion finished");
-
-exit(EXIT_SUCCESS);
-
+  return EXIT_SUCCESS;
+}
