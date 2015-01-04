@@ -119,7 +119,7 @@ string findBrockenWireSegmentByNetName()
 
 
   
-
+	return "fail";
 }
 
 
@@ -1000,7 +1000,7 @@ void write_kicad_header( UL_SCHEMATIC SCH, int current_sheet, int number_of_shee
 //------------------------------------------------------
 void write_kicad_schematics( string fileName, int current_sheet, int number_of_sheets )
 {
-   output(fileName, "Fwt") 
+   output(fileName, "Fwt" ) 
    {
      if(schematic)
       {
@@ -1112,7 +1112,7 @@ void write_kicad_schematics( string fileName, int current_sheet, int number_of_s
 //------------------------------------------------------
 // Global mod_ and lib_name
 //------------------------------------------------------
-string sch_name ;   
+string sch_name[] ;   
 
 //------------------------------------------------------
 // Y axis translation factor
@@ -1128,7 +1128,7 @@ void setTransY()
 //------------------------------------------------------
 // Select the path where the schematic will be saved 
 //------------------------------------------------------
-void openSchematicPath( string startPath )
+void openSchematicPath( string startPath, int sheetcount )
 {
    string dirName = "";
    string stringArray[];
@@ -1141,8 +1141,8 @@ void openSchematicPath( string startPath )
          int n = 0;
          string tmpName = S.name; 
          int nr = strsplit(stringArray, tmpName, '/');
-         sch_name = dirName + "/" + stringArray[nr-1];
-         sch_name = strsub(sch_name , 0, strlen(sch_name) - 4) + "_.sch";
+         sch_name[ sheetcount ] = dirName + "/" + stringArray[ nr-1 ];
+         sch_name[ sheetcount ] = strsub(sch_name[ sheetcount ] , 0, strlen(sch_name[ sheetcount ]) - 4) + "_KICAD.sch";
       }
    }
 }
@@ -1166,19 +1166,28 @@ int mainDialog( string titleString, int sheetcount )
 	dlgTabPage("Output:") 
 	{     
 
-	  dlgHBoxLayout dlgSpacing(600);
+	  dlgHBoxLayout dlgSpacing(800);
 	  dlgStretch(0);
 	  dlgSpacing(space);
 	  dlgLabel("Export to file:");
 	  dlgStretch(0);
-	  dlgHBoxLayout
-	  {
-	    dlgSpacing(space);
-	    dlgStringEdit(sch_name);
-	    dlgSpacing(space);
-	    dlgPushButton("Edit") openSchematicPath("C:\\");
-	    dlgSpacing(space);
-	  }
+
+          if( sheetcount > 1 ) // more then one sheet ?
+            sheetcount++; // Then add master sheet.
+          
+          for( int i = 0; i < sheetcount; i++ )
+          {
+            dlgHBoxLayout
+            {
+              dlgSpacing(space);
+              dlgStringEdit( sch_name[i] );
+              dlgSpacing(space);
+              dlgPushButton("Edit") openSchematicPath("C:\\", i );
+              dlgSpacing(space);
+            }
+          }
+
+          
 	  dlgHBoxLayout
 	  {
 	    dlgCheckBox("", addLibPrifix ); dlgLabel("Add libname to Part Name"); dlgStretch(0);
@@ -1342,21 +1351,23 @@ int main()
 
   if(result)
   {
-
-    if( totalSheets == 1 )
+    if( totalSheets == 1 )  // Only one sheet ?
       {
-	write_kicad_schematics(sch_name, totalSheets, totalSheets );
+	write_kicad_schematics(sch_name[0], totalSheets, totalSheets );
 	dlgMessageBox("CONVERSION  COMPLETE\n" + "Libs list used\n\n" + libsUsed ); 
-
       }
     else
+    {  // more than one sheet then.
+      int current_sheet_number;
+
+      for( current_sheet_number = 0; current_sheet_number < totalSheets; current_sheet_number++ )
       {
-	int current_sheet_number = 0;
+        write_kicad_schematics( sch_name[ current_sheet_number ], current_sheet_number, totalSheets );
+        current_sheet_number++;
+      }
+            
 
-	write_kicad_schematics(sch_name, totalSheets, totalSheets );
-	dlgMessageBox("CONVERSION  COMPLETE\n" + "Libs list used\n\n" + libsUsed ); 
-
-
+            dlgMessageBox("CONVERSION  COMPLETE\n" + "Libs list used\n\n" + libsUsed );             
         //        while( totalSheets > current_sheet_number )
         //	  {
         //	  }
