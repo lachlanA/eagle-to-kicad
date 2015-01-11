@@ -47,7 +47,8 @@
  * License: This file is released under the license of the GNU Public license
  *          Version 2.
  * ==========================================================================*/   
- 
+
+int debug = 1;       
 real VERSION   = 1.0;
 
 string infoAddLibName = "<b> <a href=\'http://www.w3schools.com/html/'>Visit our HTML tutorial</a><Eagle SCH/PCB will not show any charters after \'@\' in pin names<br>"+
@@ -110,15 +111,64 @@ int netWireConnectForwood[];
 int netWireConnectBack[];
 int netWiresTotal;
 
+//------------------------------------------------------
+// Global mod_ and lib_name
+//------------------------------------------------------
+string sch_name[];   
+
+
+
+//------------------------------------------------------
+//Return's the path of a path-filename.
+//------------------------------------------------------
+string extract_path(string pathfilename)
+{
+  string tmpString[];
+  int nr = strsplit( tmpString, pathfilename, '/');
+  tmpString[ nr-1 ] = "";  // remove file name
+  return strjoin( tmpString, '/') + "/"; // Return path 
+}
+
+//------------------------------------------------------
+//Return's the file name path-filename.
+//------------------------------------------------------
+string extract_filename(string pathfilename)
+{
+  string tmpString[];
+  int nr = strsplit( tmpString, pathfilename, '/');
+  return tmpString[ nr-1 ];  // Return filename
+
+}
+
+
+//------------------------------------------------------
+//Replaces all occurrences of a substring found within a string.
+//------------------------------------------------------
+string str_replace(string search, string replace, string subject)
+{
+    int lastpos = 0;
+
+    // Check if there is any thing to replace
+    if( strstr(subject, search, lastpos) == -1)
+    	return subject;  // No so just return input string
+
+    while (strstr(subject, search, lastpos) >= 0)
+    {
+        int pos = strstr(subject, search, lastpos);
+        string before = strsub(subject, 0, pos);
+        string after = strsub(subject, pos + strlen(search));
+        subject = before + replace + after;
+        lastpos = pos + strlen(replace);
+    }
+    return subject;
+}
 
 //
 // Find wire sements which are not connected
 //
 string findBrockenWireSegmentByNetName()
 {
-
-
-  
+  //fix me !!!!!!  
 	return "fail";
 }
 
@@ -369,6 +419,44 @@ void writeTextLabels( UL_LABEL L )
    printf("Text Label %d %d %d %d ~\n", posX, -posY, orient, fontSize);
    printf("%s\n", textString);
 }
+
+//
+// Write NetName labe for KICAD pin, fix !
+//
+void writeTextNetLabel( string textString, real textAngle, int fontSize, int posX, int posY, int offset  )
+{
+   char   orient      = 0;
+   //   real   textAngle   = L.text.angle;
+   //   string textString  = L.text.value;
+   //   int    fontSize    = L.text.size/g_Fact;
+   //   int    posX        = L.text.x/g_Fact;
+   //   int    posY        = L.text.y/g_Fact - g_transY;
+   //   int    offset      = (( L.text.size * strlen( L.text.value )) /2 ) / g_Fact;
+                
+   switch( int(textAngle) )
+   {
+      case 0:
+         orient = 0;
+      break;
+ 
+      case 90:
+         orient = 1;
+      break;
+
+      case 180:
+         orient = 0;
+      break;
+
+      case 270:
+         orient = 1;
+      break;
+   }
+   printf("Text Label %d %d %d %d ~\n", posX, -posY, orient, fontSize);
+   printf("%s\n", textString);
+}
+
+
+
 
 //------------------------------------------------------
 //write kicad schematic bus segment entries
@@ -978,13 +1066,20 @@ void write_kicad_header( UL_SCHEMATIC SCH, int current_sheet, int number_of_shee
    if( current_sheet == 0 && number_of_sheets > 1 ) 
      {
        int sc = 1;
-       while( sc < number_of_sheets )  
+       string name = "";
+       string stringArray[];
+       int nr = 0;
+           
+       while( sc <= number_of_sheets )  
 	 {
-           string name = " dummy ";
-	   printf("$Sheet\n");
+           nr = strsplit(stringArray, sch_name[ sc ], '/');
+           name = stringArray[ nr-1 ];
+           printf("$Sheet\n");
 	   printf("S %d %d %d %d\n", 1800, 1600, 1500, 1500);
-	   printf("F0 %s %d\n", name + "-%d" + ".sch", sc, 60);
-	   printf("F1 %s %d\n", name + "-%d" + ".sch", sc, 60);
+	   printf("F0 %s %d\n", name, 60);
+	   printf("F1 %s %d\n", name, 60);
+           //!!!fixme	   printf("F0 %s %d\n", name + "-%d" + ".sch", sc, 60);
+           //!!!fixme	   printf("F1 %s %d\n",  name + "-%d" + ".sch", sc, 60);
 	   printf("$EndSheet\n");
 	   sc++;
    	 }
@@ -995,6 +1090,39 @@ void write_kicad_header( UL_SCHEMATIC SCH, int current_sheet, int number_of_shee
 
 }
 
+//------------------------------------------------------
+//write index of modules
+//------------------------------------------------------
+void write_kicad_netNames( UL_SHEET SH, int current_sheet )
+{
+  int Default_Netlabe_Size = 20;
+  int tsize;
+
+  SH.nets(N)
+  {
+    
+    //    N.pinrefs(R)
+    N.segments(S)
+    {
+      S.pinrefs(R)
+      {
+        if( R.instance.sheet != current_sheet )  // out put netNames for the current set only !
+          continue;
+
+        //      printf("Net:%s SHEET=:%d Pin=X:%f Pin=Y:%f  angle=:%f mirrored=:%d\n", N.name, PX.instance.sheet,  real(PX.pin.x)/real(320000), real(PX.pin.y)/real(320000), PX.instance.angle, PX.instance.mirror );
+
+        R.pin.texts(T)
+        {
+          tsize = ((T.size * strlen( N.name)) / 2 ) / g_Fact;
+          break;
+        }
+
+        writeTextNetLabel( N.name , R.pin.angle, Default_Netlabe_Size, R.pin.x/g_Fact, (R.pin.y/g_Fact - g_transY),   tsize );
+
+      }
+    }
+  }
+}
 //------------------------------------------------------
 //write index of modules
 //------------------------------------------------------
@@ -1037,51 +1165,60 @@ void write_kicad_schematics( string fileName, int current_sheet, int number_of_s
 		  }	
 	      }
 
-            schematic(S)
-            {
-              S.nets(N)
-              {
-                // N.segments(SEG) will NOT work here!
-                N.pinrefs(PX)
-                {
-                  printf("Net: %s %d\n", N.name, PX.instance.sheet );
-                }
-              }
-            }
 
-            schematic(S)
+            if(debug)
             {
-              S.sheets(SH)
+              output( extract_path( fileName) + extract_filename( fileName ) + "_debug.txt", "Fwt" )
               {
-                SH.nets(N)
+                schematic(S)
                 {
-                  printf("Net: %s\n", N.name);
-                  N.segments(SEG)
+                  S.nets(N)
                   {
-                    SEG.pinrefs(P) // Print Net connection to part pin.
+                    // N.segments(SEG) will NOT work here!
+                    N.pinrefs(PX)
                     {
-                      printf("connected to: %s, %s, %d, %s %f %f \n", P.part.name, P.instance.name, P.instance.sheet, P.pin.name, real(P.pin.x)/real(320000), real(P.pin.y)/real(320000));
-                    }
-
-                    int count = 0;
-                    SEG.wires(W)  // print wires out
-                    {
-                      netlistsX1[ count ] = u2mm(W.x1);
-                      netlistsY1[ count ] = u2mm(W.y1);
-                      netlistsX2[ count ] = u2mm(W.x2);
-                      netlistsY2[ count ] = u2mm(W.y2);
-                      netWireConnectForwood[ count ] = 0;
-                      netWireConnectBack[ count ] = 0;
-                      netWiresTotal++;
-                      
-                      printf("Net:%s \tWire: (%f %f) (%f %f)\n", N.name, u2mm(W.x1), u2mm(W.y1), u2mm(W.x2), u2mm(W.y2));
-                      count++;
+                      printf("Net:%s SHEET=:%d Pin=X:%f Pin=Y:%f  angle=:%f mirrored=:%d\n", N.name, PX.instance.sheet,  real(PX.pin.x)/real(320000), real(PX.pin.y)/real(320000), PX.instance.angle, PX.instance.mirror );
                     }
                   }
-                }
-              }
-            } 
 
+                }
+
+                printf("\n");
+                schematic(S)
+                {
+                  S.sheets(SH)
+                  {
+                    SH.nets(N)
+                    {
+                      printf("\n");
+                      printf("Net: %s\n", N.name);
+                      N.segments(SEG)
+                      {
+                        SEG.pinrefs(P) // Print Net connection to part pin.
+                        {
+                          printf(" Connected to: Part.name:%s, Instace.name:%s, Instance.sheet:%d, Pin.name:%s %f %f \n", P.part.name, P.instance.name, P.instance.sheet, P.pin.name, real(P.pin.x)/real(320000), real(P.pin.y)/real(320000));
+                        }
+
+                        int count = 0;
+                        SEG.wires(W)  // print wires out
+                        {
+                          netlistsX1[ count ] = u2mm(W.x1);
+                          netlistsY1[ count ] = u2mm(W.y1);
+                          netlistsX2[ count ] = u2mm(W.x2);
+                          netlistsY2[ count ] = u2mm(W.y2);
+                          netWireConnectForwood[ count ] = 0;
+                          netWireConnectBack[ count ] = 0;
+                          netWiresTotal++;
+                      
+                          printf("   Net:%s Wire: (%f %f) (%f %f)\n", N.name, u2mm(W.x1), u2mm(W.y1), u2mm(W.x2), u2mm(W.y2));
+                          count++;
+                        }
+                      }
+                    }
+                  }
+                } 
+              }
+            } // End of debug
             
             SCH.sheets(SH)
             {
@@ -1100,6 +1237,7 @@ void write_kicad_schematics( string fileName, int current_sheet, int number_of_s
 		   write_kicad_wire_segments( SH );
 		   write_kicad_bus_segments( SH );
 		   write_kicad_dotted_segments( SH );
+                   write_kicad_netNames( SH, current_sheet );
 		 }
               printf("$EndSCHEMATC\n");
 	    }
@@ -1109,10 +1247,6 @@ void write_kicad_schematics( string fileName, int current_sheet, int number_of_s
 }
 
 
-//------------------------------------------------------
-// Global mod_ and lib_name
-//------------------------------------------------------
-string sch_name[] ;   
 
 //------------------------------------------------------
 // Y axis translation factor
@@ -1177,6 +1311,7 @@ int mainDialog( string titleString, int sheetcount )
           
           for( int i = 0; i < sheetcount; i++ )
           {
+
             dlgHBoxLayout
             {
               dlgSpacing(space);
@@ -1312,7 +1447,7 @@ int mainDialog( string titleString, int sheetcount )
 //
 int main()
 {
-  int totalSheets;
+  int totalSheets = 0;
 
   sprintf(titleStr, "Export Eagle schematic to KiCAD, Version: %.1f,  Use this programe at your own Risk!", VERSION);
 
@@ -1320,34 +1455,61 @@ int main()
     {
       schematic(S) 
       {
-
         //	sch_name = strsub(S.name, 0, strlen(S.name) - 4) + "_.sch";
-
-
-        
 	schematic(SCH) 
 	{
-	  SCH.sheets(S)
+	  SCH.sheets(SX)
 	    {
-	      ++totalSheets;
+              totalSheets++;
 	    } 
         }
 
-	/*	if( totalSheets > 1 )
-	  {
-	    dlgMessageBox("<b><h2>This Eagle schematic to KiCad schematic ulp<br> only suports one sheet eagle schematic's !</h2></b>" ); 
-	    exit(EXIT_FAILURE);
-	    }*/
+        if( totalSheets > 1 )
+        {
+          //          ????
+        }
+        else
+        {  //  only one sheet,  so just use master sheet name with add on "_KICAD.sch"
+          //          sch_name[ i ] = SCH.name + "_KICAD.sch"; 
+        }
+        
+	schematic(SCH) 
+	{
+          int i = 0;
 
+	  SCH.sheets(SX)
+	    {
+              if( totalSheets == 1 )
+              {
+                sch_name[ i ] = strsub( SCH.name , 0, strlen( SCH.name) - 4) + "_KICAD.sch";                
+                //                sch_name[ i ] = SCH.name;
+                //                str_replace(".sch", "X", sch_name[ i ] );
+                //                sch_name[ i ] = sch_name[ i ] + "_KICAD.sch";                     
+                continue;                  
+              }
 
-	result = mainDialog( titleStr, totalSheets );
+              if(( totalSheets > 1 )  && ( i == 0))
+              {
+                //                sch_name[ i ] = SCH.name + "_MASTER_KICAD.sch"; 
+                sch_name[ i ] = strsub( SCH.name , 0, strlen( SCH.name) - 4) + "_MASTER_KICAD.sch";
+                i++;
+                sprintf( sch_name[ i ], "%s%s%d%s", strsub( SCH.name , 0, strlen( SCH.name) - 4), "_SUB_SHEET_",  i, "_KICAD.sch");
+                i++;
+                continue;
+              }
+              sprintf( sch_name[ i ], "%s%s%d%s", strsub( SCH.name , 0, strlen( SCH.name) - 4), "_SUB_SHEET_", i, "_KICAD.sch");
+              i++;
+            }
+          
+          result = mainDialog( titleStr, totalSheets );
+        }
       }
     }
   else 
-    {
-      dlgMessageBox("Please run from schematic editor." ); 
-      exit(EXIT_FAILURE);
-    }
+  {
+    dlgMessageBox("Please run from schematic editor." ); 
+    exit(EXIT_FAILURE);
+  }
 
   if(result)
   {
