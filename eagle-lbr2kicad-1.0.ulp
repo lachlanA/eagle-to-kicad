@@ -212,7 +212,7 @@ string infoFootPrint = "<pre>You have 2 options, for the footprint name in KiCad
                        "Which is used to filter the module footprints displayed in KiCad's CvPcb program.</pre>";
 
 
-string infoFootPrintPrefix = "You can override the default eagle lib name, which is the prefix to the KiCad footprint name.<br>Note: that this program always adds '-' between  prefix name and foot print name.";
+string infoFootPrintPrefix = "You can override the default eagle lib name, which is the prefix to the KiCad footprint name.<br>Note: that this program always adds '_' between  prefix name and foot print name.";
 
 string infoTextMaxMinValue = "<pre>You can override text font line width size in eagle, and use the Max and Min line width,<br>which KiCad use's to draw the text<br>"+
                              "IE:  Any text line width which is bigger than Max line will be replaced with Max value.<br>"+

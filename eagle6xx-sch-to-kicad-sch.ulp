@@ -49,7 +49,9 @@
  * ==========================================================================*/   
 
 int debug = 1;       
-real VERSION   = 1.0;
+real VERSION   = 1.1;
+real fontSize_PartPreFix_Ajust = 0.9;
+string libNamePartNameSeperator = ":";
 
 string infoAddLibName = "<b> <a href=\'http://www.w3schools.com/html/'>Visit our HTML tutorial</a><Eagle SCH/PCB will not show any charters after \'@\' in pin names<br>"+
                         "Checking this will delete any charters after and including the <b>'@'</b><br>so it wont show in KiCad</pre>";
@@ -69,11 +71,11 @@ string g_sheetSizeArray[] = { "A0", "A1", "A2", "A3", "A4", "A5", "A6",
                               "Letter", "Legal", "Folio", "Executive", 
 			      "A", "B", "C", "D", "E" };			   
  
-string g_sheetSizes[]     = { "46800 33070", "33070 23400", "23400 16535", "16535 11700", "11700 8267", "8267 5826", "5826 4133", 
+string g_sheetSizes[]     = { "46811 33110", "33070 23400", "23400 16535", "16535 11700", "11700 8267", "8267 5826", "5826 4133", 
                               "11000 8500", "14000 8500", "13000 8500", "10500", "7250",
 			      "11000 8000", "16000 11000", "22000 16000", "32000 22000", "44000 32000" };
 			  
-int g_selected = 4; // initially selects "A0" 
+int g_selected = 0; // initially selects "A0" 
 
 int g_dimX = 16000;
 int g_dimY = 11000;
@@ -93,7 +95,9 @@ string libsUsed = "";  // list of libs
 int addLibPrifix = 1; // add lib prifix
 
 real   g_Fact  = 254*32;        // global uMeter to uInch conversion factor
-int    g_transY = 11000;         // Y-axis translation factor, depending on the sheet size
+
+int    g_transX = 0;         // Y-axis translation factor, depending on the sheet size
+int    g_transY = 0;         // Y-axis translation factor, depending on the sheet size
 
 // Default version of KiCad sch file
 int outPutVersion = 2;
@@ -116,14 +120,31 @@ int totalSheets = 0;
 int globalNetListSize = 0;
 string globalNetList[];
 
+int old_time = 0;
+int hack_time = 0;
 
 //------------------------------------------------------
 // Global mod_ and lib_name
 //------------------------------------------------------
 string sch_name[];   
 
+// fix for eagle PART/VALUE    0 Deg   90 Deg       180 Deg         270 Deg
+/*
+real correctionFactorX_0[] = { 1.0, 1.044444444444, 1.093023255813, 1.0444444444444 };
+real correctionFactorY_0[] = { 1.0, 1.008928571428, 1.0           , 0.9912807017543 };
+real correctionFactorX_1[] = { 1.0, 1.044444444444, 1.093023255813, 1.0444444444444 };
+real correctionFactorY_1[] = { 1.0, 1.009009009009, 1.000892857142, 0.9920353982300 };
+*/
 
 
+real correctionFactorX_0[] = { 1.0, 1.0,  1.0, 1.0 };
+real correctionFactorY_0[] = { 1.0, 1.0,  1.0, 1.0 };
+real correctionFactorX_1[] = { 1.0, 1.0,  1.0, 1.0 };
+real correctionFactorY_1[] = { 1.0, 1.0,  1.0, 1.0 };
+
+string StmpS = "";
+string mulitiGateList[];
+int partGateCount;
 //------------------------------------------------------
 //Return's the path of a path-filename.
 //------------------------------------------------------
@@ -170,15 +191,55 @@ string str_replace(string search, string replace, string subject)
 }
 
 //
-// Find wire sements which are not connected
+// Compair 2 strings,
+// Strings must be same size
+// Return's 0 for fail, or none zero for compaired good.
 //
-string findBrockenWireSegmentByNetName()
+int stringCompair( string st1, string st2 )
 {
-  //fix me !!!!!!  
-	return "fail";
+  int i;
+  int stL1 = strlen( st1 );
+  int stL2 = strlen( st2 );
+
+  if( ( stL1 == 0 ) || ( stL2 == 0))
+    return 0;
+
+  if( stL1 == stL2 )
+    for( i = 0; i < stL2; i++ )
+    {
+      if( st1[ i ] == st2[ i ] )
+        continue;
+      else
+      {
+        return 0;
+      }
+    }
+  else
+    return 0;
+
+  return i;
 }
+//
+// compairs string to first substring mulitiGateList[ partGateCount ]
+// return's index + 1  if found
+// or zero if not.
+//
+int compairStringToStringArray( string searchString )
+{
+  int i;
+  int j;
+  string stemp[];
+  
+  for( i = 0; i < partGateCount; i++ )
+    {
+      if( strsplit( stemp, mulitiGateList[ i ], ' ' ) == 0 )
+          continue;
 
-
+      if( stringCompair( stemp[0], searchString ))
+        return i + 1;
+    }
+  return 0;
+}
 //
 //replace new line charter with string '\n' as kicad can handel that, but not new line chareter
 //
@@ -244,25 +305,99 @@ string angleToKiCadMatrix(int angle, int mirror )
   switch(angle)
     {
     case 0: // 0 deg's
-      return ((mirror ? "-1" : "1") + " 0 0 -1");
+      return ((mirror ? "-1" : "1") + "    0    0    -1");
       break;
 
     case 90:  // 90 deg's
       //      return ("0 -1 " + (mirror ? "1" : "-1") + " 0");
-      return ("0 " + (mirror ? "1 -1" : "-1 -1") + " 0");
+      return ("0    " + (mirror ? "1    -1" : "-1    -1") + "    0");
       break;
 
       case 180: // 180 Deg's
-	return ((mirror ? "1" : "-1") + " 0 0 1");
+	return ((mirror ? "1" : "-1") + "    0    0    1");
 	//	return ("-1 0 0 " + (mirror ? "-1" : "1") );
       break;
 
     case 270:  // -90 Deg's or 270 Degs
-      return ("0 " + (mirror ? "-1" : "1") + " 1 0");
+      return ("0    " + (mirror ? "-1" : "1") + "    1    0");
       //      return ("0 1 " + (mirror ? "-1" : "1") + " 0");
 
       break;
     }
+}
+
+
+// 
+// This is a real mess.
+//
+string eagleMathCorrectonNameVale( string line, int correctionTable, int offset, char del )
+{
+  string sTemp[];
+  int splitCt;
+  real sel = 0.0;
+  int correctionInt = 0;
+
+  splitCt = strsplit( sTemp, line, ' ' );
+
+  int ag = ( strtol( sTemp[ splitCt-1 ] ) / 90 );
+                
+  switch( correctionTable )
+  {
+    case 0: // 0 Degs
+      sel = correctionFactorX_0[ ag ];
+      break;
+    case 1: // 90 Degs
+      sel = correctionFactorY_0[ ag ];
+      break;
+    case 2: // 180 Degs
+      sel = correctionFactorX_1[ ag ];
+      break;
+    case 3: // 270 Degs
+      sel = correctionFactorY_1[ ag ];
+      break;
+  }
+
+  //  int i = 0;
+  //  while( i < splitCt )
+  //    printf("sTemp[%d]=%s ", i, sTemp[i++] );
+
+  //  printf("\n");
+
+  //  printf("ag=%d,  sel=%f, XorY=%f\n", ag, sel, strtod( sTemp[ offset ] ));   
+
+  if( sel != 1.0 )
+    correctionInt = 1;
+  else
+    correctionInt = 0;
+
+  sprintf(sTemp[ offset ], "%d", correctionInt + int(( strtod( sTemp[ offset ] ) * sel )));
+  
+  if(del)
+    sTemp[ splitCt-1 ] = ""; // Remove angle at end
+  
+  return strjoin( sTemp, ' ');      
+}
+
+//*****************************
+// Current time hack for KiCad
+//
+int getCurrentTimeHack()
+{
+  int i;
+
+  i = time();
+
+  if( old_time == i )
+  {
+    hack_time = hack_time + 100;
+    return old_time + hack_time;
+  }
+  else
+  {
+    old_time = i;
+    return i;
+  }
+  
 }
 
 
@@ -273,10 +408,10 @@ void write_kicad_dotted_segments( UL_SHEET SH )
 {
    SH.wires(W)
    {
-      int x1 = W.x1/g_Fact;
-      int y1 = W.y1/g_Fact - g_transY;
-      int x2 = W.x2/g_Fact;
-      int y2 = W.y2/g_Fact - g_transY;
+      int x1 = W.x1/g_Fact + g_transX;
+      int y1 = W.y1/g_Fact + g_transY;
+      int x2 = W.x2/g_Fact + g_transX;
+      int y2 = W.y2/g_Fact + g_transY;
 
       printf( "Wire Notes Line\n" );
       printf( "%d %d %d %d\n", x1, -y1, x2, -y2 );
@@ -286,39 +421,413 @@ void write_kicad_dotted_segments( UL_SHEET SH )
 //------------------------------------------------------
 //write text of an instance smashed or not smashed
 //------------------------------------------------------
-string writeInstanceText( UL_TEXT T, string partPreFix, string partName, int visable, int symYPostionRaw, int enyCorrection, int partAngle, int partMirror  )
+string writeInstanceText( UL_TEXT T, int visable, int posX, int posY, int r, int mirror, string prefixToValue )
 {
    // Smashed text of an instance
-   int  x        = T.x / g_Fact;
-   int  y        = T.y / g_Fact - g_transY;
-   //   int  y        symYPostionRaw - ( T.y / g_Fact - g_transY);
-   int  angle    = T.angle;
-   int  fontSize = T.size/g_Fact;
-     //   int  fontSize = T.size/(g_Fact*32);
-   char hAlign   = 'L';
-   char vAlign   = 'B';
-   char orient   = 'H';
-   string result;
+  int tmp;
+  int  x        = ( T.x / g_Fact) + g_transX;
+  int  y        = ( T.y / g_Fact) + g_transY;
+  //  int  y        = ( T.y / g_Fact) - (( symYPostionRaw * 2) / g_Fact ) + g_transY;  
+  int  angle    = T.angle;
+  int  textMirro = T.mirror;
+  int  fontSize = int( (T.size/g_Fact) * fontSize_PartPreFix_Ajust );
+  //  int  fontSize = T.size/g_Fact;  
+  char hAlign   = 'L';
+  char vAlign   = 'B';
+  char orient   = 'H';
+  string result;
+
+  
+  real rotation = r - 90;
+  // calculate text position from origin of component
+  int diffX = posX - x;
+  int diffY = posY + y;
+
+  if (mirror!=0)
+  {
+    diffX = -diffX;
+  }
+
+   // now rotate offset position about origin by rotation degrees
+   real toRad = PI/180;
+   int px = cos(rotation*toRad) * (diffX) - sin(rotation*toRad) * (diffY);
+   int py = sin(rotation*toRad) * (diffX) + cos(rotation*toRad) * (diffY);
+
+   // calculate difference in coordinate so we can properly flip this coordinate system
+   y = posY + (px);
+   x = posX + (py);
+
+   StmpS = "";
+   // sprintf( StmpS, "|Angle=%d  r=%d mirror=%d textMirro=%d  value=%s: |", angle, r, mirror, textMirro , T.value );
+
+   switch(angle)
+   {
+     case 0:  // **** angle = 0 Degs ****
+        if (r == 0 )
+        {
+          if( textMirro )
+          {
+            if( mirror )
+            {
+              orient = 'H';          
+              hAlign = 'L';
+              vAlign = 'B';
+            }
+            else
+            {
+              orient = 'H';          
+              hAlign = 'R';
+              vAlign = 'B';
+            }
+            break;
+          }
+          else
+            orient = 'H';
+          break;
+        }
+        if( r == 90 )
+        {
+          if( textMirro )
+          {
+            orient = 'V';          
+            hAlign = 'L';
+            vAlign = 'T';
+          }
+          else
+          {
+            orient = 'V';          
+            hAlign = 'R';
+            vAlign = 'T';
+          }
+          break;
+        }
+        if ( r == 180)
+        {
+          if( textMirro )
+          {
+            orient = 'H';          
+            hAlign = 'L';
+            vAlign = 'T';
+          }
+          else
+          {
+            orient = 'H';
+            hAlign = 'R';
+            vAlign = 'T';
+          }
+          break;
+        }
+        if ( r == 270)
+        {
+          if( textMirro )
+          {
+            if( mirror )
+            {
+              orient = 'V';          
+              hAlign = 'L';
+              vAlign = 'B';
+            }
+            else
+            {
+              orient = 'V';          
+              hAlign = 'R';
+              vAlign = 'B';
+            }
+            break;
+          }
+          else
+          {
+            if( mirror )
+            {
+              orient = 'V';          
+              //              hAlign = 'R';
+              //              vAlign = 'B';
+            }
+            else
+            {
+              orient = 'V';
+              hAlign = 'L';
+              vAlign = 'B';
+            }
+            break;
+          }
+          orient = 'V';
+        }
+        break;
+     case 180:  // **** angle = 180 *****
+       if (r == 0 )
+       {
+          if( textMirro )
+          {
+            orient = 'H';
+            hAlign = 'L';
+            vAlign = 'T';
+          }
+          else
+          {
+            orient = 'H';
+            hAlign = 'R';
+            vAlign = 'T';
+          }
+         break;
+       }
+       if (r == 90 )
+       {
+          if( textMirro )
+          {
+              orient = 'V';
+              hAlign = 'R';
+              vAlign = 'B';
+          }
+          else
+          {
+            orient = 'V';
+          }
+         break;
+       }
+       if ( r == 180)
+       {
+         if( textMirro )
+         {
+            if( mirror )
+            {
+              orient = 'H';          
+              hAlign = 'L';
+              vAlign = 'B';
+            }
+            else
+            {
+              orient = 'H';
+              hAlign = 'R';
+              vAlign = 'B';
+            }
+         }
+         else
+         {
+           orient = 'H';
+           hAlign = 'L';
+           vAlign = 'B';
+         }
+         break;
+       }
+       if ( r == 270)
+       {
+         if( textMirro )
+         {
+           if( mirror )
+           {
+             orient = 'V';          
+             hAlign = 'R';
+             vAlign = 'T';
+           }
+           else
+           {
+             orient = 'V';          
+             hAlign = 'L';
+             vAlign = 'T';
+           }
+           break;
+         }
+         else
+         {
+           if( mirror )
+           {
+             orient = 'V';          
+             //             hAlign = 'L';
+             //             vAlign = 'T';
+           }
+           else
+           {
+             orient = 'V';
+             hAlign = 'R';
+             vAlign = 'T';
+           }
+           break;
+         }
+       }
+       orient = 'V';
+       break;
+
+      case 90:  // **** angle = 90 *****
+        if (r == 0 )
+        {
+          if( textMirro )
+          {
+            orient = 'V';
+            hAlign = 'L';
+            vAlign = 'T';
+          }
+          else
+            orient = 'V';
+          break;
+        }
+        if( r == 90)
+        {
+          if( textMirro )
+          {
+           if( mirror )
+           {
+             orient = 'H';          
+             hAlign = 'L';
+             vAlign = 'B';
+           }
+           else
+           {
+             orient = 'H';
+             hAlign = 'L';
+             vAlign = 'T';
+           }
+          }
+          else
+          {
+            orient = 'H';
+          }
+          break;
+        }
+        if( r == 180)
+        {
+          if( textMirro )
+          {
+            orient = 'V';
+            hAlign = 'R';
+            vAlign = 'B';
+          }
+          else
+          {
+            orient = 'V';
+            hAlign = 'R';
+            vAlign = 'T';
+          }
+          break;
+        }
+        if ( r == 270 )
+        {
+          if( textMirro )
+          {
+            if( mirror )
+            {
+              orient = 'H';          
+              hAlign = 'R';
+              vAlign = 'T';
+            }
+            else
+            {
+              orient = 'H';          
+              hAlign = 'R';
+              vAlign = 'B';
+            }
+            break;
+          }
+          else
+          {
+            if( mirror )
+            {
+              orient = 'H';          
+              //              hAlign = 'R';
+              //              vAlign = 'B';
+            }
+            else
+            {
+              orient = 'H';          
+              hAlign = 'R';
+              vAlign = 'T';
+            }
+            break;
+          }
+        }
+        orient = 'H';
+        break;
+     case 270:  // **** angle = 270 *****
+       if (r == 0 )
+       {
+          if( textMirro )
+          {
+            orient = 'V';
+            hAlign = 'R';
+            vAlign = 'B';
+          }
+          else
+          {
+            orient = 'V';
+            hAlign = 'R';
+            vAlign = 'T';
+          }
+         break;
+       }
+       if( r == 180)
+       {
+          if( textMirro )
+          {
+            orient = 'V';
+            hAlign = 'L';
+            vAlign = 'T';
+          }
+          else
+          {
+            orient = 'V';          
+            hAlign = 'L';
+            vAlign = 'B';
+          }
+         break;
+       }
+       if( r == 90 )
+       {
+          if( textMirro )
+          {
+            orient = 'H';
+            hAlign = 'R';
+            vAlign = 'B';
+          }
+          else
+          {
+            orient = 'H';          
+            hAlign = 'R';
+            vAlign = 'T';
+          }
+          break;
+       }
+       if( r == 270 )
+       {
+         if( textMirro )
+         {
+           if( mirror )
+           {
+              orient = 'H';          
+              hAlign = 'L';
+              vAlign = 'B';
+           }
+           else
+           {
+             orient = 'H';          
+             hAlign = 'L';
+             vAlign = 'T';
+           }
+           break;
+         }
+         else
+         {
+           if( mirror )
+           {
+             orient = 'H';          
+             //             hAlign = 'L';
+             //             vAlign = 'T';
+           }
+           else
+           {
+             orient = 'H';
+           }
+           break;
+         }
+       }
+       orient = 'H';
+       break;
+   }
 
 
-   //   printf("\n# Text.angle=%d,  Text.mirror=%d,  PartAngle=%d, PartMirror=%d, T.x=%d, T.y=%d\n", angle, T.mirror, partAngle, partMirror, T.x, T.y );
+   /*
 
-   //   if(( partAngle - angle ) < 0 )
-   //     printf("\n# Text.angle=%d,  Text.mirror=%d,  PartAngle=%d, PartMirror=%d\n", angle, T.mirror, partAngle, partMirror );
 
    
-
-   // add correction to Y  for..   
-   //   if( enyCorrection )
-   if( 1 )
-     {
-       if(  symYPostionRaw < T.y )
-	   y = ( symYPostionRaw - abs( symYPostionRaw - T.y )) / g_Fact - g_transY ;  // If postive offset, nigtive !
-       if ( symYPostionRaw > T.y )
-	 y = ( symYPostionRaw + (symYPostionRaw - T.y )) / g_Fact - g_transY;  // if negtive offset 
-     }
-   
-
    switch( partAngle - angle )
      {
      case 0:  // funny biz..    even thou text  may show no rowtation,    if the part is rotated we still have to change the postion of the text !!!
@@ -367,17 +876,18 @@ string writeInstanceText( UL_TEXT T, string partPreFix, string partName, int vis
          vAlign = 'T';
       break;
    }
+   */
 
    if( outPutVersion == 1 )
-     sprintf( result, "\"%s\" %c %d %d %d %.4d %c %c\n", stripLfCrToEscCRLF( T.value ), orient, x, -y, fontSize, visable, hAlign, vAlign );
+     sprintf( result, "\"%s\" %c %d %d %d  %.4d %c %c\n", prefixToValue + stripLfCrToEscCRLF( T.value ), orient, x, y, fontSize, visable, hAlign, vAlign);
    if( outPutVersion == 2 )
-     sprintf( result, "\"%s\" %c %d %d %d %.4d %c %cNN\n", stripLfCrToEscCRLF( T.value ), orient, x, -y, fontSize, visable, hAlign, vAlign );
-
-   return result;
+     sprintf( result, "\"%s\" %c %d %d %d  %.4d %c %cNN\n", prefixToValue + stripLfCrToEscCRLF( T.value ), orient, x, y, fontSize, visable, hAlign, vAlign);
+   
+   return     StmpS + result;
 }
 
 //------------------------------------------------------
-//write text segments for nets and busses old version
+//write text segments for nets and busses,  OLD VERSION !
 //------------------------------------------------------
 void writeTextSegments( UL_TEXT T )
 {
@@ -385,8 +895,8 @@ void writeTextSegments( UL_TEXT T )
    int    textAngle   = T.angle;
    string textString  = T.value;
    int    fontSize    = T.size/g_Fact;
-   int    posX        = T.x/g_Fact;
-   int    posY        = T.y/g_Fact - g_transY;
+   int    posX        = T.x/g_Fact + g_transX;
+   int    posY        = T.y/g_Fact + g_transY;
    int    offset      = ((T.size * strlen(T.value))/2)/g_Fact;
                 
    switch( textAngle )
@@ -407,40 +917,45 @@ void writeTextSegments( UL_TEXT T )
          orient = 1;
       break;
    }
-   printf("Text Label %d %d %d %d ~\n", posX, -posY, orient, fontSize);
+   printf("oText Label %d %d %d %d ~\n", posX, -posY, orient, fontSize);
    printf("%s\n", textString);
 }
 
 //------------------------------------------------------
-//write lable segments for nets and busses new version
+//write lable segments for nets and busses, NEW VERSION !!
 //------------------------------------------------------
 void writeTextLabels( UL_LABEL L )
 {
    char   orient      = 0;
    real   textAngle   = L.text.angle;
    string textString  = L.text.value;
-   int    fontSize    = L.text.size/g_Fact;
-   int    posX        = L.text.x/g_Fact;
-   int    posY        = L.text.y/g_Fact - g_transY;
+   int    fontSize    = L.text.size/( g_Fact + 500 );
+   int    posX        = L.text.x/g_Fact + g_transX;
+   int    posY        = L.text.y/g_Fact + g_transY;
    int    offset      = (( L.text.size * strlen( L.text.value )) /2 ) / g_Fact;
                 
    switch( int(textAngle) )
    {
       case 0:
-         orient = 0;
-      break;
+        orient = 0;
+        if( L.text.mirror )
+          orient = 2;
+        break;
  
       case 90:
          orient = 1;
       break;
 
       case 180:
-         orient = 0;
-      break;
+         orient = 2;
+         if( L.text.mirror )
+           orient = 0;
+         break;
 
       case 270:
-         orient = 1;
-      break;
+         orient = 3;
+
+         break;
    }
    printf("Text Label %d %d %d %d ~\n", posX, -posY, orient, fontSize);
    printf("%s\n", textString);
@@ -468,7 +983,7 @@ void writeTextNetLabel( string textString, real textAngle, int fontSize, int pos
          break;
  
        case 90:
-         Xorient = 1;
+         Xorient = 3;
          break;
 
        case 180:
@@ -476,7 +991,7 @@ void writeTextNetLabel( string textString, real textAngle, int fontSize, int pos
          break;
 
        case 270:
-         Xorient = 3;
+         Xorient = 1;
          break;
      }
    else
@@ -485,7 +1000,6 @@ void writeTextNetLabel( string textString, real textAngle, int fontSize, int pos
 
        case 0:
          Xorient = 2;
-         //         Xorient = 0;         
          break;
  
        case 90:
@@ -501,10 +1015,6 @@ void writeTextNetLabel( string textString, real textAngle, int fontSize, int pos
          break;
      }     
 
-
-
-
-   
    if( global )
      printf("Text GLabel %d %d %d %d %s\n", posX, -posY, Xorient, fontSize, "UnSpc");
    else
@@ -527,10 +1037,10 @@ void write_kicad_bus_segments( UL_SHEET SH )
       {
          SEG.wires(W) 
 	 {
-            int x1 = W.x1/g_Fact;
-            int y1 = W.y1/g_Fact - g_transY;
-            int x2 = W.x2/g_Fact;
-            int y2 = W.y2/g_Fact - g_transY;
+            int x1 = W.x1/g_Fact + g_transX;
+            int y1 = W.y1/g_Fact + g_transY;
+            int x2 = W.x2/g_Fact + g_transX;
+            int y2 = W.y2/g_Fact + g_transY;
 
 	    printf( "Wire Bus Line\n" );
 	    printf( "%d %d %d %d\n", x1, -y1, x2, -y2 );
@@ -538,8 +1048,8 @@ void write_kicad_bus_segments( UL_SHEET SH )
 	 
          SEG.junctions(J)
 	 {
-	    int x = J.x/g_Fact;
-	    int y = J.y/g_Fact- g_transY;
+	    int x = J.x/g_Fact + g_transX;
+	    int y = J.y/g_Fact + g_transY;
 	    
 	    printf("Connection ~ %d %d\n", x, -y);
 	 }
@@ -570,10 +1080,10 @@ void write_kicad_wire_segments( UL_SHEET SH )
       {
          SEG.wires(W) 
          {
-            int x1 = W.x1/g_Fact;
-            int y1 = W.y1/g_Fact - g_transY;
-            int x2 = W.x2/g_Fact;
-            int y2 = W.y2/g_Fact - g_transY;
+            int x1 = W.x1/g_Fact + g_transX;
+            int y1 = W.y1/g_Fact + g_transY;
+            int x2 = W.x2/g_Fact + g_transX;
+            int y2 = W.y2/g_Fact + g_transY;
 
             printf( "Wire Wire Line\n" );
 
@@ -585,16 +1095,23 @@ void write_kicad_wire_segments( UL_SHEET SH )
 	 
          SEG.junctions(J)
         {
-            int x = J.x/g_Fact;
-            int y = J.y/g_Fact- g_transY;
+            int x = J.x/g_Fact + g_transX;
+            int y = J.y/g_Fact + g_transY;
 	    
             printf("Connection ~ %d %d\n", x, -y);
         }
 	 
-         SEG.texts(T)
+
+         SEG.labels(L) // New version,  supost to be better ?
          {
-            writeTextSegments(T);
+           writeTextLabels( L );
          }
+
+         //         SEG.texts(T)
+         //         {
+         //            writeTextSegments(T);
+         //         }
+
       }
    }
 }
@@ -610,8 +1127,8 @@ void write_kicad_text_notes( UL_SHEET S )
       int    textAngle   = T.angle;
       string textString  = T.value;
       int    fontSize    = T.size/g_Fact;
-      int    posX        = T.x/g_Fact;
-      int    posY        = T.y/g_Fact - g_transY;
+      int    posX        = T.x/g_Fact + g_transX;
+      int    posY        = T.y/g_Fact + g_transY;
       int    offset      = ((T.size * strlen(T.value))/2)/g_Fact;
       int    idx        = 0;
       int    idx2        = 0;
@@ -623,9 +1140,9 @@ void write_kicad_text_notes( UL_SHEET S )
       switch( textAngle )
       {
       case 0:
-	if(T.mirror)
-	  orient = 2;
-	else
+        if(T.mirror)
+          orient = 2;
+        else
 	  orient = 0;
       break;
  
@@ -634,6 +1151,9 @@ void write_kicad_text_notes( UL_SHEET S )
       break;
 
       case 180:
+        if(T.mirror)
+          orient = 0;
+        else
          orient = 2;
       break;
 
@@ -645,7 +1165,7 @@ void write_kicad_text_notes( UL_SHEET S )
       if( outPutVersion == 1 )
 	printf("Text Notes %d %d %d %d ~\n", posX, -posY, orient, fontSize);
       if( outPutVersion == 2 )
-	printf("Text Notes %d %d %d %d ~ %s %d\n", posX, -posY, orient, fontSize, "", 0 );
+	printf("Text Notes %d %d %d    %d   ~ %d\n", posX, -posY, orient, fontSize,  0 );
 
       printf("%s\n", newString);
    } 
@@ -664,8 +1184,8 @@ void write_kicad_noconnect( UL_SHEET SH )
          {
             if( PIN.direction == PIN_DIRECTION_NC || PIN.name == "NC" )
             {
-               int posX = PIN.x / g_Fact ;
-               int posY = PIN.y / g_Fact - g_transY;
+               int posX = PIN.x / g_Fact + g_transX;
+               int posY = PIN.y / g_Fact + g_transY;
 
                printf( "NoConn ~ %d %d\n", posX, -posY );
             }
@@ -683,34 +1203,34 @@ void write_kicad_components( UL_SHEET S )
     {
       string libName = P.deviceset.library;
 
-      if(P.device.package)  // Do we have a package ?
-	{
+      if(P.device.package)  // Do we have a package ?..   IF not ouput if in diffant way
+      {  // ******* Yes we have a package !
 
 	  //  	  printf("\nP.deviceset.name:%s, P.name:%s, P.device.package.name:%s\n", P.deviceset.name, P.name, P.device.package.name );
 
 
-	  string valueStr = P.device.name;
-	  string nameStr  = P.name;
+	  string deviceName = P.device.name;
+	  string refanceName  = P.name;
 	  int instanceCount = 0;
 	  int numberOfSubParts = 0;
 
-	  if(nameStr == "")
-            nameStr= "NNN";
+	  if(refanceName == "")
+            refanceName= "NNN";
          
-	  if( strlen(valueStr) < 1 ) // ????
-            valueStr = "1uF";
+	  if( strlen(deviceName) < 1 ) // ????
+            deviceName = "1uF";
  
 	  // Replace all spaces with '_' in part number
 	  // Replace all spaces or '/' with '_' in part number
-	  for (int idx = 0; valueStr[idx]; ++idx)
+	  for (int idx = 0; deviceName[idx]; ++idx)
 	    {
-	      //	      if( valueStr[idx] == ' ' || valueStr[idx] == '/')
-	      if( valueStr[idx] == ' ' )
-		valueStr[idx] = '_';
+	      //	      if( deviceName[idx] == ' ' || deviceName[idx] == '/')
+	      if( deviceName[idx] == ' ' )
+		deviceName[idx] = '_';
 	    }
 
 	  //	  printf( "$Comp\n" );
-	  //	  	  printf( "##L %s %s\n", valueStr, nameStr );
+	  //	  	  printf( "##L %s %s\n", deviceName, refanceName );
 	  //	  printf( "U %d %d %X\n", 1, 1, time() );
      
 	  P.instances(I)
@@ -724,12 +1244,13 @@ void write_kicad_components( UL_SHEET S )
 	      char orient = 'H';
 	      char hAlign = 'L';
 	      char vAlign = 'T';
-	      int posX = I.x / g_Fact;
-	      int posY = I.y / g_Fact - g_transY;
-	      int posYraw = I.y;
+	      int posX = I.x / g_Fact + g_transX;
+	      int posY = I.y / g_Fact + g_transY;
+              //	      int posYraw = I.y;
 	      int count = 0;
 	      int partAngle = I.angle;
 	      int partMirror = I.mirror;
+
 	      string gateNameSplit[];
 	      int getNameSplitCount = 0;
 	      string strF0F1F2[];
@@ -743,33 +1264,59 @@ void write_kicad_components( UL_SHEET S )
 
 
 	      // split the gate name to get number form the gate name IE: G$1...
-	      if( (getNameSplitCount = strsplit( gateNameSplit, I.gate.name, '$')) < 2 )
+              /*
+                if( (getNameSplitCount = strsplit( gateNameSplit, I.gate.name, '$')) < 2 )
 		{
 		  instanceCount = 1;
+                  printf( "\n#1 instanceCount=%d   I.name:%s  I.gate.name:%s  I.gate.symbol.name:%s   I.value:%s  X:%d  Y:%d\n", instanceCount,  I.name, I.gate.name, I.gate.symbol.name, I.value,  I.x, I.y );
 		}
 	      else
 		{
+                  printf( "\n#2 instanceCount=%d   I.name:%s  I.gate.name:%s  I.gate.symbol.name:%s   I.value:%s  X:%d  Y:%d\n", instanceCount,  I.name, I.gate.name, I.gate.symbol.name, I.value,  I.x, I.y );
 		  instanceCount = strtol( gateNameSplit[1] );
 		  if( instanceCount == 0 )
-		    instanceCount = 1;  // error of some kind ?
-		}
-
+                  {
+                    printf( "\n#E3 instanceCount=%d   I.name:%s  I.gate.name:%s  I.gate.symbol.name:%s   I.value:%s  X:%d  Y:%d\n", instanceCount,  I.name, I.gate.name, I.gate.symbol.name, I.value,  I.x, I.y );
+                    instanceCount = 1;  // error of some kind ?
+                  }
+                }
+              */
+              
 	      printf( "$Comp\n" );
 	      if( addLibPrifix )
-		printf( "L %s %s\n", strupr( libName ) + "_" + valueStr, nameStr );
+		printf( "L %s %s\n", strupr( libName ) + libNamePartNameSeperator + deviceName, refanceName );
 	      else
-		printf( "L %s %s\n", valueStr, nameStr );
+		printf( "L %s %s\n", deviceName, refanceName );
 
-	      //	      printf( "L %s %s\n", valueStr, nameStr );
+	      //	      printf( "L %s %s\n", deviceName, refanceName );
 	      //	      printf( "U %d %d %X\n", 1, 1, time() );
 	      //	      printf( "U %d %d %X\n", instanceCount++, 1, time()  );
-	      printf( "U %d %d %X\n", instanceCount, 1, time()  );
 
 
-	      //	      	      printf( "\n## I.name:%s  I.gate.name:%s  I.gate.symbol.name:%s   I.value:%s  X:%d  Y:%d\n", I.name, I.gate.name, I.gate.symbol.name, I.value,  I.x, I.y );
+              instanceCount = 1;              
+              int j;
+              // look for matching mulit gate part
+              if( j = compairStringToStringArray( deviceName )) // Is this a multi gate part ?
+                {  // Yes..
+                  int k,a;
+                  string tmpSA[];
+                  
+                  j--;  // Ajust J
+                  
+                  k = strsplit( tmpSA, mulitiGateList[ j ], ' ' ); // Make up target search array.
 
+                  for( a = 2; a < k; )  // Ok search for gate name in that array then use the idex, as part index for KICAD 
+                  {
+                    if( stringCompair( tmpSA[ a ], I.gate.name )  )
+                    {
+                      instanceCount = ( a - 2 );
+                      break;
+                    }
+                    a++;
+                  }
+                }
 
-
+              printf( "U %d %d %X\n", instanceCount, 1, getCurrentTimeHack() );
 	      printf( "P %d %d\n", posX, -posY );
         
 	      count = 0;
@@ -778,20 +1325,20 @@ void write_kicad_components( UL_SHEET S )
 	      int IgateSymolTextCount = 0;
 
 
-	      strF0F1F2[ 0 ] = nameStr;
+	      strF0F1F2[ 0 ] = refanceName;
 	      strF0F1F2[ 1 ] = I.value;
  	      strF0F1F2[ 2 ] = P.device.package.name;
 
 	      // Smash text section, note only the >NAME and >VALUE can be smashed !
 	      // if >NAME and >VALUE are not smashed, they wont apear here.
-	      // But in  I.gate.symbol.texts(T) section, also note depending on if the 
-	      // >NAME and/or >VALUE have been changed deleted/added back in the eagle lib,  then sch is update from
-	      // that eagle lib's, the >NAME and/or >VALUE they may apear in any order in I.gate.symbol.texts(T)
-	      // text section's !! how brain dead is that.. !!
+	      // But in  I.gate.symbol.texts(T) section, Also note that depending on weather the 
+	      // >NAME and/or >VALUE have been changed/deleted then added back in the eagle lib,  and the sch is update from
+	      // that eagle lib's, the >NAME and/or >VALUE could be in any order in I.gate.symbol.texts(T)
+	      // section's !! how brain dead is that.. !!
 	      I.texts(T)
 		{
 		  strItext[ ItextCount ] = T.value;
-		  strItextOutPut[ ItextCount ] = writeInstanceText(  T, nameStr, valueStr, 0, posYraw, numberOfSubParts-1, partAngle, partMirror );
+		  strItextOutPut[ ItextCount ] = writeInstanceText(  T, 0, posX, -posY, partAngle, partMirror, "" );
 		  strItextFoundflag[ ItextCount ] = 0;
 		  strF0F1F2foundFlag[ ItextCount ] = 0;
 		  ItextCount++;
@@ -800,7 +1347,7 @@ void write_kicad_components( UL_SHEET S )
 	      I.gate.symbol.texts(T)
 		{
 		  IgateSymText[ IgateSymolTextCount ] = T.value;
-		  IgateSymTextOutPut[ IgateSymolTextCount ] = writeInstanceText( T, nameStr, valueStr, 0, posYraw, numberOfSubParts-1, partAngle, partMirror );
+		  IgateSymTextOutPut[ IgateSymolTextCount ] = writeInstanceText( T, 0, posX, -posY, partAngle, partMirror, "" );
 		  IgateSymTextFoundFlag[ IgateSymolTextCount ] = 0;
 		  strF0F1F2foundFlag[ IgateSymolTextCount ] = 0;
 		  IgateSymolTextCount++;  
@@ -823,7 +1370,7 @@ void write_kicad_components( UL_SHEET S )
 
 	      count =  0;
 
-	      int ct = 0;
+	      int ct = 0;  //  ct =  F ct 
 	      int found = 0;
 	      //Out Put F0...
 	      //	      for( count = 0; count < 3; count++ )
@@ -831,6 +1378,7 @@ void write_kicad_components( UL_SHEET S )
 
 		  for( ct = 0; ct < 3; ct++)  // find header 
 		    {
+                      // find header In smashed text
 		      for( int ct1 = 0; ct1 < ItextCount; ct1++ )
 			{
 			  if( ( strstr( strItext[ ct1 ], strF0F1F2[ ct ], 0) == 0) && ( ct == 0) || ( strF0F1F2[ ct ] == strItext[ ct1 ] ))
@@ -838,7 +1386,7 @@ void write_kicad_components( UL_SHEET S )
 			    {
 			      //			      printf("\nfound!!!  ct=%d ct1=%d  %s   %s", ct, ct1,  strF0F1F2[ct], strItext[ ct1 ] );
 
-			      printf("F %d %s", ct,  strItextOutPut[ ct1 ]);
+			      printf("F %d %s", ct,  strItextOutPut[ ct1 ]);    // Print smashed text
 
 			      strF0F1F2foundFlag[ ct ] = 1;
 			      strItextFoundflag[ ct1 ] = 1;  //  Mark so we don't output this
@@ -854,16 +1402,14 @@ void write_kicad_components( UL_SHEET S )
 			  continue;
 			}
 
+                      // find header In none text                      
 		      for( ct1 = 0; ct1 < IgateSymolTextCount; ct1++ )
 			{
 			  if( ( strstr( IgateSymText[ ct1 ], strF0F1F2[ ct ], 0) == 0) && ( ct == 0) || ( strF0F1F2[ ct ] == IgateSymText[ ct1 ] ))
 			    //			  if( strF0F1F2[ ct ] == IgateSymText[ ct1 ] )  // found  so output it
 			    {
-			      //			      printf("\nXXfound!!!  ct=%d ct1=%d %s    %s",  ct, ct1, strF0F1F2[ct], IgateSymText[ ct1 ] );
-
+                              // Print none smashed text
 			      printf("F %d %s", ct,  IgateSymTextOutPut[ ct1 ]);
-			      //			      printf("Fx %d %s", ct,  IgateSymTextOutPut[ ct1 ]);
-
 			      strF0F1F2foundFlag[ ct ] = 1;
 			      IgateSymTextFoundFlag[ ct1 ] = 1;  //  Mark so we don't output this
 			      found = 1;
@@ -891,17 +1437,15 @@ void write_kicad_components( UL_SHEET S )
 		      string tmp = strF0F1F2[ ct ];
 
 		      if(( ct == 0 ) && addLibPrifix )
-			tmp = strupr( libName ) + "_" + tmp;
+			tmp = strupr( libName ) + libNamePartNameSeperator + tmp;
 		      if(( ct == 2 ) && addLibPrifix )
-			tmp = strupr( libName ) + "_" + tmp;
+			tmp = strupr( libName ) + libNamePartNameSeperator + tmp;
 			  
 
 		      if( outPutVersion == 1 )
-			printf("F %d \"%s\" H %d %d 70 %.4d %c %c\n", ct,  tmp, 
-			       (posX - 10), -(posY+10+(ct*100)), 1, hAlign, vAlign );
+			printf("F %d \"%s\" H %d %d 70  %.4d %c %c\n", ct,  tmp, (posX - 10), -(posY+10+(ct*100)), 1, hAlign, vAlign );
 		      if( outPutVersion == 2 )
-			printf("F %d \"%s\" H %d %d 70 %.4d %c %cNN\n", ct, tmp, 
-			       (posX - 10), -(posY+10+(ct*100)), 1, hAlign, vAlign );
+			printf("F %d \"%s\" H %d %d 70  %.4d %c %cNN\n", ct, tmp, (posX - 10), -(posY+10+(ct*100)), 1, hAlign, vAlign );
 
 		    }
 		    
@@ -913,7 +1457,7 @@ void write_kicad_components( UL_SHEET S )
 		{
 		  if( strItextFoundflag[ ct1 ] == 0 )  // found  so output it
 		    {
-		      printf("F %d %s", ct,  strItextOutPut[ ct1 ] );
+		      printf("y5F %d %s", ct,  strItextOutPut[ ct1 ] );   // Print smashed text
 		      strItextFoundflag[ ct1 ] = 1;  //  Mark so we don't output this
 		    }
 		  ct++;
@@ -948,13 +1492,13 @@ void write_kicad_components( UL_SHEET S )
 	  //	  printf( "$EndComp\n" );
 	}
       else 
-	{  //*****  Ok no package but it may be a power/ground.. ?
+	{  //*******  Ok no package but it may be a power/ground.. ?
 
 	  //	  printf("\nP.deviceset.name:%s, P.name:%s, P.device.package.name:%s\n", P.deviceset.name, P.name, P.device.package.name );
 
 
-	  string valueStr = P.device.name;
-	  string nameStr  = P.name;
+	  string deviceName = P.device.name;
+	  string refanceName  = P.name;
 	  int instanceCount = 1;
 	  int numberOfSubParts = 0;
 
@@ -963,21 +1507,21 @@ void write_kicad_components( UL_SHEET S )
 	      numberOfSubParts++;
 	    }
 
-	  if(nameStr == "")
-            nameStr= "NNN";
+	  if(refanceName == "")
+            refanceName= "NNN";
          
-	  if( strlen(valueStr) < 1 ) // ????
-            valueStr = "1uF";
+	  if( strlen(deviceName) < 1 ) // ????
+            deviceName = "1uF";
  
 	  // Replace all spaces or '/' with '_' in part number
-	  for (int idx = 0; valueStr[idx]; ++idx)
+	  for (int idx = 0; deviceName[idx]; ++idx)
 	    {
-	      if( valueStr[idx] == ' ' || valueStr[idx] == '/')
-		valueStr[idx] = '_';
+	      if( deviceName[idx] == ' ' || deviceName[idx] == '/')
+		deviceName[idx] = '_';
 	    }
 
 	  //	  printf( "$Comp\n" );
-	  //	  printf( "L %s %s\n", valueStr, nameStr );
+	  //	  printf( "L %s %s\n", deviceName, refanceName );
 	  //	  printf( "U %d %d %X\n", 1, 1, time() );
      
 	  P.instances(I)   
@@ -985,9 +1529,9 @@ void write_kicad_components( UL_SHEET S )
 	      char orient = 'H';
 	      char hAlign = 'L';
 	      char vAlign = 'T';
-	      int posX = I.x / g_Fact;
-	      int posY = I.y / g_Fact - g_transY;
-	      int posYraw = I.y;
+	      int posX = I.x / g_Fact + g_transX;
+	      int posY = I.y / g_Fact + g_transY;
+              //	      int posYraw = I.y;
 	      int count = 0;
 	      int partAngle = I.angle;
 	      int partMirror = I.mirror;
@@ -1009,30 +1553,51 @@ void write_kicad_components( UL_SHEET S )
 
 	      printf( "$Comp\n" );
 	      if( addLibPrifix )
-		printf( "L %s %s\n", strupr( libName ) + "_" + valueStr, nameStr );
+		printf( "L %s %s\n", strupr( libName ) + libNamePartNameSeperator + deviceName, "#" + refanceName );
 	      else
-		printf( "L %s %s\n", valueStr, nameStr );
+		printf( "L %s %s\n", deviceName, "#" + refanceName );
 
-	      //	      printf( "L %s %s\n", valueStr, nameStr );
+	      //	      printf( "L %s %s\n", deviceName, refanceName );
 	      //	      printf( "U %d %d %X\n", 1, 1, time() );
 	      //	      printf( "U %d %d %X\n", instanceCount++, 1, time()  );
-	      printf( "U %d %d %X\n", instanceCount, 1, time()  );
+	      printf( "U %d %d %X\n", instanceCount, 1, getCurrentTimeHack() );
 
 	      //	      printf( "\n## I.name:%s  I.gate.name:%s  I.gate.symbol.name:%s  X:%d  Y:%d\n", I.name, I.gate.name, I.gate.symbol.name,  I.x, I.y );
 
 	      printf( "P %d %d\n", posX, posY );
-	      I.texts(T)
+
+	      // Smash text section, note only the >NAME and >VALUE can be smashed !
+	      // if >NAME and >VALUE are not smashed, they wont apear here.
+	      // But in  I.gate.symbol.texts(T) section, Also note that depending on weather the 
+	      // >NAME and/or >VALUE have been changed/deleted then added back in the eagle lib,  and the sch is update from
+	      // that eagle lib's, the >NAME and/or >VALUE could be in any order in I.gate.symbol.texts(T)
+	      // section's !! how brain dead is that.. !!
+              count = 0;
+              string prefixToValue = "";
+
+              I.texts(T)
 		{   
-		  printf("F %d %s", count,  writeInstanceText( T, nameStr,  valueStr, 1, posYraw, numberOfSubParts-1, partAngle, partMirror));
+                  if( count == 0 )
+                    prefixToValue ="#";  // Mark F 0 as virtule part
+                  else
+                    prefixToValue ="";
+
+		  printf("F %d %s", count,  writeInstanceText( T, 0, posX, -posY, partAngle, partMirror, prefixToValue));
 		  count++;
 		}
-	      //	      count = 0;
-	      /*	      I.gate.symbol.texts(T)
+
+              // output none smashed text
+              I.gate.symbol.texts(T)
 		{
-		  writeInstanceText( T, count, nameStr, posY );
-		  count++;  
+                  if( count == 0 )
+                    prefixToValue ="#";  // Mark F 0 as virtule part
+                  else
+                    prefixToValue ="";
+
+		  printf("F %d %s", count,  writeInstanceText( T, 0, posX, -posY, partAngle, partMirror, prefixToValue));
+		  count++;
 		}
-	      */
+
 
 
 	      /*
@@ -1071,13 +1636,13 @@ void write_kicad_components( UL_SHEET S )
 void write_kicad_header( UL_SCHEMATIC SCH, int current_sheet, int number_of_sheets )
 {
   //  int totalSheets = 0;
-   int t = time();
+   int t = getCurrentTimeHack();
 
    if(outPutVersion == 1)
      printf("EELAYER %d %d\n", 23, 0 );
 
    if(outPutVersion == 2)
-     printf("EELAYER %d %d\n", 24, 0 );
+     printf("EELAYER %d %d\n", 25, 0 );
 
    printf("EELAYER END\n");
    
@@ -1099,8 +1664,10 @@ void write_kicad_header( UL_SCHEMATIC SCH, int current_sheet, int number_of_shee
    //      printf("Sheet %d %d\n", S.number, totalSheets);
    //   }
 
-   
-   printf("Sheet %d %d\n", current_sheet + 1 , ( totalSheets > 1 ) ? ( totalSheets + 1 ) : totalSheets );
+   if( totalSheets == 1 )
+     printf("Sheet %d %d\n", 1 , 1 );     
+   else
+     printf("Sheet %d %d\n", current_sheet + 1 , ( totalSheets > 1 ) ? ( totalSheets + 1 ) : totalSheets );
 
    
    if( g_strTitle == "" )
@@ -1219,10 +1786,57 @@ void write_kicad_schematics( string fileName, int current_sheet, int number_of_s
      if(schematic)
       {
 
+        partGateCount = 0;
+        schematic(SCH)
+        {
+          SCH.parts(P)
+          {
+            int gateCount = 0;
+            P.deviceset.gates(G)  // Check to see if we have more than one Gate 
+            {
+              gateCount++;
+            }
+            if( gateCount == 1 )  // if only one gate don't add to list
+              continue;
+
+            if( compairStringToStringArray( P.device.name ))   // Do we have in list aready ?
+            {
+              continue;  //  Yes.. so dont add it again.
+            }
+            string gateNamelist;
+            P.deviceset.gates(G)  // Make up gate list
+            {
+              gateNamelist = gateNamelist + " " + G.name; 
+            }
+
+            // Add to main list
+            sprintf( mulitiGateList[ partGateCount ], "%s %d %s", P.device.name, gateCount, gateNamelist );
+
+            /*            
+            if( P.device.package )
+            {
+              printf("\n# P.name=%s, P.populate=%d, P.value=%s P.device.name=%s P.deviceset.name=%s, P.device.package=%s",
+                   P.name, P.populate, P.value, P.device.name, P.deviceset.name, P.device.package.name );
+            }
+
+            }
+
+            P.deviceset.gates(G)
+            {
+              printf("\n    G.name=%s, G.symbol.name=%s", G.name, G.symbol.name );
+            }
+
+            */
+            partGateCount++;
+            //            printf("\n# %s partGateCount=%d", mulitiGateList[ partGateCount - 1 ], partGateCount );
+          }
+        }
+        //        printf("\n");
+        
         schematic(SCH) 
         { 
             string libString;
-            int t = time();
+            //            old_time = time();
 
 	    if(outPutVersion == 1)
 	      {
@@ -1366,7 +1980,7 @@ void setTransY()
    string pageDimension[];
    int n = strsplit(pageDimension, g_sheetSizes[g_selected], ' ');
    
-   g_transY = strtol(pageDimension[1]) - 500;
+   //   g_transY = strtol(pageDimension[1]) - 500;
 }
 
 //------------------------------------------------------
@@ -1389,6 +2003,37 @@ void openSchematicPath( string startPath, int sheetcount )
          sch_name[ sheetcount ] = strsub(sch_name[ sheetcount ] , 0, strlen(sch_name[ sheetcount ]) - 4) + "_KICAD.sch";
       }
    }
+}
+
+// Work out placement
+void calculateTranslations(UL_AREA area) {
+	// given the area of the sheet
+	// and size of the output sheet
+	// calculate offset to center sheet inside output
+	string pageDimension[];
+	int n = strsplit(pageDimension, g_sheetSizes[g_selected], ' ');
+   
+	int width = strtol(pageDimension[0])-1000;
+	int height = strtol(pageDimension[1])-1000;
+	
+	// calculate offset based on area width and height
+	int x1 = area.x1 / g_Fact, x2 = area.x2 / g_Fact, y1 = area.y1 / g_Fact, y2 = area.y2 / g_Fact;
+	int sheetWidth = x2 - x1;
+	int sheetHeight = y2 - y1;
+	
+	// center sheet within output
+	int xOffset = ((width - sheetWidth) / 2) + 500;
+	int yOffset = ((height-sheetHeight)/2) - 500;
+	// align on the grid
+	xOffset = floor(xOffset/50) * 50;
+	yOffset = floor(yOffset/50) * 50;
+	x1 = floor(x1/50) * 50;
+	y1 = floor(y1/50) * 50;
+	width = floor(width/50) * 50;
+	height = floor(height/50) * 50;
+	
+	g_transY = -height + yOffset - y1; //-(yOffset + height);
+	g_transX = xOffset - x1;
 }
 
 int result;
