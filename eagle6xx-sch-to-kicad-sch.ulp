@@ -458,7 +458,7 @@ string writeInstanceText( UL_TEXT T, int visable, int posX, int posY, int r, int
    x = posX + (py);
 
    StmpS = "";
-   // sprintf( StmpS, "|Angle=%d  r=%d mirror=%d textMirro=%d  value=%s: |", angle, r, mirror, textMirro , T.value );
+   sprintf( StmpS, "|Angle=%d  r=%d mirror=%d textMirro=%d  value=%s: |", angle, r, mirror, textMirro , T.value );
 
    switch(angle)
    {
@@ -604,9 +604,18 @@ string writeInstanceText( UL_TEXT T, int visable, int posX, int posY, int r, int
          }
          else
          {
-           orient = 'H';
-           hAlign = 'L';
-           vAlign = 'B';
+           if( mirror )
+           {
+             orient = 'H';
+             hAlign = 'R';
+             vAlign = 'B';
+           }
+           else
+           {
+             orient = 'H';
+             hAlign = 'L';
+             vAlign = 'B';
+           }
          }
          break;
        }
