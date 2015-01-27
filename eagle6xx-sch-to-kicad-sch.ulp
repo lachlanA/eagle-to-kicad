@@ -50,8 +50,9 @@
 
 int debug = 1;       
 real VERSION   = 1.1;
-real fontSize_PartPreFix_Ajust = 0.9;
-string libNamePartNameSeperator = ":";
+real fontSize_PartPreFix_Ajust = 1.0;
+string libNamePartNameSeperator = "_";      // This is part Name  so   libName "_" partName  is is DEF, and F0 filed in KiCad
+string libNamePartLibNameSeperator = ":";   // This is part Lib to foot print name  IE:   libName ":" footprintName  this is F2 fild in KiCad
 
 string infoAddLibName = "<b> <a href=\'http://www.w3schools.com/html/'>Visit our HTML tutorial</a><Eagle SCH/PCB will not show any charters after \'@\' in pin names<br>"+
                         "Checking this will delete any charters after and including the <b>'@'</b><br>so it wont show in KiCad</pre>";
@@ -72,7 +73,7 @@ string g_sheetSizeArray[] = { "A0", "A1", "A2", "A3", "A4", "A5", "A6",
 			      "A", "B", "C", "D", "E" };			   
  
 string g_sheetSizes[]     = { "46811 33110", "33070 23400", "23400 16535", "16535 11700", "11700 8267", "8267 5826", "5826 4133", 
-                              "11000 8500", "14000 8500", "13000 8500", "10500", "7250",
+                              "11000 8500", "14000 8500", "13000 8500", "10500 7250",
 			      "11000 8000", "16000 11000", "22000 16000", "32000 22000", "44000 32000" };
 			  
 int g_selected = 0; // initially selects "A0" 
@@ -145,6 +146,8 @@ real correctionFactorY_1[] = { 1.0, 1.0,  1.0, 1.0 };
 string StmpS = "";
 string mulitiGateList[];
 int partGateCount;
+string libsUsedList[];
+
 //------------------------------------------------------
 //Return's the path of a path-filename.
 //------------------------------------------------------
@@ -400,6 +403,96 @@ int getCurrentTimeHack()
   
 }
 
+//
+int makeLibeList( UL_SCHEMATIC SCH )
+{
+  int i = 0;
+  SCH.libraries(LIB)
+  {
+    string tmpString = "";
+    libsUsedList[ i ] = LIB.name + "\tNo" + "\tDate";
+    i++;
+  }	
+  return i;
+}
+
+//********
+// Work out placement
+// and sugest a size
+// Return's -1 if if can't fit in any size !
+//
+int calculateTranslations(UL_AREA area, int paperSizeSelect ) {
+	// given the area of the sheet
+	// and size of the output sheet
+	// calculate offset to center sheet inside output
+	string pageDimension[];
+	int n = strsplit(pageDimension, g_sheetSizes[ paperSizeSelect ], ' ');
+   
+	int width = strtol(pageDimension[0])-1000;
+	int height = strtol(pageDimension[1])-1000;
+	
+	// calculate offset based on area width and height
+	int x1 = area.x1 / g_Fact;
+        int x2 = area.x2 / g_Fact;
+        int y1 = area.y1 / g_Fact;
+        int y2 = area.y2 / g_Fact;
+	int sheetWidth = x2 - x1;
+	int sheetHeight = y2 - y1;
+	
+	// center sheet within output
+	int xOffset = ((width - sheetWidth) / 2) + 500;
+	int yOffset = ((height-sheetHeight)/2) - 500;
+	// align on the grid
+	xOffset = floor(xOffset/50) * 50;
+	yOffset = floor(yOffset/50) * 50;
+	x1 = floor(x1/50) * 50;
+	y1 = floor(y1/50) * 50;
+	width = floor(width/50) * 50;
+	height = floor(height/50) * 50;
+	
+	g_transY = -height + yOffset - y1; //-(yOffset + height);
+	g_transX = xOffset - x1;
+
+        n = paperSizeSelect;
+
+        int offset = 0;  // setup for Metric/ US / English units base offset
+        
+        int i = 7 - 1;  // Number of A5 to A0 sheets size's
+
+        while( 1 )  // Work out if it fit's in the Width
+        {
+          n = strsplit(pageDimension, g_sheetSizes[ offset + i ], ' ');
+          if( sheetWidth > ( strtol( pageDimension[ 0 ] )-1000))
+          {
+            i--;
+            if( i < 0 )
+              return -1;
+            else
+              continue;
+          }
+          else
+            break;
+        }
+
+        while( 1 )  // Work out if it fit's in the Hight
+        {
+          n = strsplit(pageDimension, g_sheetSizes[ offset + i ], ' ');
+          if( sheetHeight > ( strtol( pageDimension[ 1 ] )-1000))
+          {
+            i--;
+            if( i < 0 )
+              return -1;
+            else
+              continue;
+          }
+          else
+            break;
+        }
+
+        return n;
+}
+
+
 
 //------------------------------------------------------
 //write kicad schematic dotted wire notes
@@ -421,7 +514,7 @@ void write_kicad_dotted_segments( UL_SHEET SH )
 //------------------------------------------------------
 //write text of an instance smashed or not smashed
 //------------------------------------------------------
-string writeInstanceText( UL_TEXT T, int visable, int posX, int posY, int r, int mirror, string prefixToValue )
+string writeInstanceText( UL_TEXT T, int visable, int posX, int posY, int r, int mirror, string prefixToValue, string textOverRide )
 {
    // Smashed text of an instance
   int tmp;
@@ -458,7 +551,9 @@ string writeInstanceText( UL_TEXT T, int visable, int posX, int posY, int r, int
    x = posX + (py);
 
    StmpS = "";
-   sprintf( StmpS, "|Angle=%d  r=%d mirror=%d textMirro=%d  value=%s: |", angle, r, mirror, textMirro , T.value );
+
+   if(debug)
+     sprintf( StmpS, "|Angle=%d  r=%d mirror=%d textMirro=%d  value=%s: layer=%d|", angle, r, mirror, textMirro , T.value, T.layer );
 
    switch(angle)
    {
@@ -481,20 +576,45 @@ string writeInstanceText( UL_TEXT T, int visable, int posX, int posY, int r, int
             }
             break;
           }
-          else
-            orient = 'H';
+          if( mirror )
+          {
+            orient = 'H';          
+            hAlign = 'R';
+            vAlign = 'B';
+            break;
+          }
+
+          orient = 'H';
           break;
+
         }
         if( r == 90 )
         {
           if( textMirro )
           {
-            orient = 'V';          
-            hAlign = 'L';
-            vAlign = 'T';
+            if( mirror )
+            {
+              orient = 'V';          
+              hAlign = 'R';
+              vAlign = 'T';
+            }
+            else
+            {
+              orient = 'V';          
+              hAlign = 'L';
+              vAlign = 'T';
+            }
           }
           else
           {
+            if( mirror )
+            {
+              orient = 'V';          
+              hAlign = 'L';
+              vAlign = 'T';
+              break;
+            }
+
             orient = 'V';          
             hAlign = 'R';
             vAlign = 'T';
@@ -505,16 +625,31 @@ string writeInstanceText( UL_TEXT T, int visable, int posX, int posY, int r, int
         {
           if( textMirro )
           {
-            orient = 'H';          
-            hAlign = 'L';
-            vAlign = 'T';
+            if( mirror )
+            {
+              orient = 'H';          
+              hAlign = 'R';
+              vAlign = 'T';
+            }
+            else
+            {
+              orient = 'H';          
+              hAlign = 'L';
+              vAlign = 'T';
+            }
+            break;
           }
-          else
+          if( mirror )
           {
             orient = 'H';
-            hAlign = 'R';
+            hAlign = 'L';
             vAlign = 'T';
+            break;
           }
+          orient = 'H';
+          hAlign = 'R';
+          vAlign = 'T';
+
           break;
         }
         if ( r == 270)
@@ -540,8 +675,8 @@ string writeInstanceText( UL_TEXT T, int visable, int posX, int posY, int r, int
             if( mirror )
             {
               orient = 'V';          
-              //              hAlign = 'R';
-              //              vAlign = 'B';
+              hAlign = 'R';
+              vAlign = 'B';
             }
             else
             {
@@ -557,33 +692,68 @@ string writeInstanceText( UL_TEXT T, int visable, int posX, int posY, int r, int
      case 180:  // **** angle = 180 *****
        if (r == 0 )
        {
-          if( textMirro )
-          {
-            orient = 'H';
-            hAlign = 'L';
-            vAlign = 'T';
-          }
-          else
-          {
-            orient = 'H';
-            hAlign = 'R';
-            vAlign = 'T';
-          }
+         if( textMirro )
+         {
+           if( mirror )
+           {
+             orient = 'H';
+             hAlign = 'R';
+             vAlign = 'T';
+           }
+           else
+           {
+             orient = 'H';
+             hAlign = 'L'; ///  ?????
+             vAlign = 'T';
+           }
+           break;
+         }
+         if( mirror )
+         {
+           orient = 'H';
+           hAlign = 'L';
+           vAlign = 'T';
+           break;
+         }
+
+         orient = 'H';
+         hAlign = 'R';
+         vAlign = 'T';
+
          break;
        }
        if (r == 90 )
        {
           if( textMirro )
           {
+            if( mirror )
+            {
+              orient = 'V';
+              hAlign = 'L';
+              vAlign = 'B';
+            }
+            else
+            {
               orient = 'V';
               hAlign = 'R';
               vAlign = 'B';
+            }
+            break;
+          }
+          if( mirror )
+          {
+            orient = 'V';
+            hAlign = 'R';
+            vAlign = 'B';
           }
           else
           {
             orient = 'V';
+            hAlign = 'L';
+            vAlign = 'B';
           }
-         break;
+          orient = 'V';          
+          break;
        }
        if ( r == 180)
        {
@@ -642,8 +812,8 @@ string writeInstanceText( UL_TEXT T, int visable, int posX, int posY, int r, int
            if( mirror )
            {
              orient = 'V';          
-             //             hAlign = 'L';
-             //             vAlign = 'T';
+             hAlign = 'L';
+             vAlign = 'T';
            }
            else
            {
@@ -657,23 +827,40 @@ string writeInstanceText( UL_TEXT T, int visable, int posX, int posY, int r, int
        orient = 'V';
        break;
 
-      case 90:  // **** angle = 90 *****
-        if (r == 0 )
-        {
-          if( textMirro )
-          {
-            orient = 'V';
-            hAlign = 'L';
-            vAlign = 'T';
-          }
-          else
-            orient = 'V';
-          break;
-        }
-        if( r == 90)
-        {
-          if( textMirro )
-          {
+     case 90:  // **** angle = 90 *****
+       if (r == 0 )
+       {
+         if( textMirro )
+         {
+           if( mirror )
+           {
+             orient = 'V';
+             hAlign = 'L';
+             vAlign = 'B';
+           }
+           else
+           {
+             orient = 'V';
+             hAlign = 'L';
+             vAlign = 'T';
+           }
+           break;
+         }
+         if( mirror )
+         {
+           orient = 'V';
+           hAlign = 'L';
+           vAlign = 'T';
+           break;
+         }
+
+         orient = 'V';
+         break;
+       }
+         if( r == 90)
+       {
+         if( textMirro )
+         {
            if( mirror )
            {
              orient = 'H';          
@@ -697,9 +884,19 @@ string writeInstanceText( UL_TEXT T, int visable, int posX, int posY, int r, int
         {
           if( textMirro )
           {
-            orient = 'V';
-            hAlign = 'R';
-            vAlign = 'B';
+            if( mirror )
+            {
+              orient = 'V';
+              hAlign = 'R';
+              vAlign = 'T';
+            }
+            else
+            {
+              orient = 'V';
+              hAlign = 'R';
+              vAlign = 'B';
+            }
+            break;
           }
           else
           {
@@ -732,8 +929,8 @@ string writeInstanceText( UL_TEXT T, int visable, int posX, int posY, int r, int
             if( mirror )
             {
               orient = 'H';          
-              //              hAlign = 'R';
-              //              vAlign = 'B';
+              hAlign = 'R';
+              vAlign = 'B';
             }
             else
             {
@@ -751,9 +948,18 @@ string writeInstanceText( UL_TEXT T, int visable, int posX, int posY, int r, int
        {
           if( textMirro )
           {
+            if( mirror )
+            {
+            orient = 'V';
+            hAlign = 'R';
+            vAlign = 'T';
+            }
+            else
+            {
             orient = 'V';
             hAlign = 'R';
             vAlign = 'B';
+            }
           }
           else
           {
@@ -767,17 +973,31 @@ string writeInstanceText( UL_TEXT T, int visable, int posX, int posY, int r, int
        {
           if( textMirro )
           {
-            orient = 'V';
-            hAlign = 'L';
-            vAlign = 'T';
+            if( mirror )
+            {
+              orient = 'V';    /// ??????
+              hAlign = 'L';
+              vAlign = 'T';
+            }
+            else
+            {
+              orient = 'V';
+              hAlign = 'L';
+              vAlign = 'T';
+            }
+            break;
           }
-          else
+          if( mirror )
           {
             orient = 'V';          
             hAlign = 'L';
-            vAlign = 'B';
+            vAlign = 'T';
+            break;
           }
-         break;
+          orient = 'V';          
+          hAlign = 'L';
+          vAlign = 'B';
+          break;
        }
        if( r == 90 )
        {
@@ -818,8 +1038,8 @@ string writeInstanceText( UL_TEXT T, int visable, int posX, int posY, int r, int
            if( mirror )
            {
              orient = 'H';          
-             //             hAlign = 'L';
-             //             vAlign = 'T';
+             hAlign = 'L';
+             vAlign = 'T';
            }
            else
            {
@@ -828,6 +1048,7 @@ string writeInstanceText( UL_TEXT T, int visable, int posX, int posY, int r, int
            break;
          }
        }
+       
        orient = 'H';
        break;
    }
@@ -887,10 +1108,14 @@ string writeInstanceText( UL_TEXT T, int visable, int posX, int posY, int r, int
    }
    */
 
+   //   strlen( textOverRide) ? textOverRide : T.value
+   
    if( outPutVersion == 1 )
-     sprintf( result, "\"%s\" %c %d %d %d  %.4d %c %c\n", prefixToValue + stripLfCrToEscCRLF( T.value ), orient, x, y, fontSize, visable, hAlign, vAlign);
-   if( outPutVersion == 2 )
-     sprintf( result, "\"%s\" %c %d %d %d  %.4d %c %cNN\n", prefixToValue + stripLfCrToEscCRLF( T.value ), orient, x, y, fontSize, visable, hAlign, vAlign);
+     sprintf( result, "\"%s\" %c %d %d %d  %.4d %c %c\n", prefixToValue + stripLfCrToEscCRLF( strlen( textOverRide) ? textOverRide : T.value ), orient, x, y, fontSize, visable, hAlign, vAlign);
+   //     sprintf( result, "\"%s\" %c %d %d %d  %.4d %c %c\n", prefixToValue + stripLfCrToEscCRLF( T.value ), orient, x, y, fontSize, visable, hAlign, vAlign);
+     if( outPutVersion == 2 )
+     sprintf( result, "\"%s\" %c %d %d %d  %.4d %c %cNN\n", prefixToValue + stripLfCrToEscCRLF( strlen( textOverRide) ? textOverRide : T.value ), orient, x, y, fontSize, visable, hAlign, vAlign);
+   //sprintf( result, "\"%s\" %c %d %d %d  %.4d %c %cNN\n", prefixToValue + stripLfCrToEscCRLF( T.value ), orient, x, y, fontSize, visable, hAlign, vAlign);
    
    return     StmpS + result;
 }
@@ -1024,6 +1249,8 @@ void writeTextNetLabel( string textString, real textAngle, int fontSize, int pos
          break;
      }     
 
+
+   
    if( global )
      printf("Text GLabel %d %d %d %d %s\n", posX, -posY, Xorient, fontSize, "UnSpc");
    else
@@ -1272,25 +1499,6 @@ void write_kicad_components( UL_SHEET S )
 	      int IgateSymTextFoundFlag[];
 
 
-	      // split the gate name to get number form the gate name IE: G$1...
-              /*
-                if( (getNameSplitCount = strsplit( gateNameSplit, I.gate.name, '$')) < 2 )
-		{
-		  instanceCount = 1;
-                  printf( "\n#1 instanceCount=%d   I.name:%s  I.gate.name:%s  I.gate.symbol.name:%s   I.value:%s  X:%d  Y:%d\n", instanceCount,  I.name, I.gate.name, I.gate.symbol.name, I.value,  I.x, I.y );
-		}
-	      else
-		{
-                  printf( "\n#2 instanceCount=%d   I.name:%s  I.gate.name:%s  I.gate.symbol.name:%s   I.value:%s  X:%d  Y:%d\n", instanceCount,  I.name, I.gate.name, I.gate.symbol.name, I.value,  I.x, I.y );
-		  instanceCount = strtol( gateNameSplit[1] );
-		  if( instanceCount == 0 )
-                  {
-                    printf( "\n#E3 instanceCount=%d   I.name:%s  I.gate.name:%s  I.gate.symbol.name:%s   I.value:%s  X:%d  Y:%d\n", instanceCount,  I.name, I.gate.name, I.gate.symbol.name, I.value,  I.x, I.y );
-                    instanceCount = 1;  // error of some kind ?
-                  }
-                }
-              */
-              
 	      printf( "$Comp\n" );
 	      if( addLibPrifix )
 		printf( "L %s %s\n", strupr( libName ) + libNamePartNameSeperator + deviceName, refanceName );
@@ -1305,7 +1513,8 @@ void write_kicad_components( UL_SHEET S )
               instanceCount = 1;              
               int j;
               // look for matching mulit gate part
-              if( j = compairStringToStringArray( deviceName )) // Is this a multi gate part ?
+              if( numberOfSubParts > 1 )
+                if( j = compairStringToStringArray( deviceName )) // Is this a multi gate part ?
                 {  // Yes..
                   int k,a;
                   string tmpSA[];
@@ -1324,7 +1533,8 @@ void write_kicad_components( UL_SHEET S )
                     a++;
                   }
                 }
-
+              
+            
               printf( "U %d %d %X\n", instanceCount, 1, getCurrentTimeHack() );
 	      printf( "P %d %d\n", posX, -posY );
         
@@ -1347,7 +1557,7 @@ void write_kicad_components( UL_SHEET S )
 	      I.texts(T)
 		{
 		  strItext[ ItextCount ] = T.value;
-		  strItextOutPut[ ItextCount ] = writeInstanceText(  T, 0, posX, -posY, partAngle, partMirror, "" );
+		  strItextOutPut[ ItextCount ] = writeInstanceText(  T, 0, posX, -posY, partAngle, partMirror, "", "" );
 		  strItextFoundflag[ ItextCount ] = 0;
 		  strF0F1F2foundFlag[ ItextCount ] = 0;
 		  ItextCount++;
@@ -1356,7 +1566,7 @@ void write_kicad_components( UL_SHEET S )
 	      I.gate.symbol.texts(T)
 		{
 		  IgateSymText[ IgateSymolTextCount ] = T.value;
-		  IgateSymTextOutPut[ IgateSymolTextCount ] = writeInstanceText( T, 0, posX, -posY, partAngle, partMirror, "" );
+		  IgateSymTextOutPut[ IgateSymolTextCount ] = writeInstanceText( T, 0, posX, -posY, partAngle, partMirror, "", "" );
 		  IgateSymTextFoundFlag[ IgateSymolTextCount ] = 0;
 		  strF0F1F2foundFlag[ IgateSymolTextCount ] = 0;
 		  IgateSymolTextCount++;  
@@ -1395,7 +1605,20 @@ void write_kicad_components( UL_SHEET S )
 			    {
 			      //			      printf("\nfound!!!  ct=%d ct1=%d  %s   %s", ct, ct1,  strF0F1F2[ct], strItext[ ct1 ] );
 
-			      printf("F %d %s", ct,  strItextOutPut[ ct1 ]);    // Print smashed text
+                              //                              printf("\nX1 ct=%d  numberOfSubParts=%d  %s", ct, numberOfSubParts, strItextOutPut[ ct1 ]);    //  Debug
+                              
+                              if(( ct == 0 ) && ( numberOfSubParts > 1 ) )  // Outping F0 ?
+                                //                              if(( ct == 0 ) && ( numberOfSubParts > 1 ) )  // Outping F0 ?                                
+                              {
+                                string tmpSA[];
+                                int i;
+
+                                i = strsplit( tmpSA, strItextOutPut[ ct1 ], ' ');    // Split out put
+                                tmpSA[ 0 ] = "\"" + refanceName + "\"";  // Over write refance
+                                printf("F %d %s", ct, strjoin( tmpSA, ' ' ));    // Print out hacked F0 refance
+                              }
+                              else
+                                printf("F %d %s", ct,  strItextOutPut[ ct1 ]);    // Print smashed text
 
 			      strF0F1F2foundFlag[ ct ] = 1;
 			      strItextFoundflag[ ct1 ] = 1;  //  Mark so we don't output this
@@ -1418,7 +1641,22 @@ void write_kicad_components( UL_SHEET S )
 			    //			  if( strF0F1F2[ ct ] == IgateSymText[ ct1 ] )  // found  so output it
 			    {
                               // Print none smashed text
-			      printf("F %d %s", ct,  IgateSymTextOutPut[ ct1 ]);
+
+                              //                              printf("\nX2 ct=%d  numberOfSubParts=%d  %s", ct, numberOfSubParts, IgateSymTextOutPut[ ct1 ]);    //  Debug
+                              
+                              if(( ct == 0 ) && ( numberOfSubParts > 1 ) )  // Outping F0 ?
+                                //                                if(( ct == 0 ) && ( numberOfSubParts > 1 ) )  // Outping F0 ?
+                              {
+                                string tmpSA[];
+                                int i;
+
+                                i = strsplit( tmpSA, IgateSymTextOutPut[ ct1 ], ' ');    // Split out put
+                                tmpSA[ 0 ] = "\"" + refanceName + "\"";  // Over write refance
+                                printf("F %d %s", ct,  strjoin( tmpSA, ' ' ));    // Print out hacked F0 refance
+                              }
+                              else
+                                printf("F %d %s", ct,  IgateSymTextOutPut[ ct1 ]);
+
 			      strF0F1F2foundFlag[ ct ] = 1;
 			      IgateSymTextFoundFlag[ ct1 ] = 1;  //  Mark so we don't output this
 			      found = 1;
@@ -1448,7 +1686,7 @@ void write_kicad_components( UL_SHEET S )
 		      if(( ct == 0 ) && addLibPrifix )
 			tmp = strupr( libName ) + libNamePartNameSeperator + tmp;
 		      if(( ct == 2 ) && addLibPrifix )
-			tmp = strupr( libName ) + libNamePartNameSeperator + tmp;
+			tmp = strupr( libName ) + libNamePartLibNameSeperator + tmp;
 			  
 
 		      if( outPutVersion == 1 )
@@ -1466,7 +1704,7 @@ void write_kicad_components( UL_SHEET S )
 		{
 		  if( strItextFoundflag[ ct1 ] == 0 )  // found  so output it
 		    {
-		      printf("y5F %d %s", ct,  strItextOutPut[ ct1 ] );   // Print smashed text
+		      printf("F %d %s", ct,  strItextOutPut[ ct1 ] );   // Print smashed text
 		      strItextFoundflag[ ct1 ] = 1;  //  Mark so we don't output this
 		    }
 		  ct++;
@@ -1525,7 +1763,8 @@ void write_kicad_components( UL_SHEET S )
 	  // Replace all spaces or '/' with '_' in part number
 	  for (int idx = 0; deviceName[idx]; ++idx)
 	    {
-	      if( deviceName[idx] == ' ' || deviceName[idx] == '/')
+              //	      if( deviceName[idx] == ' ' || deviceName[idx] == '/')
+	      if( deviceName[idx] == ' ' )
 		deviceName[idx] = '_';
 	    }
 
@@ -1584,14 +1823,21 @@ void write_kicad_components( UL_SHEET S )
               count = 0;
               string prefixToValue = "";
 
+              // output smashed text
               I.texts(T)
 		{   
                   if( count == 0 )
+                  {
                     prefixToValue ="#";  // Mark F 0 as virtule part
+                    printf("F %d %s", count,  writeInstanceText( T, 0, posX, -posY, partAngle, partMirror, prefixToValue, refanceName ));
+                    printf("F %d %s", count + 1,  writeInstanceText( T, 0, posX, -posY, partAngle, partMirror, "", "" ));
+                    count + 2;
+                    continue;
+                  }
                   else
                     prefixToValue ="";
 
-		  printf("F %d %s", count,  writeInstanceText( T, 0, posX, -posY, partAngle, partMirror, prefixToValue));
+		  printf("F %d %s", count,  writeInstanceText( T, 0, posX, -posY, partAngle, partMirror, prefixToValue, "" ));
 		  count++;
 		}
 
@@ -1599,11 +1845,17 @@ void write_kicad_components( UL_SHEET S )
               I.gate.symbol.texts(T)
 		{
                   if( count == 0 )
+                  {
                     prefixToValue ="#";  // Mark F 0 as virtule part
+                    printf("F %d %s", count,  writeInstanceText( T, 0, posX, -posY, partAngle, partMirror, prefixToValue, "\"" + refanceName + "\"" ));
+                    printf("F %d %s", count + 1,  writeInstanceText( T, 0, posX, -posY, partAngle, partMirror, "", "" ));
+                    count + 2;
+                    continue;
+                  }
                   else
                     prefixToValue ="";
 
-		  printf("F %d %s", count,  writeInstanceText( T, 0, posX, -posY, partAngle, partMirror, prefixToValue));
+		  printf("F %d %s", count,  writeInstanceText( T, 0, posX, -posY, partAngle, partMirror, prefixToValue, "" ));
 		  count++;
 		}
 
@@ -1780,7 +2032,8 @@ void write_kicad_netNames( UL_SHEET SH, int current_sheet )
           tsize = ((T.size * strlen( N.name)) / 2 ) / g_Fact;
           break;
         }
-        writeTextNetLabel( N.name , R.pin.angle, Default_Netlabe_Size, R.pin.x/g_Fact, (R.pin.y/g_Fact - g_transY), tsize, globalable );
+        //        writeTextNetLabel( N.name , R.pin.angle, Default_Netlabe_Size, ( R.pin.x / g_Fact ) , ( R.pin.y / g_Fact - g_transY ), tsize, globalable );
+        writeTextNetLabel( N.name , R.pin.angle, Default_Netlabe_Size, ( R.pin.x / g_Fact + g_transX  ) , ( R.pin.y / g_Fact + g_transY ), tsize, globalable );        
       }
     }
   }
@@ -1841,6 +2094,8 @@ void write_kicad_schematics( string fileName, int current_sheet, int number_of_s
           }
         }
         //        printf("\n");
+
+        libsUsed = "";
         
         schematic(SCH) 
         { 
@@ -1949,6 +2204,9 @@ void write_kicad_schematics( string fileName, int current_sheet, int number_of_s
             int ct3 = 1;
             SCH.sheets(SH)
             {
+
+              calculateTranslations( SH.area, g_selected );
+
               if( current_sheet == 0 && number_of_sheets > 1 )
               {
                 write_kicad_header( SCH, current_sheet, number_of_sheets );   
@@ -2012,37 +2270,6 @@ void openSchematicPath( string startPath, int sheetcount )
          sch_name[ sheetcount ] = strsub(sch_name[ sheetcount ] , 0, strlen(sch_name[ sheetcount ]) - 4) + "_KICAD.sch";
       }
    }
-}
-
-// Work out placement
-void calculateTranslations(UL_AREA area) {
-	// given the area of the sheet
-	// and size of the output sheet
-	// calculate offset to center sheet inside output
-	string pageDimension[];
-	int n = strsplit(pageDimension, g_sheetSizes[g_selected], ' ');
-   
-	int width = strtol(pageDimension[0])-1000;
-	int height = strtol(pageDimension[1])-1000;
-	
-	// calculate offset based on area width and height
-	int x1 = area.x1 / g_Fact, x2 = area.x2 / g_Fact, y1 = area.y1 / g_Fact, y2 = area.y2 / g_Fact;
-	int sheetWidth = x2 - x1;
-	int sheetHeight = y2 - y1;
-	
-	// center sheet within output
-	int xOffset = ((width - sheetWidth) / 2) + 500;
-	int yOffset = ((height-sheetHeight)/2) - 500;
-	// align on the grid
-	xOffset = floor(xOffset/50) * 50;
-	yOffset = floor(yOffset/50) * 50;
-	x1 = floor(x1/50) * 50;
-	y1 = floor(y1/50) * 50;
-	width = floor(width/50) * 50;
-	height = floor(height/50) * 50;
-	
-	g_transY = -height + yOffset - y1; //-(yOffset + height);
-	g_transX = xOffset - x1;
 }
 
 int result;
@@ -2185,6 +2412,18 @@ int mainDialog( string titleString, int sheetcount )
             dlgStringEdit(g_comment4);
 	  }  
 	}
+
+	dlgTabPage("Eagle LIBS Used & Conversion status") 
+	{
+
+          
+
+          string Colors[] = { "red\tThe color RED\tConverted", "green\tThe color GREEN", "blue\tThe color BLUE" };
+          int Selected = 0; // initially selects "red"
+          dlgListView("LIB\tConversion Compelete\tDate of Conversion", libsUsedList, Selected) dlgMessageBox("You have selected " + Colors[Selected]); 
+        }
+
+
       }
       dlgVBoxLayout 
       {
@@ -2241,6 +2480,10 @@ int main()
 	{
           int i = 0;
 
+
+          makeLibeList( SCH );
+          
+
 	  SCH.sheets(SX)
 	    {
               if( totalSheets == 1 )
@@ -2292,12 +2535,23 @@ int main()
         current_sheet_number++;
       }
             
+      
+      //      string MyParam = cfgget("mytool.MyParam", "SomeDefault");
+      //      MyParam = "OtherValue";
+      string tmpS[];
+      if( strsplit( tmpS, libsUsed, '\n' ))  // Any libs to pass onto converter
+        cfgset("Eagle.To.KiCad.Libs.LIBS", strjoin( tmpS, ' '));
+      
+
+      dlgMessageBox("CONVERSION  COMPLETE\n" + "Libs list used\n\n" + cfgget( "Eagle.To.KiCad.Libs.LIBS" ));             
 
       dlgMessageBox("CONVERSION  COMPLETE\n" + "Libs list used\n\n" + libsUsed );             
         //        while( totalSheets > current_sheet_number )
         //	  {
         //	  }
-      }
+
+               
+               }
   }
   else 
     exit(EXIT_FAILURE);

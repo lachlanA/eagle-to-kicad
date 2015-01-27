@@ -1,8 +1,8 @@
-#usage "<b>KiCAD module exporting tool  version 1.1)</b>\n"
+#usage "<b>KiCAD lib and module exporting tool version 1.1)</b>\n"
         "<p>"
-        "This ULP can exports Eagle CAD Package and Symbol contents into KiCAD lib and module format."
+        "This ULP can exports Eagle CAD Package and Symbol contents into KiCAD lib and module formats."
         "<p>"
-        "Load any library from the library directory and execute the ULP."
+        "In Load any library and execute the ULP."
         "<p>"
         "<author>Author: Dmitri N. Sytov sdn (at) openhardware.ru</author>"
         "<author>Author: juergen.messerer (at) freesurf.ch</author>"
@@ -127,6 +127,7 @@
 */
 
 real VERSION   = 1.1;
+int add_libnamePrefixToPartName = 0;
 
 int rect_conv  = 1; // many QFP-like packages use rectangles as a pin contour (too much segments in the ki-format)
 int poly_conv  = 1;
@@ -192,6 +193,8 @@ string infoDeviceConversion = "<pre>Allows combining of device's into one KiCad 
                               "<b><br>So it's import you check the results when using this option<b>!!!</b></pre>";
 
 string infoTechnologies = "Make KiCad part Alias's from the <i>Eagle</i> Technologies definition in Eagle device\'s";
+
+string infoLibNamePartNamePrefix = "Prefix libname to the Partname IE: LibFred_PartName";
 
 string infoDeleArfter = "<pre>Eagle SCH/PCB will not show any charters after \'@\' in pin names<br>"+
                         "Checking this will delete any charters after and including the <b>'@'</b><br>so it wont show in KiCad</pre>";
@@ -1096,7 +1099,7 @@ void write_kikad_circle( UL_GATE G, int transX, int transY, int gatePos )
 //------------------------------------------------------
 void write_kikad_text( UL_GATE G, int transX, int transY, int gatePos )
 {
-    char orient       = 0;
+    int  orient       = 0;
     char hAlign       = 'C';
     char vAlign       = 'C';
 
@@ -1109,8 +1112,12 @@ void write_kikad_text( UL_GATE G, int transX, int transY, int gatePos )
         real   fontSize    = T.size / g_Fact;
         int    posX        = (T.x / g_Fact) - transX;
         int    posY        = (T.y / g_Fact) - transY;
-        int offset = ((T.size * strlen(T.value)) / 2) / g_Fact;
+        int    offset = ((T.size * strlen(T.value)) / 2) / g_Fact;
 
+        if( T.layer > 200 )
+          continue;
+
+        
 	//    printf("writeing text\n");
 
 
@@ -1136,15 +1143,15 @@ void write_kikad_text( UL_GATE G, int transX, int transY, int gatePos )
             break;
 
         case 90:
-            orient = 1;
-            hAlign = 'L';
+            orient = 900;
+            hAlign = 'R';
             vAlign = 'B';
             posX   = posX - fontSize / 2;
             posY   = posY + offset;
             break;
 
         case 180:
-            orient = 0;
+            orient = 1800;
             hAlign = 'R';
             vAlign = 'T';
             posX   = posX - offset;
@@ -1152,7 +1159,7 @@ void write_kikad_text( UL_GATE G, int transX, int transY, int gatePos )
             break;
 
         case 270:
-            orient = 1;
+            orient = 2700;
             hAlign = 'L';
             vAlign = 'B';
             posX   = posX + fontSize / 2;
@@ -1913,20 +1920,24 @@ void write_kikad_lib( string fileName )
 			printf("\n#");
 			printf("\n# %s", nameString);
 			printf("\n#");
-			printf("\nDEF %s %s %d %d %s %s %d %c %c\n", escape_quotes(nameString), prefixString, 0, 40, drawPinNumberStr, drawPinNameStr, countGates, 'L', 'N');
+			if( add_libnamePrefixToPartName )
+                          printf("\nDEF %s_%s %s %d %d %s %s %d %c %c\n", g_lib_prefix, escape_quotes(nameString), prefixString, 0, 40, drawPinNumberStr, drawPinNameStr, countGates, 'L', 'N');
+                        else
+                          printf("\nDEF %s %s %d %d %s %s %d %c %c\n", escape_quotes(nameString), prefixString, 0, 40, drawPinNumberStr, drawPinNameStr, countGates, 'L', 'N');                        
+
 			int gatePos = 0;
 			DEV.gates(G)
-			  {
-			    gatePos++;
+                        {
+                          gatePos++;    // Inc gate number
 
-			    if ( gatePos == 1)
-			      {
-				// Write kicad alias entries
-				write_kikad_def_alias(DEV, G, nameString, gatePos, prefixString );
-				printf("DRAW\n");
-			      }
-			    write_kikad_elements(G, gatePos);
-			  }
+                          if ( gatePos == 1)  // first gate.. or only first of multi gate ?
+                          {  // write it !
+                            // Write kicad alias entries
+                            write_kikad_def_alias(DEV, G, nameString, gatePos, prefixString );
+                            printf("DRAW\n");
+                          }
+                          write_kikad_elements(G, gatePos);
+                        }
 			printf("ENDDRAW\n");
 			printf("ENDDEF");
 		      }
@@ -2082,6 +2093,12 @@ int mainDialog( string titleString )
 	  dlgStretch(0); dlgPushButton("Info") { if (dlgMessageBox( infoNoPrefix, "Ok") == 0); }  dlgSpacing(20);
 	}
 
+
+	dlgHBoxLayout
+	{
+	  dlgCheckBox("Add LibName prefix to Part Name", add_libnamePrefixToPartName );
+	  dlgStretch(0); dlgPushButton("Info") { if (dlgMessageBox( infoLibNamePartNamePrefix, "Ok") == 0); }  dlgSpacing(20);
+	}
 
 	dlgHBoxLayout
 	{
