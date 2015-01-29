@@ -48,7 +48,7 @@
  *          Version 2.
  * ==========================================================================*/   
 
-int debug = 1;       
+int debug = 0;       
 real VERSION   = 1.1;
 real fontSize_PartPreFix_Ajust = 1.0;
 string libNamePartNameSeperator = "_";      // This is part Name  so   libName "_" partName  is is DEF, and F0 filed in KiCad
@@ -117,6 +117,7 @@ int netWireConnectBack[];
 int netWiresTotal;
 
 int totalSheets = 0;
+int sheetsizes[];
 
 int globalNetListSize = 0;
 string globalNetList[];
@@ -128,6 +129,7 @@ int hack_time = 0;
 // Global mod_ and lib_name
 //------------------------------------------------------
 string sch_name[];   
+string outputPath = path_epf[0] + '/';
 
 // fix for eagle PART/VALUE    0 Deg   90 Deg       180 Deg         270 Deg
 /*
@@ -147,6 +149,12 @@ string StmpS = "";
 string mulitiGateList[];
 int partGateCount;
 string libsUsedList[];
+string devLibsRefList[];
+int devLibsRefListSize = 0;
+
+string conflictPartsLibsList[];
+int conflictPartsLibsListsize = 0;
+
 
 //------------------------------------------------------
 //Return's the path of a path-filename.
@@ -280,6 +288,17 @@ string stripLfCrToEscCRLF( string textString )
       return newString;
  }
 
+//*******
+// Strip Quote's beging and ending ""  from string
+//
+string stripQutes( string source )
+{
+  if( strlen( source ) == 0 )
+    return "";
+  
+  return strsub( source, 1, strlen( source ) -2 );
+}
+
 
 //------------------------------------------------------
 //Find string in the globalNetList string arrray
@@ -299,7 +318,7 @@ int array_find(string search, int arraySize )
     return 0;
 }
 
-//
+//--------------------
 // ***** Genrate KiCad Matrix
 //
 string angleToKiCadMatrix(int angle, int mirror )
@@ -329,57 +348,71 @@ string angleToKiCadMatrix(int angle, int mirror )
     }
 }
 
-
-// 
-// This is a real mess.
+// *******************************************
 //
-string eagleMathCorrectonNameVale( string line, int correctionTable, int offset, char del )
+// Output a string to a file.
+// openOverWriteCrateAppendMode set's optin's
+// openOverWriteCrateAppendMode = 0,   Append to a existining file only, return's -2 if the file is not found.
+// openOverWriteCrateAppendMode = 1,   Append to a existining file or crate a new file if it dose exist.
+// openOverWriteCrateAppendMode = 2,   Over write a existining file or crate a new file if it dose exist.
+// binaryText ='B' or 'b' for output binary mode
+//   binaryText ='T' or 't' for output binary text mode
+// return's -1 if input errror
+// or -2 if no file found
+// or output of fileerror,   which I have no idea what it will be,  just if 0,  then write was ok.
+//
+int outputStringToFile( string fileName, string outputString, char openOverWriteCrateAppendMode, char binaryText )
 {
-  string sTemp[];
-  int splitCt;
-  real sel = 0.0;
-  int correctionInt = 0;
+  string fa[];
+  int n;
+  string  mode = "Ft";
+  
+  fileerror();
 
-  splitCt = strsplit( sTemp, line, ' ' );
-
-  int ag = ( strtol( sTemp[ splitCt-1 ] ) / 90 );
-                
-  switch( correctionTable )
+  switch( binaryText )
   {
-    case 0: // 0 Degs
-      sel = correctionFactorX_0[ ag ];
+    case 't':
+    case 'T':
+      mode = "Ft";
       break;
-    case 1: // 90 Degs
-      sel = correctionFactorY_0[ ag ];
+
+    case 'b':
+    case 'B':
+      mode = "Fb";
       break;
-    case 2: // 180 Degs
-      sel = correctionFactorX_1[ ag ];
-      break;
-    case 3: // 270 Degs
-      sel = correctionFactorY_1[ ag ];
-      break;
+    default:
+      return -1;
   }
 
-  //  int i = 0;
-  //  while( i < splitCt )
-  //    printf("sTemp[%d]=%s ", i, sTemp[i++] );
+  switch( openOverWriteCrateAppendMode )
+  {
+    case 0:
+      if( fileglob( fa, fileName ) == 0 )
+        return -2;
+      mode += "a";
+      break;
+    case 1:
+      mode += "a";
+      break;
+    case 2:
+      mode += "w";
+      break;
+    default:
+      return -1;
 
-  //  printf("\n");
+  }
 
-  //  printf("ag=%d,  sel=%f, XorY=%f\n", ag, sel, strtod( sTemp[ offset ] ));   
+  output( fileName, mode )
+  {
+    
+    printf("%s", outputString );
+    n = fileerror();
+  }
 
-  if( sel != 1.0 )
-    correctionInt = 1;
-  else
-    correctionInt = 0;
-
-  sprintf(sTemp[ offset ], "%d", correctionInt + int(( strtod( sTemp[ offset ] ) * sel )));
-  
-  if(del)
-    sTemp[ splitCt-1 ] = ""; // Remove angle at end
-  
-  return strjoin( sTemp, ' ');      
+  return n;
 }
+
+
 
 //*****************************
 // Current time hack for KiCad
@@ -404,6 +437,8 @@ int getCurrentTimeHack()
 }
 
 //
+// Make list of all the lib's used.
+//
 int makeLibeList( UL_SCHEMATIC SCH )
 {
   int i = 0;
@@ -415,6 +450,107 @@ int makeLibeList( UL_SCHEMATIC SCH )
   }	
   return i;
 }
+
+//***************
+// Make list of all the device lib's refaces used.
+// And seach for conflicts
+// returns 0 if ok,
+// or confict count
+//
+int makeDevLibRefList( UL_SCHEMATIC SCH )
+{
+  int n = 0;
+  int k = 0;
+  int e = 0;
+  int cfCount = 0;
+  char found = 0;
+  string ts;
+  
+  string tmpSA[];
+  string tmpSA2[];
+  string tmpSA3[];
+  string tmpS;
+
+  devLibsRefListSize = 0;
+  conflictPartsLibsListsize = 0;
+
+  SCH.parts(P)
+  {
+    // first search for deivce name
+    found = 0;
+
+    if(  devLibsRefListSize )
+    {
+
+      //      sprintf( ts, "\n%s \"%s\" %s", P.device.name, P.device.library,  P.name );
+      //      outputStringToFile( "./tXXX.txt", ts, 1, 't');
+      
+      sprintf(  tmpS, "%s \"%s\" %s", P.device.name, P.device.library,  P.name );
+
+      for( e = 0; e < devLibsRefListSize; e++ )
+      {
+        strsplit( tmpSA,  devLibsRefList[ e ], ' ' );
+
+        if( P.device.name == tmpSA[ 0 ] )  // found device name match ?
+        {
+          if( P.device.library == stripQutes( tmpSA[ 1 ] ))  // found devive libname match ?
+          {
+            tmpSA[ 2 ] = tmpSA[ 2 ] + "," + P.name;
+            devLibsRefList[ e ] = strjoin( tmpSA, ' ' ); 
+            found = 1;
+            break;
+          }
+          else
+          {   // Ok device name found but not the same lib name so make this with error and append first conflict refance to it.
+            tmpS = tmpS + " " + tmpSA[ 2 ];
+            cfCount++;
+            devLibsRefList[ devLibsRefListSize++ ] = tmpS; // And add to list.             
+
+
+            strsplit( tmpSA2, devLibsRefList[ e ], ' ' );            
+            strsplit( tmpSA3, tmpSA2[2], ',' );
+            
+            conflictPartsLibsList[ conflictPartsLibsListsize++ ] = tmpSA2[0] + "\t" + tmpSA2[1] + "\t" + tmpSA3[0] + "\tConflicts  With\t" + P.device.name + "\t" + P.device.library + "\t" +  P.name;
+
+            found = 1;
+            break;  //  Ok found,  so make it so
+          }
+        }
+        continue;  // Keep searching
+      }
+      //      sprintf(  tmpS, "%s \"%s\" %s", P.device.name, P.device.library,  P.name );
+      // none found so add to end of list
+      if( found == 0 )
+      {
+        devLibsRefList[ devLibsRefListSize++ ] = tmpS; // And add to list.             
+      }
+      continue; //goto SCH.parts(P)
+    }
+    else
+    { // empty list so insurt first one
+      sprintf(  tmpS, "%s \"%s\" %s", P.device.name, P.device.library,  P.name );
+      devLibsRefList[ devLibsRefListSize++ ] = tmpS; // And add to list.             
+    }
+  }
+  
+  return cfCount;
+}
+
+
+//********
+// Work out placement
+// and sugest a size
+// Return's -1 if if can't fit in any size !
+//
+string intToString( int value )
+{
+  string tmpS;
+
+  sprintf( tmpS, "%d", value );
+  return tmpS;
+}
+
+
 
 //********
 // Work out placement
@@ -491,7 +627,6 @@ int calculateTranslations(UL_AREA area, int paperSizeSelect ) {
 
         return n;
 }
-
 
 
 //------------------------------------------------------
@@ -1828,7 +1963,7 @@ void write_kicad_components( UL_SHEET S )
 		{   
                   if( count == 0 )
                   {
-                    prefixToValue ="#";  // Mark F 0 as virtule part
+                    prefixToValue = "#";  // Mark F 0 as virtule part
                     printf("F %d %s", count,  writeInstanceText( T, 0, posX, -posY, partAngle, partMirror, prefixToValue, refanceName ));
                     printf("F %d %s", count + 1,  writeInstanceText( T, 0, posX, -posY, partAngle, partMirror, "", "" ));
                     count + 2;
@@ -1847,7 +1982,8 @@ void write_kicad_components( UL_SHEET S )
                   if( count == 0 )
                   {
                     prefixToValue ="#";  // Mark F 0 as virtule part
-                    printf("F %d %s", count,  writeInstanceText( T, 0, posX, -posY, partAngle, partMirror, prefixToValue, "\"" + refanceName + "\"" ));
+                    printf("F %d %s", count,  writeInstanceText( T, 0, posX, -posY, partAngle, partMirror, prefixToValue, refanceName  ));
+                    //                    printf("F %d %s", count,  writeInstanceText( T, 0, posX, -posY, partAngle, partMirror, prefixToValue, "\"" + refanceName + "\"" ));                    
                     printf("F %d %s", count + 1,  writeInstanceText( T, 0, posX, -posY, partAngle, partMirror, "", "" ));
                     count + 2;
                     continue;
@@ -2257,8 +2393,16 @@ void openSchematicPath( string startPath, int sheetcount )
 {
    string dirName = "";
    string stringArray[];
+   string tmps;
+   
    dirName = dlgDirectory("Select a directory", startPath);
    
+
+   //   sprintf( tmps, "%d", sheetcount );
+   //   dlgMessageBox("sheetcount =" + tmps );             
+
+
+
    if( dirName != "" )
    {
       schematic(S) 
@@ -2272,6 +2416,9 @@ void openSchematicPath( string startPath, int sheetcount )
    }
 }
 
+//---------------------------------------------
+//
+//
 int result;
 int space = 10;
 string ref;
@@ -2281,7 +2428,16 @@ int mainDialog( string titleString, int sheetcount )
 {
 
   int result;
+  int saveAsDefault = 1;
+  int saveAsDefaultOld = 1;          
 
+//
+//  result = dlgDialog(titleStr)
+//  {
+//    dlgIntEdit( sheetcount, 0, 99);
+//  };
+
+  
   result = dlgDialog(titleStr)
     {
 	  
@@ -2289,26 +2445,73 @@ int mainDialog( string titleString, int sheetcount )
       {
 	//=====================TAB1=============================================================
 	dlgTabPage("Output:") 
-	{     
-
+	{
+          string tmpSX;
+          
 	  dlgHBoxLayout dlgSpacing(800);
-	  dlgStretch(0);
-	  dlgSpacing(space);
-	  dlgLabel("Export to file:");
-	  dlgStretch(0);
+          dlgHBoxLayout
+          {
 
+            dlgStretch(0);
+            dlgSpacing(space);
+            dlgLabel("Target Dirctory For KiCAD files");
+            //            dlgStringEdit( sch_name[ 0 ] );
+
+
+            tmpSX = cfgget("Eagle.To.KiCad.Libs.TARGET_DIR", outputPath );
+            //            outputPath = cfgget("Eagle.To.KiCad.Libs.TARGET_DIR", outputPath );            
+
+            if( strlen(tmpSX ) )
+              outputPath = tmpSX;
+            
+              
+            //            outputPath =  cfgget("Eagle.To.KiCad.Libs.TARGET_DIR", outputPath );            
+            
+            dlgStringEdit( outputPath );
+            dlgCheckBox("Save as default", saveAsDefault );
+
+            
+
+            dlgPushButton("Edit") ( outputPath = dlgDirectory("Select Targget directory", "C:\\") + '/' );
+            
+            //            dlgPushButton("Edit") openSchematicPath("C:\\", 0 );
+            dlgStretch(0);
+
+            if( saveAsDefault )
+              cfgset("Eagle.To.KiCad.Libs.TARGET_DIR", outputPath );
+            else
+              cfgset("Eagle.To.KiCad.Libs.TARGET_DIR", "" );
+
+
+          }
+          
+          
           if( sheetcount > 1 ) // more then one sheet ?
             sheetcount++; // Then add master sheet.
           
           for( int i = 0; i < sheetcount; i++ )
           {
-
             dlgHBoxLayout
             {
               dlgSpacing(space);
-              dlgStringEdit( sch_name[i] );
+
+              if(( i == 0 ) && ( sheetcount > 1 ))
+              {
+                dlgLabel("Names Of KiCAD Master Sheet"); dlgStringEdit( sch_name[ i ] ); 
+              }
+              else
+              {
+                dlgLabel("Names Of KiCAD Sub Sheet"); dlgStringEdit( sch_name[ i ] );
+              }
+
+              //              dlgStringEdit( sch_name[ i ] );
               dlgSpacing(space);
-              dlgPushButton("Edit") openSchematicPath("C:\\", i );
+              dlgComboBox(g_comboBoxArray, sheetsizes[ i ])
+	      {
+		setTransY();
+	      }
+              //              dlgPushButton("Edit") openSchematicPath("C:\\", 0 );
+
               dlgSpacing(space);
             }
           }
@@ -2316,8 +2519,19 @@ int mainDialog( string titleString, int sheetcount )
           
 	  dlgHBoxLayout
 	  {
-	    dlgCheckBox("", addLibPrifix ); dlgLabel("Add libname to Part Name"); dlgStretch(0);
-	    dlgSpacing(2); dlgPushButton("Info") { if (dlgMessageBox( infoAddLibName, "Ok") == 0); } dlgStretch(10); dlgSpacing(20);
+            if( conflictPartsLibsListsize )            
+            {
+              addLibPrifix = 1;
+              dlgCheckBox("", addLibPrifix ); dlgLabel("<font color=\"red\"><nobr><b>ADDING LIB NAME TO PART NAME IS REQIRED TO AVOID PART-LIB CONFLICT FOR KICAD!</b></nobr></font>"); dlgStretch(1);
+//              dlgSpacing(2); dlgPushButton("Info") { if (dlgMessageBox( infoAddLibName, "Ok") == 0); } dlgStretch(0); dlgSpacing(10);
+              dlgSpacing(2); dlgPushButton("Info") { if (dlgMessageBox( infoAddLibName, "Ok") == 0); } dlgSpacing(10);              
+            }
+            else
+            {
+              addLibPrifix = 0;
+              dlgCheckBox("", addLibPrifix ); dlgLabel("<font color=\"green\"><nobr><b>Adding lib name to Part Name is NOT REQIRED</b></nobr></font>"); dlgStretch(0);
+              dlgSpacing(2); dlgPushButton("Info") { if (dlgMessageBox( infoAddLibName, "Ok") == 0); } dlgStretch(10); dlgSpacing(20);
+            }
 	  }
 	  dlgHBoxLayout
 	  {
@@ -2413,14 +2627,30 @@ int mainDialog( string titleString, int sheetcount )
 	  }  
 	}
 
-	dlgTabPage("Eagle LIBS Used & Conversion status") 
-	{
+        
+        if( conflictPartsLibsListsize )
+        {
+          dlgTabPage("CONFLICTING PARTS-LIB'S") 
+          {
+            //          string Colors[] = { "red\tThe color RED\tConverted", "green\tThe color GREEN", "blue\tThe color BLUE" };
+            int Selected = 0; // 
+            dlgListView("<html>DEVICE\tLIB\tREFANCE\tCONFLICT'S WITH\tDEVICE\tLIB\tREFANCE</html>", conflictPartsLibsList, Selected) dlgMessageBox("More info "); 
+          
+          }
+        }
+        else
+        {
+          dlgTabPage("THERE ARE NO CONFLICTING PART'S-LIB'S") 
+          {
+            dlgLabel("<H1>THERE ARE NO CONFLICTING PART'S-LIB'S</H1>");
+          }
+        }
 
           
-
-          string Colors[] = { "red\tThe color RED\tConverted", "green\tThe color GREEN", "blue\tThe color BLUE" };
-          int Selected = 0; // initially selects "red"
-          dlgListView("LIB\tConversion Compelete\tDate of Conversion", libsUsedList, Selected) dlgMessageBox("You have selected " + Colors[Selected]); 
+	dlgTabPage("Eagle LIBS Used") 
+	{
+          int Selected = 0; // 
+          dlgListView("LIB\tConversion Compelete\tDate of Conversion", libsUsedList, Selected) dlgMessageBox("More info "); 
         }
 
 
@@ -2431,7 +2661,19 @@ int mainDialog( string titleString, int sheetcount )
 	dlgHBoxLayout 
 	{
 	  dlgStretch(1);
-	  dlgPushButton("+OK") dlgAccept();
+	  dlgPushButton("+OK")
+          {
+            if( saveAsDefault )
+              cfgset("Eagle.To.KiCad.Libs.TARGET_DIR", outputPath );
+            else
+              cfgset("Eagle.To.KiCad.Libs.TARGET_DIR", "" );
+            
+            cfgset("Eagle.To.KiCad.Libs.conflictPartsLibsListsize", intToString( conflictPartsLibsListsize )); 
+            cfgset("Eagle.To.KiCad.Libs.addLibPrifix", intToString( addLibPrifix ));
+
+            dlgAccept();
+          };
+
 	  dlgSpacing(space);
 	  dlgPushButton("-Cancel") dlgReject();
 	  dlgStretch(0);
@@ -2450,7 +2692,8 @@ int mainDialog( string titleString, int sheetcount )
 //
 int main()
 {
-  //  int totalSheets = 0;
+
+  totalSheets = 0;
 
   sprintf(titleStr, "Export Eagle schematic to KiCAD, Version: %.1f,  Use this programe at your own Risk!", VERSION);
 
@@ -2459,13 +2702,27 @@ int main()
       schematic(S) 
       {
         //	sch_name = strsub(S.name, 0, strlen(S.name) - 4) + "_.sch";
-	schematic(SCH) 
+
+        makeDevLibRefList( S ); // Build Lib list and check for conflicts.
+          
+        schematic(SCH) 
 	{
 	  SCH.sheets(SX)
 	    {
+              sheetsizes[ totalSheets ] = g_selected;
               totalSheets++;
 	    } 
+
+          if( totalSheets > 1 )
+              sheetsizes[ totalSheets + 1 ] = g_selected;
         }
+
+        int nx = 0;
+        for( nx = 0; nx < devLibsRefListSize; nx++ )
+        {
+          outputStringToFile( "./tXXX.txt", devLibsRefList[ nx ] + "\n", 1, 't');
+        }
+
 
         if( totalSheets > 1 )
         {
@@ -2488,7 +2745,9 @@ int main()
 	    {
               if( totalSheets == 1 )
               {
-                sch_name[ i ] = strsub( SCH.name , 0, strlen( SCH.name) - 4) + "_KICAD.sch";                
+
+                sch_name[ i ] = strsub( filename( SCH.name ), 0, strlen( filename( SCH.name )) - 4) + "_KICAD.sch";                
+    //                sch_name[ i ] = strsub( SCH.name , 0, strlen( SCH.name) - 4) + "_KICAD.sch";                
                 //                sch_name[ i ] = SCH.name;
                 //                str_replace(".sch", "X", sch_name[ i ] );
                 //                sch_name[ i ] = sch_name[ i ] + "_KICAD.sch";                     
@@ -2498,13 +2757,16 @@ int main()
               if(( totalSheets > 1 )  && ( i == 0))
               {
                 //                sch_name[ i ] = SCH.name + "_MASTER_KICAD.sch"; 
-                sch_name[ i ] = strsub( SCH.name , 0, strlen( SCH.name) - 4) + "_MASTER_KICAD.sch";
+                sch_name[ i ] = strsub( filename( SCH.name ), 0, strlen( filename( SCH.name )) - 4) + "_MASTER_KICAD.sch";
+                //                sch_name[ i ] = strsub( SCH.name , 0, strlen( SCH.name) - 4) + "_MASTER_KICAD.sch";                
                 i++;
-                sprintf( sch_name[ i ], "%s%s%d%s", strsub( SCH.name , 0, strlen( SCH.name) - 4), "_SUB_SHEET_",  i, "_KICAD.sch");
+                sprintf( sch_name[ i ], "%s%s%d%s", strsub( filename( SCH.name ), 0, strlen( filename( SCH.name )) - 4), "_SUB_SHEET_",  i, "_KICAD.sch");
+                //                sprintf( sch_name[ i ], "%s%s%d%s", strsub( SCH.name , 0, strlen( SCH.name) - 4), "_SUB_SHEET_",  i, "_KICAD.sch");
                 i++;
                 continue;
               }
-              sprintf( sch_name[ i ], "%s%s%d%s", strsub( SCH.name , 0, strlen( SCH.name) - 4), "_SUB_SHEET_", i, "_KICAD.sch");
+              sprintf( sch_name[ i ], "%s%s%d%s", strsub( filename( SCH.name ), 0, strlen( filename( SCH.name )) - 4), "_SUB_SHEET_", i, "_KICAD.sch");
+              //              sprintf( sch_name[ i ], "%s%s%d%s", strsub( SCH.name , 0, strlen( SCH.name) - 4), "_SUB_SHEET_", i, "_KICAD.sch");
               i++;
             }
           
@@ -2522,7 +2784,7 @@ int main()
   {
     if( totalSheets == 1 )  // Only one sheet ?
       {
-	write_kicad_schematics(sch_name[0], totalSheets, totalSheets );
+	write_kicad_schematics( outputPath + "/" + sch_name[0], totalSheets, totalSheets );
 	dlgMessageBox("CONVERSION  COMPLETE\n" + "Libs list used\n\n" + libsUsed ); 
       }
     else
@@ -2531,7 +2793,7 @@ int main()
 
       for( current_sheet_number = 0; current_sheet_number <= totalSheets; )
       {
-        write_kicad_schematics( sch_name[ current_sheet_number ], current_sheet_number, totalSheets );
+        write_kicad_schematics( outputPath + "/" + sch_name[ current_sheet_number ], current_sheet_number, totalSheets );
         current_sheet_number++;
       }
             
@@ -2543,15 +2805,24 @@ int main()
         cfgset("Eagle.To.KiCad.Libs.LIBS", strjoin( tmpS, ' '));
       
 
-      dlgMessageBox("CONVERSION  COMPLETE\n" + "Libs list used\n\n" + cfgget( "Eagle.To.KiCad.Libs.LIBS" ));             
+      //      dlgMessageBox("CONVERSION  COMPLETE\n" + "Libs list used\n\n" + cfgget( "Eagle.To.KiCad.Libs.LIBS" ));             
 
-      dlgMessageBox("CONVERSION  COMPLETE\n" + "Libs list used\n\n" + libsUsed );             
+      //      dlgMessageBox("CONVERSION  COMPLETE\n" + "Libs list used\n\n" + libsUsed );             
         //        while( totalSheets > current_sheet_number )
         //	  {
         //	  }
 
-               
-               }
+
+      dlgMessageBox("<b><font color=\"green\">CONVERSION  COMPLETE,<br></font>" +
+                    "You have 2 way's to go, to commplet the convesion to KiCad<br>" +
+                    "<blockquote> (1) simple:<br>Run extractEagleLibsFromSCH<br>"+
+                    "&nbsp;&nbsp;This is also the only option you have if, you dont<br>" +
+                    "&nbsp;&nbsp;have the eagle lbr files<br>"+
+                    "&nbsp;&nbsp;if you have the eagle extract the libs</blockquote>" + "  " +
+                    cfgget("Eagle.To.KiCad.Libs.conflictPartsLibsListsize" ) + " " +
+                    cfgget("Eagle.To.KiCad.Libs.addLibPrifix" ));
+      
+    }
   }
   else 
     exit(EXIT_FAILURE);
