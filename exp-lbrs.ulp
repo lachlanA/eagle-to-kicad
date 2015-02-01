@@ -109,6 +109,10 @@ int    n;
 int    NameIndex = 0;
 int    Merge = 0;
 
+int    AddLibPrefix = 0;
+int    ConflictPartsCount = 0;
+int    OverWrieNoWarning = 0;
+
 char   ascii127[]       =   { 181,  196,  214,  220,  223, 0 }; // not allowed character 2010-05-12
 // www: In 8859-1 these chars are { � ,Ä ,Ö, Ü, ß } and therefore actually allowed as object names.
 //      Change this if requested ! What's also allowed but deprecated is { ä, ö, ü }. Should be replaced
@@ -231,6 +235,7 @@ string LbrPrefix(string s) {
   return ReplaceInvalidCharsForObjNames(s) + "_";
 }
 
+// check for existing file
 int exist_file(string FileName) {
   string a[];
   int n = fileglob(a, FileName);
@@ -530,7 +535,7 @@ void DrawDevice(UL_DEVICESET D, UL_LIBRARY LBR) {
     sprintf(h, "CHANGE Addlevel  %s;\n", GateAddlevel); cmd += h;
     sprintf(h, "CHANGE Swaplevel %d;\n", G.swaplevel); cmd += h;
     string symname = G.symbol.name; // No problem with @...
-    if (Merge == 1)
+    if( AddLibPrefix == 1)  //    if (Merge == 1)
       symname = LbrPrefix(LBR.name) + symname;
     sprintf(h, "ADD '%s' '%s' (%f %f);\n", addApostroph(symname), addApostroph(G.name), u2mic(G.x), u2mic(G.y)); // 2012-02-07
     cmd += h;
@@ -538,7 +543,7 @@ void DrawDevice(UL_DEVICESET D, UL_LIBRARY LBR) {
   D.devices(DV) {
     if (DV.package) {
       string pacname = ReplaceAt(DV.package.name); // !!!
-      if (Merge == 1)
+    if( AddLibPrefix == 1)       //if (Merge == 1)
         pacname = LbrPrefix(LBR.name) + pacname;
       cmd += "PACKAGE '" + addApostroph(pacname) + "' " + DV.name + ";\n"; // addApostroph here problematic !
     }
@@ -606,7 +611,7 @@ void CreateOneLibHeader(UL_LIBRARY LBR, string project_name) {
 void OutputPackages(UL_LIBRARY LBR) {
   LBR.packages(P) {
     string pacname = ReplaceAt(P.name);
-    if (Merge == 1)
+    if( AddLibPrefix == 1) //    if ( Merge == 1)
        pacname = LbrPrefix(LBR.name) + pacname;
     n++;
     x[n] = pacname;
@@ -621,7 +626,7 @@ void OutputPackages(UL_LIBRARY LBR) {
 void OutputSymbols(UL_LIBRARY LBR) {
   LBR.symbols(S) {
     string symname =  S.name;
-    if (Merge == 1)
+    if( AddLibPrefix == 1)    //    if (Merge == 1)
        symname = LbrPrefix(LBR.name) + symname;
     n++;
     x[n] = symname;
@@ -636,7 +641,7 @@ void OutputSymbols(UL_LIBRARY LBR) {
 void OutputDevices(UL_LIBRARY LBR) {
   LBR.devicesets(D) {
     string dname = D.name;
-    if (Merge == 1)
+    if( AddLibPrefix == 1) //    if (Merge == 1)
        dname = LbrPrefix(LBR.name) + dname;
     n++;
     x[n] = dname;
@@ -649,6 +654,8 @@ void OutputDevices(UL_LIBRARY LBR) {
   }
 }
 
+//----------------------------------
+// Make one lib file script command
 void CreateLbr(UL_LIBRARY LBR) {
   if (exist_file(WorkPath+CurrentLbrName+".lbr")) {
      sprintf(h, "REMOVE '%s.lbr';\n", WorkPath+CurrentLbrName);
@@ -659,79 +666,103 @@ void CreateLbr(UL_LIBRARY LBR) {
   CreateHeader(LBR);
 }
 
+//-------------------------------
+// Make seprate libs
+//
 void make_lbr(void) {
-  if (board) board(B) {
-    B.libraries(LBR) {
-      CurrentLbrName = LBR.name;
-      CreateLbr(LBR);
-      LBR.packages(PAC) {
-        OutputPackages(LBR);
-        cmd += "WRITE;\n";
-        break;
-      };
+  if (board) board(B)
+    {
+      B.libraries(LBR)
+      {
+        CurrentLbrName = LBR.name;
+        CreateLbr(LBR);
+        LBR.packages(PAC)
+        {
+          OutputPackages(LBR);
+          cmd += "WRITE;\n";
+          break;
+        };
+      }
     }
-  }
-  if (schematic) schematic(SCH) {
-    SCH.libraries(LBR) {
-      CurrentLbrName = LBR.name;
-      CreateLbr(LBR);
-      LBR.devices(DEV) {
-        OutputPackages(LBR);
-        n=0;
-        OutputSymbols(LBR);
-        n=0;
-        OutputDevices(LBR);
-        cmd += "WRITE;\n";
-        break;
-      };
+
+  if (schematic) schematic(SCH)
+    {
+      SCH.libraries(LBR)
+      {
+        CurrentLbrName = LBR.name;
+        CreateLbr(LBR);
+        LBR.devices(DEV)
+        {
+          OutputPackages( LBR );
+          n=0;
+          OutputSymbols( LBR );
+          n=0;
+          OutputDevices( LBR );
+          cmd += "WRITE;\n";
+          break;
+        };
+      }
     }
-  }
   CreateTrailer();
 }
 
-//-------------------
+
+//---------------------------------------
+// make one lib for all deives
+//---------------------------------------
 void make_one_lbr(void) {
   int noLbrs = 1;
-  if (board) board(B) {
-    B.libraries(LBR) {
-      CurrentLbrName = filesetext(EditName, "");
-      CreateOneLibHeader(LBR, B.name);
-      noLbrs = 0;
-      break;
-    }
-    n = 0;
-    B.libraries(LBR) {
-      OutputPackages(LBR);
-    }
+  if (board) board(B)
+    {
+      B.libraries(LBR)
+      {
+        CurrentLbrName = filesetext(EditName, "");
+        CreateOneLibHeader(LBR, B.name);
+        noLbrs = 0;
+        break;
+      }
+      n = 0;
+      B.libraries(LBR)
+      {
+        OutputPackages(LBR);
+      }
 
-  }
-  if (schematic) schematic(SCH) {
-    SCH.libraries(LBR) {
-      CurrentLbrName = filesetext(EditName, "");
-      CreateOneLibHeader(LBR, SCH.name);
-      noLbrs = 0;
-      break;
     }
-    n = 0;
-    SCH.libraries(LBR) {
-      OutputPackages(LBR);
-    }
-    n = 0;
-    SCH.libraries(LBR) {
-      LBR.devices(DEV) {
-        OutputSymbols(LBR);
+  if (schematic) schematic(SCH)
+    {
+      SCH.libraries(LBR)
+      {
+        CurrentLbrName = filesetext(EditName, "");
+        CreateOneLibHeader(LBR, SCH.name);
+        noLbrs = 0;
+        break;
+      }
+      n = 0;
+      SCH.libraries(LBR)
+      {
+        OutputPackages(LBR);
+      }
+      n = 0;
+      SCH.libraries(LBR)
+      {
+        LBR.devices(DEV)
+        {
+          OutputSymbols(LBR);
+        }
+      }
+      n = 0;
+      SCH.libraries(LBR)
+      {
+        LBR.devices(DEV)
+        {
+          OutputDevices(LBR);
+        }
       }
     }
-    n = 0;
-    SCH.libraries(LBR) {
-      LBR.devices(DEV) {
-        OutputDevices(LBR);
-      }
-    }
-  }
-  if (!noLbrs) {
-     cmd += "WRITE;\n";
-     CreateTrailer();
+  if (!noLbrs)
+  {
+    cmd += "WRITE;\n";
+    CreateTrailer();
   }
   return;
 }
@@ -743,7 +774,9 @@ void show_save_script_file(string cm) {
   return;
 }
 
-//------------ main ----------------------------------------
+//-----------------------------------------------
+//  main.
+//-----------------------------------------------
 if (library) {
   dlgMessageBox(TR("Please start from schematic or board editor!"));
   exit(1);
@@ -754,7 +787,27 @@ else {
 }
 
 PureScriptName = filesetext(EditName, ".scr");               // name of generated script w/o path
-WorkPath = get_project_path();
+
+string tmpSX;
+
+// Check to see if there is a config file path set for target directory
+if( strlen( tmpSX = cfgget("Eagle.To.KiCad.Libs.TARGET_DIR" )) > 0 )
+{
+  WorkPath = tmpSX;  // Yes .. so use it.
+}
+else
+  WorkPath = get_project_path();  // No so use the default
+
+// get the save settings from eagle6xxx ulp
+if( strlen( tmpSX = cfgget("Eagle.To.KiCad.Libs.conflictPartsLibsListsize" )) > 0 )
+    ConflictPartsCount = strtol( tmpSX );
+    
+    // add prefix ?    
+if( strlen( tmpSX = cfgget("Eagle.To.KiCad.Libs.addLibPrifix" )) > 0 )
+    AddLibPrefix = strtol( tmpSX );
+
+
+
 
 int Result = dlgDialog(TR("Export EAGLE libraries from drawing")) {
     dlgHBoxLayout {
@@ -768,23 +821,53 @@ int Result = dlgDialog(TR("Export EAGLE libraries from drawing")) {
         else WorkPath += "/";     // 29.03.2005 support@cadsoft.de
       }
     }
-    dlgGroup(TR("Creation mode")) {
-      dlgRadioButton("&" + TR("Export original libraries"), Merge); //name like drawing
-      dlgRadioButton("&" + TR("Merge to one library, ") +       TR("original library names as prefix for symbol, package and device names"), Merge);
-      dlgRadioButton(      TR("Merge to one library, ") + "&" + TR("unchanged symbol, package and device names"), Merge);
+
+    dlgVBoxLayout
+    {
+      //      dlgCheckBox("Over write existing target files with out warning ?", OverWrieNoWarning ); // Add prefix ?
+      dlgHBoxLayout
+      {
+        dlgCheckBox("Combine libs into one libary file =", Merge ); dlgLabel( "<nobr><b>" + filesetext( EditName, ".lbr") + "</b></nobr>" , 1);
+        dlgPushButton("Info") { if (dlgMessageBox( "hellow", "Ok") == 0); }; 
+      }
+      dlgHBoxLayout
+      {
+        dlgCheckBox("Add library names as prefix to symbol, package and device names", AddLibPrefix); // Add prefix ?
+        dlgPushButton("Info") { if (dlgMessageBox( "hellow", "Ok") == 0); }; 
+      }
     }
-    dlgLabel(Status, 1);
-    dlgHBoxLayout {
+    //    dlgGroup(TR("Creation mode")) {
+    //      dlgRadioButton("&" + TR("Export original libraries"), Merge); //name like drawing
+    //      dlgRadioButton("&" + TR("Merge to one library, ") +       TR("original library names as prefix for symbol, package and device names"), Merge);
+    //      dlgRadioButton(      TR("Merge to one library, ") + "&" + TR("unchanged symbol, package and device names"), Merge);
+    //    }
+
+    
+    dlgLabel( Status, 1);   // displays exection status
+    dlgHBoxLayout
+    {
       dlgStretch(1);
       dlgPushButton("&" + TR("Help") + "...")  DisplayHelp();
       dlgPushButton("+&" + TR("OK")) {
         cmd = "";
+
+        if( ( ConflictPartsCount > 0 ) && ( AddLibPrefix != 1 ))
+        {
+          if( dlgMessageBox("!Warning there are Part's with have the same name's,  but from diffent libs" +
+                            " KICAD will reject libs which have name in them!" +
+                            " Please tick the Add library names as prefix to get around this problem" +
+                            " Or fix the part name in the lib refance"+
+                            " Cotinue with this,  Or Change to add libprefix ?", "&Continue", "Change" ) == 1 )
+            AddLibPrefix = 1;
+        }
+
         if (Merge > 0)
-           make_one_lbr();
+          make_one_lbr(); // one lib for all deives
         else
-           make_lbr();
+          make_lbr();  //  septrate lib's for all device's
+
         show_save_script_file(cmd);
-        exit("SCRIPT '"+ScriptName+"';\n");
+        exit("SCRIPT '"+ScriptName+"';\n"); // pass script file name back to eagle sch/pcb
       }
       dlgPushButton("-&" + TR("Cancel")) dlgReject();
     }

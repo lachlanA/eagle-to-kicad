@@ -317,8 +317,17 @@ int array_find(string search, int arraySize )
     }
     return 0;
 }
-
 //--------------------
+// check for existing file
+//
+int check_for_exist_file(string FileName) {
+  string a[];
+  int n = fileglob(a, FileName);
+  if (n == 0) return 0;
+  else return 1;
+}
+
+
 // ***** Genrate KiCad Matrix
 //
 string angleToKiCadMatrix(int angle, int mirror )
