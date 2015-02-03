@@ -13,6 +13,9 @@
 
 /*
  * CHANGELOG=(dd.mm.yyyy)===============================================
+ * 03.02.2015: Fix Alais name, and inc version.   
+ * *             Thanks to: Lachlan  "lachlanusa (at) gmail.com"
+ 
  * 25.09.2014: Add version reqired, to alows us to make 2 scripts.  One for 6.0+  and one for 5.0
  *             Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
  *
@@ -126,7 +129,7 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-real VERSION   = 1.1;
+real VERSION   = 1.2;
 int add_libnamePrefixToPartName = 0;
 
 int rect_conv  = 1; // many QFP-like packages use rectangles as a pin contour (too much segments in the ki-format)
@@ -469,17 +472,30 @@ string str_replace(string search, string replace, string subject)
 {
     int lastpos = 0;
 
+    //    printf("\n\nlastpos=%d search=%s replace=%s subject=%s", lastpos, search, replace, subject );
+
     // Check if there is any thing to replace
     if( strstr(subject, search, lastpos) == -1)
     	return subject;  // No so just return input string
 
+    int pos;
+    string before;
+    string after;
+
+
+    
     while (strstr(subject, search, lastpos) >= 0)
     {
-        int pos = strstr(subject, search, lastpos);
-        string before = strsub(subject, 0, pos);
-        string after = strsub(subject, pos + strlen(search));
+        pos = strstr(subject, search, lastpos);
+        before = strsub(subject, 0, pos);
+        after = strsub(subject, pos + strlen(search), strlen(subject) - ( pos + strlen(search)) );
+        //        string after = strsub(subject, pos + strlen(search));
+        
         subject = before + replace + after;
         lastpos = pos + strlen(replace);
+
+        //        printf("\nlastpos=%d search=%s replace=%s subject=%s before=%s after=%s", lastpos, search, replace, subject, before, after );
+
     }
     return subject;
 }
@@ -517,6 +533,14 @@ void write_kikad_mod_idx(UL_LIBRARY LIB)
     printf("$INDEX\n");
 
     // write index of modules
+    //    LIB.packages(PAC)
+    //    {
+    //      if ( outPutFootPrint  )  // Prefix libprefix in foot print name 
+    //        printf("%s-%s\n", escape_quotes(g_lib_prefix), escape_quotes(strupr(PAC.name)));
+    //      else
+    //        printf("%s\n", escape_quotes(strupr(PAC.name)));
+    //    }
+
     LIB.packages(PAC) printf("%s-%s\n", escape_quotes(g_lib_prefix), escape_quotes(strupr(PAC.name)));
 
     // write INDEX end tag
@@ -524,6 +548,8 @@ void write_kikad_mod_idx(UL_LIBRARY LIB)
 
 }
 
+//------------------------------------------------------
+//
 //------------------------------------------------------
 // pad conversion
 //------------------------------------------------------
@@ -913,7 +939,12 @@ void write_kikad_mod_body(UL_LIBRARY LIB)
     {
         // write MODULE start tag
       printf("$MODULE %s-%s\n", escape_quotes(g_lib_prefix), escape_quotes(strupr(PAC.name)));
-
+      
+      //      if ( outPutFootPrint  )  // Prefix libprefix in foot print name 
+      //        printf("$MODULE %s-%s\n", escape_quotes(g_lib_prefix), escape_quotes(strupr(PAC.name)));
+      //      else
+      //        printf("$MODULE %s\n", escape_quotes(strupr(PAC.name)));
+        
         //write module position
         printf("Po %d %d %d %d 00200000 00000000 ~~\n",
                0, // what's it?
@@ -924,6 +955,11 @@ void write_kikad_mod_body(UL_LIBRARY LIB)
 
         //write name & description
         printf("Li %s-%s\n", escape_quotes(g_lib_prefix), escape_quotes(strupr(PAC.name)));
+        //        if ( outPutFootPrint  )  // Prefix libprefix in foot print name 
+        //          printf("Li %s-%s\n", escape_quotes(g_lib_prefix), escape_quotes(strupr(PAC.name)));
+        //        else
+        //          printf("Li %s\n", escape_quotes(strupr(PAC.name)));
+
         printf("Cd %s\n", strupr(PAC.headline));
         printf("Kw %s\n", strupr(PAC.headline));
 
@@ -1641,14 +1677,43 @@ void write_kikad_lib( string fileName )
 		      alias[0] = "";
 		      int aliasCt = strsplit(alias, DEV.technologies, ' '); 
 
+                      //                      for( int j = 0; j < aliasCt; j++ )
+                      //                        printf("\n### aliasCt=%d %s  %s", j,  alias[j], D.name);
+                      
 		      // dose name have place holder for Teck ?
 		      if( strstr(D.name, "*", 0) != -1 )
 			{ // Yes!
-			  if( alias[0] == "\'\'" )
-			    nameString = str_replace( "*", "", D.name );
-			  else
-			    nameString = str_replace( "*", alias[0], D.name );
-			}
+                          if( alias[0] == "\'\'" )
+                          {
+                            //                            printf("\n#1 %s", D.name),
+                            nameString = str_replace( "*", "", D.name );
+                          }
+                          else
+                          {
+                            //                            printf("\n#2 %s", D.name),
+                            nameString = str_replace( "*", alias[0], D.name );
+                          }
+                        }
+
+                          
+                      //                          if( aliasCt >= 1 ) // one or more alias ?
+                      //                          {
+                          //                            if( alias[0] == "\'\'" &&  ( strlen( alias[ 1 ]) >= 1 ))
+                          //                              nameString = str_replace( "*", alias[ 1 ], D.name );
+                          //                            else
+                          //                              nameString = str_replace( "*", "", D.name );
+                          //                          }
+                          //                          else
+                          //                          {
+                          //                            if( alias[0] == "\'\'" )
+                          //                              nameString = str_replace( "*", "", D.name );
+                          //                            else
+                          //                              nameString = str_replace( "*", alias[0], D.name );
+                          //                          }
+                          //                        }
+
+
+                      
 		      else // No!
 			nameString = D.name;
 
@@ -1805,15 +1870,26 @@ void write_kikad_lib( string fileName )
 			while( aliasCt )
 			  {
 			    if( alias[count] == "''" )
-			      alias[count] = "";
-
+                            {
+                              alias[count] = "";
+                              count++;
+                              aliasCt--;
+                              continue;
+                            }
+                            
 			    if( DEV.name != "''" ) // We DEV.name ? then  add it.
 			      {  // DEV.nanme found so add it
 				if(( strstr(D.name, "*", 0) != -1 ) && (strstr(D.name, "?", 0) != -1) )  // is there a place to put the Tec alias and package alas ?
 				  aliasList += str_replace( "*", alias[count++],  str_replace( "?", DEV.name, D.name ));  // Put the Alias's in.
 
 				if(( strstr(D.name, "*", 0) != -1 ) && (strstr(D.name, "?", 0) == -1 ))  // Is there a place for Tec alias but no package alias ?
-				  aliasList += str_replace( "*", alias[count++], D.name ) + DEV.name ;  // Put the Alias's in. and apend the package alias
+                                {
+                                  //                                  printf("|%d :%s :%s :%s", count, alias[count], D.name, DEV.name );
+                                  //                                  printf("\nXXX\n");
+                                  aliasList += str_replace( "*", alias[count++], D.name ) + DEV.name;  // Put the Alias's in. and apend the package alias
+                                }
+                                  //		  aliasList += str_replace( "*", alias[count++], D.name );  // Put the Alias's in. and apend the package alias
+
 
 				if(( strstr(D.name, "*", 0) == -1 ) && (strstr(D.name, "?", 0) != -1 ))  // Is there no place holder for Tec alias but place holder for package alias ?
 				  aliasList += str_replace( "?", DEV.name, D.name ) + alias[count++];  // And append the Alias's, and put the  package alias in
@@ -1839,7 +1915,7 @@ void write_kikad_lib( string fileName )
 			    if( strstr( aliasList, nameString, 0) != -1 )
 			      {
 				//				printf("\n# found !");
-				aliasList = str_replace( nameString, "", aliasList ); // yes so remove !
+                                //				aliasList = str_replace( nameString, "", aliasList ); // yes so remove !
 			      }
 			  }
 		      }
@@ -2015,7 +2091,7 @@ string titleString;
 string showPinNames[] = { "Always show pin names",  "Only show pin names if enabled in eagle symbol", "Never show Pin names" };
 string showPinNumbers[] = { "Always show pin Numbers",  "Only show pin Numbers if enabled in eagle symbol", "Never show Pin numbers" };
 string addFootPrintList[] = { "No Footprints list",  "Output footprint list", "Output lib prefix in footprint list" };
-string outPutFootPrintOptions[] = { "Don't prefix lib-name to footprint name", "Prefix lib name to footprint name" };
+string outPutFootPrintOptions[] = { "Don't prefix lib-name to footprint name in mod", "Prefix lib name to footprint name in mod" };
 string eaglePartToKiCadPartConversiontion[] = {"Combine Parts/package variants where possible", "Out put new part for every foot print type"};
 
 int showPinNamesSelected = 1; // initially "
