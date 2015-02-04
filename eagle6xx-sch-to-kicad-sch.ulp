@@ -155,7 +155,6 @@ int devLibsRefListSize = 0;
 string conflictPartsLibsList[];
 int conflictPartsLibsListsize = 0;
 
-
 //------------------------------------------------------
 //Return's the path of a path-filename.
 //------------------------------------------------------

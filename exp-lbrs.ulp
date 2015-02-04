@@ -868,6 +868,7 @@ int Result = dlgDialog(TR("Export EAGLE libraries from drawing")) {
 
         show_save_script_file(cmd);
         exit("SCRIPT '"+ScriptName+"';\n"); // pass script file name back to eagle sch/pcb
+        //        exit("SCRIPT '"+ScriptName+"';run /home/laudas/eagle/eagle-lbr2kicad-1.0.ulp;\n"); // pass script file name back to eagle sch/pcb
       }
       dlgPushButton("-&" + TR("Cancel")) dlgReject();
     }
