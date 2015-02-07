@@ -112,6 +112,7 @@ int    Merge = 0;
 int    AddLibPrefix = 0;
 int    ConflictPartsCount = 0;
 int    OverWrieNoWarning = 0;
+string myULP_HOME = EAGLE_HOME + '/';
 
 char   ascii127[]       =   { 181,  196,  214,  220,  223, 0 }; // not allowed character 2010-05-12
 // www: In 8859-1 these chars are { � ,Ä ,Ö, Ü, ß } and therefore actually allowed as object names.
@@ -865,9 +866,19 @@ int Result = dlgDialog(TR("Export EAGLE libraries from drawing")) {
           make_one_lbr(); // one lib for all deives
         else
           make_lbr();  //  septrate lib's for all device's
-
         show_save_script_file(cmd);
-        exit("SCRIPT '"+ScriptName+"';\n"); // pass script file name back to eagle sch/pcb
+
+        string tmpS1;
+
+        tmpS1 = cfgget("Eagle.To.KiCad.Libs.SCRIP_ULP");
+
+        if( strlen( tmpS1 ) > 1 )
+          myULP_HOME = tmpS1;
+        
+        sprintf(tmpS1, "SCRIPT %s;run %s\n", ScriptName, myULP_HOME + "eagle-lbr2kicad-1.0.ulp" );
+        exit( tmpS1 );
+        
+        //        exit("SCRIPT '"+ScriptName+"';\n"); // pass script file name back to eagle sch/pcb
         //        exit("SCRIPT '"+ScriptName+"';run /home/laudas/eagle/eagle-lbr2kicad-1.0.ulp;\n"); // pass script file name back to eagle sch/pcb
       }
       dlgPushButton("-&" + TR("Cancel")) dlgReject();

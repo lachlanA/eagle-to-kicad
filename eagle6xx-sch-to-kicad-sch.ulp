@@ -9,9 +9,14 @@
 #require 6.0000
 	//#require 5.0000
 
-
+#include "eagle_to_kicad_include.ulp"
+       
 /*
  * CHANGELOG================================================
+ * 06.02.2015: Add "eagle_to_kicad_include.ulp" include file to help manage eale cfg settings bettewn
+ *             ulp programs.
+ *             Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
+ *
  * 05.10.2014: Try adding support for more then one sheets, and fix for netlist problem at the same time
  *             This is tricky.
  *             Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
@@ -47,6 +52,7 @@
  * License: This file is released under the license of the GNU Public license
  *          Version 2.
  * ==========================================================================*/   
+
 
 int debug = 0;       
 real VERSION   = 1.1;
@@ -129,8 +135,10 @@ int hack_time = 0;
 // Global mod_ and lib_name
 //------------------------------------------------------
 string sch_name[];   
-string outputPath = path_epf[0] + '/';
+string outputPath = EAGLE_HOME + '/';
+string myULP_HOME = EAGLE_HOME + '/';
 
+//string outputPath = path_epf[0] + '/';
 // fix for eagle PART/VALUE    0 Deg   90 Deg       180 Deg         270 Deg
 /*
 real correctionFactorX_0[] = { 1.0, 1.044444444444, 1.093023255813, 1.0444444444444 };
@@ -155,6 +163,12 @@ int devLibsRefListSize = 0;
 string conflictPartsLibsList[];
 int conflictPartsLibsListsize = 0;
 
+int combineLibs = 1;
+string combineLibsName = "";
+
+int enableNetListLableFix = 1;
+real NetListLableFixSize = 1.0;
+real GlobalNetListLableFixSize = 1.0;
 //------------------------------------------------------
 //Return's the path of a path-filename.
 //------------------------------------------------------
@@ -560,11 +574,11 @@ string intToString( int value )
 
 
 
-//********
+//--------------------------------------------------------------------------------
 // Work out placement
 // and sugest a size
 // Return's -1 if if can't fit in any size !
-//
+//--------------------------------------------------------------------------------
 int calculateTranslations(UL_AREA area, int paperSizeSelect ) {
 	// given the area of the sheet
 	// and size of the output sheet
@@ -2052,7 +2066,10 @@ void write_kicad_header( UL_SCHEMATIC SCH, int current_sheet, int number_of_shee
    printf("EELAYER END\n");
    
    if( g_selected >= 0 && g_selected < 16 )
-      printf("$Descr %s %s\n", g_sheetSizeArray[g_selected], g_sheetSizes[g_selected]);
+   {
+     printf("$Descr %s %s\n", g_sheetSizeArray[ sheetsizes[ current_sheet ] ], g_sheetSizes[ sheetsizes[ current_sheet ] ]);
+     //     printf("$Descr %s %s\n", g_sheetSizeArray[ g_selected ], g_sheetSizes[ g_selected ]);
+   }
    else
       printf("$Descr User %d %d\n", g_dimX, g_dimY );
    
@@ -2189,6 +2206,25 @@ void write_kicad_schematics( string fileName, int current_sheet, int number_of_s
 {
    output(fileName, "Fwt" ) 
    {
+
+     /* printf("# EAGLE_VERSION =%d\n", EAGLE_VERSION );   */
+     /* printf("# EAGLE_RELEASE =%d\n", EAGLE_RELEASE ); */
+     /* printf("# EAGLE_PATH =%s\n", EAGLE_PATH ); */
+     /* printf("# EAGLE_DIR =%s\n", EAGLE_DIR ); */
+     /* printf("# EAGLE_HOME =%s\n", EAGLE_HOME ); */
+     /* printf("# OS_SIGNATURE =%s\n", OS_SIGNATURE  ); */
+
+     /* //     path_ulp[1] = "/hellow/"; */
+     
+     /* printf("# path_lbr[]=%s\n", strjoin( path_lbr, '|'));   */
+     /* printf("# path_dru[]=%s\n", strjoin( path_dru, '|'));    */
+     /* printf("# path_ulp[]=%s\n", strjoin( path_ulp, '|'));    */
+
+
+     
+/* used_libraries[]  */
+
+     
      if(schematic)
       {
 
@@ -2437,7 +2473,10 @@ int mainDialog( string titleString, int sheetcount )
 
   int result;
   int saveAsDefault = 1;
-  int saveAsDefaultOld = 1;          
+  int saveAsDefaultULP_Path = 1;
+  //  int saveAsDefault = 1;
+  //  int saveAsDefault = 1;  
+  //  int saveAsDefaultOld = 1;          
 
 //
 //  result = dlgDialog(titleStr)
@@ -2456,10 +2495,31 @@ int mainDialog( string titleString, int sheetcount )
 	{
           string tmpSX;
           
-	  dlgHBoxLayout dlgSpacing(800);
+	  dlgHBoxLayout dlgSpacing(900);
           dlgHBoxLayout
           {
+            dlgStretch(0);
+            dlgSpacing(space);
+            dlgLabel("Lowcation of the ULP convertion scrip files");
+            tmpSX = cfgget("Eagle.To.KiCad.Libs.SCRIP_ULP", myULP_HOME );
+            if( strlen(tmpSX ) )
+              myULP_HOME = tmpSX;
+            dlgStringEdit( myULP_HOME );
+            dlgCheckBox("Save as default", saveAsDefaultULP_Path );
+            //
 
+            dlgPushButton("Edit") ( myULP_HOME = dlgDirectory("Select Targget directory", "C:\\") + '/' );
+            dlgPushButton("Info") { if (dlgMessageBox( infoAddLibName, "Ok") == 0); };
+            dlgStretch(0);
+
+            /* if( saveAsDefaultULP_Path ) */
+            /*   cfgset("Eagle.To.KiCad.Libs.SCRIP_ULP", myULP_HOME ); */
+            /* else */
+            /*   cfgset("Eagle.To.KiCad.Libs.SCRIP_ULP", "" ); */
+          }
+
+          dlgHBoxLayout
+          {
             dlgStretch(0);
             dlgSpacing(space);
             dlgLabel("Target Dirctory For KiCAD files");
@@ -2481,14 +2541,14 @@ int mainDialog( string titleString, int sheetcount )
             
 
             dlgPushButton("Edit") ( outputPath = dlgDirectory("Select Targget directory", "C:\\") + '/' );
-            
+            dlgPushButton("Info") { if (dlgMessageBox( infoAddLibName, "Ok") == 0); };
             //            dlgPushButton("Edit") openSchematicPath("C:\\", 0 );
             dlgStretch(0);
 
-            if( saveAsDefault )
-              cfgset("Eagle.To.KiCad.Libs.TARGET_DIR", outputPath );
-            else
-              cfgset("Eagle.To.KiCad.Libs.TARGET_DIR", "" );
+            /* if( saveAsDefault ) */
+            /*   cfgset("Eagle.To.KiCad.Libs.TARGET_DIR", outputPath ); */
+            /* else */
+            /*   cfgset("Eagle.To.KiCad.Libs.TARGET_DIR", "" ); */
 
 
           }
@@ -2509,8 +2569,16 @@ int mainDialog( string titleString, int sheetcount )
               }
               else
               {
-                dlgLabel("Names Of KiCAD Sub Sheet"); dlgStringEdit( sch_name[ i ] );
+                if( sheetcount == 1 )
+                {
+                  dlgLabel("Names Of KiCAD Sheet"); dlgStringEdit( sch_name[ i ] );
+                }
+                else
+                {
+                  dlgLabel("Names Of KiCAD Sub Sheet"); dlgStringEdit( sch_name[ i ] );
+                }
               }
+              
 
               //              dlgStringEdit( sch_name[ i ] );
               dlgSpacing(space);
@@ -2543,8 +2611,20 @@ int mainDialog( string titleString, int sheetcount )
 	  }
 	  dlgHBoxLayout
 	  {
+              dlgCheckBox("", enableNetListLableFix ); dlgLabel("<nobr><b>Enable Netlist Label Fix</b></nobr>"); dlgStretch(0);
+              dlgSpacing(2); dlgPushButton("Info") { if (dlgMessageBox( infoAddLibName, "Ok") == 0); } dlgStretch(10); dlgSpacing(20);
 	  }
+
 	  dlgHBoxLayout
+	  {
+            dlgCheckBox("", combineLibs ); dlgLabel("<nobr><b>Combine All libs in One</b></nobr>"); dlgStretch(0);
+            dlgStringEdit( combineLibsName );
+
+            dlgPushButton("Edit") ( combineLibsName = dlgDirectory("Select library name", "C:\\") + '/' );
+            dlgSpacing(2); dlgPushButton("Info") { if (dlgMessageBox( infoAddLibName, "Ok") == 0); } dlgStretch(0); dlgSpacing(20);
+	  }
+
+          dlgHBoxLayout
 	  {
 	    dlgStretch(0); dlgPushButton("Help") { if (dlgMessageBox( infoHelp, "Ok") == 0); } dlgStretch(0); 
 	  }
@@ -2673,8 +2753,15 @@ int mainDialog( string titleString, int sheetcount )
           {
             if( saveAsDefault )
               cfgset("Eagle.To.KiCad.Libs.TARGET_DIR", outputPath );
-            else
-              cfgset("Eagle.To.KiCad.Libs.TARGET_DIR", "" );
+            /* else */
+            /*   cfgset("Eagle.To.KiCad.Libs.TARGET_DIR", "" ); */
+
+            if( saveAsDefaultULP_Path )
+              cfgset("Eagle.To.KiCad.Libs.SCRIP_ULP", myULP_HOME );
+            /* else */
+            /*   cfgset("Eagle.To.KiCad.Libs.SCRIP_ULP", "" ); */
+
+
             
             cfgset("Eagle.To.KiCad.Libs.conflictPartsLibsListsize", intToString( conflictPartsLibsListsize )); 
             cfgset("Eagle.To.KiCad.Libs.addLibPrifix", intToString( addLibPrifix ));
@@ -2755,7 +2842,10 @@ int main()
               {
 
                 sch_name[ i ] = strsub( filename( SCH.name ), 0, strlen( filename( SCH.name )) - 4) + "_KICAD.sch";                
-    //                sch_name[ i ] = strsub( SCH.name , 0, strlen( SCH.name) - 4) + "_KICAD.sch";                
+
+                sheetsizes[ i ] = calculateTranslations( SX.area, g_selected ); //  work out sheet size
+
+                //                sch_name[ i ] = strsub( SCH.name , 0, strlen( SCH.name) - 4) + "_KICAD.sch";                
                 //                sch_name[ i ] = SCH.name;
                 //                str_replace(".sch", "X", sch_name[ i ] );
                 //                sch_name[ i ] = sch_name[ i ] + "_KICAD.sch";                     
@@ -2769,15 +2859,18 @@ int main()
                 //                sch_name[ i ] = strsub( SCH.name , 0, strlen( SCH.name) - 4) + "_MASTER_KICAD.sch";                
                 i++;
                 sprintf( sch_name[ i ], "%s%s%d%s", strsub( filename( SCH.name ), 0, strlen( filename( SCH.name )) - 4), "_SUB_SHEET_",  i, "_KICAD.sch");
+                sheetsizes[ i ] = calculateTranslations( SX.area, g_selected ); //  work out sheet size
+
                 //                sprintf( sch_name[ i ], "%s%s%d%s", strsub( SCH.name , 0, strlen( SCH.name) - 4), "_SUB_SHEET_",  i, "_KICAD.sch");
                 i++;
                 continue;
               }
               sprintf( sch_name[ i ], "%s%s%d%s", strsub( filename( SCH.name ), 0, strlen( filename( SCH.name )) - 4), "_SUB_SHEET_", i, "_KICAD.sch");
+              sheetsizes[ i ] = calculateTranslations( SX.area, g_selected ); //  work out sheet size
               //              sprintf( sch_name[ i ], "%s%s%d%s", strsub( SCH.name , 0, strlen( SCH.name) - 4), "_SUB_SHEET_", i, "_KICAD.sch");
               i++;
             }
-          
+     
           result = mainDialog( titleStr, totalSheets );
         }
       }
@@ -2793,7 +2886,6 @@ int main()
     if( totalSheets == 1 )  // Only one sheet ?
       {
 	write_kicad_schematics( outputPath + "/" + sch_name[0], totalSheets, totalSheets );
-	dlgMessageBox("CONVERSION  COMPLETE\n" + "Libs list used\n\n" + libsUsed ); 
       }
     else
     {  // more than one sheet then.
@@ -2819,9 +2911,13 @@ int main()
         //        while( totalSheets > current_sheet_number )
         //	  {
         //	  }
+    }
+
+    dlgMessageBox("CONVERSION  COMPLETE\n" + "Libs list used\n\n" + libsUsed ); 
 
 
-      dlgMessageBox("<b><font color=\"green\">CONVERSION  COMPLETE,<br></font>" +
+
+    dlgMessageBox("<b><font color=\"green\">CONVERSION  COMPLETE,<br></font>" +
                     "You have 2 way's to go, to commplet the convesion to KiCad<br>" +
                     "<blockquote> (1) simple:<br>Run extractEagleLibsFromSCH<br>"+
                     "&nbsp;&nbsp;This is also the only option you have if, you dont<br>" +
@@ -2830,11 +2926,16 @@ int main()
                     cfgget("Eagle.To.KiCad.Libs.conflictPartsLibsListsize" ) + " " +
                     cfgget("Eagle.To.KiCad.Libs.addLibPrifix" ));
       
-    }
-  }
+    string tmpS1;
+    
+    sprintf(tmpS1, "run %s;\n", myULP_HOME + "exp-lbrs.ulp" );
+    
+    exit( tmpS1 );
+          
+  }  // if(result)
   else 
     exit(EXIT_FAILURE);
 
   exit(EXIT_SUCCESS);
   return 0;
-}
+}  // main()
