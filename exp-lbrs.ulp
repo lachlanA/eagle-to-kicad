@@ -13,7 +13,9 @@
 
 #require 6.0301
 
-string Version = "6.0";
+#include "eagle_to_kicad_include.ulp"
+
+string Version = "6.1";
 
 // Language:
 //----------
@@ -792,7 +794,7 @@ PureScriptName = filesetext(EditName, ".scr");               // name of generate
 string tmpSX;
 
 // Check to see if there is a config file path set for target directory
-if( strlen( tmpSX = cfgget("Eagle.To.KiCad.Libs.TARGET_DIR" )) > 0 )
+if( strlen( tmpSX = cfgget( cfg_TARGET_DIR )) > 0 )
 {
   WorkPath = tmpSX;  // Yes .. so use it.
 }
@@ -800,11 +802,11 @@ else
   WorkPath = get_project_path();  // No so use the default
 
 // get the save settings from eagle6xxx ulp
-if( strlen( tmpSX = cfgget("Eagle.To.KiCad.Libs.conflictPartsLibsListsize" )) > 0 )
+if( strlen( tmpSX = cfgget( cfg_conflictPartsLibsListsize )) > 0 )
     ConflictPartsCount = strtol( tmpSX );
     
     // add prefix ?    
-if( strlen( tmpSX = cfgget("Eagle.To.KiCad.Libs.addLibPrifix" )) > 0 )
+if( strlen( tmpSX = cfgget( cfg_addLibPrifix )) > 0 )
     AddLibPrefix = strtol( tmpSX );
 
 
@@ -823,6 +825,12 @@ int Result = dlgDialog(TR("Export EAGLE libraries from drawing")) {
       }
     }
 
+    string tmpSX1;
+    tmpSX1 = cfgget( cfg_CombinedLrbFileName ); // See if the COMBINEBRFileName is set 
+    if( strlen(tmpSX1) >= 1 )
+      Merge = 1;
+
+    
     dlgVBoxLayout
     {
       //      dlgCheckBox("Over write existing target files with out warning ?", OverWrieNoWarning ); // Add prefix ?
@@ -862,16 +870,17 @@ int Result = dlgDialog(TR("Export EAGLE libraries from drawing")) {
             AddLibPrefix = 1;
         }
 
-        if (Merge > 0)
+        string tmpS1;
+
+        
+        if( Merge > 0)
           make_one_lbr(); // one lib for all deives
         else
           make_lbr();  //  septrate lib's for all device's
         show_save_script_file(cmd);
 
-        string tmpS1;
 
-        tmpS1 = cfgget("Eagle.To.KiCad.Libs.SCRIP_ULP");
-
+        tmpS1 = cfgget( cfg_SCRIP_ULP );
         if( strlen( tmpS1 ) > 1 )
           myULP_HOME = tmpS1;
         

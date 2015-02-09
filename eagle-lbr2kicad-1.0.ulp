@@ -9,7 +9,9 @@
 	"<author>Author: \"lachlanusa (at) gmail.com\"</author>"
 
 #require 6.0000
-	//#require 5.0000
+        //#require 5.0000
+
+#include "eagle_to_kicad_include.ulp"
 
 /*
  * CHANGELOG=(dd.mm.yyyy)===============================================
@@ -1746,6 +1748,23 @@ void write_kikad_lib( string fileName )
             // retrieve amount of gates
             DEV.gates(G)
             {
+              int k = 0;
+              // check to see if there is a real gate there to draw
+              G.symbol.circles(S) { k++;}
+              G.symbol.dimensions(S) { k++;}
+              G.symbol.frames(S) { k++;}
+              G.symbol.rectangles(S) { k++;}
+              G.symbol.pins(S) { k++;}
+              if( k == 0 )
+                printf("\n#ERROR No Gate pins.  Gate Number=%d", countGates+1 );
+
+              G.symbol.polygons(S) { k++;}
+              G.symbol.texts(S) { k++;}
+              G.symbol.wires(S) { k++;}
+
+              if( k == 0 )
+                printf("\n#ERROR No Gate info: Gate: Number=%d", countGates+1 );
+              
               countGates++;
             }
 
@@ -2092,6 +2111,10 @@ void write_kikad_lib( string fileName )
 
               string tmpsx = partlistSearchAdd( escape_quotes(nameString), 0);
               
+
+              //              if( countGates == 2 )
+              //                printf("\n####DEF %s_%s %s %d %d %s %s %d %c %c\n", g_lib_prefix, escape_quotes( nameString + tmpsx ) , prefixString, 0, 40, drawPinNumberStr, drawPinNameStr, countGates, 'L', 'N');
+
               if( add_libnamePrefixToPartName )
                 printf("\nDEF %s_%s %s %d %d %s %s %d %c %c\n", g_lib_prefix, escape_quotes( nameString + tmpsx ) , prefixString, 0, 40, drawPinNumberStr, drawPinNameStr, countGates, 'L', 'N');
               else
@@ -2399,6 +2422,16 @@ int main()
       exit(EXIT_FAILURE);
     }
 
+  string tmpXX;
+
+  // If add libname prefix was set in eagle6,  it has added the libname so don't add again.
+  tmpXX = cfgget( cfg_addLibPrifix);
+  if( ( strlen(tmpXX) >= 1 ) && ( strtol( tmpXX ) == 1 ))
+  {
+    add_libnamePrefixToPartName = 0; // Dont add lib name to part name as it has aready been added.
+    outPutFootPrint = 0; // Don't add lib name to foot print name as it has aready been added.
+  }
+  
   result =  mainDialog( titleString );
 
   if (result)

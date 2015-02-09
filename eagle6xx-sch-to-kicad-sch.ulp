@@ -243,7 +243,7 @@ int stringCompair( string st1, string st2 )
 
   return i;
 }
-//
+//--------------------------------------------------------------------------------
 // compairs string to first substring mulitiGateList[ partGateCount ]
 // return's index + 1  if found
 // or zero if not.
@@ -1667,10 +1667,12 @@ void write_kicad_components( UL_SHEET S )
 	      //	      printf( "U %d %d %X\n", instanceCount++, 1, time()  );
 
 
+              //              printf("\n##### numberOfSubParts %d", numberOfSubParts );
+              
               instanceCount = 1;              
               int j;
               // look for matching mulit gate part
-              if( numberOfSubParts > 1 )
+              //              if( numberOfSubParts > 1 )
                 if( j = compairStringToStringArray( deviceName )) // Is this a multi gate part ?
                 {  // Yes..
                   int k,a;
@@ -1680,6 +1682,11 @@ void write_kicad_components( UL_SHEET S )
                   
                   k = strsplit( tmpSA, mulitiGateList[ j ], ' ' ); // Make up target search array.
 
+                  //                  for( int nn = 0; nn < k; nn++ )
+                  //                    printf("\n##### %s", tmpSA[nn] );
+
+
+                  
                   for( a = 2; a < k; )  // Ok search for gate name in that array then use the idex, as part index for KICAD 
                   {
                     if( stringCompair( tmpSA[ a ], I.gate.name )  )
@@ -1965,7 +1972,7 @@ void write_kicad_components( UL_SHEET S )
 	      //	      printf( "L %s %s\n", deviceName, refanceName );
 	      //	      printf( "U %d %d %X\n", 1, 1, time() );
 	      //	      printf( "U %d %d %X\n", instanceCount++, 1, time()  );
-	      printf( "U %d %d %X\n", instanceCount, 1, getCurrentTimeHack() );
+	      printf( "Ux2 %d %d %X\n", instanceCount, 1, getCurrentTimeHack() );
 
 	      //	      printf( "\n## I.name:%s  I.gate.name:%s  I.gate.symbol.name:%s  X:%d  Y:%d\n", I.name, I.gate.name, I.gate.symbol.name,  I.x, I.y );
 
@@ -2254,6 +2261,9 @@ void write_kicad_schematics( string fileName, int current_sheet, int number_of_s
             // Add to main list
             sprintf( mulitiGateList[ partGateCount ], "%s %d %s", P.device.name, gateCount, gateNamelist );
 
+            // Debug
+            //printf("\n#XXXXX: %s %d %s", P.device.name, gateCount, gateNamelist );            
+
             /*            
             if( P.device.package )
             {
@@ -2300,12 +2310,18 @@ void write_kicad_schematics( string fileName, int current_sheet, int number_of_s
 	      {
 		printf("EESchema Schematic File Version 2\n"); 
 
-		SCH.libraries(LIB)
+
+                if( combineLibs )
+                  printf("LIBS:%s\n", filesetext( filename( combineLibsName ), ""));
+
+                SCH.libraries(LIB)
 		  {
-		    printf("LIBS:");
-		    string tmpString = "";
-		    printf("%s\n", LIB.name);
-		    libsUsed += LIB.name + "\n";
+                    if( combineLibs == 0 ) // print out libs ?
+                    {
+                      printf("LIBS:");
+                      printf("%s\n", LIB.name);
+                    }
+                    libsUsed += LIB.name + "\n";
 		  }	
 	      }
             // Make globle netlist names table
@@ -2468,7 +2484,7 @@ int space = 10;
 string ref;
 string titleStr;
 
-int mainDialog( string titleString, int sheetcount )
+int mainDialog( string titleString, int sheetcount, string schName )
 {
 
   int result;
@@ -2501,7 +2517,7 @@ int mainDialog( string titleString, int sheetcount )
             dlgStretch(0);
             dlgSpacing(space);
             dlgLabel("Lowcation of the ULP convertion scrip files");
-            tmpSX = cfgget("Eagle.To.KiCad.Libs.SCRIP_ULP", myULP_HOME );
+            tmpSX = cfgget( cfg_SCRIP_ULP, myULP_HOME );
             if( strlen(tmpSX ) )
               myULP_HOME = tmpSX;
             dlgStringEdit( myULP_HOME );
@@ -2513,9 +2529,9 @@ int mainDialog( string titleString, int sheetcount )
             dlgStretch(0);
 
             /* if( saveAsDefaultULP_Path ) */
-            /*   cfgset("Eagle.To.KiCad.Libs.SCRIP_ULP", myULP_HOME ); */
+            /*   cfgset(cfg_SCRIP_ULP, myULP_HOME ); */
             /* else */
-            /*   cfgset("Eagle.To.KiCad.Libs.SCRIP_ULP", "" ); */
+            /*   cfgset(cfg_SCRIP_ULP", "" ); */
           }
 
           dlgHBoxLayout
@@ -2526,14 +2542,14 @@ int mainDialog( string titleString, int sheetcount )
             //            dlgStringEdit( sch_name[ 0 ] );
 
 
-            tmpSX = cfgget("Eagle.To.KiCad.Libs.TARGET_DIR", outputPath );
-            //            outputPath = cfgget("Eagle.To.KiCad.Libs.TARGET_DIR", outputPath );            
+            tmpSX = cfgget( cfg_TARGET_DIR, outputPath );
+            //            outputPath = cfgget(cfg_TARGET_DIR, outputPath );            
 
             if( strlen(tmpSX ) )
               outputPath = tmpSX;
             
               
-            //            outputPath =  cfgget("Eagle.To.KiCad.Libs.TARGET_DIR", outputPath );            
+            //            outputPath =  cfgget( cfg_TARGET_DIR, outputPath );            
             
             dlgStringEdit( outputPath );
             dlgCheckBox("Save as default", saveAsDefault );
@@ -2546,9 +2562,9 @@ int mainDialog( string titleString, int sheetcount )
             dlgStretch(0);
 
             /* if( saveAsDefault ) */
-            /*   cfgset("Eagle.To.KiCad.Libs.TARGET_DIR", outputPath ); */
+            /*   cfgset( cfg_TARGET_DIR, outputPath ); */
             /* else */
-            /*   cfgset("Eagle.To.KiCad.Libs.TARGET_DIR", "" ); */
+            /*   cfgset( cfg_TARGET_DIR, "" ); */
 
 
           }
@@ -2619,9 +2635,8 @@ int mainDialog( string titleString, int sheetcount )
 	  {
             dlgCheckBox("", combineLibs ); dlgLabel("<nobr><b>Combine All libs in One</b></nobr>"); dlgStretch(0);
             dlgStringEdit( combineLibsName );
-
-            dlgPushButton("Edit") ( combineLibsName = dlgDirectory("Select library name", "C:\\") + '/' );
-            dlgSpacing(2); dlgPushButton("Info") { if (dlgMessageBox( infoAddLibName, "Ok") == 0); } dlgStretch(0); dlgSpacing(20);
+            dlgSpacing(2);  dlgPushButton("Edit") { combineLibsName = dlgFileSave( "Name of Combined Library", outputPath + filesetext( schName, ".lbr"), "*.lbr");}             
+            dlgPushButton("Info") { if (dlgMessageBox( infoAddLibName, "Ok") == 0); } dlgStretch(0); dlgSpacing(20);            
 	  }
 
           dlgHBoxLayout
@@ -2752,19 +2767,19 @@ int mainDialog( string titleString, int sheetcount )
 	  dlgPushButton("+OK")
           {
             if( saveAsDefault )
-              cfgset("Eagle.To.KiCad.Libs.TARGET_DIR", outputPath );
+              cfgset( cfg_TARGET_DIR, outputPath );
             /* else */
-            /*   cfgset("Eagle.To.KiCad.Libs.TARGET_DIR", "" ); */
+            /*   cfgset( cfg_TARGET_DIR, "" ); */
 
             if( saveAsDefaultULP_Path )
-              cfgset("Eagle.To.KiCad.Libs.SCRIP_ULP", myULP_HOME );
+              cfgset( cfg_SCRIP_ULP, myULP_HOME );
             /* else */
-            /*   cfgset("Eagle.To.KiCad.Libs.SCRIP_ULP", "" ); */
+            /*   cfgset(cfg_TARGET_DIR, "" ); */
 
 
             
-            cfgset("Eagle.To.KiCad.Libs.conflictPartsLibsListsize", intToString( conflictPartsLibsListsize )); 
-            cfgset("Eagle.To.KiCad.Libs.addLibPrifix", intToString( addLibPrifix ));
+            cfgset( cfg_conflictPartsLibsListsize, intToString( conflictPartsLibsListsize )); 
+            cfgset( cfg_addLibPrifix, intToString( addLibPrifix ));
 
             dlgAccept();
           };
@@ -2870,8 +2885,16 @@ int main()
               //              sprintf( sch_name[ i ], "%s%s%d%s", strsub( SCH.name , 0, strlen( SCH.name) - 4), "_SUB_SHEET_", i, "_KICAD.sch");
               i++;
             }
-     
-          result = mainDialog( titleStr, totalSheets );
+
+          combineLibsName = filesetext( filename(SCH.name), ".lbr");            
+
+          result = mainDialog( titleStr, totalSheets, filesetext( filename(SCH.name), "") );
+          
+          if( combineLibs ) // Set combineLibsName option ?
+            cfgset( cfg_CombinedLrbFileName, combineLibsName );  // yes and save for the next programe
+          else
+            cfgset( cfg_CombinedLrbFileName, "" );   // No so just set a null string
+
         }
       }
     }
@@ -2902,10 +2925,10 @@ int main()
       //      MyParam = "OtherValue";
       string tmpS[];
       if( strsplit( tmpS, libsUsed, '\n' ))  // Any libs to pass onto converter
-        cfgset("Eagle.To.KiCad.Libs.LIBS", strjoin( tmpS, ' '));
+        cfgset( cfg_LIBS, strjoin( tmpS, ' '));
       
 
-      //      dlgMessageBox("CONVERSION  COMPLETE\n" + "Libs list used\n\n" + cfgget( "Eagle.To.KiCad.Libs.LIBS" ));             
+      //      dlgMessageBox("CONVERSION  COMPLETE\n" + "Libs list used\n\n" + cfgget( cfg_LIBS" ));             
 
       //      dlgMessageBox("CONVERSION  COMPLETE\n" + "Libs list used\n\n" + libsUsed );             
         //        while( totalSheets > current_sheet_number )
@@ -2923,8 +2946,8 @@ int main()
                     "&nbsp;&nbsp;This is also the only option you have if, you dont<br>" +
                     "&nbsp;&nbsp;have the eagle lbr files<br>"+
                     "&nbsp;&nbsp;if you have the eagle extract the libs</blockquote>" + "  " +
-                    cfgget("Eagle.To.KiCad.Libs.conflictPartsLibsListsize" ) + " " +
-                    cfgget("Eagle.To.KiCad.Libs.addLibPrifix" ));
+                    cfgget( cfg_conflictPartsLibsListsize ) + " " +
+                    cfgget( cfg_addLibPrifix ));
       
     string tmpS1;
     
