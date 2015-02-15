@@ -9,10 +9,13 @@
 #require 6.0000
 	//#require 5.0000
 
-#include "eagle_to_kicad_include.ulp"
+#include "eagle_to_kicad_include.inc"
        
 /*
  * CHANGELOG================================================
+ * 10.02.2015: Start adding xxxxx.cmp output (part/foot print assignment)
+ *             Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
+ *
  * 06.02.2015: Add "eagle_to_kicad_include.ulp" include file to help manage eale cfg settings bettewn
  *             ulp programs.
  *             Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
@@ -58,7 +61,9 @@ int debug = 0;
 real VERSION   = 1.1;
 real fontSize_PartPreFix_Ajust = 1.0;
 string libNamePartNameSeperator = "_";      // This is part Name  so   libName "_" partName  is is DEF, and F0 filed in KiCad
-string libNamePartLibNameSeperator = ":";   // This is part Lib to foot print name  IE:   libName ":" footprintName  this is F2 fild in KiCad
+string libNamePartLibNameSeperator = "_";   // This is part Lib to foot print name  IE:   libName ":" footprintName  this is F2 fild in KiCad
+string libNameAliasSeperator = ":";   // This is seprator for KiCad's lib Alias name prefix which is added to the foot print, when enabled
+int libNameAliasPrefixEnable = 0; // Add the KiCad tabls Alisa name to the footprint
 
 string infoAddLibName = "<b> <a href=\'http://www.w3schools.com/html/'>Visit our HTML tutorial</a><Eagle SCH/PCB will not show any charters after \'@\' in pin names<br>"+
                         "Checking this will delete any charters after and including the <b>'@'</b><br>so it wont show in KiCad</pre>";
@@ -99,7 +104,7 @@ string g_comment3   = "";
 string g_comment4   = "";
 
 string libsUsed = "";  // list of libs
-int addLibPrifix = 1; // add lib prifix
+int addLibPrefix = 1; // add lib prifix
 
 real   g_Fact  = 254*32;        // global uMeter to uInch conversion factor
 
@@ -138,21 +143,6 @@ string sch_name[];
 string outputPath = EAGLE_HOME + '/';
 string myULP_HOME = EAGLE_HOME + '/';
 
-//string outputPath = path_epf[0] + '/';
-// fix for eagle PART/VALUE    0 Deg   90 Deg       180 Deg         270 Deg
-/*
-real correctionFactorX_0[] = { 1.0, 1.044444444444, 1.093023255813, 1.0444444444444 };
-real correctionFactorY_0[] = { 1.0, 1.008928571428, 1.0           , 0.9912807017543 };
-real correctionFactorX_1[] = { 1.0, 1.044444444444, 1.093023255813, 1.0444444444444 };
-real correctionFactorY_1[] = { 1.0, 1.009009009009, 1.000892857142, 0.9920353982300 };
-*/
-
-
-real correctionFactorX_0[] = { 1.0, 1.0,  1.0, 1.0 };
-real correctionFactorY_0[] = { 1.0, 1.0,  1.0, 1.0 };
-real correctionFactorX_1[] = { 1.0, 1.0,  1.0, 1.0 };
-real correctionFactorY_1[] = { 1.0, 1.0,  1.0, 1.0 };
-
 string StmpS = "";
 string mulitiGateList[];
 int partGateCount;
@@ -169,6 +159,10 @@ string combineLibsName = "";
 int enableNetListLableFix = 1;
 real NetListLableFixSize = 1.0;
 real GlobalNetListLableFixSize = 1.0;
+
+string cmpList[];
+int cmpListSize = 0;
+
 //------------------------------------------------------
 //Return's the path of a path-filename.
 //------------------------------------------------------
@@ -198,22 +192,24 @@ string extract_filename(string pathfilename)
 string str_replace(string search, string replace, string subject)
 {
     int lastpos = 0;
+    int pos;
+    string before;
+    string after;
 
     // Check if there is any thing to replace
     if( strstr(subject, search, lastpos) == -1)
     	return subject;  // No so just return input string
-
+    
     while (strstr(subject, search, lastpos) >= 0)
     {
-        int pos = strstr(subject, search, lastpos);
-        string before = strsub(subject, 0, pos);
-        string after = strsub(subject, pos + strlen(search));
+        pos = strstr(subject, search, lastpos);
+        before = strsub(subject, 0, pos);
+        after = strsub(subject, pos + strlen(search), strlen(subject) - ( pos + strlen(search)) );
         subject = before + replace + after;
         lastpos = pos + strlen(replace);
     }
     return subject;
 }
-
 //
 // Compair 2 strings,
 // Strings must be same size
@@ -424,6 +420,7 @@ int outputStringToFile( string fileName, string outputString, char openOverWrite
 
   }
 
+  // Out put the data to fileName  
   output( fileName, mode )
   {
     
@@ -650,6 +647,35 @@ int calculateTranslations(UL_AREA area, int paperSizeSelect ) {
         return n;
 }
 
+
+//------------------------------------------------------
+// Wire .cmp file
+//------------------------------------------------------
+void outputCmpFile( string fileName, int xcount )
+{
+  int k, nr;
+  string mode = "Fwt";
+  string tempSX[];
+  
+  output( fileName, mode )
+  {
+    printf("Cmp-Mod V01 Created by Cvpcb (2015-02-06 BZR 5410)-product   date = Mon 09 Feb 2015 04:12:04 PM PST\n" );
+
+    for( k = 0; k < xcount; k++ )
+    {
+      int nr = strsplit( tempSX, cmpList[ k ], ' '); // split it.
+      
+      printf("\n");
+      printf("BeginCmp\n");
+      printf("TimeStamp = /%s;\n", tempSX[ 0 ]);
+      printf("Reference = %s;\n", tempSX[ 1 ]);
+      printf("ValeurCmp = %s;\n", tempSX[ 2 ]);
+      printf("IdModule  = %s;\n", tempSX[ 3 ]);
+      printf("EndCmp\n");
+    }
+    printf("\nEndListe");
+  };   // output( fileName, mode )
+}  // outputCmpFile( string filename, int size )
 
 //------------------------------------------------------
 //write kicad schematic dotted wire notes
@@ -1308,7 +1334,7 @@ void writeTextSegments( UL_TEXT T )
          orient = 1;
       break;
    }
-   printf("oText Label %d %d %d %d ~\n", posX, -posY, orient, fontSize);
+   printf("Text Label %d %d %d    %d   ~ 0\n", posX, -posY, orient, fontSize);
    printf("%s\n", textString);
 }
 
@@ -1348,11 +1374,11 @@ void writeTextLabels( UL_LABEL L )
 
          break;
    }
-   printf("Text Label %d %d %d %d ~\n", posX, -posY, orient, fontSize);
+   printf("Text Label %d %d %d    %d   ~ 0\n", posX, -posY, orient, fontSize);
    printf("%s\n", textString);
 }
 
-//
+//--------------------------------------------------------------------------------
 // Write NetName labe for KICAD pin, fix !
 // Note textAngle is change to flip it's postion to much pin..
 void writeTextNetLabel( string textString, real textAngle, int fontSize, int posX, int posY, int offset, int global  )
@@ -1411,7 +1437,7 @@ void writeTextNetLabel( string textString, real textAngle, int fontSize, int pos
    if( global )
      printf("Text GLabel %d %d %d %d %s\n", posX, -posY, Xorient, fontSize, "UnSpc");
    else
-     printf("Text Label %d %d %d %d ~\n", posX, -posY, Xorient, fontSize);
+     printf("Text Label %d %d %d    %d   ~ 0\n", posX, -posY, Xorient, fontSize);
 
    printf("%s\n", textString);
 }
@@ -1607,7 +1633,17 @@ void write_kicad_components( UL_SHEET S )
 	  int instanceCount = 0;
 	  int numberOfSubParts = 0;
 
-	  if(refanceName == "")
+          string timehash;
+          sprintf( timehash, "%X", getCurrentTimeHack());
+
+
+          if ( addLibPrefix )
+            cmpList[ cmpListSize++ ] = timehash + " " + P.name + " " + str_replace(",", "_", deviceName ) + " " + libName + libNamePartLibNameSeperator + str_replace(",", "_", P.device.package.name ) ;
+          else
+            cmpList[ cmpListSize++ ] = timehash + " " + P.name + " " + str_replace(",", "_", deviceName ) + " " + str_replace(",", "_", P.device.package.name );
+
+
+          if(refanceName == "")
             refanceName= "NNN";
          
 	  if( strlen(deviceName) < 1 ) // ????
@@ -1631,6 +1667,7 @@ void write_kicad_components( UL_SHEET S )
 	      numberOfSubParts++;
 	    }
 
+          
 
 	  P.instances(I)   
 	    {
@@ -1657,10 +1694,10 @@ void write_kicad_components( UL_SHEET S )
 
 
 	      printf( "$Comp\n" );
-	      if( addLibPrifix )
-		printf( "L %s %s\n", strupr( libName ) + libNamePartNameSeperator + deviceName, refanceName );
+	      if( addLibPrefix )
+		printf( "L %s %s\n", strupr( libName ) + libNamePartNameSeperator + str_replace( ",", "_", deviceName), refanceName );
 	      else
-		printf( "L %s %s\n", deviceName, refanceName );
+		printf( "L %s %s\n", str_replace( ",", "_", deviceName), refanceName );
 
 	      //	      printf( "L %s %s\n", deviceName, refanceName );
 	      //	      printf( "U %d %d %X\n", 1, 1, time() );
@@ -1782,8 +1819,24 @@ void write_kicad_components( UL_SHEET S )
                                 printf("F %d %s", ct, strjoin( tmpSA, ' ' ));    // Print out hacked F0 refance
                               }
                               else
-                                printf("F %d %s", ct,  strItextOutPut[ ct1 ]);    // Print smashed text
-
+                                if( ct == 2) // on F 2 repalce "," with "_"
+                                {
+                                  if( addLibPrefix )
+                                  {
+                                    string tmpXA[];
+                                    strsplit( tmpXA, strItextOutPut[ ct1 ], ' ' );
+                                    tmpXA[ 0 ] = stripQutes( str_replace( ",", "_", tmpXA[ 0 ] ));
+                                    tmpXA[ 0 ] = "\"" + strupr( libName ) + libNamePartNameSeperator + tmpXA[ 0 ] + "\"";
+                                    printf("F %d %s", ct, strjoin( tmpXA, ' ' ));    // Print smashed text
+                                    
+                                    //                                    printf("F %d %s\n", ct, "\"" + strupr( libName ) + libNamePartNameSeperator + stripQutes( str_replace( ",", "_", strItextOutPut[ ct1 ])));    // Print smashed text
+                                  }
+                                  else
+                                    printf("F %d %s", ct,  str_replace( ",", "_", strItextOutPut[ ct1 ]));    // Print smashed text
+                                }
+                                else
+                                  printf("F %d %s", ct,  strItextOutPut[ ct1 ]);    // Print smashed text
+                              
 			      strF0F1F2foundFlag[ ct ] = 1;
 			      strItextFoundflag[ ct1 ] = 1;  //  Mark so we don't output this
 			      found = 1;
@@ -1798,7 +1851,7 @@ void write_kicad_components( UL_SHEET S )
 			  continue;
 			}
 
-                      // find header In none text                      
+                      // find header In none smashed text                      
 		      for( ct1 = 0; ct1 < IgateSymolTextCount; ct1++ )
 			{
 			  if( ( strstr( IgateSymText[ ct1 ], strF0F1F2[ ct ], 0) == 0) && ( ct == 0) || ( strF0F1F2[ ct ] == IgateSymText[ ct1 ] ))
@@ -1819,8 +1872,25 @@ void write_kicad_components( UL_SHEET S )
                                 printf("F %d %s", ct,  strjoin( tmpSA, ' ' ));    // Print out hacked F0 refance
                               }
                               else
-                                printf("F %d %s", ct,  IgateSymTextOutPut[ ct1 ]);
+                                if( ct == 2) // on F 2 repalce "," with "_"
+                                {
+                                  if( addLibPrefix )
+                                  {
+                                    string tmpXA[];
+                                    strsplit( tmpXA, IgateSymTextOutPut[ ct1 ], ' ' );
+                                    tmpXA[ 0 ] = stripQutes( str_replace( ",", "_", tmpXA[ 0 ] ));
+                                    tmpXA[ 0 ] = "\"" + strupr( libName ) + libNamePartNameSeperator + tmpXA[ 0 ] + "\"";
+                                    printf("F %d %s", ct, strjoin( tmpXA, ' ' ));    // Print smashed text
+                                    //                                    printf("F5 %d \"%s\"\n", ct, strupr( libName ) + libNamePartNameSeperator + stripQutes( str_replace( ",", "_", IgateSymTextOutPut[ ct1 ])));
+                                  }
+                                  else
+                                    printf("F %d %s", ct,  str_replace( ",", "_", IgateSymTextOutPut[ ct1 ]));
+                                }
+                                else
+                                  printf("F %d %s", ct,  IgateSymTextOutPut[ ct1 ]);
 
+
+                              
 			      strF0F1F2foundFlag[ ct ] = 1;
 			      IgateSymTextFoundFlag[ ct1 ] = 1;  //  Mark so we don't output this
 			      found = 1;
@@ -1835,22 +1905,15 @@ void write_kicad_components( UL_SHEET S )
 			  continue;
 			}
 
-		      //		      printf("\n****Not found!!!  ct=%d ct1=%d  %s\n",  ct, ct1, strF0F1F2[ct] );
-		      // Ok no place to put it so just sick it above the refance point
-		      /*		      if( outPutVersion == 1 )
-			printf("F %d \"%s\" H %d %d 70 %.4d %c %c\n", ct,  strF0F1F2[ ct ], 
-			       (posX - 10), -(posY+10+(ct*100)), 1, hAlign, vAlign );
-		      if( outPutVersion == 2 )
-			printf("F %d \"%s\" H %d %d 70 %.4d %c %cNN\n", ct, strF0F1F2[ ct ], 
-			       (posX - 10), -(posY+10+(ct*100)), 1, hAlign, vAlign );
-		      */
+                      // Ok  we have not found any place to put it, so just sick it above the refance point,
+                      // and Hide it from display
 
 		      string tmp = strF0F1F2[ ct ];
 
-		      if(( ct == 0 ) && addLibPrifix )
+		      if(( ct == 0 ) && addLibPrefix )  // add prefix to part name ?
 			tmp = strupr( libName ) + libNamePartNameSeperator + tmp;
-		      if(( ct == 2 ) && addLibPrifix )
-			tmp = strupr( libName ) + libNamePartLibNameSeperator + tmp;
+		      if(( ct == 2 ) && addLibPrefix )  // add prefix to foot print ? and repalce "," with "_"
+			tmp = strupr( libName ) + libNamePartLibNameSeperator + str_replace( ",", "_", tmp );
 			  
 
 		      if( outPutVersion == 1 )
@@ -1964,15 +2027,15 @@ void write_kicad_components( UL_SHEET S )
 		}
 
 	      printf( "$Comp\n" );
-	      if( addLibPrifix )
-		printf( "L %s %s\n", strupr( libName ) + libNamePartNameSeperator + deviceName, "#" + refanceName );
+	      if( addLibPrefix )
+		printf( "L %s %s\n", strupr( libName ) + libNamePartNameSeperator + str_replace( ",", "_", deviceName), "#" + refanceName );
 	      else
-		printf( "L %s %s\n", deviceName, "#" + refanceName );
+		printf( "L %s %s\n", str_replace( ",", "_", deviceName), "#" + refanceName );
 
 	      //	      printf( "L %s %s\n", deviceName, refanceName );
 	      //	      printf( "U %d %d %X\n", 1, 1, time() );
 	      //	      printf( "U %d %d %X\n", instanceCount++, 1, time()  );
-	      printf( "Ux2 %d %d %X\n", instanceCount, 1, getCurrentTimeHack() );
+	      printf( "U %d %d %X\n", instanceCount, 1, getCurrentTimeHack() );
 
 	      //	      printf( "\n## I.name:%s  I.gate.name:%s  I.gate.symbol.name:%s  X:%d  Y:%d\n", I.name, I.gate.name, I.gate.symbol.name,  I.x, I.y );
 
@@ -1995,7 +2058,11 @@ void write_kicad_components( UL_SHEET S )
                     prefixToValue = "#";  // Mark F 0 as virtule part
                     printf("F %d %s", count,  writeInstanceText( T, 0, posX, -posY, partAngle, partMirror, prefixToValue, refanceName ));
                     printf("F %d %s", count + 1,  writeInstanceText( T, 0, posX, -posY, partAngle, partMirror, "", "" ));
-                    count + 2;
+
+                    printf("F %d \"\" H %d %d 60 0001 C CNN", count+2, posX, -posY );
+                    printf("\nF %d \"\" H %d %d 60 0001 C CNN\n", count+3, posX, -posY );
+                    
+                    count + 4;
                     continue;
                   }
                   else
@@ -2014,7 +2081,10 @@ void write_kicad_components( UL_SHEET S )
                     printf("F %d %s", count,  writeInstanceText( T, 0, posX, -posY, partAngle, partMirror, prefixToValue, refanceName  ));
                     //                    printf("F %d %s", count,  writeInstanceText( T, 0, posX, -posY, partAngle, partMirror, prefixToValue, "\"" + refanceName + "\"" ));                    
                     printf("F %d %s", count + 1,  writeInstanceText( T, 0, posX, -posY, partAngle, partMirror, "", "" ));
-                    count + 2;
+
+                    printf("F %d \"\" H %d %d 60 0001 C CNN", count+2, posX, -posY );
+                    printf("\nF %d \"\" H %d %d 60 0001 C CNN\n", count+3, posX, -posY );
+                    count + 4;
                     continue;
                   }
                   else
@@ -2140,7 +2210,7 @@ void write_kicad_header( UL_SCHEMATIC SCH, int current_sheet, int number_of_shee
            //	   printf("S %d %d %d %d\n", ( 1800 + ( sc -1) * 205) , 1600, (1500 + ( sc -1) * 205) , 1500);
            
 	   printf("F0 \"%s\" %d\n", name2, 60);
-	   printf("F1 \"%s\" %d\n", name, 60);
+	   printf("F1 \"%s\" %d\n", str_replace( ",", "_", name), 60);
            //!!!fixme	   printf("F0 %s %d\n", name + "-%d" + ".sch", sc, 60);
            //!!!fixme	   printf("F1 %s %d\n",  name + "-%d" + ".sch", sc, 60);
 	   printf("$EndSheet\n");
@@ -2613,15 +2683,15 @@ int mainDialog( string titleString, int sheetcount, string schName )
 	  {
             if( conflictPartsLibsListsize )            
             {
-              addLibPrifix = 1;
-              dlgCheckBox("", addLibPrifix ); dlgLabel("<font color=\"red\"><nobr><b>ADDING LIB NAME TO PART NAME IS REQIRED TO AVOID PART-LIB CONFLICT FOR KICAD!</b></nobr></font>"); dlgStretch(1);
+              addLibPrefix = 1;
+              dlgCheckBox("", addLibPrefix ); dlgLabel("<font color=\"red\"><nobr><b>ADDING LIB NAME TO PART NAME IS REQIRED TO AVOID PART-LIB CONFLICT FOR KICAD!</b></nobr></font>"); dlgStretch(1);
 //              dlgSpacing(2); dlgPushButton("Info") { if (dlgMessageBox( infoAddLibName, "Ok") == 0); } dlgStretch(0); dlgSpacing(10);
               dlgSpacing(2); dlgPushButton("Info") { if (dlgMessageBox( infoAddLibName, "Ok") == 0); } dlgSpacing(10);              
             }
             else
             {
-              addLibPrifix = 0;
-              dlgCheckBox("", addLibPrifix ); dlgLabel("<font color=\"green\"><nobr><b>Adding lib name to Part Name is NOT REQIRED</b></nobr></font>"); dlgStretch(0);
+              addLibPrefix = 0;
+              dlgCheckBox("", addLibPrefix ); dlgLabel("<font color=\"green\"><nobr><b>Adding lib name to Part Name is NOT REQIRED</b></nobr></font>"); dlgStretch(0);
               dlgSpacing(2); dlgPushButton("Info") { if (dlgMessageBox( infoAddLibName, "Ok") == 0); } dlgStretch(10); dlgSpacing(20);
             }
 	  }
@@ -2779,7 +2849,7 @@ int mainDialog( string titleString, int sheetcount, string schName )
 
             
             cfgset( cfg_conflictPartsLibsListsize, intToString( conflictPartsLibsListsize )); 
-            cfgset( cfg_addLibPrifix, intToString( addLibPrifix ));
+            cfgset( cfg_addLibPrefix, intToString( addLibPrefix ));
 
             dlgAccept();
           };
@@ -2855,9 +2925,7 @@ int main()
 	    {
               if( totalSheets == 1 )
               {
-
                 sch_name[ i ] = strsub( filename( SCH.name ), 0, strlen( filename( SCH.name )) - 4) + "_KICAD.sch";                
-
                 sheetsizes[ i ] = calculateTranslations( SX.area, g_selected ); //  work out sheet size
 
                 //                sch_name[ i ] = strsub( SCH.name , 0, strlen( SCH.name) - 4) + "_KICAD.sch";                
@@ -2919,8 +2987,8 @@ int main()
         write_kicad_schematics( outputPath + "/" + sch_name[ current_sheet_number ], current_sheet_number, totalSheets );
         current_sheet_number++;
       }
-            
-      
+
+
       //      string MyParam = cfgget("mytool.MyParam", "SomeDefault");
       //      MyParam = "OtherValue";
       string tmpS[];
@@ -2936,9 +3004,15 @@ int main()
         //	  }
     }
 
+    
+      
+    // Output .cmp file
+    schematic(SCH)
+    { 
+      outputCmpFile( outputPath + filesetext( filename(SCH.name), ".cmp"), cmpListSize );
+    }
+
     dlgMessageBox("CONVERSION  COMPLETE\n" + "Libs list used\n\n" + libsUsed ); 
-
-
 
     dlgMessageBox("<b><font color=\"green\">CONVERSION  COMPLETE,<br></font>" +
                     "You have 2 way's to go, to commplet the convesion to KiCad<br>" +
@@ -2947,7 +3021,7 @@ int main()
                     "&nbsp;&nbsp;have the eagle lbr files<br>"+
                     "&nbsp;&nbsp;if you have the eagle extract the libs</blockquote>" + "  " +
                     cfgget( cfg_conflictPartsLibsListsize ) + " " +
-                    cfgget( cfg_addLibPrifix ));
+                    cfgget( cfg_addLibPrefix ));
       
     string tmpS1;
     

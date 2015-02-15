@@ -1,0 +1,517 @@
+#usage "<b>Renumber the parts of a schematic</b><p>"
+       "This version renumbers only devices with packages (no supply) "
+       "sorted by sheets and coordinates (vertical/descending, horizontal/ascending).<br>"
+       "Optional: The starting point for the numeration of parts on the first sheet "
+       "defines an offset value for the following pages.<br>"
+       "Example:<br>"
+       " - 0 = R1 ... Rn<br>"
+       " - 100 sheet 1: R101..R199 sheet 2: R201..R299 ...<br>"
+       " - 500 sheet 1: R501..R999 sheet 2: R1001..R1499 ...<br>"
+       " - 1000 sheet 1: R1001..R1999 sheet 2: R2001..R2999 ...<br>"
+       "<p>"
+       "<author>Author: support@cadsoft.de</author>"
+
+// THIS PROGRAM IS PROVIDED AS IS AND WITHOUT WARRANTY OF ANY KIND, EXPRESSED OR IMPLIED
+
+string Version = "ULP Version 4.4.1";  // 2006.08.23 alf@cadsoft.de
+                                       // correct counter if crossing page by same prefix
+                                       // 2008.01.30 alf@cadsoft.de
+                                       // renumber only the current sheet by start sheet-number * numerical_order
+                                       // 2012-06-21 - corrected sort by Weighting of emphasis in Y-direction
+                                       //              alf@cadsoft.de
+
+string Info = "ATTENTION<p>" +
+       "Please verify that the corresponding layout file (if already existing) " +
+       "has been loaded with the schematic file.<p>" +
+       "Otherwise back-/forward-annotation will not work afterwards.";
+
+string Infoplus =
+       " You can change the following sorting parameters:<p>" +
+       " descx = 0 (X ascending [left >> right])<br>" +
+       " descx = 1 (X descending [right >> left])<br>" +
+       " descy = 0 (Y ascending [bottom >> top])<br>" +
+       " descy = 1 (Y descending [top >> bottom])<br>";
+
+
+int    descy = 1;               // set to 0 sorting ascending
+int    descx = 0;               // set to 1 sorting descending
+int    numerical_order = 0;     // sort from sheet 1, or sort by start counter for sheet
+int    emphases = 0;            // weighting of emphases first X second Y or first Y second X
+
+int    actual_sheet = 0;        // 2008.01.30
+int    only_actual_sheet = 0;   // 2008.01.30
+string sheet_info        = "";
+
+numeric string OldNames[], NewNames[], Prefix[];
+int x[], y[], Index[], Sheet[];
+int nrNames = 0;
+
+numeric string SymNames[];     // Device-Name of Symbol
+int symsh[];
+int SymX[], SymY[];
+int Snr = 0;
+int Dnr = 0;
+
+string Error = "";
+string SymPrefix[];
+string DevPrefix[];
+string DevName[];
+string SymDevName[];
+
+string NoPrefixRenumber = "TP"; // Prefix do not renumber Testpoints
+
+int    ckx[], cky[], cksh[];
+string ckname[];
+
+
+string cmd;
+string c;
+
+real Grid = 100; // in 100 Mil
+string lbr[], dev[], sym[];
+
+
+int GetNumberIndex(string Name)
+{
+  // Returns the index of the first digit of the numeric part of Name
+  // -1 indicates there is no numeric part in Name
+  int l = strlen(Name) - 1;
+  for (int Index = l; Index >= 0; --Index) {
+      if (!isdigit(Name[Index]))
+         return Index < l ? Index + 1 : -1;
+      }
+  return 0;
+}
+
+string prefix(string name) {     // Prefix of Device
+  int num = GetNumberIndex(name);
+  if (num < 1) return name;
+  else {
+    string pfx = name;
+    pfx[num] = 0;
+    return pfx;
+  }
+}
+
+void DescendingY(void) {
+  for (int ny = 0;  ny < nrNames ; ny++) {
+    y[ny] = 0 - y[ny];
+  }
+  return;
+}
+
+void DescendingX(void) {
+  for (int nx = 0;  nx < nrNames ; nx++) {
+    x[nx] = 0 - x[nx];
+  }
+  return;
+}
+
+void SortElements(void) {
+  // Sorts the elements according to their location, first by ascending
+  // x coordinates, then by ascending y coordinates.
+  // If you prefer a different kind of sorting, you can implement this here.
+  // As a result, the integer array Index[] must contain the new sequence
+  // in which to renumber the elements.
+
+  // 2008-07-24 alf, weighting of emphases first X second Y or first Y second X
+
+  if (descy) DescendingY();
+  if (descx) DescendingX();
+
+  if(!numerical_order) {
+    if (!emphases) sort(nrNames, Index, NewNames, Sheet, x, y);
+    else sort(nrNames, Index, NewNames, Sheet, y, x);
+  }
+  else {
+    if (!emphases) sort(nrNames, Index, Sheet, NewNames, x, y);
+    if (emphases) sort(nrNames, Index, Sheet, NewNames, y, x); // 2012-06-21 correct sort on emphases
+  }
+  if (descy) DescendingY();
+  if (descx) DescendingX();
+  return;
+}
+
+
+void CheckSameOrigin(int chk) {  // eagle can not rename an element
+                                 // if another element is on the same coordinate
+  int index[];
+  string checklist, h;
+  sort(chk, index, cksh, ckx, cky);
+  for (int n = 0; n < nrNames; n++) {
+    if(ckx[index[n]] == ckx[index[n+1]] && cky[index[n]] == cky[index[n+1]] && cksh[index[n]] == cksh[index[n+1]]) {
+      sprintf(h, "%s & %s on same coordinate (%d %d) mil in sheet %d\n",
+                  ckname[index[n]], ckname[index[n+1]],
+                  ckx[index[n]],
+                  cky[index[n]],
+                  cksh[index[n]]);
+      checklist += h;
+    }
+  }
+  if (checklist) {
+    dlgDialog("Check coordinates") {
+      dlgLabel("Eagle can not rename elements that are placed at the same position!");
+      dlgHBoxLayout {
+        dlgSpacing(300);
+      }
+      dlgTextView(checklist);
+      dlgHBoxLayout {
+        dlgPushButton("Break") dlgAccept();
+        dlgStretch(1);
+      }
+    };
+    exit(0);
+  }
+  return;
+}
+
+
+void GenerateNames(void) {
+  string memprefix = "";
+  int mem_sh = 0;
+  if(!numerical_order) {
+    // Generates new numeric parts to the element names in NewNames
+    int k;
+    for (int n = 0; n <= nrNames - 1; ++n) {
+      if (memprefix != NewNames[Index[n]]) {
+         memprefix = NewNames[Index[n]];
+         k = 0;
+      }
+      sprintf(NewNames[Index[n]], "%s%d", NewNames[Index[n]], ++k);
+    }
+  }
+  else {   // renumber sheets by 100.. 200.. 300..
+    string h;
+    int newdevnr;
+    for(int n = 0; n < nrNames  ; ++n) {
+      if (memprefix != NewNames[Index[n]]) {
+         memprefix = NewNames[Index[n]];
+         newdevnr = numerical_order * Sheet[Index[n]] +1;
+      }
+      if (mem_sh != Sheet[Index[n]]) {  // a new Sheet is starting by old prefix *** 2006.08.23 alf@cadsoft.de
+        mem_sh = Sheet[Index[n]];
+        newdevnr = numerical_order * Sheet[Index[n]] +1;
+      }
+      sprintf(NewNames[Index[n]], "%s%d", NewNames[Index[n]], newdevnr);
+      newdevnr++;
+      if (newdevnr-(Sheet[Index[n]]*numerical_order) >= numerical_order) {
+        sprintf(h, "<qt><nobr>More parts with prefix '%s' than starting point %d on sheet %d<br>Start the ulp with <b>numerical order</b> >= %d</nobr>",
+                memprefix, numerical_order, Sheet[Index[n]], numerical_order*10);
+        dlgMessageBox(h, "Break");
+        exit(0);
+      }
+    }
+  }
+  return;
+}
+
+void Rename(int x, int y, string New) {
+  // Generates the EAGLE command necessary to change element name Old to New
+  sprintf(c, "Name '%s' (%d %d);#209\n", New, x, y);
+  cmd += c;
+  return;
+}
+
+void GenerateScript(void) {
+  // Generates an EAGLE script file that does the whole renumbering.
+  // The tricky part here is that we cannot rename an element to a name
+  // that already exists in the schematic (which, e.g. might be necessary if
+  // we had to swap the names of two elements). Therefore we have to
+  // use a ScratchName wherever this is necessary.
+
+  // If there is nothing to do, the resulting script file will be empty.
+
+  string ScratchName;
+  int sch = 0;
+  int n;
+  for ( n = 0; n < nrNames; ++n) {
+    if (Sheet[Index[n]] != sch) {
+      sch = Sheet[Index[n]];              // *** change sheet
+      sprintf(c, "Edit .s%d;\n", sch);
+      cmd += c;
+    }
+    sprintf( ScratchName, "$%d_%d_$", sch, n);
+    Rename(x[Index[n]],y[Index[n]], ScratchName);
+  }
+  for ( n = 0; n < nrNames; ++n) {
+    if (Sheet[Index[n]] != sch) {
+      sch = Sheet[Index[n]];              // *** change sheet
+      sprintf(c, "Edit .s%d;\n", sch);
+      cmd += c;
+    }
+    Rename(x[Index[n]],y[Index[n]], NewNames[Index[n]]);
+  }
+  return;
+}
+
+// *** check collision before rename ***
+string CheckNames(void) {
+  string new_name = ";";
+  string h;
+
+  for (int Dn = 0; Dn < Dnr; Dn++ ) {
+    for (int Sn = 0; Sn < Snr; Sn++) {
+      if (DevPrefix[Dn] == SymPrefix[Sn]) {
+        sprintf(h, "# Do not use Prefix %s on Device with Package (%s) and Device without Package (%s)\n",
+                            SymPrefix[Sn], DevName[Dn], SymDevName[Sn]);
+        Error += h;
+        break;
+        }
+      }
+    }
+  for (int n = 0; n < nrNames - 1; ++n) {     // make a long string
+    new_name += NewNames[n] + ";";
+  }
+
+  for (int xx = 0; xx < Snr - 1; xx++) {
+    string sd = SymNames[xx];
+    if(sd[0] == '$') {                       // if first character is a $ on Symbolname
+      Error +=  "# Do not use $ character at first position in device names\n";
+      sprintf(h, "# RENAME %s at (%.4f %.4f) - sheet %d before running this ULP again' (%.4f %.4f)\n",
+                              SymNames[xx], SymX[xx] / 1000.0, SymY[xx] / 1000.0, symsh[xx], SymX[xx] / 1000.0, SymY[xx] / 1000.0);
+      Error += h;
+    }
+    int s;
+    int pos = strrstr(new_name, ";" + SymNames[xx] + ";");
+    if (pos > 0 ) {
+      for (s = 0; s < nrNames - 1; s++) {
+        if(NewNames[s] == SymNames[xx]) {
+          break;
+        }
+      }
+      Error +=  "# Collision of symbol name and device name (eg. Frames, Supply ...)\n";
+      sprintf(h, "# Rename PREFIX of Device %s at (%.4f %.4f) - sheet %d before renaming %s at (%.4f %.4f) - sheet %d';\n",
+                              SymNames[xx], SymX[xx] / 1000.0, SymY[xx] / 1000.0, symsh[xx],
+                              OldNames[s], x[s] / 1000.0, y[s] / 1000.0, Sheet[s] );
+      Error += h;
+    }
+  }
+  return Error;
+}
+
+void setgridmil (void) {
+  sprintf(c, "GRID MIL 100 OFF;\n");
+  cmd += c;
+  // ## only display layer 94 (symbol) if placed a text
+  // ## at symbol origin.  15.06.2004 alf@cadsoft.de
+  sprintf(c, "DISPLAY NONE 94 -95 -96;\n");
+  cmd += c;
+  return;
+}
+
+void visible(UL_SCHEMATIC S) {
+  sprintf(c, "DISP NONE ");
+  cmd += c;
+  S.layers(L) {
+    if (L.visible) {
+      sprintf(c, "%d ", L.number);
+      cmd += c;
+    }
+  }
+  cmd += ";\n";
+  return;
+}
+
+void menue(void) {
+  int Result = dlgDialog("Renumber Schematic") {
+    dlgLabel("<font color=red>" + Info + "</font>");
+    dlgHBoxLayout {
+      dlgGroup("Sort X") {
+        dlgRadioButton("&Ascending", descx);
+        dlgRadioButton("&Descending", descx);
+      }
+      dlgGroup("Sort Y") {
+        dlgRadioButton("A&scending", descy);
+        dlgRadioButton("D&escending", descy);
+      }
+      dlgGroup("Weighting of emphases") {
+        dlgRadioButton("X-direction", emphases);
+        dlgRadioButton("Y-direction", emphases);
+      }
+      dlgStretch(1);
+    }
+    dlgHBoxLayout {
+      dlgLabel("Do not renumber parts with &Prefix ");
+      dlgStringEdit(NoPrefixRenumber);
+      dlgStretch(1);
+    }
+    dlgHBoxLayout {
+      dlgVBoxLayout dlgSpacing(180);
+      dlgGroup("Sheet") {
+        dlgLabel("Start numbering for sheet at:");
+        dlgLabel(" - 0 numeration R1...Rn");
+        dlgLabel(" - 100 sheet 1: R101..R199, sheet 2: R201..R299, ...");
+        dlgLabel(" - 1000 sheet 1: R1001..R1999, sheet 2: R2001..R2999, ...");
+        dlgSpacing(10);
+        dlgHBoxLayout {
+          dlgLabel("&Numerical order  ");
+          dlgIntEdit(numerical_order, 0, 10000);
+          dlgStretch(1);
+        }
+        dlgVBoxLayout dlgSpacing(10);
+        dlgCheckBox("Sort in numerical order on the &current sheet only", only_actual_sheet) {
+          if (only_actual_sheet) {
+            if (numerical_order) {
+              sprintf(sheet_info, "<font color=\"blue\">The starting number of current sheet is %d</font>", actual_sheet * numerical_order);
+            }
+            else {
+              sprintf(sheet_info, "<font color=\"red\">Please check the numerical order!</font>");
+            }
+          }
+          else {
+            if (!numerical_order) sprintf(sheet_info, "The starting number is 1");
+             else sprintf(sheet_info, "The starting number on sheet is X * %d", numerical_order);
+
+          }
+        }
+        dlgVBoxLayout dlgSpacing(10);
+        dlgLabel(sheet_info, 1);
+        dlgStretch(1);
+      }
+    }
+    dlgHBoxLayout {
+      dlgPushButton("+&OK") {
+        if (only_actual_sheet && !numerical_order) {
+          sprintf(sheet_info, "<nobr><font color=\"red\">Please check the numerical order!</font></nobr>");
+          dlgMessageBox(sheet_info, "OK");
+        }
+        else dlgAccept();
+      }
+      dlgSpacing(15);
+      dlgPushButton("-Cancel") dlgReject();
+      dlgSpacing(15);
+      dlgLabel(Version);
+      dlgStretch(1);
+    }
+  };
+  if (!Result) exit (0);
+  return ;
+}
+
+if (schematic) {
+  if (sheet) {
+    sheet(S) actual_sheet = S.number;
+    sprintf(sheet_info, "The current sheet is %d", actual_sheet);
+  }
+  schematic(S) {
+    menue();
+    int l = 1;
+    int chk;
+    S.sheets(SH) {
+      if (only_actual_sheet) {
+        ; // do not change the actual sheet number
+      }
+      else {
+        actual_sheet = SH.number;  // set the numer to actuel sheet number
+      }
+      if (actual_sheet == SH.number) { // 2008.01.30
+
+        SH.parts(P) {
+          int n = GetNumberIndex(P.name);
+          if (n > 0) {
+
+            if (P.device.package) {    // **** only Devices with Packages
+                                       // **** without Supply symbol Frames ect...
+
+              // **** DO NOT RENUMBER Elements with this PREFIX
+              if (prefix(P.name) == NoPrefixRenumber);
+
+              else {
+                DevPrefix[Dnr] = prefix(P.name);
+                DevName[Dnr] = P.name;
+                ++Dnr;
+                P.instances(I) {
+                  int found = -1;
+                  for (int fn = 0; fn < nrNames; fn++) {
+                    if (OldNames[fn] == P.name) {
+                       found = fn;
+                       break;
+                    }
+                  }
+                  if (found < 0) {
+                    x[nrNames] = u2mil(I.x);    // cannot use E.x/y directly because of
+                    y[nrNames] = u2mil(I.y);    // sort() problem with integers > 32767
+                    OldNames[nrNames] = P.name; // in version 3.50
+                    NewNames[nrNames] = strsub(P.name, 0, n);
+                    Sheet[nrNames] = I.sheet;
+                    Prefix[nrNames] = prefix(P.name);
+                    ++nrNames;
+                  }
+
+                  else {
+                    if (Sheet[fn] == I.sheet) {
+                      if ( u2mil(I.x) < x[fn] || u2mil(I.y) > y[fn] ) {
+                         // tausche wenn x kleiner oder y groesser
+                         x[fn] > u2mil(I.x);
+                         y[fn] > u2mil(I.y);
+                      }
+                    }
+                  }
+                }
+              }
+            }   // if (P.device.package) {    // **** only Devices with Packages    // Only Symbol (Supply, Port, Frame...)
+            else
+            {  // *** check PartName on Symbols Supply, Port, Frame ... ***
+              SymPrefix[Snr] = prefix(P.name);
+              SymDevName[Snr] = P.name;
+              P.instances(I) {
+                SymNames[Snr] = P.name;     // Device-Name of Symbol
+                SymX[Snr] = u2mil(I.x);       // cannot use E.x/y directly because of
+                SymY[Snr] = u2mil(I.y);       // sort() problem with integers > 32767
+                symsh[Snr] = I.sheet;
+                ++Snr;
+                break;
+              }
+            }
+          }
+          P.instances(I) {
+            ckx[chk] = u2mil(I.x);  // cannot use E.x/y directly because of
+            cky[chk] = u2mil(I.y);  // sort() problem with integers > 32767
+            ckname[chk] = I.name;
+            cksh[chk] = I.sheet;
+            chk++;
+          }
+        }
+      } // 2008.01.30
+    }
+
+    CheckSameOrigin(chk);
+    SortElements();
+    GenerateNames();
+    setgridmil ();
+    GenerateScript();
+
+    if (CheckNames()) {
+      int select;
+      dlgDialog("Symbol ref Device Names") {
+        dlgVBoxLayout {
+          dlgLabel("Warnings for renumber!");
+          dlgTextView(Error);
+        }
+        dlgHBoxLayout {
+          dlgSpacing(450);
+        }
+        dlgHBoxLayout {
+          dlgPushButton("+&OK") dlgAccept();
+          dlgStretch(1);
+        }
+      };
+      exit (-1);
+    }
+
+    sprintf(c, "GRID INCH 0.1;\n");
+    cmd += c;
+    sprintf(c, "EDIT .S%d;\n", actual_sheet);
+    cmd += c;
+    visible(S);
+
+    string fname = filesetext(S.name, "~renumsch.scr");
+    output(fname, "wtD") printf("%s", cmd);
+    exit ("SCRIPT '" + fname + "';");
+  }
+}
+
+else {
+   dlgMessageBox("\n    Start this ULP in a Schematic    \n");
+   exit (0);
+}

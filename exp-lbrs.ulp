@@ -10,13 +10,20 @@
           "mit den verwendeten Komponenten zu generieren. Machen Sie Ihre Änderungen in der/den Bibliothek(en) "
           "und verwenden Sie den UPDATE-Befehl, um die Änderungen in Schaltplan und/oder Board zu bringen.<p>"
           "Siehe Hilfe für weitere Details.<p>"
-
+          
+/**/              
+//-------------------------------------------------------------------------------- 
+// Change log.
+// Date:    Note:
+// 10-Feb-2015  Change hooks to work the other conversion programs.  L. A.
+//  
 #require 6.0301
-
-#include "eagle_to_kicad_include.ulp"
+              
+#include "eagle_to_kicad_include.inc"
 
 string Version = "6.1";
-
+// 
+//
 // Language:
 //----------
 // Please keep to alphabetic sorting for maintainability !
@@ -806,7 +813,7 @@ if( strlen( tmpSX = cfgget( cfg_conflictPartsLibsListsize )) > 0 )
     ConflictPartsCount = strtol( tmpSX );
     
     // add prefix ?    
-if( strlen( tmpSX = cfgget( cfg_addLibPrifix )) > 0 )
+if( strlen( tmpSX = cfgget( cfg_addLibPrefix )) > 0 )
     AddLibPrefix = strtol( tmpSX );
 
 

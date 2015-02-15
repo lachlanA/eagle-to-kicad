@@ -3,7 +3,7 @@
 
 string cfg_LIBS = "Eagle.To.KiCad.Libs.LIBS";
 string cfg_conflictPartsLibsListsize = "Eagle.To.KiCad.Libs.conflictPartsLibsListsize";
-string cfg_addLibPrifix = "Eagle.To.KiCad.Libs.addLibPrifix";
+string cfg_addLibPrefix = "Eagle.To.KiCad.Libs.addLibPrefix";
 string cfg_SCRIP_ULP = "Eagle.To.KiCad.Libs.SCRIP_ULP";
 string cfg_TARGET_DIR = "Eagle.To.KiCad.Libs.TARGET_DIR";
 string cfg_F0 = "Eagle.To.KiCad.Libs.SCHf0.REF.SCALING";
