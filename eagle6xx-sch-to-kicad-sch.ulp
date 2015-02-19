@@ -13,6 +13,10 @@
        
 /*
  * CHANGELOG================================================
+ * 16.02.2015: Add upper case conert to .cmp output of footprint name, fix bug where
+ *             libname was being added to part Refance name
+ *             Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
+ *
  * 10.02.2015: Start adding xxxxx.cmp output (part/foot print assignment)
  *             Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
  *
@@ -163,6 +167,10 @@ real GlobalNetListLableFixSize = 1.0;
 string cmpList[];
 int cmpListSize = 0;
 
+string project_liblist[];
+string netlistfile;
+
+
 //------------------------------------------------------
 //Return's the path of a path-filename.
 //------------------------------------------------------
@@ -186,10 +194,11 @@ string extract_filename(string pathfilename)
 }
 
 
+
 //------------------------------------------------------
 //Replaces all occurrences of a substring found within a string.
 //------------------------------------------------------
-string str_replace(string search, string replace, string subject)
+string xstr_replace(string search, string replace, string subject)
 {
     int lastpos = 0;
     int pos;
@@ -209,6 +218,23 @@ string str_replace(string search, string replace, string subject)
         lastpos = pos + strlen(replace);
     }
     return subject;
+}
+
+
+//------------------------------------------------------
+//Replaces all occurrences of a substring found within a string.
+//------------------------------------------------------
+string str_replace(string search, string replace, string subject)
+{
+    string tmpS;
+
+
+    if( search == "," && ( strlen( search ) == strlen( "," )) )
+    {
+      tmpS = xstr_replace( search, replace, subject);
+      return xstr_replace( "/", replace, subject);
+    }
+    return  xstr_replace( search, replace, subject);
 }
 //
 // Compair 2 strings,
@@ -670,12 +696,80 @@ void outputCmpFile( string fileName, int xcount )
       printf("TimeStamp = /%s;\n", tempSX[ 0 ]);
       printf("Reference = %s;\n", tempSX[ 1 ]);
       printf("ValeurCmp = %s;\n", tempSX[ 2 ]);
-      printf("IdModule  = %s;\n", tempSX[ 3 ]);
+      printf("IdModule  = %s;\n", strupr( tempSX[ 3 ]));
       printf("EndCmp\n");
     }
     printf("\nEndListe");
   };   // output( fileName, mode )
 }  // outputCmpFile( string filename, int size )
+
+
+//------------------------------------------------------
+// Out put .Project file for KiCad 
+//------------------------------------------------------
+int outputCmpPro( string fileName, int xcount )
+{
+  int k, nr;
+  string mode = "Fwt";
+  string tempSX[];
+  
+  output( fileName, mode )
+  {
+    printf("update=Mon 16 Feb 2015 06:37:24 AM PST\n");
+    printf("version=1\n");
+    printf("last_client=kicad\n");
+    printf("[pcbnew]\n");
+    printf("version=1\n");
+    printf("LastNetListRead=%s\n", netlistfile );
+    printf("UseCmpFile=1\n");
+    printf("PadDrill=0.600000000000\n");
+    printf("PadDrillOvalY=0.600000000000\n");
+    printf("PadSizeH=1.500000000000\n");
+    printf("PadSizeV=1.500000000000\n");
+    printf("PcbTextSizeV=1.500000000000\n");
+    printf("PcbTextSizeH=1.500000000000\n");
+    printf("PcbTextThickness=0.300000000000\n");
+    printf("ModuleTextSizeV=1.000000000000\n");
+    printf("ModuleTextSizeH=1.000000000000\n");
+    printf("ModuleTextSizeThickness=0.150000000000\n");
+    printf("SolderMaskClearance=0.000000000000\n");
+    printf("SolderMaskMinWidth=0.000000000000\n");
+    printf("DrawSegmentWidth=0.200000000000\n");
+    printf("BoardOutlineThickness=0.100000000000\n");
+    printf("ModuleOutlineThickness=0.150000000000\n");
+    printf("[cvpcb]\n");
+    printf("version=1\n");
+    printf("NetIExt=net\n");
+    printf("[general]\n");
+    printf("version=1\n");
+    printf("[eeschema]\n");
+    printf("version=1\n");
+    printf("LibDir=\n");
+    printf("[eeschema/libraries]\n");
+    printf("LibName1=%s\n", project_liblist[0] );
+    //    printf("(END)\n");
+  }
+  return 0;
+}
+
+//--------------------------------------------------------------------------------
+// Out put module table
+//--------------------------------------------------------------------------------
+int output_fp_lib_table( string fileName, string schName )
+{
+  int k, nr;
+  string mode = "Fwt";
+  string tempSX[];
+  
+  output( fileName, mode )
+  {
+    printf("(fp_lib_table\n");
+    printf("  (lib (name %s)(type Legacy)(uri %s)(options \"\")(descr \"\"))\n", filesetext( combineLibsName, "" ), outputPath + filesetext( filename( schName), ".mod") );
+    printf(")\n");
+  }
+  return 0;
+}
+
 
 //------------------------------------------------------
 //write kicad schematic dotted wire notes
@@ -1910,8 +2004,9 @@ void write_kicad_components( UL_SHEET S )
 
 		      string tmp = strF0F1F2[ ct ];
 
-		      if(( ct == 0 ) && addLibPrefix )  // add prefix to part name ?
-			tmp = strupr( libName ) + libNamePartNameSeperator + tmp;
+		      if(( ct == 0 ) && addLibPrefix )  // add prefix to refance name ?
+			tmp = tmp;
+                      //			tmp = strupr( libName ) + libNamePartNameSeperator + tmp;                      
 		      if(( ct == 2 ) && addLibPrefix )  // add prefix to foot print ? and repalce "," with "_"
 			tmp = strupr( libName ) + libNamePartLibNameSeperator + str_replace( ",", "_", tmp );
 			  
@@ -2541,7 +2636,8 @@ void openSchematicPath( string startPath, int sheetcount )
          string tmpName = S.name; 
          int nr = strsplit(stringArray, tmpName, '/');
          sch_name[ sheetcount ] = dirName + "/" + stringArray[ nr-1 ];
-         sch_name[ sheetcount ] = strsub(sch_name[ sheetcount ] , 0, strlen(sch_name[ sheetcount ]) - 4) + "_KICAD.sch";
+         sch_name[ sheetcount ] = strsub(sch_name[ sheetcount ] , 0, strlen(sch_name[ sheetcount ]) - 4) + ".sch";
+         //         sch_name[ sheetcount ] = strsub(sch_name[ sheetcount ] , 0, strlen(sch_name[ sheetcount ]) - 4) + "_KICAD.sch";         
       }
    }
 }
@@ -2925,7 +3021,8 @@ int main()
 	    {
               if( totalSheets == 1 )
               {
-                sch_name[ i ] = strsub( filename( SCH.name ), 0, strlen( filename( SCH.name )) - 4) + "_KICAD.sch";                
+                sch_name[ i ] = strsub( filename( SCH.name ), 0, strlen( filename( SCH.name )) - 4) + ".sch";                
+                //                sch_name[ i ] = strsub( filename( SCH.name ), 0, strlen( filename( SCH.name )) - 4) + "_KICAD.sch";                
                 sheetsizes[ i ] = calculateTranslations( SX.area, g_selected ); //  work out sheet size
 
                 //                sch_name[ i ] = strsub( SCH.name , 0, strlen( SCH.name) - 4) + "_KICAD.sch";                
@@ -2938,17 +3035,20 @@ int main()
               if(( totalSheets > 1 )  && ( i == 0))
               {
                 //                sch_name[ i ] = SCH.name + "_MASTER_KICAD.sch"; 
-                sch_name[ i ] = strsub( filename( SCH.name ), 0, strlen( filename( SCH.name )) - 4) + "_MASTER_KICAD.sch";
+                sch_name[ i ] = strsub( filename( SCH.name ), 0, strlen( filename( SCH.name )) - 4) + ".sch";
+                //                sch_name[ i ] = strsub( filename( SCH.name ), 0, strlen( filename( SCH.name )) - 4) + "_MASTER_KICAD.sch";                
                 //                sch_name[ i ] = strsub( SCH.name , 0, strlen( SCH.name) - 4) + "_MASTER_KICAD.sch";                
                 i++;
-                sprintf( sch_name[ i ], "%s%s%d%s", strsub( filename( SCH.name ), 0, strlen( filename( SCH.name )) - 4), "_SUB_SHEET_",  i, "_KICAD.sch");
+                sprintf( sch_name[ i ], "%s%s%d%s", strsub( filename( SCH.name ), 0, strlen( filename( SCH.name )) - 4), "_SS_",  i, ".sch");
+                //                sprintf( sch_name[ i ], "%s%s%d%s", strsub( filename( SCH.name ), 0, strlen( filename( SCH.name )) - 4), "_SUB_SHEET_",  i, "_KICAD.sch");                
                 sheetsizes[ i ] = calculateTranslations( SX.area, g_selected ); //  work out sheet size
 
                 //                sprintf( sch_name[ i ], "%s%s%d%s", strsub( SCH.name , 0, strlen( SCH.name) - 4), "_SUB_SHEET_",  i, "_KICAD.sch");
                 i++;
                 continue;
               }
-              sprintf( sch_name[ i ], "%s%s%d%s", strsub( filename( SCH.name ), 0, strlen( filename( SCH.name )) - 4), "_SUB_SHEET_", i, "_KICAD.sch");
+              sprintf( sch_name[ i ], "%s%s%d%s", strsub( filename( SCH.name ), 0, strlen( filename( SCH.name )) - 4), "_SS_", i, ".sch");
+              //sprintf( sch_name[ i ], "%s%s%d%s", strsub( filename( SCH.name ), 0, strlen( filename( SCH.name )) - 4), "_SUB_SHEET_", i, "_KICAD.sch");
               sheetsizes[ i ] = calculateTranslations( SX.area, g_selected ); //  work out sheet size
               //              sprintf( sch_name[ i ], "%s%s%d%s", strsub( SCH.name , 0, strlen( SCH.name) - 4), "_SUB_SHEET_", i, "_KICAD.sch");
               i++;
@@ -3009,12 +3109,41 @@ int main()
     // Output .cmp file
     schematic(SCH)
     { 
-      outputCmpFile( outputPath + filesetext( filename(SCH.name), ".cmp"), cmpListSize );
+      project_liblist[ 0 ] = filesetext( filename(SCH.name), "");
+      netlistfile = filesetext( filename(SCH.name), ".net");
+
+      outputCmpFile( outputPath + filesetext( filename(SCH.name), ".cmp"), cmpListSize );  // output  .cmp file
+      outputCmpPro( outputPath + filesetext( filename(SCH.name), ".pro"), 0 );   //  Out put .pro project file
+      output_fp_lib_table( outputPath + "fp-lib-table", SCH.name );   //  Out module ft lib tables
+    }
+    
+
+    // dlgMessageBox("CONVERSION  COMPLETE\n" + "Libs list used\n\n" + libsUsed ); 
+
+
+
+    string warnings = "";
+
+    if( addLibPrefix )
+    {
+      warnings = "<center><nobr><H1><font color=\"red\">CONVERSION COMPLETED WITH ERRORS</font></H1></center><hr>";
+    }
+    else
+    {
+      warnings = "<center><nobr><H1><font color=\"green\">CONVERSION COMPLETED</font></H1></center><hr>";
     }
 
-    dlgMessageBox("CONVERSION  COMPLETE\n" + "Libs list used\n\n" + libsUsed ); 
+    if( combineLibs )
+    {
+      //      warnings = "";
+    }
+    else
+    {
+      //      warnings = "";
+    }
+      
 
-    dlgMessageBox("<b><font color=\"green\">CONVERSION  COMPLETE,<br></font>" +
+    dlgMessageBox( warnings +
                     "You have 2 way's to go, to commplet the convesion to KiCad<br>" +
                     "<blockquote> (1) simple:<br>Run extractEagleLibsFromSCH<br>"+
                     "&nbsp;&nbsp;This is also the only option you have if, you dont<br>" +

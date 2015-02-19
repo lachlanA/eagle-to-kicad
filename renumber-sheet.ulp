@@ -53,28 +53,32 @@ int Snr = 0;
 int Dnr = 0;
 
 string Error = "";
-string SymPrefix[];
+string SymPrefix[];    // holds Refance/prefix - any traling number
 string DevPrefix[];
-string DevName[];
-string SymDevName[];
+string DevName[];      // holds Refnace/prefix with traling number
+string SymDevName[];      // holds Refnace/prefix with traling number
 
-string NoPrefixRenumber = "TP"; // Prefix do not renumber Testpoints
+string NoPrefixRenumber = ""; // Prefix do not renumber Testpoints
 
 int    ckx[], cky[], cksh[];
 string ckname[];
 
 
-string cmd;
+string cmd;  // holds the script to renumbing in sch
 string c;
 
 real Grid = 100; // in 100 Mil
 string lbr[], dev[], sym[];
 
 
+int maxRefNumber = 0;
+
+
+//--------------------------------------------------------------------------------
+// Returns the index of the first digit of the numeric part of Name
+// -1 indicates there is no numeric part in Name
 int GetNumberIndex(string Name)
 {
-  // Returns the index of the first digit of the numeric part of Name
-  // -1 indicates there is no numeric part in Name
   int l = strlen(Name) - 1;
   for (int Index = l; Index >= 0; --Index) {
       if (!isdigit(Name[Index]))
@@ -83,12 +87,16 @@ int GetNumberIndex(string Name)
   return 0;
 }
 
+//--------------------------------------------------------------------------------
+// return Refance with out traling number
+// 
 string prefix(string name) {     // Prefix of Device
   int num = GetNumberIndex(name);
-  if (num < 1) return name;
+  if (num < 1)
+    return name;
   else {
     string pfx = name;
-    pfx[num] = 0;
+    pfx[num] = 0;   //  put in 0 to termant string
     return pfx;
   }
 }
@@ -119,9 +127,12 @@ void SortElements(void) {
   if (descy) DescendingY();
   if (descx) DescendingX();
 
-  if(!numerical_order) {
-    if (!emphases) sort(nrNames, Index, NewNames, Sheet, x, y);
-    else sort(nrNames, Index, NewNames, Sheet, y, x);
+  if(!numerical_order)
+  {
+    if (!emphases)
+      sort(nrNames, Index, NewNames, Sheet, x, y);
+    else
+      sort(nrNames, Index, NewNames, Sheet, y, x);
   }
   else {
     if (!emphases) sort(nrNames, Index, Sheet, NewNames, x, y);
@@ -165,17 +176,22 @@ void CheckSameOrigin(int chk) {  // eagle can not rename an element
   return;
 }
 
-
+//--------------------------------------------------------------------------------
+//
+//--------------------------------------------------------------------------------
 void GenerateNames(void) {
   string memprefix = "";
   int mem_sh = 0;
   if(!numerical_order) {
     // Generates new numeric parts to the element names in NewNames
     int k;
-    for (int n = 0; n <= nrNames - 1; ++n) {
-      if (memprefix != NewNames[Index[n]]) {
+    for (int n = 0; n <= nrNames - 1; ++n)
+    {
+      if (memprefix != NewNames[Index[n]])   // Start of new Refance prefix name ?
+      {
          memprefix = NewNames[Index[n]];
-         k = 0;
+         //         k = 0;                             // Reset to zero
+         k = maxRefNumber;
       }
       sprintf(NewNames[Index[n]], "%s%d", NewNames[Index[n]], ++k);
     }
@@ -184,17 +200,20 @@ void GenerateNames(void) {
     string h;
     int newdevnr;
     for(int n = 0; n < nrNames  ; ++n) {
-      if (memprefix != NewNames[Index[n]]) {
+      if (memprefix != NewNames[Index[n]])
+      {
          memprefix = NewNames[Index[n]];
          newdevnr = numerical_order * Sheet[Index[n]] +1;
       }
-      if (mem_sh != Sheet[Index[n]]) {  // a new Sheet is starting by old prefix *** 2006.08.23 alf@cadsoft.de
+      if (mem_sh != Sheet[Index[n]])
+      {  // a new Sheet is starting by old prefix *** 2006.08.23 alf@cadsoft.de
         mem_sh = Sheet[Index[n]];
         newdevnr = numerical_order * Sheet[Index[n]] +1;
       }
       sprintf(NewNames[Index[n]], "%s%d", NewNames[Index[n]], newdevnr);
       newdevnr++;
-      if (newdevnr-(Sheet[Index[n]]*numerical_order) >= numerical_order) {
+      if (newdevnr-(Sheet[Index[n]]*numerical_order) >= numerical_order)
+      {
         sprintf(h, "<qt><nobr>More parts with prefix '%s' than starting point %d on sheet %d<br>Start the ulp with <b>numerical order</b> >= %d</nobr>",
                 memprefix, numerical_order, Sheet[Index[n]], numerical_order*10);
         dlgMessageBox(h, "Break");
@@ -205,6 +224,9 @@ void GenerateNames(void) {
   return;
 }
 
+//--------------------------------------------------------------------------------
+// output script for renumber part
+//--------------------------------------------------------------------------------
 void Rename(int x, int y, string New) {
   // Generates the EAGLE command necessary to change element name Old to New
   sprintf(c, "Name '%s' (%d %d);#209\n", New, x, y);
@@ -212,15 +234,15 @@ void Rename(int x, int y, string New) {
   return;
 }
 
-void GenerateScript(void) {
-  // Generates an EAGLE script file that does the whole renumbering.
-  // The tricky part here is that we cannot rename an element to a name
-  // that already exists in the schematic (which, e.g. might be necessary if
-  // we had to swap the names of two elements). Therefore we have to
-  // use a ScratchName wherever this is necessary.
-
-  // If there is nothing to do, the resulting script file will be empty.
-
+//--------------------------------------------------------------------------------
+// Generates an EAGLE script file that does the whole renumbering.
+// The tricky part here is that we cannot rename an element to a name
+// that already exists in the schematic (which, e.g. might be necessary if
+// we had to swap the names of two elements). Therefore we have to
+// use a ScratchName wherever this is necessary.
+// If there is nothing to do, the resulting script file will be empty.
+void GenerateScript(void)
+{
   string ScratchName;
   int sch = 0;
   int n;
@@ -231,7 +253,7 @@ void GenerateScript(void) {
       cmd += c;
     }
     sprintf( ScratchName, "$%d_%d_$", sch, n);
-    Rename(x[Index[n]],y[Index[n]], ScratchName);
+    Rename(x[Index[n]],y[Index[n]], ScratchName); // output script for renumber part
   }
   for ( n = 0; n < nrNames; ++n) {
     if (Sheet[Index[n]] != sch) {
@@ -239,12 +261,14 @@ void GenerateScript(void) {
       sprintf(c, "Edit .s%d;\n", sch);
       cmd += c;
     }
-    Rename(x[Index[n]],y[Index[n]], NewNames[Index[n]]);
+    Rename(x[Index[n]],y[Index[n]], NewNames[Index[n]]); // output script for renumber part
   }
   return;
 }
 
+//--------------------------------------------------------------------------------
 // *** check collision before rename ***
+//--------------------------------------------------------------------------------
 string CheckNames(void) {
   string new_name = ";";
   string h;
@@ -274,8 +298,10 @@ string CheckNames(void) {
     int s;
     int pos = strrstr(new_name, ";" + SymNames[xx] + ";");
     if (pos > 0 ) {
-      for (s = 0; s < nrNames - 1; s++) {
-        if(NewNames[s] == SymNames[xx]) {
+      for (s = 0; s < nrNames - 1; s++)
+      {
+        if(NewNames[s] == SymNames[xx])
+        {
           break;
         }
       }
@@ -289,6 +315,7 @@ string CheckNames(void) {
   return Error;
 }
 
+//--------------------------------------------------------------------------------
 void setgridmil (void) {
   sprintf(c, "GRID MIL 100 OFF;\n");
   cmd += c;
@@ -299,6 +326,7 @@ void setgridmil (void) {
   return;
 }
 
+//--------------------------------------------------------------------------------
 void visible(UL_SCHEMATIC S) {
   sprintf(c, "DISP NONE ");
   cmd += c;
@@ -397,6 +425,25 @@ if (schematic) {
     menue();
     int l = 1;
     int chk;
+
+    // find the hightest number part of the refance name
+    S.sheets(SH) 
+    {
+      int  tmpn;
+      string tmpS;
+      SH.parts(P)
+      {
+        if( ( tmpn = GetNumberIndex(P.name)) == -1 )
+          continue;
+        else
+        {
+          if( ( tmpn = strtol( strsub( P.name, tmpn ))) > maxRefNumber )
+            maxRefNumber = tmpn;
+        }
+      }
+    }  // sheets(SH) 
+
+    
     S.sheets(SH) {
       if (only_actual_sheet) {
         ; // do not change the actual sheet number
@@ -406,24 +453,31 @@ if (schematic) {
       }
       if (actual_sheet == SH.number) { // 2008.01.30
 
-        SH.parts(P) {
-          int n = GetNumberIndex(P.name);
-          if (n > 0) {
+        SH.parts(P)
+        {
+          int n = GetNumberIndex(P.name);  // index to start of Refance number in Refance
 
-            if (P.device.package) {    // **** only Devices with Packages
-                                       // **** without Supply symbol Frames ect...
-
+          if( n == -1 )           // Only renumber parts which have no numbers !
+            n = strlen(P.name);
+          else
+            n = 0;
+            
+          if (n > 0)  // do we have a refance number on the end ?
+          { // Yes !
+            if (P.device.package)    // **** only Devices with Packages
+            {                        // **** without Supply symbol Frames ect...
               // **** DO NOT RENUMBER Elements with this PREFIX
-              if (prefix(P.name) == NoPrefixRenumber);
-
+              if (prefix(P.name) == NoPrefixRenumber)    // returns Refance without any traling number
+                ;    // Do thing is match
               else {
-                DevPrefix[Dnr] = prefix(P.name);
-                DevName[Dnr] = P.name;
+                DevPrefix[Dnr] = prefix(P.name);   // Treturns Refnace without any traling number
+                DevName[Dnr] = P.name; // holds Refnace/prefix with traling number
                 ++Dnr;
                 P.instances(I) {
                   int found = -1;
                   for (int fn = 0; fn < nrNames; fn++) {
-                    if (OldNames[fn] == P.name) {
+                    if (OldNames[fn] == P.name)
+                    {
                        found = fn;
                        break;
                     }
@@ -434,13 +488,16 @@ if (schematic) {
                     OldNames[nrNames] = P.name; // in version 3.50
                     NewNames[nrNames] = strsub(P.name, 0, n);
                     Sheet[nrNames] = I.sheet;
-                    Prefix[nrNames] = prefix(P.name);
+                    Prefix[nrNames] = prefix(P.name);   // Treturns Refnace without any traling number
                     ++nrNames;
                   }
 
-                  else {
-                    if (Sheet[fn] == I.sheet) {
-                      if ( u2mil(I.x) < x[fn] || u2mil(I.y) > y[fn] ) {
+                  else
+                  {
+                    if (Sheet[fn] == I.sheet)
+                    {
+                      if ( u2mil(I.x) < x[fn] || u2mil(I.y) > y[fn] )
+                      {
                          // tausche wenn x kleiner oder y groesser
                          x[fn] > u2mil(I.x);
                          y[fn] > u2mil(I.y);
@@ -452,8 +509,8 @@ if (schematic) {
             }   // if (P.device.package) {    // **** only Devices with Packages    // Only Symbol (Supply, Port, Frame...)
             else
             {  // *** check PartName on Symbols Supply, Port, Frame ... ***
-              SymPrefix[Snr] = prefix(P.name);
-              SymDevName[Snr] = P.name;
+              SymPrefix[Snr] = prefix(P.name);  // Treturns Refnace without any traling number
+              SymDevName[Snr] = P.name; // holds Refnace/prefix with traling number
               P.instances(I) {
                 SymNames[Snr] = P.name;     // Device-Name of Symbol
                 SymX[Snr] = u2mil(I.x);       // cannot use E.x/y directly because of
@@ -463,7 +520,8 @@ if (schematic) {
                 break;
               }
             }
-          }
+          }   // if (n > 0)  // do we have a refance number on the end ?
+
           P.instances(I) {
             ckx[chk] = u2mil(I.x);  // cannot use E.x/y directly because of
             cky[chk] = u2mil(I.y);  // sort() problem with integers > 32767
@@ -477,11 +535,11 @@ if (schematic) {
 
     CheckSameOrigin(chk);
     SortElements();
-    GenerateNames();
+    GenerateNames();  // Add new number to Refances and put in NewNames
     setgridmil ();
     GenerateScript();
 
-    if (CheckNames()) {
+    if (CheckNames()) { //check collision before rename ***
       int select;
       dlgDialog("Symbol ref Device Names") {
         dlgVBoxLayout {
