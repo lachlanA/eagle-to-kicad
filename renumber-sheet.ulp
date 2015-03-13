@@ -11,19 +11,29 @@
        "<p>"
        "<author>Author: support@cadsoft.de</author>"
 
+
 // THIS PROGRAM IS PROVIDED AS IS AND WITHOUT WARRANTY OF ANY KIND, EXPRESSED OR IMPLIED
 
-string Version = "ULP Version 4.4.1";  // 2006.08.23 alf@cadsoft.de
-                                       // correct counter if crossing page by same prefix
-                                       // 2008.01.30 alf@cadsoft.de
-                                       // renumber only the current sheet by start sheet-number * numerical_order
-                                       // 2012-06-21 - corrected sort by Weighting of emphasis in Y-direction
-                                       //              alf@cadsoft.de
+string Version = "ULP Version 4.4.2";
+
+/*
+ * CHANGELOG================================================
+ * 27.02.2015: Programed moded to only add refance numbers
+ *             to parts which have no refance numbers
+ *             Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
+ *
+ * 2006.08.23 alf@cadsoft.de
+ * correct counter if crossing page by same prefix
+ * 2008.01.30 alf@cadsoft.de
+ * renumber only the current sheet by start sheet-number * numerical_order
+ * 2012-06-21 - corrected sort by Weighting of emphasis in Y-direction
+ * alf@cadsoft.de
+ */
 
 string Info = "ATTENTION<p>" +
-       "Please verify that the corresponding layout file (if already existing) " +
-       "has been loaded with the schematic file.<p>" +
-       "Otherwise back-/forward-annotation will not work afterwards.";
+       "Please verify that the corresponding pcb layout (if it existing) " +
+       "has been loaded, and is consistant with the PCB.<p>" +
+       "Otherwise renumbering of parts wont work, KiCad sch part to pcb part match wont work !";
 
 string Infoplus =
        " You can change the following sorting parameters:<p>" +
@@ -71,7 +81,8 @@ real Grid = 100; // in 100 Mil
 string lbr[], dev[], sym[];
 
 
-int maxRefNumber = 0;
+int maxRefNumber = 0;   // Hold the maxium refance number on this schmatic
+// this will be the start of the number parts which dont have a refance
 
 
 //--------------------------------------------------------------------------------
@@ -460,7 +471,7 @@ if (schematic) {
           if( n == -1 )           // Only renumber parts which have no numbers !
             n = strlen(P.name);
           else
-            n = 0;
+            n = 0;  // Has Refance number so invert the meaning for the next check.
             
           if (n > 0)  // do we have a refance number on the end ?
           { // Yes !

@@ -16,12 +16,22 @@
 // Change log.
 // Date:    Note:
 // 10-Feb-2015  Change hooks to work the other conversion programs.  L. A.
+// 13-Mar-2015  Add more help to info boxs.  L. A.
 //  
 #require 6.0301
               
 #include "eagle_to_kicad_include.inc"
-
+//
 string Version = "6.1";
+string infoCombineLibNames  = "Combine all the seprate Eagle libs into one KiCad lib<br>"+
+                              "This make's the conversion preccess easy and faster.<br>"+
+                              "<b>But means that you lose tack of which parts<br>"+
+                              "come from which Eagle lib</b><br>";
+
+string infoLibNameToSymbolPackageDevice = "When <i>Combining librarys</i> it's help to add the library name<br>"+
+                                          "to Part/Device/Footprint to reduce the name conflict if more than<br>"+
+                                          "part has the same name in the diffrent librarys";
+
 // 
 //
 // Language:
@@ -844,12 +854,12 @@ int Result = dlgDialog(TR("Export EAGLE libraries from drawing")) {
       dlgHBoxLayout
       {
         dlgCheckBox("Combine libs into one libary file =", Merge ); dlgLabel( "<nobr><b>" + filesetext( EditName, ".lbr") + "</b></nobr>" , 1);
-        dlgPushButton("Info") { if (dlgMessageBox( "hellow", "Ok") == 0); }; 
+        dlgPushButton("Info") { if (dlgMessageBox( infoCombineLibNames, "Ok") == 0); }; 
       }
       dlgHBoxLayout
       {
-        dlgCheckBox("Add library names as prefix to symbol, package and device names", AddLibPrefix); // Add prefix ?
-        dlgPushButton("Info") { if (dlgMessageBox( "hellow", "Ok") == 0); }; 
+        dlgCheckBox("Add library names as prefix to symbol package and device names", AddLibPrefix); // Add prefix ?
+        dlgPushButton("Info") { if (dlgMessageBox( infoLibNameToSymbolPackageDevice, "Ok") == 0); }; 
       }
     }
     //    dlgGroup(TR("Creation mode")) {
