@@ -1,7 +1,7 @@
 #**Converting from Eagle to KiCad.**
 
-The following 4 **ulp** (eagle user script file),  work in together or partly stand alone to  
-converts **Eagle**  *sch/lbr's* version 6.xx file(s) to **KiCad** *sch* and *lib/mod* files.  
+The following 4 **ulp** (eagle user script file) and one **ulp** include file, work in together or stand
+alone too converts **Eagle**  *sch/lbr's* version 6.xx file(s) to **KiCad** *sch* and *lib/mod* files.  
 
 The Programs will do:  
 1. - Eagle multi sheet sch to KiCad  multi sheets.  
@@ -24,13 +24,13 @@ git clone https://github.com/lachlanA/eagle-to-kicad.git
 **WARNING:**  The ULP's filename will conflict with Eagles ULP's filename's so don't install them in Eagle's  
 ULP directory.  
 
-There are 4 **ulp's** which have been hack together.  
+There are 4 **ulp's** and one **ulp** include file have been hack together.  
 
 1: ***renumber-sheet.ulp*** .......................   stage 1:  Add missing number(s) to parts Prefix's.  
 2: ***eagle6xx-sch-to-kicad-sch.ulp*** ....   state 2:  Build sch and project files, etc  
 3: ***exp-lbrs.ulp*** ......................................   stage 3: *automatically runs*  Extract libs from  eagle SCH/PCB  
 4: ***eagle-lbr2kicad-1.0.ulp***................  stage 4:  *automatically runs* Convert Eagle lbr to KiCad lib/mod  
- 
+5: ***eagle_to_kicad_include.inc** ...  Include file used by the other 4 ULP's 
 ####HOW TO RUN THE ULP'S 
  
 **WARNING Always backup your Eagle SCH/PCB files before running this program!**  
