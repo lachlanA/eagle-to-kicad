@@ -1,4 +1,4 @@
-#**Converting from Eagle to KiCad.**
+x#**Converting from Eagle to KiCad.**
 
 The following 4 **ulp** (eagle user script file) and one **ulp** include file, work in together or stand  
 alone too converts **Eagle**  *sch/lbr's* version 6.xx file(s) to **KiCad** *sch* and *lib/mod* files.  
@@ -75,7 +75,8 @@ There are 4 **ulp's** and one **ulp** include file have been hack together.
 &nbsp;&nbsp;Click on **File->Open** in **pcbnew** an window will pop-up, and on the far Bottom wright you will have a  
 &nbsp;&nbsp;drop down menu box option to select the type in import file. Select version 6.x  XML  of Eagle, and  
 &nbsp;&nbsp;the PCB eagle file linked to the eagle SCH file we used at the beginning and press OK.  
-&nbsp;&nbsp;Now if it imported OK,  **SAVE AS** to your new target directory  
+&nbsp;&nbsp;Arfter importing the Eagle PCB file, (with out error's I hope).  
+&nbsp;&nbsp;We next do a **SAVE AS** to your new target directory  
 &nbsp;&nbsp;(where you saved all the output of the preceding programs too) and type/append  
 &nbsp;&nbsp;**project-name**.**kicadpcb** for the new KiCad PCB.  
 &nbsp;&nbsp;All being well you should have a converted eagle SCH-PCB correctly linked and referenced.  
