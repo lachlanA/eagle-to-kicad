@@ -1,178 +1,90 @@
-0        1         2         3         4         5         6         7         8         9         10        11        12        13
-12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
+#**Converting from Eagle to KiCad.**
+
+The following 4 **ulp** (eagle user script file),  work in together or partly stand alone to
+converts **Eagle**  *sch/lbr's* version 6.xx file(s) to **KiCad** *sch* and *lib/mod* files.
+
+The Programs will do:
+1. - Eagle multi sheet sch to KiCad  multi sheets.
+2. - Global and local net labels for multi sheets.
+3. - Multi part gate's.
+4. - Build KiCad PCB modules and SCH libs from Eagle SCH.
+5. - Make project director to store all the converted files.
+6. - And basic error checking.
+7. - Eagle 6.xx PCB files can be directly import to KiCad.
+
+By using the  the following **ulp's**  a consistent link from the SCH to PCB is maintained
+***So forward and backwoods net list annotation will work in KiCad!***
+
+###Installing.
+Download the as the zip file, (*click on the Button to the your bottom right on this page.* **Download ZIP**)
+And unzip using your favorite zip program to your target directory.
+**OR if your prefer git **
+git clone https://github.com/lachlanA/eagle-to-kicad.git 
+
+**WARNING:** *The ULP's filename will conflict with Eagles ULP's filename's so don't install them in Eagle's
+ULP directory.*
+
+There are 4 **ulp's** which have been hack together. 
+
+1: ***renumber-sheet.ulp*** .......................   stage 1:  Add missing number(s) to parts Prefix's. 
+2: ***eagle6xx-sch-to-kicad-sch.ulp*** ...   state 2:  Build sch and project files, etc 
+3: ***exp-lbrs.ulp*** ......................................   stage 3: *automatically runs*  Extract libs from  eagle SCH/PCB
+4: ***eagle-lbr2kicad-1.0.ulp ***................  stage 4:  *automatically runs* Convert Eagle lbr to KiCad lib/mod
+ 
+####HOW TO RUN THE ULP'S 
+ **WARNING Always backup your Eagle SCH/PCB files before running this program!**
+
+    **1:** Start your Eagle program *(Make sure your using  version **6.xx** of Eagle)*
+
+    **2:** Open the eagle SCH/PCB  file you wish to convert.
+        Make sure the eagle SCH and PCB file's are both, Correct and pass all ERC/DRC checks in Eagle. 
+
+    **3:** Next Open  the top left hand  File menu and select  Run ULP 
+        
+   **4:** A file requester window will open.  Using this, to select find or type the location of the 
+        ***renumber-sheet.ulp*** ULP you download from this website.
+We use this script to make sure all part prefix's are ending in a number  IE:   R0,  X1   etc.
+As KiCad will ask to renumber any prefix which dose not end in a number.
+*(It may do this any way, but don't worry it wont change any Prefix's which have already
+ been numbered unless you tell it too!)*  Keeping prefix's consistent from SCH to PCB
+will allow net-list forward and back annotation to work in KiCad.
+Select **OK** *(this will run the scrip)*.  When this completes all references with out a number, should have 
+a number appended to them.   Note: This number will start from the largest reference number on the SCH/PCB. 
+        
+**5:** Next Open  the top left hand  File menu and select Run ULP 
+Using this, to select the location of the*** eagle6xx-sch-to-kicad-sch.ulp*** you downloaded. 
+Select OK (this will run the scrip) There are many options most most should just work OK. 
+Make sure you make/select a ***clean target directory,*** where all the KiCad file's will be put. 
+Select OK, And with luck you should have SCH part done.
+The previous ULP will link automatically to ***exp-lbrs.ulp*** for the  next step: 
+If you have selected extract the KiCad lib's from Eagle SCH/PCB *(The default). *
+This  ULP will build  Eagle lbr file,  *Note: this can be a very slow process,  and will 
+leave the Eagle PCB editor window open when complete*. Just ignore this for the moment. 
+If this complete OK, the previous ULP will link to ***eagle-lbr2kicad-1.0.ulp*** which will convert the Eagle lbr file
+to a KiCad lib/mod file's.  The ***eagle-lbr2kicad-1.0.ulp*** window window will open with quite a few options.
+Just select OK for the moment.  And if *Murphy's Law  is sound asleep * we should have the target directory with
+all the converted files, including KiCad project files.   But with one exception, it will be missing KiCad PCB file.
+
+**6: **For this, we need to Open KiCad's **pcbnew** program directly,  at the command prompted.
+ *(Don't ask me why you can't do it from KiCad directly)*   If you make the mistake of not opening **pcbnew **directly,
+ and instead chose to run the KiCad **pcbnew** form the menu.  You will have no option for importing the eagle 6 PCB file!
+Click on ***File->Open*** in **pcbnew ** an window will pop-up, and on the far Bottom wright you will have a
+drop down menu box option to select the type in import file.    Select version 6.x  XML  of Eagle, and the PCB eagle
+file linked to the eagle SCH file we used at the beginning   And press OK.    Now if it imported OK,
+Do a ***SAVE AS*** to your new target directory (where you saved all the output of the preceding programs too) 
+and type/append   ***project-name***.***kicadpcb*** for the new KiCad PCB.
+All being well you should have  a converted eagle SCH-PCB correctly linked and referenced. 
+
+NOTE'S:   For more info on KiCad  http://www.kicad-pcb.org/display/KICAD/Installing+KiCad
+As KiCad is the process of major upgrade,  and enhancement  please be nice asking ?
+of the Development team.  I think you  will love the new Push and Shove router,
+that feature alone make's it worth while moving from Eagle to KiCad 
+I hope the ULP's  make the job a lot easy. 
+
+Lachlan. 
 
 
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
-  <head>
-    <meta content="text/html; charset=windows-1252" http-equiv="content-type">
-  </head>
-  <body>
-    <h2>Converting from Eagle to KiCad.</h2>
-    <h3>The following 4 ulp <span style="font-weight: normal; font-style: italic;">(eagle
-        user script file)</span>, converts eagle <span style="font-style: italic;">sch/pcb</span>
-      version 6.xx file(s),<br>
-      to KiCad <span style="font-style: italic;">sch</span> and <span style="font-style: italic;">lib/mod</span>
-      files.</h3>
-    The Programs will do sub sheets, and also<span style="font-weight: normal;">
-      do multi</span> parts gate's, and also net-list.<br>
-    There are 4 <span style="font-weight: bold; font-style: italic;">ulp</span>
-    which have been hack together to help make life a little easier<span style="font-weight: bold;">.</span><br>
-    <br>
-    &nbsp; <span style="font-weight: bold;">1:</span> <span style="font-style: italic;"><span
-        style="font-weight: bold;">renumber-sheet.ulp .................</span>&nbsp;&nbsp;
-      (stage 1,&nbsp; </span><span style="font-style: italic;"><span style="font-style: italic;">Add
-        missing number(s) to part Refance.</span><span style="font-weight: bold;"><br>
-        &nbsp; </span></span><span style="font-weight: bold;">2:</span><span style="font-style: italic;"><span
-        style="font-weight: bold;"> eagle6xx-sch-to-kicad-sch.ulp </span>..&nbsp;&nbsp;&nbsp;
-      (state 2,&nbsp; Build sch and project files, etc )<span style="font-weight: bold;"><br>
-        &nbsp;</span></span><span style="font-weight: bold;"></span> <span style="font-weight: bold;">3:</span>
-    <span style="font-style: italic;"><span style="font-weight: bold;">exp-lbrs.ulp
-        </span>....................................&nbsp;&nbsp; (<span style="text-decoration: underline;"></span></span><span
-      style="font-style: italic;"><span style="text-decoration: underline;"><span
-          style="font-style: italic;"><span style="text-decoration: underline;"></span>stage
-          3, automatically</span> runs</span>)&nbsp; extract libs from&nbsp;
-      eagle SCH/PCB )<span style="font-weight: bold;"><br>
-        &nbsp; </span></span><span style="font-weight: bold;">4:</span> <span
-      style="font-style: italic;"><span style="font-weight: bold;">eagle-lbr2kicad-1.0.ulp
-        </span>................&nbsp; (<span style="text-decoration: underline;"></span></span><span
-      style="font-style: italic;"><span style="text-decoration: underline;"><span
-          style="font-style: italic;">stage 4,&nbsp; automatically</span> runs</span>)
-      convert Eagle lbr to KiCad lib/mod )<br>
-    </span><span style="font-weight: bold; text-decoration: underline;"><br>
-      Note: You should download the</span><span style="text-decoration: underline; font-style: italic; font-weight: bold;">
-      ULP's </span><span style="font-weight: bold; text-decoration: underline;">to
-      a different directory from eagle's <span style="font-style: italic;">ULP's</span>
-      directory,<br>
-      as some of the name's will conflict eagles <span style="font-style: italic;">ULP's</span></span><span
-      style="font-style: italic;"><br>
-      <span style="font-weight: bold;"><br>
-      </span></span> <span style="font-weight: bold;">HOW TO RUN THIS PROGRAM:</span><br>
-    <br>
-    &nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">1: </span>Start the <span
-      style="font-weight: bold;">eagle</span> program <span style="font-weight: bold; text-decoration: underline; font-style: italic;">(Make
-      sure your using&nbsp; version 6.xx of Eagle)</span>.<br>
-    <br>
-    &nbsp;&nbsp;&nbsp;<span style="font-weight: bold;"> 2:</span> Open the eagle
-    SCH/PCB <span style="font-weight: bold;"></span> file you wish to convert.
-    Make sure SCH and PCB file's are both-<br>
-    &nbsp; &nbsp; &nbsp; &nbsp; <span style="font-weight: bold;"><span style="font-style: italic;">Correct
-        and</span>&nbsp;<span style="font-style: italic;">passe all DRC checks</span></span>.<br>
-    <br>
-    &nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">3:</span> Next
-    Open&nbsp; the top left hand&nbsp; <span style="font-weight: bold; font-style: italic;"><span
-        style="text-decoration: underline;">F</span>ile </span>menu and select
-    <span style="text-decoration: underline;"> </span><span style="font-style: italic; font-weight: bold;"><span
-        style="text-decoration: underline;">Run</span> ULP</span><br>
-    <br>
-    &nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">4:</span> A file
-    requester window will open.&nbsp; Using this, to select/find/type the
-    location of the<br>
-    &nbsp; &nbsp; &nbsp; &nbsp; <span style="font-style: italic; font-weight: bold;">renumber-sheet.ulp</span>
-    scrip you download from this website. We use this script to make sure all
-    part prefix's<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; are ending in a number&nbsp;
-    IE:&nbsp;&nbsp; R0,&nbsp; X1&nbsp;&nbsp; etc.&nbsp;&nbsp; As KiCad will
-    renumber any prefix which dose not end in a number.<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="font-style: italic;">If
-      this happens your will lose tack of the matching reference in PCB, when
-      importing the eagle PCB in KiCad!</span><br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Select <span style="font-weight: bold;"><span
-        style="text-decoration: underline;">O</span>k </span><span style="font-style: italic;">(this
-      will run the scrip)</span><span style="font-weight: bold;"><span style="font-style: italic;">.&nbsp;
-        </span></span><span style="font-style: italic;">When this completes all
-      references with out a number, should have<br>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; a number appended to
-      them.&nbsp;&nbsp; Note: this number will start from the largest reference
-      number on the SCH/PCB.</span><br>
-    <span style="font-weight: bold;"><span style="font-style: italic;"> </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      <br> </span>&nbsp; &nbsp;<span style="font-weight: bold;"> 5:</span> Next
-    Open&nbsp; the top left hand&nbsp; <span style="font-weight: bold; font-style: italic;"><span
-        style="text-decoration: underline;">F</span>ile </span>menu and select<span
-      style="text-decoration: underline;"> </span><span style="font-style: italic; font-weight: bold;"><span
-        style="text-decoration: underline;">Run</span> ULP<br>
-    </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Using this, to
-    select/find/type the location of the <span style="font-style: italic; font-weight: bold;">eagle6xx-sch-to-kicad-sch.ulp<br>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>Select <span style="font-weight: bold;"><span
-        style="text-decoration: underline;">O</span>k </span><span style="font-style: italic;">(this
-      will run the scrip)&nbsp;</span>There are many options most most should
-    just work ok.<span style="font-weight: bold;"><br>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span>Make<span style="font-weight: bold; text-decoration: underline;">
-      sure </span>you make/select a clean target directory, where all the KiCad
-    file's will be put.<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Select Ok, and with luck you
-    should have automaticly go to the next step:<br>
-    &nbsp; &nbsp; &nbsp; &nbsp; If you have selected extract KiCad lib's from
-    Eagle SCH/PCB<span style="font-weight: bold; font-style: italic;"> (The
-      default)</span>.<br>
-    &nbsp; &nbsp; &nbsp;&nbsp;&nbsp; This will build a eagle <span style="font-weight: bold; font-style: italic;">lbr</span>
-    files,&nbsp; Note this can be a <span style="font-style: italic;">very slow
-      process</span>,&nbsp; and will<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; leave the PCB editor window open
-    when complete, <span style="font-style: italic;">just ignore this for the
-      moment.</span><br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; If this complete ok,&nbsp; we
-    will need be to convert the eagle <span style="font-weight: bold; font-style: italic;">lbr</span>
-    file to a KiCad <span style="font-weight: bold; font-style: italic;">lib/mod</span>
-    file.<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A new window will open with quite
-    a few options.&nbsp;&nbsp; Just select <span style="font-weight: bold; text-decoration: underline;">ok</span>
-    for the moment.<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; And if <font face="Tahoma,ARIAL,HELVETICA"><b>Murphy's
-        Law </b></font> is sound asleep we <span style="font-weight: bold;">should</span>
-    have all a target directory with all the converted files. include a KiCad
-    project<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; file.&nbsp; But <span style="font-style: italic; font-weight: bold;">missing</span>
-    a KiCad PCB file. <br>
-    <br>
-    &nbsp; &nbsp; <span style="font-weight: bold;">6:</span> For that we need
-    to Open KiCad's <span style="font-weight: bold; font-style: italic; text-decoration: underline;">pcbnew</span>
-    prgrogram directly,&nbsp; at the command prompted. (<span style="font-style: italic;">Don't</span>
-    ask me why<br>
-    &nbsp; &nbsp; &nbsp; &nbsp; KiCad people chose to do it this way !)<br>
-    &nbsp; &nbsp; &nbsp; &nbsp; If you make the mistake of not opening <span style="font-weight: bold; font-style: italic;">pcbnew</span>
-    directly, and instead chose to run the <span style="font-weight: bold; font-style: italic; text-decoration: underline;">kicad</span>
-    command<br>
-    &nbsp; &nbsp; &nbsp; &nbsp; you will have no option for importing the <span
-      style="font-weight: bold;">eagle</span> 6 PCB file.&nbsp; (yes.. yes.. I
-    know !)<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; In <span style="font-weight: bold; font-style: italic;">pcbnew</span>
-    under the <span style="font-weight: bold; font-style: italic; text-decoration: underline;">File-&gt;Open</span>&nbsp;
-    a window will popup, and on the far Bottom wright you will have a drop down
-    menu box option<br>
-    &nbsp; &nbsp; &nbsp; &nbsp; to select the type in import
-    file.&nbsp;&nbsp;&nbsp; Select version 6.x&nbsp; XML&nbsp; of
-    Eagle.&nbsp;&nbsp; And press ok.<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Now if it imported ok,&nbsp; Do a
-    <span style="font-style: italic; font-weight: bold;">Save as</span> to your
-    target directory <span style="font-style: italic; font-weight: bold;">(where
-      you saved the output of the preceding programs<span style="text-decoration: underline;">)<br>
-      </span></span>&nbsp; &nbsp; &nbsp; &nbsp; and append&nbsp;<span style="font-style: italic;"><span
-        style="font-weight: bold;"></span></span><span style="font-style: italic;"><span
-        style="font-weight: bold;"></span>.</span><span style="font-style: italic; font-weight: bold;">kicad_pcb
-      </span>to the project name.<span style="font-style: italic; font-weight: bold;"><span
-        style="text-decoration: underline;"><br>
-      </span></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; All being well
-    you should have&nbsp; a converted eagle SCH PCB correctly linked and
-    referenced.<br>
-    <br>
-    NOTE'S: &nbsp; For more info on KiCad&nbsp; <a href="http://www.kicad-pcb.org/display/KICAD/Installing+KiCad"
-      target="_blank">http://www.kicad-pcb.org/<wbr>display/KICAD/Installing+KiCad</a>
-    <div><wbr></div>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    As KiCad is the process of majory upgrade,&nbsp; and enhancement&nbsp;
-    please be nice asking ? of the Development team.<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    I think you&nbsp; will love the new Push and Shove router, that feature
-    alone make's it worth while moving from Eagle to KiCad<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    I hope the ULP's&nbsp; make the job a lot easy.<br>
-    <i><i><b><i><br>
-            &nbsp;&nbsp;&nbsp; Lachlan.<br>
-            <br>
-            <br>
-            <i> </i></i></b></i></i>
-  </body>
-</html>
+  
 
 
 
