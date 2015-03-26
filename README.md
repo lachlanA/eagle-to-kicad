@@ -151,15 +151,14 @@
     you should have&nbsp; a converted eagle SCH PCB correctly linked and
     referenced.<br>
     <br>
-    NOTE'S: &nbsp; Nightly builds of KiCad for Windows are available from:&nbsp;
-    <span style="font-weight: bold;">http://www2.futureware.at/~nickoe/</span><br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    Other targets: <span style="font-weight: bold;">http://www.kicad-pcb.org/display/KICAD/Installing+KiCad</span><br>
+    NOTE'S: &nbsp; For more info on KiCad&nbsp; <a href="http://www.kicad-pcb.org/display/KICAD/Installing+KiCad"
+      target="_blank">http://www.kicad-pcb.org/<wbr>display/KICAD/Installing+KiCad</a>
+    <div><wbr></div>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     As KiCad is the process of majory upgrade,&nbsp; and enhancement&nbsp;
     please be nice asking ? of the Development team.<br>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    I think you&nbsp; will love the Auto Push and Shove router, that feature
+    I think you&nbsp; will love the new Push and Shove router, that feature
     alone make's it worth while moving from Eagle to KiCad<br>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     I hope the ULP's&nbsp; make the job a lot easy.<br>
