@@ -15,10 +15,10 @@ The Programs will do:
 By using the  the following **ulp's**  a consistent link from the SCH to PCB is maintained  
 So forward and backwoods net list annotation will work in KiCad!  
 
-###Installing.  
-Download the as the zip file, (*click on the Button to the your bottom right on this page.* **Download ZIP**)  
+###Installing.
+Download the as the zip file, (*click on the Button to the your bottom right on this page*. **Download ZIP**)  
 And unzip using your favorite zip program to your target directory.  
-&nbsp;**OR if your prefer git **  
+&nbsp;**OR if your prefer git**  
 git clone https://github.com/lachlanA/eagle-to-kicad.git  
 
 **WARNING:**  The ULP's filename will conflict with Eagles ULP's filename's so don't install them in Eagle's  
@@ -29,7 +29,7 @@ There are 4 **ulp's** which have been hack together.
 1: ***renumber-sheet.ulp*** .......................   stage 1:  Add missing number(s) to parts Prefix's.  
 2: ***eagle6xx-sch-to-kicad-sch.ulp*** ....   state 2:  Build sch and project files, etc  
 3: ***exp-lbrs.ulp*** ......................................   stage 3: *automatically runs*  Extract libs from  eagle SCH/PCB  
-4: ***eagle-lbr2kicad-1.0.ulp ***................  stage 4:  *automatically runs* Convert Eagle lbr to KiCad lib/mod  
+4: ***eagle-lbr2kicad-1.0.ulp***................  stage 4:  *automatically runs* Convert Eagle lbr to KiCad lib/mod  
  
 ####HOW TO RUN THE ULP'S 
  
@@ -53,9 +53,9 @@ There are 4 **ulp's** which have been hack together.
 &nbsp;&nbsp;a number appended to them.   Note: This number will start from the largest reference number on the SCH/PCB.  
         
 **5:** Next Open  the top left hand  File menu and select Run ULP  
-&nbsp;&nbsp;Using this, to select the location of the*** eagle6xx-sch-to-kicad-sch.ulp*** you downloaded.  
+&nbsp;&nbsp;Using this, to select the location of the ***eagle6xx-sch-to-kicad-sch.ulp*** you downloaded.  
 &nbsp;&nbsp;Select OK (this will run the scrip) There are many options most most should just work OK.  
-&nbsp;&nbsp;Make sure you make/select a ***clean target directory,*** where all the KiCad file's will be put.  
+&nbsp;&nbsp;Make sure you make/select a ***clean target directory*** where all the KiCad file's will be put.  
 &nbsp;&nbsp;Select OK, And with luck you should have SCH part done.   The previous ULP will link automatically  
 &nbsp;&nbsp; to ***exp-lbrs.ulp*** for the  next step:  
 &nbsp;&nbsp;If you have selected extract the KiCad lib's from Eagle SCH/PCB *(The default).*  
