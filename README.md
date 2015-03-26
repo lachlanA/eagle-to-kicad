@@ -35,7 +35,7 @@ There are 4 **ulp's** which have been hack together.
  
 **WARNING Always backup your Eagle SCH/PCB files before running this program!**  
 
-**1:** Start your Eagle program *(Make sure your using  version **6.xx** of Eagle)*  
+**1:** Start your Eagle program *(Make sure your using  version 6.xx of Eagle)*  
 
 **2:** Open the eagle SCH/PCB  file you wish to convert.  
    Make sure the eagle SCH and PCB file's are both, Correct and pass all ERC/DRC checks in Eagle.  
@@ -66,10 +66,10 @@ There are 4 **ulp's** which have been hack together.
 &nbsp;&nbsp;Just select OK for the moment.  And if *Murphy's Law  is sound asleep * we should have the target directory with  
 &nbsp;&nbsp;all the converted files, including KiCad project files.   But with one exception, it will be missing KiCad PCB file.  
 
-**6: **For this, we need to Open KiCad's **pcbnew** program directly,  at the command prompted.  
+**6:** For this, we need to Open KiCad's **pcbnew** program directly,  at the command prompted.  
 &nbsp;&nbsp; *(Don't ask me why you can't do it from KiCad directly)*   If you make the mistake of not opening **pcbnew **directly,  
 &nbsp;&nbsp;and instead chose to run the KiCad **pcbnew** form the menu.  You will have no option for importing the  
-&nbsp;&nbsp;eagle 6 PCB file! Click on ***File->Open*** in **pcbnew ** an window will pop-up, and on the far Bottom wright you will have a  
+&nbsp;&nbsp;eagle 6 PCB file! Click on ***File->Open** in **pcbnew ** an window will pop-up, and on the far Bottom wright you will have a  
 &nbsp;&nbsp;drop down menu box option to select the type in import file.    Select version 6.x  XML  of Eagle, and the PCB eagle  
 &nbsp;&nbsp;file linked to the eagle SCH file we used at the beginning   And press OK.    Now if it imported OK,  
 &nbsp;&nbsp;Do a ***SAVE AS*** to your new target directory (where you saved all the output of the preceding programs too)  
