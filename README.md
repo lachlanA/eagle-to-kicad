@@ -13,7 +13,7 @@ The Programs will do:
 7. - Eagle 6.xx PCB files can be directly import to KiCad.  
 
 By using the  the following **ulp's**  a consistent link from the SCH to PCB is maintained  
-So forward and backwoods net list annotation will work in KiCad!  
+So forward and backwoods net-list annotation work's under KiCad!  
 
 ###Installing.
 Download the zip file, (*click on the Button to the your bottom right on this page*. **Download ZIP**)  
@@ -21,8 +21,8 @@ And unzip using your favorite zip program to your target directory.
 &nbsp;**OR if your prefer git**  
 git clone https://github.com/lachlanA/eagle-to-kicad.git  
 
-**WARNING:**  The ULP's filename will conflict with Eagles ULP's filename's so don't install them in Eagle's  
-ULP directory.  
+**WARNING:**  The ULP's filename will conflict with Eagles ULP's filename's so  
+***don't install them in Eagle's ULP directory***.  
 
 There are 4 **ulp's** and one **ulp** include file have been hack together.  
 
@@ -30,7 +30,7 @@ There are 4 **ulp's** and one **ulp** include file have been hack together.
 2: ***eagle6xx-sch-to-kicad-sch.ulp*** ....   state 2:  Build sch and project files, etc  
 3: ***exp-lbrs.ulp*** ......................................   stage 3: *automatically runs*  Extract libs from eagle SCH/PCB  
 4: ***eagle-lbr2kicad-1.0.ulp***................  stage 4:  *automatically runs* Convert Eagle lbr to KiCad lib/mod  
-5: ***eagle_to_kicad_include.inc*** ...  Include file used by the other 4 ULP's__ 
+5: ***eagle_to_kicad_include.inc*** .....  Include file used by the other 4 ULP's__ 
 ####HOW TO RUN THE ULP'S 
  
 **WARNING Always backup your Eagle SCH/PCB files before running this program!**  
@@ -40,7 +40,7 @@ There are 4 **ulp's** and one **ulp** include file have been hack together.
 **2:** Open the eagle SCH/PCB  file you wish to convert.  
    Make sure the eagle SCH and PCB file's are both, Correct and pass all ERC/DRC checks in Eagle.  
 
-**3:** Next Open  the top left hand  File menu and select  Run ULP  
+**3:** Next Open  the top left hand  **File menu** and select  **Run ULP**  
 
 **4:** A file requester window will open.  Using this, to select find or type the location of  
 &nbsp;&nbsp;the ***renumber-sheet.ulp*** ULP you download from this website.  
