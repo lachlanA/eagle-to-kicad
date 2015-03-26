@@ -62,13 +62,14 @@ There are 4 **ulp's** which have been hack together.
 &nbsp;&nbsp;This  ULP will build  Eagle lbr file,  *Note: this can be a very slow process,  and will  
 &nbsp;&nbsp;leave the Eagle PCB editor window open when complete*. Just ignore this for the moment.  
 &nbsp;&nbsp;If this complete OK, the previous ULP will link to ***eagle-lbr2kicad-1.0.ulp*** which will convert the Eagle lbr file  
-&nbsp;&nbsp;to a KiCad lib/mod file's.  The ***eagle-lbr2kicad-1.0.ulp*** window window will open with quite a few options.  
-&nbsp;&nbsp;Just select OK for the moment.  And if *Murphy's Law  is sound asleep * we should have the target directory with  
-&nbsp;&nbsp;all the converted files, including KiCad project files.   But with one exception, it will be missing KiCad PCB file.  
+&nbsp;&nbsp;to a KiCad lib/mod file's.  The ***eagle-lbr2kicad-1.0.ulp*** window window will open with quite a
+&nbsp;&nbsp;few options. Just select OK for the moment.  And if *Murphy's Law  is sound asleep* we should have
+&nbsp;&nbsp;the target directory with all the converted files, including KiCad project files.
+&nbsp;&nbsp;But with one exception, it will be missing KiCad PCB file.  
 
 **6:** For this, we need to Open KiCad's **pcbnew** program directly,  at the command prompted.  
-&nbsp;&nbsp;*(Don't ask me why you can't do it from KiCad directly)*   If you make the mistake of not opening **pcbnew**
-&nbsp;&nbsp;directly, instead chose to run the KiCad **pcbnew** form the menu.  
+&nbsp;&nbsp;*(Don't ask me why you can't do it from KiCad directly)* If you make the mistake of not opening
+&nbsp;&nbsp;**pcbnew** directly, instead chose to run the KiCad **pcbnew** form the menu.  
 &nbsp;&nbsp;You will have no option for importing the Eagle 6 PCB file!  
 &nbsp;&nbsp;Click on **File->Open** in **pcbnew** an window will pop-up, and on the far Bottom wright you will have a  
 &nbsp;&nbsp;drop down menu box option to select the type in import file.    Select version 6.x  XML  of Eagle, and  
