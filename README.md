@@ -30,7 +30,7 @@ There are 4 **ulp's** and one **ulp** include file have been hack together.
 2: ***eagle6xx-sch-to-kicad-sch.ulp*** ....   state 2:  Build sch and project files, etc  
 3: ***exp-lbrs.ulp*** ......................................   stage 3: *automatically runs*  Extract libs from  eagle SCH/PCB  
 4: ***eagle-lbr2kicad-1.0.ulp***................  stage 4:  *automatically runs* Convert Eagle lbr to KiCad lib/mod  
-5: ***eagle_to_kicad_include.inc** ...  Include file used by the other 4 ULP's 
+5: ***eagle_to_kicad_include.inc*** ...  Include file used by the other 4 ULP's 
 ####HOW TO RUN THE ULP'S 
  
 **WARNING Always backup your Eagle SCH/PCB files before running this program!**  
