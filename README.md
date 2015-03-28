@@ -76,8 +76,7 @@ Correct and pass all ERC/DRC checks in Eagle.
 &nbsp;&nbsp;drop down menu box option to select the type in import file. Select version 6.x  XML  of Eagle, and  
 &nbsp;&nbsp;the PCB eagle file linked to the eagle SCH file we used at the beginning and press OK.  
 &nbsp;&nbsp;Arfter importing the Eagle PCB file, (with out error's I hope).  
-&nbsp;&nbsp;We next do a **SAVE AS** to your new target directory (where you saved the output from to preceding ULP's too).   
-&nbsp;&nbsp;**PROJECTNAME.kicad_pcb** for the new KiCad PCB.  
+&nbsp;&nbsp;Do a **SAVE AS** to **PROJECTNAME.kicad_pcb** your new target directory *(where you saved the output from to preceding ULP's too).* **PROJECTNAME** being the name you give to your project early on.   
 &nbsp;&nbsp;All being well you should have a converted eagle SCH-PCB correctly linked and referenced.  
 
 **NOTE'S:**   For more info on KiCad  http://www.kicad-pcb.org/display/KICAD/Installing+KiCad  
