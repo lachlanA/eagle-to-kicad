@@ -37,8 +37,8 @@ There are 4 **ulp's** and one **ulp** include file have been hack together.
 
 **1:** Start your Eagle program *(Make sure your using  version 6.xx of Eagle)*  
 
-**2:** Open the eagle SCH/PCB  file you wish to convert.  
-   Make sure the eagle SCH and PCB file's are both, Correct and pass all ERC/DRC checks in Eagle.  
+**2:** Open the eagle SCH/PCB  file you wish to convert. Make sure the eagle SCH and PCB file's are both,  
+Correct and pass all ERC/DRC checks in Eagle.  
 
 **3:** Next Open  the top left hand  **File menu** and select  **Run ULP**  
 
