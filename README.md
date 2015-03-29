@@ -80,15 +80,15 @@ Correct and pass all ERC/DRC checks in Eagle.
 &nbsp;&nbsp;from to preceding ULP's too).* **PROJECTNAME** being the name you give to your project early on.   
 &nbsp;&nbsp;All being well you should have a converted eagle SCH-PCB correctly linked and referenced.  
 
-**7:** Next check the KiCad and KiCad pcb are consistent for parts and nets.
-&nbsp;&nbsp;Start KiCad, and open the project newly created target directory. Open the SCH file.
-&nbsp;&nbsp;If it was converted from the single SCH file from eagle, you should have the SCH file in the display.
-&nbsp;&nbsp;If it was multi sheet SCH file you will have a number of small box's spread across the page.
-&nbsp;&nbsp;each one of those box's being a converted Eagle sub-sheet. Click on the firest one and check it all looks
-&nbsp;&nbsp;OK. All being good, click on Generate Net-list, and just click OK. It may ask for to Annotate the SCH
-&nbsp;&nbsp;if so do the Annotation step. And then come back and click on Generate net-list. And Generate it.
+**7:** Next step is to check the KiCad **SCH** and KiCad **PCB** are consistent for parts and nets.
+&nbsp;&nbsp;Start **KiCad**, and open the project in the newly created target directory. Open the SCH file.
+&nbsp;&nbsp;And if it was converted from the single SCH file, you should have the **SCH** file in the display.
+&nbsp;&nbsp;Or multi sheet **SCH** file you will have a number of small box's spread across the page.
+&nbsp;&nbsp;Each one of those box's being a converted Eagle sub-sheet. Click on the first one and check for errors.
+&nbsp;&nbsp;All being good, click on Generate Net-list, and click OK. It may ask to Annotate the **SCH**.
+&nbsp;&nbsp;If so do the Annotation step. And then come back and click on Generate net-list. And Generate it.
 
-**8:** Next click on **CvPCB**, this Asstionted the PCB footprints with the SCH parts. Most likely you will get
+**8:** Next click on **CvPCB**, this assigness the PCB footprints with the SCH parts. Most likely you will get
 &nbsp;&nbsp;following warning: *Some of the assigned footprints are legacy entries (are missing lib nicknames). Would you like CvPcb to attempt to convert them to the new required FPID format? (If you answer no, then these assignments will be cleared out and you will have to re-assign these footprints yourself.)*
 &nbsp;&nbsp;Just click the yest button. And a window will open listing all the part's and foot print's which it
 &nbsp;&nbsp;has assgind to that parts.  Under FILE menu click Save.  and then File Close.  
