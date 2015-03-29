@@ -88,17 +88,17 @@ Correct and pass all ERC/DRC checks in Eagle.
 &nbsp;&nbsp;All being good, click on Generate Net-list, and click OK. It may ask to Annotate the **SCH**.
 &nbsp;&nbsp;If so do the Annotation step. And then come back and click on Generate net-list. And Generate it.
 
-**8:** Next click on **CvPCB**, this assigness the PCB footprints with the SCH parts. Most likely you will get
+**8:** Next click on **CvPCB**, this assigness the PCB footprints with the SCH parts. Most likely you will get the
 &nbsp;&nbsp;following warning: *Some of the assigned footprints are legacy entries (are missing lib nicknames). Would you like CvPcb to attempt to convert them to the new required FPID format? (If you answer no, then these assignments will be cleared out and you will have to re-assign these footprints yourself.)*
-&nbsp;&nbsp;Just click the yest button. And a window will open listing all the part's and foot print's which it
-&nbsp;&nbsp;has assgind to that parts.  Under FILE menu click Save.  and then File Close.  
+&nbsp;&nbsp;Just click the yes button. And a window will open up listing all the part's and foot print's which it
+&nbsp;&nbsp;has assignmented. Under FILE menu click Save. And then File Close.  
 
-**9:** Next open the Clink on **PcbNew** new button on the top menu, and the PCB should open up.
-&nbsp;&nbsp;Now click on the **NetList** and a window should open up, from the click on Read Current Net-list.
+**9:** Next Clink on **PcbNew** button on the top menu, and the PCB should open up.
+&nbsp;&nbsp;Now click on the **NetList** and a window should open up, from there click on Read Current Net-list.
 &nbsp;&nbsp;All going well you should not have any extra parts added, and only a few warning's about changing net list
-&nbsp;&nbsp;names.  And you should be done.  Please check over the converted SCH/PCB as there are many things which
-&nbsp;&nbsp;can go wrong.  While I have try-ed to catch a lot conversion problem, I expect there is some I have not
-&nbsp;&nbsp;found.  ***So check and triple check the results.***
+&nbsp;&nbsp;names.  And you should be done.  Please check over the converted **SCH/PCB** as there are many
+&nbsp;&nbsp;things which can go wrong.  While I have try-ed to catch as many conversion problem, I expect there many
+&nbsp;&nbsp;still wating to be found. ***So check and triple check the results!!!***
 
 **NOTE'S:**   For more info on KiCad  http://www.kicad-pcb.org/display/KICAD/Installing+KiCad  
 &nbsp;&nbsp;As KiCad is the process of major upgrade,  and enhancement  please be nice asking ?  
