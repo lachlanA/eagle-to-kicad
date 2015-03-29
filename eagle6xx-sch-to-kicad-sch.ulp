@@ -3166,7 +3166,8 @@ int main()
     
     if( addLibPrefix )
     {
-      warnings = "<center><nobr><H3><b><font color=\"red\">!! CONVERSION COMPLETED WITH ERRORS OR WARNING(S) !!</b></font></H3></center><hr>";
+      //      warnings = "<center><nobr><H3><b><font color=\"red\">!! CONVERSION COMPLETED WITH ERRORS OR WARNING(S) !!</b></font></H3></center><hr>";
+      //      warnings = "<center><nobr><H3><b><font color=\"red\">!! CONVERSION COMPLETED WITH ERRORS OR WARNING(S) !!</b></font></H3></center><hr>";      
     }
     else
     {
@@ -3182,7 +3183,7 @@ int main()
       //      warnings = "";
     }
       
-
+    /*
     dlgMessageBox( warnings +
                     "You have 2 way's to go, to commplet the convesion to KiCad<br>" +
                     "<blockquote> (1) simple:<br>Run extractEagleLibsFromSCH<br>"+
@@ -3191,7 +3192,7 @@ int main()
                     "&nbsp;&nbsp;if you have the eagle extract the libs</blockquote>" + "  " +
                     cfgget( cfg_conflictPartsLibsListsize ) + " " +
                     cfgget( cfg_addLibPrefix ));
-
+    */
     string tmpS1;    
     if( exportLibsFromEagle ) // export libs from sch/pcb ?
     { // yes
