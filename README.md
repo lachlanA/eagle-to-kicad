@@ -68,10 +68,10 @@ Correct and pass all ERC/DRC checks in Eagle.
 &nbsp;&nbsp;the target directory with all the converted files, including KiCad project files.  
 &nbsp;&nbsp;But with one exception, it will be missing KiCad PCB file.  
 
-**6:** For this, we need to Open KiCad's **pcbnew** program directly,  at the command prompted.  
+**6:** For this, we need to Open KiCad's **pcbnew** program directly,  at the command prompt.  
 &nbsp;&nbsp;*(Don't ask me why you can't do it from KiCad directly)* If you make the mistake of not opening  
-&nbsp;&nbsp;**pcbnew** directly, instead chose to run the KiCad **pcbnew** form the menu.  
-&nbsp;&nbsp;You will have no option for importing the Eagle 6 PCB file!  
+&nbsp;&nbsp;**pcbnew** directly, instead chose to run the KiCad **pcbnew** form the menu.You will have no
+&nbsp;&nbsp;option for importing the Eagle 6 PCB file!  
 &nbsp;&nbsp;Click on **File->Open** in **pcbnew** an window will pop-up, and on the far Bottom wright you will have a  
 &nbsp;&nbsp;drop down menu box option to select the type in import file. Select version 6.x  XML  of Eagle, and  
 &nbsp;&nbsp;the PCB eagle file linked to the eagle SCH file we used at the beginning and press OK.  
@@ -79,6 +79,25 @@ Correct and pass all ERC/DRC checks in Eagle.
 &nbsp;&nbsp;Do a **SAVE AS** to **PROJECTNAME.kicad_pcb** to the new target directory *(where you saved the output
 &nbsp;&nbsp;from to preceding ULP's too).* **PROJECTNAME** being the name you give to your project early on.   
 &nbsp;&nbsp;All being well you should have a converted eagle SCH-PCB correctly linked and referenced.  
+
+**7:** Next check the KiCad and KiCad pcb are conistant for parts and nets.
+&nbsp;&nbsp;Start KiCad, and open the project newlaeary created target directoy. Open the SCH file.
+&nbsp;&nbsp;If it was converted from the single SCH file from eagle, you should have the SCH file in the display.
+&nbsp;&nbsp;If it was multi sheet SCH file you will have a number of small box's spreat acrees the page.
+&nbsp;&nbsp;each one of those box's bing a converted Eagle subsheet. Click on the firest one and check it all looks
+&nbsp;&nbsp;OK.   All being good, click on Genrate Netlist, and just click OK. It may ask for you to Annerate the SCH
+&nbsp;&nbsp;if so Do the Anneration step.  And then come back and click on Gerate netlist. And Gerate it.
+
+**8:** Next click on **CvPCB**, this Asstionted the PCB footprints with the SCH parts. Most likely you will get
+&nbsp;&nbsp;following warning:    *Some of the assigned footprints are legacy entries (are missing lib nicknames). Would you like CvPcb to attempt to convert them to the new required FPID format? (If you answer no, then these assignments will be cleared out and you will have to re-assign these footprints yourself.)*
+&nbsp;&nbsp;Just click the yest button. And a window will open listing all the part's and foot print's which it has assgind to that parts.  Under FILE menue click Save.  and then File Close.  
+
+**9:** Next open the Clink on **PcbNew** new button on the top menu, and the PCB should open up.
+&nbsp;&nbsp;Now click on the **NetList** and a window should open up, from the click on Read Crrent Netlist.
+&nbsp;&nbsp;All going well you should not have any extra parts added, and only a few warning's about changing netlist
+&nbsp;&nbsp;names.  And you should be done.  Please check onver the converted SCH/PCB as there are many things which
+&nbsp;&nbsp;can go wrong.  While I have tryed to cach a lot conversion problem, I expect there is some I have not
+&nbsp;&nbsp;found.  ***So check and triple check the results.***
 
 **NOTE'S:**   For more info on KiCad  http://www.kicad-pcb.org/display/KICAD/Installing+KiCad  
 &nbsp;&nbsp;As KiCad is the process of major upgrade,  and enhancement  please be nice asking ?  
