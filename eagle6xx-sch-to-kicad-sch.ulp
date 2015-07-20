@@ -1,4 +1,4 @@
-#usage "<b>Eagle schematic exporting tool  version 1.0 </b>\n"
+#usage "<b>Eagle schematic exporting tool  version 1.2 </b>\n"
        "<p>"
        "This ULP can convert an Eagle CAD schematic into KiCAD schematic."
        "<p>"
@@ -13,6 +13,10 @@
        
 /*
  * CHANGELOG================================================
+ * 19.07.2015: Fix / slash problem,  with device/part names
+ *             Fix some of my really bad spelling mistake's !
+ *             Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
+ *
  * 27.02.2015: Add user info doc's 
  *             Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
  *
@@ -65,60 +69,61 @@
 
 
 int debug = 0;       
-real VERSION   = 1.1;
+real VERSION   = 1.2;
+string BUILD_DATE = "19-JULY-2015";
 real fontSize_PartPreFix_Ajust = 1.0;
 string libNamePartNameSeperator = "_";      // This is part Name  so   libName "_" partName  is is DEF, and F0 filed in KiCad
 string libNamePartLibNameSeperator = "_";   // This is part Lib to foot print name  IE:   libName ":" footprintName  this is F2 fild in KiCad
-string libNameAliasSeperator = ":";   // This is seprator for KiCad's lib Alias name prefix which is added to the foot print, when enabled
-int libNameAliasPrefixEnable = 0; // Add the KiCad tabls Alisa name to the footprint
+string libNameAliasSeperator = ":";   // This is separator for KiCad's lib Alias name prefix which is added to the foot print, when enabled
+int libNameAliasPrefixEnable = 0; // Add the KiCad tablas Alisa name to the footprint
 
 string infoAddLibName       = "<b>Eagle SCH/PCB will not show any charters after \'@\' in pin names<br>"+
                              "Checking this will delete any charters after and including the <b>'@'</b><br>so it wont show in KiCad</pre>";
 
 string infoTargetDirectory  = "<h3>Set the target directory for all the converted eagle files.</h3>"+
-                             "<b>Note this directory should be a clean diretory"+
-                             "With out any other file's, as the contents may be<center><font color=\"red\">OVER WRITTEN WITHOUT WARNING!!!</b></center>";
+                             "<b>Note this directory should be a clean directory"+
+                             "With out any other file's, as the contents may be<center><font color=\"red\">OVER WRITTEN WITHOUT WARNING!</b></center>";
 
-string infoHelp             = "This ULP is a conters from Eagle sch/pcb to KiCad sch/pcb<br>"+
-                              "It conisted of 3 diffant ULP's hack to work togeather<br>"+
+string infoHelp             = "This ULP is a converts from Eagle sch/PCB to KiCad sch/PCB<br>"+
+                              "It consist of 3 different ULP's hack to work together<br>"+
                               " ";
-string infoULPdir           = "<b>The lowcation of the eagle ULP conversion scritp's</b>";
+string infoULPdir           = "<b>The low cation of the eagle ULP conversion script's</b>";
 
-string infoPartNameConflict = "Eagle alows duplcate part name's if the lib name is diffrent<br>"+
-                              "IE 7400:<i><b>libfred<b></i>,  7400:<i><b>libnerd<b></i>,  while Kicad dose not allow duplyaction<br>"+
+string infoPartNameConflict = "Eagle allows duplicate part name's if the lib name is different<br>"+
+                              "IE 7400:<i><b>libfred<b></i>,  7400:<i><b>libnerd<b></i>,  while Kicad dose not allow duplication's<br>"+
                               "In most case's there is no conflict, but if there is a conflict<br>"+
                               "you have 2 options:<pre>  1: Rename the part.</pre><pre>  2: Tick this option to</pre>"+
                               "allow this program to add lib prefix to the part name. This will also fix the problem.<br>"+
-                              "<b><center>Note this programe autmaticlay check's for conflicts and set's the option if needed<br><br></center></b>";
+                              "<b><center>Note this program automatically check's for conflicts and set's the option if needed<br><br></center></b>";
 
-string infoCombineLibNames  = "Combine all the seprate Eagle libs into one KiCad lib<br>"+
-                              "This make's the conversion preccess easy and faster.<br>"+
+string infoCombineLibNames  = "Combine all the separate Eagle lib's into one KiCad lib<br>"+
+                              "This make's the conversion process easy and faster.<br>"+
                               "<b>But means that you may lose tack of which parts<br>"+
                               "come from which Eagle lib</b><br>";
 
 string infoNetLableFix      = "<u><b><font color=\"red\">The problem:</font></b></u>"+
-                              " KiCad and Eagle net labels work in 2 total diffrent ways<br>"
-                              " In Eagle sch wire's can have a net name, while KiCad wire's have<br>"
-                              " no net labe name."+
+                              " KiCad, Eagle net labels work in two total different ways<br>"
+                              " In Eagle SCH wire's can have net name, while KiCad wire's have<br>"
+                              " no net label name."+
                               " You can assign a net label in KiCad, but it has to be exactly over the wire"+
-                              " if you move the wire or the net lable <b><u>you lose the netlist assignment in KiCad!!</b></u>"+
-                              " This is very nasty, as when you have globle or local netname's with out wire connection"+
-                              " It get's even worse when you have multi sheets and globel labels!"+
-                              "<br><b><u><font color=\"green\">The Fix:</font></u></b><br>"+
-                              " We add a netlable to the juction of each wire!</br>"+
-                              "<b><i> Told you it was bad!</b></i><br>"+
-                              " We have 2 types of labels in KiKad,<br> local,(<i>only works inside the current sheet)</i><br>"+
-                              " Globle, works on all sheets<br>"+
-                              " The Eale script first check to see if the netlabe is only on the current sheet, or on<br>"+
-                              " multi sheets and then assigns a local or globle KiCad netlabe at the wire jutions<br>"+
-                              " This fix's any problems with miss placement of netlabe name in Eagle.<br>"+
-                              " And for KiCad, we have a option to sea the netlabe name size in KiCad, so it's not too much of a eyesore<br>"+
-                              " while this soution is a real hack it's on the only way I can see to get around the netlabe placement problem<br>"+
+                              " if you move the wire, you lose the net-list assignment in KiCad!"+
+                              "<br><b><u>This is very nasty, as you lose the net label connection!</b></u><br>"+
+                              " It get's even worse when you have multiple sheets and global labels!"+
+                              "<br><b><u><font color=\"green\">How We Fix This:</font></u></b><br>"+
+                              " We add a net label to the junction of each wire!</br>"+
+                              " <b><i>Said it was bad!</b></i><br>"+
+                              " We have two types of labels in KiCad, <br>LOCAL, (<i>only works inside the current sheet)</i><br>"+
+                              " GLOBAL, <i>(works on all sheets)</i><br>"+
+                              " The Eagle script first check to see if the net label is only on the current sheet, or on"+
+                              " multiple sheets and then assigns a local or global KiCad net label at the wire/part juction<br>"+
+                              " This fix's any problems with placement of net label name in Eagle.<br>"+
+                              " And for KiCad, we have a option to set the net label name size, so it's not too much of a eyesore.<br>"+
+                              " While this solution is a real hack it's on the only way to get get around the net label placement problems"+
                               " KiCad has";
 
-string infoExportLibsFromEagle = "Extract libs from Eagle SCH/PCB for KiCad <i>lib module.</i><br>"+
+string infoExportLibsFromEagle = "Extract lib's from Eagle SCH/PCB for KiCad <i>lib module.</i><br>"+
                                  "<b><i>NOTE:</b></i> If you <b><i><u>don't</b></i></u> use this option, you will need to find<br>"+
-                                 "the eagle <i>.lbr(s)</i> librarys files and convert those acrose<br>"+
+                                 "the eagle <i>.lbr(s)</i> library's files and convert those across<br>"+
                                  " one by one using the eagle-lbr2kicad-1.0.ulp";
 
 
@@ -3001,7 +3006,7 @@ int main()
 
   totalSheets = 0;
 
-  sprintf(titleStr, "Export Eagle schematic to KiCAD, Version: %.1f,  Use this programe at your own Risk!", VERSION);
+  sprintf(titleStr, "Export Eagle schematic to KiCAD, Version:%.1f\n Build Date:%s  USE THIS PROGRAM AT YOUR OWN RISK!", VERSION, BUILD_DATE);
 
   if (schematic)  
     {

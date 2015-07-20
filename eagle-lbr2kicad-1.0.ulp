@@ -15,6 +15,10 @@
 
 /*
  * CHANGELOG=(dd.mm.yyyy)===============================================
+ * 19.07.2015:  Fix / slash in Ealge's lib and part name's and device name
+ *              Add faster string replace/subsute sub "string charstr_replace(string search, string replace, string subject)"
+ *              Thanks to: Lachlan  "lachlanusa (at) gmail.com"
+ *
  * 10.02.2015: Fix add lib prefix to footprint name
  *              Thanks to: Lachlan  "lachlanusa (at) gmail.com"
  *
@@ -134,7 +138,8 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-real VERSION   = 1.2;
+real VERSION   = 1.3;
+string BUILD_DATE = "19-JUL-2015";
 int add_libnamePrefixToPartName = 0;
 
 int rect_conv  = 1; // many QFP-like packages use rectangles as a pin contour (too much segments in the ki-format)
@@ -208,7 +213,7 @@ string infoDeviceConversion = "<pre>Allows combining of device's into one KiCad 
 
 string infoTechnologies = "Make KiCad part Alias's from the <i>Eagle</i> Technologies definition in Eagle device\'s";
 
-string infoLibNamePartNamePrefix = "Prefix libname to the Partname IE: LibFred_PartName";
+string infoLibNamePartNamePrefix = "Prefix lib-name to the Part-name IE: LibFred_PartName";
 
 string infoDeleArfter = "<pre>Eagle SCH/PCB will not show any charters after \'@\' in pin names<br>"+
                         "Checking this will delete any charters after and including the <b>'@'</b><br>so it wont show in KiCad</pre>";
@@ -477,6 +482,29 @@ int issmd(UL_PACKAGE PAC)
 }
 
 //------------------------------------------------------
+// Replaces all occurrences of a charter in a string with a string
+//------------------------------------------------------
+string charstr_replace(string search, string replace, string subject)
+{
+  int lastpos = 0;
+  int pos = 0;
+  string before;
+  string after;
+
+  for( pos = 0; pos < strlen(search); pos++ )
+  {
+    lastpos = 0;
+    while( (( lastpos = strchr( subject, search[ pos ], lastpos)) != -1 ))
+    {
+      before = strsub(subject, 0, lastpos);  //  get the before string
+      after = strsub(subject, lastpos + 1, strlen(subject) - lastpos );
+      subject = before + replace + after;
+      lastpos = strlen(before) + strlen( replace ); // 
+    }
+  }
+  return subject;
+}
+//------------------------------------------------------
 //Replaces all occurrences of a substring found within a string.
 //------------------------------------------------------
 string str_replace(string search, string replace, string subject)
@@ -537,7 +565,9 @@ string intToString( int value )
 }
 
 //------------------------------------------------------
-//write index of modules
+// Seach for conflicking part, and return "-CONFLICKING-PART-"
+// if there is a conflict, And add to conflictPartsLibsList[] list
+// else return ""  if all good
 //------------------------------------------------------
 string partlistSearchAdd( string search, int offset )
 {
@@ -596,12 +626,14 @@ void write_kikad_mod_idx(UL_LIBRARY LIB)
     if( outPutFootPrint == 0 ) 
       LIB.packages(PAC) // Don't add lib prefix
       {
-        printf("%s\n", str_replace( ",", "_", escape_quotes(strupr(PAC.name))));
+        printf("%s\n", charstr_replace(",/", "_", escape_quotes(strupr(PAC.name))));
+        //        printf("%s\n", str_replace( ",", "_", escape_quotes(strupr(PAC.name))));        
       }
     else
       LIB.packages(PAC) // Add lib prefix
       {
-        printf("%s-%s\n", escape_quotes(g_lib_prefix), str_replace( ",", "_", escape_quotes(strupr(PAC.name))));
+        printf("%s-%s\n", escape_quotes(g_lib_prefix), charstr_replace(",/", "_", escape_quotes(strupr(PAC.name))));
+        //        printf("%s-%s\n", escape_quotes(g_lib_prefix), str_replace( ",", "_", escape_quotes(strupr(PAC.name))));
       }
     
     // write INDEX end tag
@@ -999,11 +1031,12 @@ void write_kikad_mod_body(UL_LIBRARY LIB)
     LIB.packages(PAC)
     {
         // write MODULE start tag
-
+      
       if( outPutFootPrint == 0 ) 
-        printf("$MODULE %s\n", escape_quotes(strupr( str_replace(",", "_", PAC.name))));
+        printf("$MODULE %s\n", escape_quotes(strupr( charstr_replace(",/", "_", PAC.name))));
+      //              printf("$MODULE %s\n", escape_quotes(strupr( str_replace(",", "_", PAC.name))));
       else
-        printf("$MODULE %s-%s\n", escape_quotes(g_lib_prefix), escape_quotes(strupr( str_replace(",", "_", PAC.name))));
+        printf("$MODULE %s-%s\n", escape_quotes(g_lib_prefix), escape_quotes(strupr( charstr_replace(",/", "_", PAC.name))));
       
       //      if ( outPutFootPrint  )  // Prefix libprefix in foot print name 
       //        printf("$MODULE %s-%s\n", escape_quotes(g_lib_prefix), escape_quotes(strupr(PAC.name)));
@@ -1020,9 +1053,11 @@ void write_kikad_mod_body(UL_LIBRARY LIB)
 
         //write name & description
       if( outPutFootPrint == 0 )
-        printf("Li %s\n", escape_quotes(strupr(str_replace(",", "_", PAC.name))));
+        printf("Li %s\n", escape_quotes( strupr( charstr_replace(",/", "_", PAC.name))));
+      //      printf("Li %s\n", escape_quotes(strupr(str_replace(",", "_", PAC.name))));
       else
-        printf("Li %s-%s\n", escape_quotes(g_lib_prefix), escape_quotes(strupr(str_replace(",", "_", PAC.name))));
+        printf("Li %s-%s\n", escape_quotes(g_lib_prefix), escape_quotes( strupr( charstr_replace(",/", "_", PAC.name))));
+      //        printf("Li %s-%s\n", escape_quotes(g_lib_prefix), escape_quotes(strupr(str_replace(",", "_", PAC.name))));      
         //        if ( outPutFootPrint  )  // Prefix libprefix in foot print name 
         //          printf("Li %s-%s\n", escape_quotes(g_lib_prefix), escape_quotes(strupr(PAC.name)));
         //        else
@@ -1046,7 +1081,8 @@ void write_kikad_mod_body(UL_LIBRARY LIB)
         write_kikad_mod_pad(PAC);
 
         // write MODULE end tag
-        printf("$EndMODULE %s\n", escape_quotes(strupr( str_replace(",", "_", PAC.name))));
+        printf("$EndMODULE %s\n", escape_quotes(strupr( charstr_replace(",/", "_", PAC.name))));
+        //        printf("$EndMODULE %s\n", escape_quotes(strupr( str_replace(",", "_", PAC.name))));        
     }
 }
 
@@ -1564,25 +1600,30 @@ void write_kikad_def_alias( UL_DEVICE DEV, UL_GATE G, string symbolName, int cou
     //	    printf("F0 \"%s\" %d %d %d %c %c %c %cNN\n", DEV.prefix, prefix_X, prefix_Y, 50, orient, 'I', hAlign, vAlign);
     //    }
 
-
     if ( hasValue )  
-      printf("F1 \"%s\" %d %d %d %c %c %c %cNN\n", str_replace( ",", "_", symbolName), name_X, name_Y, 50, orient, 'V', hAlign, vAlign);  // Display then 
+      printf("F1 \"%s\" %d %d %d %c %c %c %cNN\n", charstr_replace( ",/", "_", symbolName), name_X, name_Y, 50, orient, 'V', hAlign, vAlign);  // Display then
+                 //                 printf("F1 \"%s\" %d %d %d %c %c %c %cNN\n", str_replace( ",", "_", symbolName), name_X, name_Y, 50, orient, 'V', hAlign, vAlign);  // Display then                  
     else
-      printf("F1 \"%s\" %d %d %d %c %c %c %cNN\n", str_replace( ",", "_", symbolName), name_X, name_Y, 50, orient, 'I', hAlign, vAlign);  // Else no display
+      printf("F1 \"%s\" %d %d %d %c %c %c %cNN\n", charstr_replace( ",/", "_", symbolName), name_X, name_Y, 50, orient, 'I', hAlign, vAlign);  // Else no display
+                 //                 printf("F1 \"%s\" %d %d %d %c %c %c %cNN\n", str_replace( ",", "_", symbolName), name_X, name_Y, 50, orient, 'I', hAlign, vAlign);  // Else no display                 
 
 
     if ( DEV.package )
       switch( outPutFootPrint )
       {
         case 0: // Dont prefix lib name to footprint name
-          printf("F2 \"%s\" 30 150 20 H I C CNN\n", escape_quotes(str_replace(",", "_", DEV.package.name)));
+          printf("F2 \"%s\" 30 150 20 H I C CNN\n", escape_quotes( charstr_replace(",/", "_", DEV.package.name)));
+          //          printf("F2 \"%s\" 30 150 20 H I C CNN\n", escape_quotes(str_replace(",", "_", str_replace("/", "_", DEV.package.name))));          
+          //          printf("F2 \"%s\" 30 150 20 H I C CNN\n", escape_quotes(str_replace(",", "_", DEV.package.name)));
           break;
         case 1: // Prexfix lib name to footprint name
-          printf("F2 \"%s_%s\" 30 150 20 H I C CNN\n", footPrintPreFix, escape_quotes(str_replace(",", "_", DEV.package.name)));
+          printf("F2 \"%s_%s\" 30 150 20 H I C CNN\n", footPrintPreFix, escape_quotes( charstr_replace(",/", "_", DEV.package.name)));
+          //          printf("F2 \"%s_%s\" 30 150 20 H I C CNN\n", footPrintPreFix, escape_quotes(str_replace(",", "_", DEV.package.name)));          
           //	 printf("F2 \"%s-%s\" 0 150 50 H I C C\n", DEV.library, DEV.package.name);
           break;
         case 2: // Prexfix name to footprint name
-          printf("F2 \"%s_%s\" 30 150 20 H I C CNN\n", footPrintPreFix, escape_quotes( str_replace(",", "_", DEV.package.name)));
+          printf("F2 \"%s_%s\" 30 150 20 H I C CNN\n", footPrintPreFix, escape_quotes( charstr_replace(",/", "_", DEV.package.name)));
+          //          printf("F2 \"%s_%s\" 30 150 20 H I C CNN\n", footPrintPreFix, escape_quotes( str_replace(",", "_", DEV.package.name)));          
           break;
       }
 
@@ -1625,7 +1666,9 @@ void write_kikad_def_alias( UL_DEVICE DEV, UL_GATE G, string symbolName, int cou
           break;
         case 1:
         case 2:
-          printf("$FPLIST\n%s$ENDFPLIST\n", footPrintList );
+          printf("$FPLIST\n%s$ENDFPLIST\n", charstr_replace("/", "_", footPrintList ));
+//          printf("$FPLIST\n%s$ENDFPLIST\n", str_replace("/", "_", footPrintList ));
+//          printf("$FPLIST\n%s$ENDFPLIST\n", footPrintList );
           break;
       }
     }
@@ -1650,7 +1693,7 @@ void write_kikad_lib( string fileName )
         int t = time();
         printf("EESchema-LIBRARY Version 2.3  %02d/%02d/%04d-%02d:%02d:%02d",
                t2day(t), t2month(t) + 1, t2year(t), t2hour(t), t2minute(t), t2second(t));
-        printf("\n# Converted with eagle-lbr2kicad.ulp Version %.2f", VERSION);
+        printf("\n# Converted with eagle-lbr2kicad-1.0.ulp Version:%.2f  Build Date:%s  USE THIS PROGRAM AT YOUR OWN RISK", VERSION, BUILD_DATE);
 
         int countDevices = 0;
         LIB.devices(DEV)
@@ -2111,7 +2154,8 @@ void write_kikad_lib( string fileName )
             if(output_part)
             {
               printf("\n#");
-              printf("\n# %s", str_replace( ",", "_", nameString));
+              printf("\n# %s", nameString);
+              printf("     # %s", charstr_replace( ",/", "_", nameString));              
               printf("\n#");
 
               
@@ -2125,9 +2169,11 @@ void write_kikad_lib( string fileName )
               //                printf("\n####DEF %s_%s %s %d %d %s %s %d %c %c\n", g_lib_prefix, escape_quotes( nameString + tmpsx ) , prefixString, 0, 40, drawPinNumberStr, drawPinNameStr, countGates, 'L', 'N');
 
               if( add_libnamePrefixToPartName )
-                printf("\nDEF %s_%s %s %d %d %s %s %d %c %c\n", g_lib_prefix, escape_quotes( str_replace( ",", "_",nameString ) + tmpsx  ) , prefixString, 0, 40, drawPinNumberStr, drawPinNameStr, countGates, 'L', 'N');
+                printf("\nDEF %s_%s %s %d %d %s %s %d %c %c\n", g_lib_prefix, escape_quotes( charstr_replace( ",/", "_",nameString ) + tmpsx  ) , prefixString, 0, 40, drawPinNumberStr, drawPinNameStr, countGates, 'L', 'N');
+              //                printf("\nDEF %s_%s %s %d %d %s %s %d %c %c\n", g_lib_prefix, escape_quotes( str_replace( ",", "_",nameString ) + tmpsx  ) , prefixString, 0, 40, drawPinNumberStr, drawPinNameStr, countGates, 'L', 'N');              
               else
-                printf("\nDEF %s %s %d %d %s %s %d %c %c\n", escape_quotes( str_replace( ",", "_", nameString ) + tmpsx), prefixString, 0, 40, drawPinNumberStr, drawPinNameStr, countGates, 'L', 'N');                        
+                printf("\nDEF %s %s %d %d %s %s %d %c %c\n", escape_quotes( charstr_replace( ",/", "_", nameString ) + tmpsx), prefixString, 0, 40, drawPinNumberStr, drawPinNameStr, countGates, 'L', 'N');
+              //              printf("\nDEF %s %s %d %d %s %s %d %c %c\n", escape_quotes( str_replace( ",", "_", nameString ) + tmpsx), prefixString, 0, 40, drawPinNumberStr, drawPinNameStr, countGates, 'L', 'N');                        
 
               int gatePos = 0;
               DEV.gates(G)
@@ -2408,8 +2454,7 @@ int mainDialog( string titleString )
 //
 int main()
 {
-
-  sprintf( titleString, "Export Eagle lib to KiCAD lib/mod, Version %.2f, Use this programe at your own Risk!", VERSION );
+  sprintf( titleString, "Eagle To KiCAD lib/mod, Version:%.2f\nBuild Date:%s USE THIS PROGRAM AT YOUR OWN RISK!", VERSION, BUILD_DATE );
 
   if (library)
     {
@@ -2435,11 +2480,18 @@ int main()
 
   // If add libname prefix was set in eagle6,  it has added the libname so don't add again.
   tmpXX = cfgget( cfg_addLibPrefix);
-  if( ( strlen(tmpXX) >= 1 ) && ( strtol( tmpXX ) == 1 ))
-  {
-    add_libnamePrefixToPartName = 0; // Dont add lib name to part name as it has aready been added.
-    outPutFootPrint = 0; // Don't add lib name to foot print name as it has aready been added.
-  }
+  if( ( strlen(tmpXX) >= 1 ))   // Has it been set ?
+    if ( strtol( tmpXX ) == 1 ) // Yes
+    {
+      add_libnamePrefixToPartName = 1; // Add lib name to part name.
+      outPutFootPrint = 1; // Add lib name to foot print.
+    }
+    else
+    {
+      add_libnamePrefixToPartName = 0; // Dont add lib name to part name as it has aready been added.
+      outPutFootPrint = 0; // Don't add lib name to foot print name as it has aready been added.
+    }
+      
   
   result =  mainDialog( titleString );
 
