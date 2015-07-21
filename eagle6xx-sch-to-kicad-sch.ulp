@@ -2980,7 +2980,7 @@ int mainDialog( string titleString, int sheetcount, string schName )
 
             
             cfgset( cfg_conflictPartsLibsListsize, intToString( conflictPartsLibsListsize )); 
-            cfgset( cfg_addLibPrefix, intToString( addLibPrefix ));
+            cfgset( cfg_addLibPrefix, intToString( addLibPrefix ));            
 
             dlgAccept();
           };

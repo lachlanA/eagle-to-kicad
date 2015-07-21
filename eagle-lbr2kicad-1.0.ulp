@@ -2483,8 +2483,8 @@ int main()
   if( ( strlen(tmpXX) >= 1 ))   // Has it been set ?
     if ( strtol( tmpXX ) == 1 ) // Yes
     {
-      add_libnamePrefixToPartName = 1; // Add lib name to part name.
-      outPutFootPrint = 1; // Add lib name to foot print.
+      add_libnamePrefixToPartName = 0; // Dont add lib name's to deivce name's for now *** !!
+      outPutFootPrint = 0; // Don't add lib name to foot print name as it has aready been added for now ****!!
     }
     else
     {
@@ -2493,7 +2493,7 @@ int main()
     }
       
   
-  result =  mainDialog( titleString );
+  result = mainDialog( titleString );
 
   if (result)
     {
