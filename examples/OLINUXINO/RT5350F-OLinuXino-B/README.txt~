@@ -1,0 +1,25 @@
+NOTE: ***** USE AT YOUR OWN RISK *****
+
+This contains the eagle file's from OLIMEX/OLINUXINO from github, which have been Renumbered to work with KiCad
+as KiCad will not work correctly with out parts reference ending in a number.
+Also note the Eagle files have been converted to version 6.xx of eagle.
+
+
+source of this project example is at Github address:
+  OLINUXINO/HARDWARE/RT5350F/RT5350F-OLinuXino/RT5350F-OLinuXino-B/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

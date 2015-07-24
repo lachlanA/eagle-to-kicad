@@ -1,0 +1,1695 @@
+Info: Reading netlist file "/home/laudas/eagle/eagle-lbr2kicad/examples/OLINUXINO/RT5350F-OLinuXino-B/kicad_files/RT5350F_OLinuXino_Rev_B.net".
+
+Info: Using references to match components and footprints.
+
+Info: Checking netlist component footprint "+5V124:/55B2BF9B:TESTPAD_40-ROUND".
+
+Info: Changing component path "+5V124:" to "/55B2BF9B".
+
+Changing component "+5V124:/55B2BF9B" pin "1" net name from "+5V" to "/+5V".
+
+Info: Checking netlist component footprint "1.2V124:/55B2C063:TESTPAD_40-ROUND".
+
+Info: Changing component path "1.2V124:" to "/55B2C063".
+
+Changing component "1.2V124:/55B2C063" pin "1" net name from "N$22" to "/VEE".
+
+Info: Checking netlist component footprint "1.2VE124:/55B2C12B:SJ_1_SMALLER".
+
+Info: Changing component path "1.2VE124:" to "/55B2C12B".
+
+Changing component "1.2VE124:/55B2C12B" pin "1" net name from "VOUT_1P2" to "/1.2V".
+
+Changing component "1.2VE124:/55B2C12B" pin "2" net name from "N$26" to "/VOUT_1P2".
+
+Info: Checking netlist component footprint "1.2VE_REG124:/55B2C1F3:SJ_1_SMALLER".
+
+Info: Changing component path "1.2VE_REG124:" to "/55B2C1F3".
+
+Changing component "1.2VE_REG124:/55B2C1F3" pin "1" net name from "N$22" to "/VEE".
+
+Changing component "1.2VE_REG124:/55B2C1F3" pin "2" net name from "VOUT_1P2" to "/1.2V".
+
+Info: Checking netlist component footprint "1.8V124:/55B2C2BB:TESTPAD_40-ROUND".
+
+Info: Changing component path "1.8V124:" to "/55B2C2BB".
+
+Changing component "1.8V124:/55B2C2BB" pin "1" net name from "VPP" to "/VPP".
+
+Info: Checking netlist component footprint "3.3V124:/55B2C383:TESTPAD_40-ROUND".
+
+Info: Changing component path "3.3V124:" to "/55B2C383".
+
+Changing component "3.3V124:/55B2C383" pin "1" net name from "VCC" to "/VCC".
+
+Info: Checking netlist component footprint "ANT124:/55B2C44B:WIFI_RF".
+
+Info: Changing component path "ANT124:" to "/55B2C44B".
+
+Changing component "ANT124:/55B2C44B" pin "GND1" net name from "GND" to "/GND".
+
+Changing component "ANT124:/55B2C44B" pin "GND2" net name from "GND" to "/GND".
+
+Changing component "ANT124:/55B2C44B" pin "ANT" net name from "COMP" to "/N$26".
+
+Info: Checking netlist component footprint "C1:/55B2C513:C0402_TI".
+
+Info: Changing component path "C1:" to "/55B2C513".
+
+Changing component "C1:/55B2C513" pin "1" net name from "UPHY0_VRES" to "/UPHY0_VRES".
+
+Changing component "C1:/55B2C513" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "C2:/55B2C5DB:C0402_TI".
+
+Info: Changing component path "C2:" to "/55B2C5DB".
+
+Changing component "C2:/55B2C5DB" pin "1" net name from "VCC" to "/VCC".
+
+Changing component "C2:/55B2C5DB" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "C3:/55B2C6A3:C0402_TI".
+
+Info: Changing component path "C3:" to "/55B2C6A3".
+
+Changing component "C3:/55B2C6A3" pin "1" net name from "VCC" to "/VCC".
+
+Changing component "C3:/55B2C6A3" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "C4:/55B2C76B:C0402_TI".
+
+Info: Changing component path "C4:" to "/55B2C76B".
+
+Changing component "C4:/55B2C76B" pin "1" net name from "VCC" to "/VCC".
+
+Changing component "C4:/55B2C76B" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "C5:/55B2C833:C0402_TI".
+
+Info: Changing component path "C5:" to "/55B2C833".
+
+Changing component "C5:/55B2C833" pin "1" net name from "VCC" to "/VCC".
+
+Changing component "C5:/55B2C833" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "C6:/55B2C8FB:C0402_TI".
+
+Info: Changing component path "C6:" to "/55B2C8FB".
+
+Changing component "C6:/55B2C8FB" pin "1" net name from "VCC" to "/VCC".
+
+Changing component "C6:/55B2C8FB" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "C7:/55B2C9C3:C0402_TI".
+
+Info: Changing component path "C7:" to "/55B2C9C3".
+
+Changing component "C7:/55B2C9C3" pin "1" net name from "VCC" to "/VCC".
+
+Changing component "C7:/55B2C9C3" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "C8:/55B2CA8B:C0402_TI".
+
+Info: Changing component path "C8:" to "/55B2CA8B".
+
+Changing component "C8:/55B2CA8B" pin "1" net name from "VCC" to "/VCC".
+
+Changing component "C8:/55B2CA8B" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "C9:/55B2CB53:C0603_DWS".
+
+Info: Changing component path "C9:" to "/55B2CB53".
+
+Changing component "C9:/55B2CB53" pin "1" net name from "VCC" to "/VCC".
+
+Changing component "C9:/55B2CB53" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "C10:/55B2CC1B:C0402_TI".
+
+Info: Changing component path "C10:" to "/55B2CC1B".
+
+Changing component "C10:/55B2CC1B" pin "1" net name from "VCC" to "/VCC".
+
+Changing component "C10:/55B2CC1B" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "C11:/55B2CCE3:C0402_TI".
+
+Info: Changing component path "C11:" to "/55B2CCE3".
+
+Changing component "C11:/55B2CCE3" pin "1" net name from "VCC" to "/VCC".
+
+Changing component "C11:/55B2CCE3" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "C12:/55B2CDAB:C0603_DWS".
+
+Info: Changing component path "C12:" to "/55B2CDAB".
+
+Changing component "C12:/55B2CDAB" pin "1" net name from "VCC" to "/VCC".
+
+Changing component "C12:/55B2CDAB" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "C13:/55B2CE73:C0402_TI".
+
+Info: Changing component path "C13:" to "/55B2CE73".
+
+Changing component "C13:/55B2CE73" pin "1" net name from "VCC" to "/VCC".
+
+Changing component "C13:/55B2CE73" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "C14:/55B2CF3B:C0603_DWS".
+
+Info: Changing component path "C14:" to "/55B2CF3B".
+
+Changing component "C14:/55B2CF3B" pin "1" net name from "VOUT_1P2" to "/1.2V".
+
+Changing component "C14:/55B2CF3B" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "C15:/55B2D003:C0603_DWS".
+
+Info: Changing component path "C15:" to "/55B2D003".
+
+Changing component "C15:/55B2D003" pin "1" net name from "VOUT_1P2" to "/1.2V".
+
+Changing component "C15:/55B2D003" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "C16:/55B2D0CB:C0603_DWS".
+
+Info: Changing component path "C16:" to "/55B2D0CB".
+
+Changing component "C16:/55B2D0CB" pin "1" net name from "VOUT_1P2" to "/1.2V".
+
+Changing component "C16:/55B2D0CB" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "C17:/55B2D193:C0603_DWS".
+
+Info: Changing component path "C17:" to "/55B2D193".
+
+Changing component "C17:/55B2D193" pin "1" net name from "VOUT_1P2" to "/1.2V".
+
+Changing component "C17:/55B2D193" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "C18:/55B2D25B:C0402_TI".
+
+Info: Changing component path "C18:" to "/55B2D25B".
+
+Changing component "C18:/55B2D25B" pin "1" net name from "VOUT_1P2" to "/1.2V".
+
+Changing component "C18:/55B2D25B" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "C19:/55B2D323:C0402_TI".
+
+Info: Changing component path "C19:" to "/55B2D323".
+
+Changing component "C19:/55B2D323" pin "1" net name from "VOUT_1P2" to "/1.2V".
+
+Changing component "C19:/55B2D323" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "C20:/55B2D3EB:C0402_TI".
+
+Info: Changing component path "C20:" to "/55B2D3EB".
+
+Changing component "C20:/55B2D3EB" pin "1" net name from "VOUT_1P2" to "/1.2V".
+
+Changing component "C20:/55B2D3EB" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "C21:/55B2D4B3:C0603_DWS".
+
+Info: Changing component path "C21:" to "/55B2D4B3".
+
+Changing component "C21:/55B2D4B3" pin "1" net name from "VPP" to "/VPP".
+
+Changing component "C21:/55B2D4B3" pin "2" net name from "N$24" to "/N$24".
+
+Info: Checking netlist component footprint "C22:/55B2D57B:C0603_DWS".
+
+Info: Changing component path "C22:" to "/55B2D57B".
+
+Changing component "C22:/55B2D57B" pin "1" net name from "+5V" to "/+5V".
+
+Changing component "C22:/55B2D57B" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "C23:/55B2D643:C0603_DWS".
+
+Info: Changing component path "C23:" to "/55B2D643".
+
+Changing component "C23:/55B2D643" pin "1" net name from "VPP" to "/VPP".
+
+Changing component "C23:/55B2D643" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "C24:/55B2D70B:C0603_DWS".
+
+Info: Changing component path "C24:" to "/55B2D70B".
+
+Changing component "C24:/55B2D70B" pin "1" net name from "VPP" to "/VPP".
+
+Changing component "C24:/55B2D70B" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "C25:/55B2D7D3:C0402_TI".
+
+Info: Changing component path "C25:" to "/55B2D7D3".
+
+Changing component "C25:/55B2D7D3" pin "1" net name from "VPP" to "/VPP".
+
+Changing component "C25:/55B2D7D3" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "C26:/55B2D89B:C0402_TI".
+
+Info: Changing component path "C26:" to "/55B2D89B".
+
+Changing component "C26:/55B2D89B" pin "1" net name from "VCC" to "/VCC".
+
+Changing component "C26:/55B2D89B" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "C27:/55B2D963:C0402_TI".
+
+Info: Changing component path "C27:" to "/55B2D963".
+
+Changing component "C27:/55B2D963" pin "1" net name from "VPP" to "/VPP".
+
+Changing component "C27:/55B2D963" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "C28:/55B2DA2B:C0402_TI".
+
+Info: Changing component path "C28:" to "/55B2DA2B".
+
+Changing component "C28:/55B2DA2B" pin "1" net name from "VCC" to "/VCC".
+
+Changing component "C28:/55B2DA2B" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "C29:/55B2DAF3:C0603_DWS".
+
+Info: Changing component path "C29:" to "/55B2DAF3".
+
+Changing component "C29:/55B2DAF3" pin "1" net name from "VPP" to "/VPP".
+
+Changing component "C29:/55B2DAF3" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "C30:/55B2DBBB:C0603_DWS".
+
+Info: Changing component path "C30:" to "/55B2DBBB".
+
+Changing component "C30:/55B2DBBB" pin "1" net name from "VCC" to "/VCC".
+
+Changing component "C30:/55B2DBBB" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "C31:/55B2DC83:C0402_TI".
+
+Info: Changing component path "C31:" to "/55B2DC83".
+
+Changing component "C31:/55B2DC83" pin "1" net name from "N$57" to "/N$57".
+
+Changing component "C31:/55B2DC83" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "C32:/55B2DD4B:C0603_DWS".
+
+Info: Changing component path "C32:" to "/55B2DD4B".
+
+Changing component "C32:/55B2DD4B" pin "1" net name from "+5V" to "/+5V".
+
+Changing component "C32:/55B2DD4B" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "C33:/55B2DE13:C0603_DWS".
+
+Info: Changing component path "C33:" to "/55B2DE13".
+
+Changing component "C33:/55B2DE13" pin "1" net name from "VCC" to "/VCC".
+
+Changing component "C33:/55B2DE13" pin "2" net name from "N$66" to "/N$66".
+
+Info: Checking netlist component footprint "C34:/55B2DEDB:C0603_DWS".
+
+Info: Changing component path "C34:" to "/55B2DEDB".
+
+Changing component "C34:/55B2DEDB" pin "1" net name from "VCC" to "/VCC".
+
+Changing component "C34:/55B2DEDB" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "C35:/55B2DFA3:C0603_DWS".
+
+Info: Changing component path "C35:" to "/55B2DFA3".
+
+Changing component "C35:/55B2DFA3" pin "1" net name from "VCC" to "/VCC".
+
+Changing component "C35:/55B2DFA3" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "C36:/55B2E06B:C0603_DWS".
+
+Info: Changing component path "C36:" to "/55B2E06B".
+
+Changing component "C36:/55B2E06B" pin "1" net name from "VCC" to "/VCC".
+
+Changing component "C36:/55B2E06B" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "C37:/55B2E133:C0402_TI".
+
+Info: Changing component path "C37:" to "/55B2E133".
+
+Changing component "C37:/55B2E133" pin "1" net name from "VCC" to "/VCC".
+
+Changing component "C37:/55B2E133" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "C38:/55B2E1FB:C0603_DWS".
+
+Info: Changing component path "C38:" to "/55B2E1FB".
+
+Changing component "C38:/55B2E1FB" pin "1" net name from "PLL_VCC_1V2" to "/PLL_VCC_1V2".
+
+Changing component "C38:/55B2E1FB" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "C39:/55B2E2C3:C0603_DWS".
+
+Info: Changing component path "C39:" to "/55B2E2C3".
+
+Changing component "C39:/55B2E2C3" pin "1" net name from "RF_VCC_1V2" to "/RF_VCC_1V2".
+
+Changing component "C39:/55B2E2C3" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "C40:/55B2E38B:C0402_TI".
+
+Info: Changing component path "C40:" to "/55B2E38B".
+
+Changing component "C40:/55B2E38B" pin "1" net name from "RF_VCC_1V2" to "/RF_VCC_1V2".
+
+Changing component "C40:/55B2E38B" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "C41:/55B2E453:C0402_TI".
+
+Info: Changing component path "C41:" to "/55B2E453".
+
+Changing component "C41:/55B2E453" pin "1" net name from "RF_VCC_1V2" to "/RF_VCC_1V2".
+
+Changing component "C41:/55B2E453" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "C42:/55B2E51B:C0402_TI".
+
+Info: Changing component path "C42:" to "/55B2E51B".
+
+Changing component "C42:/55B2E51B" pin "1" net name from "RF_VCC_1V2" to "/RF_VCC_1V2".
+
+Changing component "C42:/55B2E51B" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "C43:/55B2E5E3:C0402_TI".
+
+Info: Changing component path "C43:" to "/55B2E5E3".
+
+Changing component "C43:/55B2E5E3" pin "1" net name from "N$2" to "/N$2".
+
+Changing component "C43:/55B2E5E3" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "C44:/55B2E6AB:C0402_TI".
+
+Info: Changing component path "C44:" to "/55B2E6AB".
+
+Changing component "C44:/55B2E6AB" pin "1" net name from "N$3" to "/N$3".
+
+Changing component "C44:/55B2E6AB" pin "2" net name from "N$5" to "/N$5".
+
+Info: Checking netlist component footprint "C45:/55B2E773:C0402_TI".
+
+Info: Changing component path "C45:" to "/55B2E773".
+
+Changing component "C45:/55B2E773" pin "1" net name from "N$4" to "/N$4".
+
+Changing component "C45:/55B2E773" pin "2" net name from "N$6" to "/N$6".
+
+Info: Checking netlist component footprint "C46:/55B2E83B:C0402_TI".
+
+Info: Changing component path "C46:" to "/55B2E83B".
+
+Changing component "C46:/55B2E83B" pin "1" net name from "N$6" to "/N$6".
+
+Changing component "C46:/55B2E83B" pin "2" net name from "N$5" to "/N$5".
+
+Info: Checking netlist component footprint "C47:/55B2E903:C0402_TI".
+
+Info: Changing component path "C47:" to "/55B2E903".
+
+Changing component "C47:/55B2E903" pin "1" net name from "N$6" to "/N$6".
+
+Changing component "C47:/55B2E903" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "C48:/55B2E9CB:C0402_TI".
+
+Info: Changing component path "C48:" to "/55B2E9CB".
+
+Changing component "C48:/55B2E9CB" pin "1" net name from "N$5" to "/N$5".
+
+Changing component "C48:/55B2E9CB" pin "2" net name from "N$7" to "/N$7".
+
+Info: Checking netlist component footprint "C49:/55B2EA93:C0603_DWS".
+
+Info: Changing component path "C49:" to "/55B2EA93".
+
+Changing component "C49:/55B2EA93" pin "1" net name from "N$10" to "/N$10".
+
+Changing component "C49:/55B2EA93" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "C50:/55B2EB5B:C0603_DWS".
+
+Info: Changing component path "C50:" to "/55B2EB5B".
+
+Changing component "C50:/55B2EB5B" pin "1" net name from "N$9" to "/N$9".
+
+Changing component "C50:/55B2EB5B" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "C51:/55B2EC23:C0402_TI".
+
+Info: Changing component path "C51:" to "/55B2EC23".
+
+Changing component "C51:/55B2EC23" pin "1" net name from "N$7" to "/N$7".
+
+Changing component "C51:/55B2EC23" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "C52:/55B2ECEB:C0402_TI".
+
+Info: Changing component path "C52:" to "/55B2ECEB".
+
+Changing component "C52:/55B2ECEB" pin "1" net name from "COMP" to "/N$26".
+
+Changing component "C52:/55B2ECEB" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "C53:/55B2EDB3:C0402_TI".
+
+Info: Changing component path "C53:" to "/55B2EDB3".
+
+Changing component "C53:/55B2EDB3" pin "1" net name from "VCC" to "/VCC".
+
+Changing component "C53:/55B2EDB3" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "C54:/55B2EE7B:C0402_TI".
+
+Info: Changing component path "C54:" to "/55B2EE7B".
+
+Changing component "C54:/55B2EE7B" pin "1" net name from "N$12" to "/N$12".
+
+Changing component "C54:/55B2EE7B" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "C55:/55B2EF43:C0402_TI".
+
+Info: Changing component path "C55:" to "/55B2EF43".
+
+Changing component "C55:/55B2EF43" pin "1" net name from "N$13" to "/N$13".
+
+Changing component "C55:/55B2EF43" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "C56:/55B2F00B:C0402_TI".
+
+Info: Changing component path "C56:" to "/55B2F00B".
+
+Changing component "C56:/55B2F00B" pin "1" net name from "N$14" to "/N$14".
+
+Changing component "C56:/55B2F00B" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "C57:/55B2F0D3:C0402_TI".
+
+Info: Changing component path "C57:" to "/55B2F0D3".
+
+Changing component "C57:/55B2F0D3" pin "1" net name from "N$15" to "/N$15".
+
+Changing component "C57:/55B2F0D3" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "C58:/55B2F19B:C0603_DWS".
+
+Info: Changing component path "C58:" to "/55B2F19B".
+
+Changing component "C58:/55B2F19B" pin "1" net name from "+5V" to "/+5V".
+
+Changing component "C58:/55B2F19B" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "C59:/55B2F263:C0603_DWS".
+
+Info: Changing component path "C59:" to "/55B2F263".
+
+Changing component "C59:/55B2F263" pin "1" net name from "N$22" to "/VEE".
+
+Changing component "C59:/55B2F263" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "C60:/55B2F32B:C0603_DWS".
+
+Info: Changing component path "C60:" to "/55B2F32B".
+
+Changing component "C60:/55B2F32B" pin "1" net name from "N$22" to "/VEE".
+
+Changing component "C60:/55B2F32B" pin "2" net name from "N$21" to "/N$22".
+
+Info: Checking netlist component footprint "C61:/55B2F3F3:C0603_DWS".
+
+Info: Changing component path "C61:" to "/55B2F3F3".
+
+Changing component "C61:/55B2F3F3" pin "1" net name from "N$22" to "/VEE".
+
+Changing component "C61:/55B2F3F3" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "C62:/55B2F4BB:C0402_TI".
+
+Info: Changing component path "C62:" to "/55B2F4BB".
+
+Changing component "C62:/55B2F4BB" pin "1" net name from "N$7" to "/N$7".
+
+Changing component "C62:/55B2F4BB" pin "2" net name from "COMP" to "/N$26".
+
+Info: Checking netlist component footprint "CS1:/55B2F583:TESTPAD_30-ROUND".
+
+Info: Changing component path "CS1:" to "/55B2F583".
+
+Changing component "CS1:/55B2F583" pin "1" net name from "1.2V" to "/CS1".
+
+Info: Checking netlist component footprint "EXT1:/55B2F64B:HN2X13-MALE".
+
+Info: Changing component path "EXT1:" to "/55B2F64B".
+
+Changing component "EXT1:/55B2F64B" pin "1" net name from "+5V" to "/+5V".
+
+Changing component "EXT1:/55B2F64B" pin "2" net name from "GND" to "/GND".
+
+Changing component "EXT1:/55B2F64B" pin "3" net name from "PORSTN" to "/PORSTN".
+
+Changing component "EXT1:/55B2F64B" pin "4" net name from "UPHY0_PADM" to "/I2C_SD".
+
+Changing component "EXT1:/55B2F64B" pin "5" net name from "RXIM4" to "/RXIM4".
+
+Changing component "EXT1:/55B2F64B" pin "6" net name from "UPHY0_PADP" to "/GPIO0".
+
+Changing component "EXT1:/55B2F64B" pin "7" net name from "RXIP4" to "/RXIP4".
+
+Changing component "EXT1:/55B2F64B" pin "8" net name from "TXOM4" to "/TXOM4".
+
+Changing component "EXT1:/55B2F64B" pin "9" net name from "RXIM3" to "/RXIM3".
+
+Changing component "EXT1:/55B2F64B" pin "10" net name from "TXOP4" to "/TXOP4".
+
+Changing component "EXT1:/55B2F64B" pin "11" net name from "RXIP3" to "/RXIP3".
+
+Changing component "EXT1:/55B2F64B" pin "12" net name from "TXOM3" to "/TXOM3".
+
+Changing component "EXT1:/55B2F64B" pin "13" net name from "RXIM2" to "/RXIM2".
+
+Changing component "EXT1:/55B2F64B" pin "14" net name from "TXOP3" to "/TXOP3".
+
+Changing component "EXT1:/55B2F64B" pin "15" net name from "RXIP2" to "/RXIP2".
+
+Changing component "EXT1:/55B2F64B" pin "16" net name from "TXOM2" to "/TXOM2".
+
+Changing component "EXT1:/55B2F64B" pin "17" net name from "RXIM1" to "/RXIM1".
+
+Changing component "EXT1:/55B2F64B" pin "18" net name from "TXOP2" to "/TXOP2".
+
+Changing component "EXT1:/55B2F64B" pin "19" net name from "RXIP1" to "/RXIP1".
+
+Changing component "EXT1:/55B2F64B" pin "20" net name from "TXOM1" to "/TXOM1".
+
+Changing component "EXT1:/55B2F64B" pin "21" net name from "RXIM0" to "/RXIM0".
+
+Changing component "EXT1:/55B2F64B" pin "22" net name from "TXOP1" to "/TXOP1".
+
+Changing component "EXT1:/55B2F64B" pin "23" net name from "RXIP0" to "/RXIP0".
+
+Changing component "EXT1:/55B2F64B" pin "24" net name from "TXOM0" to "/TXOM0".
+
+Changing component "EXT1:/55B2F64B" pin "25" net name from "SPI_CS1" to "/SPI_CS1".
+
+Changing component "EXT1:/55B2F64B" pin "26" net name from "TXOP0" to "/TXOP0".
+
+Info: Checking netlist component footprint "EXT2:/55B2F713:HN2X13-MALE".
+
+Info: Changing component path "EXT2:" to "/55B2F713".
+
+Changing component "EXT2:/55B2F713" pin "1" net name from "VCC" to "/VCC".
+
+Changing component "EXT2:/55B2F713" pin "2" net name from "GND" to "/GND".
+
+Changing component "EXT2:/55B2F713" pin "3" net name from "I2C_SD" to "/I2C_SD".
+
+Changing component "EXT2:/55B2F713" pin "4" net name from "I2C_SCLK" to "/I2C_SCLK".
+
+Changing component "EXT2:/55B2F713" pin "5" net name from "GPIO0" to "/GPIO0".
+
+Changing component "EXT2:/55B2F713" pin "6" net name from "EJTAG_TDI" to "/EJTAG_TDI".
+
+Changing component "EXT2:/55B2F713" pin "7" net name from "EJTAG_TMS" to "/EJTAG_TMS".
+
+Changing component "EXT2:/55B2F713" pin "8" net name from "EJTAG_TCK" to "/EJTAG_TCK".
+
+Changing component "EXT2:/55B2F713" pin "9" net name from "EJTAG_TDO" to "/EJTAG_TDO".
+
+Changing component "EXT2:/55B2F713" pin "10" net name from "EJTAG_TRSTN" to "/EJTAG_TRSTN".
+
+Changing component "EXT2:/55B2F713" pin "11" net name from "CTS_N" to "/CTS_N".
+
+Changing component "EXT2:/55B2F713" pin "12" net name from "DCD_N" to "/DCD_N".
+
+Changing component "EXT2:/55B2F713" pin "13" net name from "RIN" to "/RIN".
+
+Changing component "EXT2:/55B2F713" pin "14" net name from "DSR_N" to "/DSR_N".
+
+Changing component "EXT2:/55B2F713" pin "15" net name from "RTS_N" to "/RTS_N".
+
+Changing component "EXT2:/55B2F713" pin "16" net name from "DTR_N" to "/DTR_N".
+
+Changing component "EXT2:/55B2F713" pin "17" net name from "WLAN_LED" to "/WLAN_LED".
+
+Changing component "EXT2:/55B2F713" pin "18" net name from "LINK0" to "/LINK0".
+
+Changing component "EXT2:/55B2F713" pin "19" net name from "LINK1" to "/LINK1".
+
+Changing component "EXT2:/55B2F713" pin "20" net name from "LINK2" to "/LINK2".
+
+Changing component "EXT2:/55B2F713" pin "21" net name from "LINK3" to "/LINK3".
+
+Changing component "EXT2:/55B2F713" pin "22" net name from "LINK4" to "/LINK4".
+
+Changing component "EXT2:/55B2F713" pin "23" net name from "UART_TXD2" to "/UART_TXD2".
+
+Changing component "EXT2:/55B2F713" pin "24" net name from "TXD" to "/TXD".
+
+Changing component "EXT2:/55B2F713" pin "25" net name from "UART_RXD2" to "/UART_RXD2".
+
+Changing component "EXT2:/55B2F713" pin "26" net name from "RXD" to "/RXD".
+
+Info: Checking netlist component footprint "EXT3:/55B2F7DB:HN1X16".
+
+Info: Changing component path "EXT3:" to "/55B2F7DB".
+
+Changing component "EXT3:/55B2F7DB" pin "1" net name from "+5V" to "/+5V".
+
+Changing component "EXT3:/55B2F7DB" pin "2" net name from "VCC" to "/VCC".
+
+Changing component "EXT3:/55B2F7DB" pin "3" net name from "VPP" to "/VPP".
+
+Changing component "EXT3:/55B2F7DB" pin "4" net name from "N$22" to "/VEE".
+
+Changing component "EXT3:/55B2F7DB" pin "5" net name from "SPI_MISO" to "/SPI_MISO".
+
+Changing component "EXT3:/55B2F7DB" pin "6" net name from "SPI_MOSI" to "/SPI_MOSI".
+
+Changing component "EXT3:/55B2F7DB" pin "7" net name from "SPI_CLK" to "/SPI_CLK".
+
+Changing component "EXT3:/55B2F7DB" pin "8" net name from "SPI_CS0" to "/SPI_CS0".
+
+Changing component "EXT3:/55B2F7DB" pin "9" net name from "UGATE" to "/LGATE".
+
+Changing component "EXT3:/55B2F7DB" pin "10" net name from "LGATE" to "/FB".
+
+Changing component "EXT3:/55B2F7DB" pin "11" net name from "LDOSEL" to "/EXT_LDO_1P2".
+
+Changing component "EXT3:/55B2F7DB" pin "12" net name from "VEE" to "/LDOSEL".
+
+Changing component "EXT3:/55B2F7DB" pin "13" net name from "FB" to "/COMP".
+
+Changing component "EXT3:/55B2F7DB" pin "14" net name from "EXT_LDO_1P2" to "/UGATE".
+
+Changing component "EXT3:/55B2F7DB" pin "15" net name from "PORSTN" to "/PORSTN".
+
+Changing component "EXT3:/55B2F7DB" pin "16" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "FID1:/55B2F8A3:FIDUCIAL-1X3".
+
+Info: Changing component path "FID1:" to "/55B2F8A3".
+
+Info: Checking netlist component footprint "FID2:/55B2F96B:FIDUCIAL-1X3".
+
+Info: Changing component path "FID2:" to "/55B2F96B".
+
+Info: Checking netlist component footprint "FID3:/55B2FA33:FIDUCIAL-1X3".
+
+Info: Changing component path "FID3:" to "/55B2FA33".
+
+Info: Checking netlist component footprint "FID4:/55B2FAFB:FIDUCIAL-1X3".
+
+Info: Changing component path "FID4:" to "/55B2FAFB".
+
+Info: Checking netlist component footprint "FID5:/55B2FBC3:FIDUCIAL-1X3".
+
+Info: Changing component path "FID5:" to "/55B2FBC3".
+
+Info: Checking netlist component footprint "FID6:/55B2FC8B:FIDUCIAL-1X3".
+
+Info: Changing component path "FID6:" to "/55B2FC8B".
+
+Info: Checking netlist component footprint "GND124:/55B31013:TESTPAD_40-ROUND".
+
+Info: Changing component path "GND124:" to "/55B31013".
+
+Changing component "GND124:/55B31013" pin "1" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "L1:/55B310DB:CD32".
+
+Info: Changing component path "L1:" to "/55B310DB".
+
+Changing component "L1:/55B310DB" pin "1" net name from "N$23" to "/N$23".
+
+Changing component "L1:/55B310DB" pin "2" net name from "VPP" to "/VPP".
+
+Info: Checking netlist component footprint "L2:/55B311A3:CD32".
+
+Info: Changing component path "L2:" to "/55B311A3".
+
+Changing component "L2:/55B311A3" pin "1" net name from "N$64" to "/N$64".
+
+Changing component "L2:/55B311A3" pin "2" net name from "VCC" to "/VCC".
+
+Info: Checking netlist component footprint "L3:/55B3126B:L0603_5MIL_DWS".
+
+Info: Changing component path "L3:" to "/55B3126B".
+
+Changing component "L3:/55B3126B" pin "1" net name from "N$5" to "/N$5".
+
+Changing component "L3:/55B3126B" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "L4:/55B31333:L0402_TI".
+
+Info: Changing component path "L4:" to "/55B31333".
+
+Changing component "L4:/55B31333" pin "1" net name from "N$6" to "/N$6".
+
+Changing component "L4:/55B31333" pin "2" net name from "N$7" to "/N$7".
+
+Info: Checking netlist component footprint "L5:/55B313FB:CD32".
+
+Info: Changing component path "L5:" to "/55B313FB".
+
+Changing component "L5:/55B313FB" pin "1" net name from "N$20" to "/N$21".
+
+Changing component "L5:/55B313FB" pin "2" net name from "N$22" to "/VEE".
+
+Info: Checking netlist component footprint "Q1:/55B315EF:HCX-4S".
+
+Info: Changing component path "Q1:" to "/55B315EF".
+
+Changing component "Q1:/55B315EF" pin "1" net name from "N$9" to "/N$9".
+
+Changing component "Q1:/55B315EF" pin "2" net name from "N$10" to "/N$10".
+
+Info: Checking netlist component footprint "R1:/55B316B7:R0603_5MIL_DWS".
+
+Info: Changing component path "R1:" to "/55B316B7".
+
+Changing component "R1:/55B316B7" pin "1" net name from "I2C_SCLK" to "/I2C_SCLK".
+
+Changing component "R1:/55B316B7" pin "2" net name from "VCC" to "/VCC".
+
+Info: Checking netlist component footprint "R2:/55B3177F:R0603_5MIL_DWS".
+
+Info: Changing component path "R2:" to "/55B3177F".
+
+Changing component "R2:/55B3177F" pin "1" net name from "I2C_SD" to "/I2C_SD".
+
+Changing component "R2:/55B3177F" pin "2" net name from "VCC" to "/VCC".
+
+Info: Checking netlist component footprint "R3:/55B31847:R0603_5MIL_DWS".
+
+Info: Changing component path "R3:" to "/55B31847".
+
+Changing component "R3:/55B31847" pin "1" net name from "N$35" to "/N$35".
+
+Changing component "R3:/55B31847" pin "2" net name from "WLAN_LED" to "/WLAN_LED".
+
+Info: Checking netlist component footprint "R4:/55B3190F:R0603_5MIL_DWS".
+
+Info: Changing component path "R4:" to "/55B3190F".
+
+Changing component "R4:/55B3190F" pin "1" net name from "LINK3" to "/LINK3".
+
+Changing component "R4:/55B3190F" pin "2" net name from "VCC" to "/VCC".
+
+Info: Checking netlist component footprint "R5:/55B319D7:R0603_5MIL_DWS".
+
+Info: Changing component path "R5:" to "/55B319D7".
+
+Changing component "R5:/55B319D7" pin "1" net name from "LINK4" to "/LINK4".
+
+Changing component "R5:/55B319D7" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "R6:/55B31A9F:R0603_5MIL_DWS".
+
+Info: Changing component path "R6:" to "/55B31A9F".
+
+Changing component "R6:/55B31A9F" pin "1" net name from "WLAN_LED" to "/WLAN_LED".
+
+Changing component "R6:/55B31A9F" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "R7:/55B31B67:R0603_5MIL_DWS".
+
+Info: Changing component path "R7:" to "/55B31B67".
+
+Changing component "R7:/55B31B67" pin "1" net name from "LINK0" to "/LINK0".
+
+Changing component "R7:/55B31B67" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "R8:/55B31C2F:R0603_5MIL_DWS".
+
+Info: Changing component path "R8:" to "/55B31C2F".
+
+Changing component "R8:/55B31C2F" pin "1" net name from "LINK1" to "/LINK1".
+
+Changing component "R8:/55B31C2F" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "R9:/55B31CF7:R0603_5MIL_DWS".
+
+Info: Changing component path "R9:" to "/55B31CF7".
+
+Changing component "R9:/55B31CF7" pin "1" net name from "LINK2" to "/LINK2".
+
+Changing component "R9:/55B31CF7" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "R10:/55B31DBF:R0603_5MIL_DWS".
+
+Info: Changing component path "R10:" to "/55B31DBF".
+
+Changing component "R10:/55B31DBF" pin "1" net name from "UART_RXD2" to "/UART_RXD2".
+
+Changing component "R10:/55B31DBF" pin "2" net name from "VCC" to "/VCC".
+
+Info: Checking netlist component footprint "R11:/55B31E87:R0603_5MIL_DWS".
+
+Info: Changing component path "R11:" to "/55B31E87".
+
+Changing component "R11:/55B31E87" pin "1" net name from "UART_TXD2" to "/UART_TXD2".
+
+Changing component "R11:/55B31E87" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "R12:/55B31F4F:R0603_5MIL_DWS".
+
+Info: Changing component path "R12:" to "/55B31F4F".
+
+Changing component "R12:/55B31F4F" pin "1" net name from "UPHY0_VRES" to "/UPHY0_VRES".
+
+Changing component "R12:/55B31F4F" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "R13:/55B32017:R0603_5MIL_DWS".
+
+Info: Changing component path "R13:" to "/55B32017".
+
+Changing component "R13:/55B32017" pin "1" net name from "RXD" to "/RXD".
+
+Changing component "R13:/55B32017" pin "2" net name from "VCC" to "/VCC".
+
+Info: Checking netlist component footprint "R14:/55B320DF:R0603_5MIL_DWS".
+
+Info: Changing component path "R14:" to "/55B320DF".
+
+Changing component "R14:/55B320DF" pin "1" net name from "TXD" to "/TXD".
+
+Changing component "R14:/55B320DF" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "R15:/55B321A7:R0603_5MIL_DWS".
+
+Info: Changing component path "R15:" to "/55B321A7".
+
+Changing component "R15:/55B321A7" pin "1" net name from "VCC" to "/VCC".
+
+Changing component "R15:/55B321A7" pin "2" net name from "N$27" to "/N$27".
+
+Info: Checking netlist component footprint "R16:/55B3226F:R0603_5MIL_DWS".
+
+Info: Changing component path "R16:" to "/55B3226F".
+
+Changing component "R16:/55B3226F" pin "1" net name from "GND" to "/GND".
+
+Changing component "R16:/55B3226F" pin "2" net name from "SPI_MOSI" to "/SPI_MOSI".
+
+Info: Checking netlist component footprint "R17:/55B32337:R0603_5MIL_DWS".
+
+Info: Changing component path "R17:" to "/55B32337".
+
+Changing component "R17:/55B32337" pin "1" net name from "N$1" to "/N$1".
+
+Changing component "R17:/55B32337" pin "2" net name from "SPI_CLK" to "/SPI_CLK".
+
+Info: Checking netlist component footprint "R18:/55B323FF:R0603_5MIL_DWS".
+
+Info: Changing component path "R18:" to "/55B323FF".
+
+Changing component "R18:/55B323FF" pin "1" net name from "SPI_CLK" to "/SPI_CLK".
+
+Changing component "R18:/55B323FF" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "R19:/55B324C7:R0603_5MIL_DWS".
+
+Info: Changing component path "R19:" to "/55B324C7".
+
+Changing component "R19:/55B324C7" pin "1" net name from "N$18" to "/N$18".
+
+Changing component "R19:/55B324C7" pin "2" net name from "N$19" to "/N$19".
+
+Info: Checking netlist component footprint "R20:/55B3258F:R0603_5MIL_DWS".
+
+Info: Changing component path "R20:" to "/55B3258F".
+
+Changing component "R20:/55B3258F" pin "1" net name from "VCC" to "/VCC".
+
+Changing component "R20:/55B3258F" pin "2" net name from "SPI_CS0" to "/SPI_CS0".
+
+Info: Checking netlist component footprint "R21:/55B32657:R0603_5MIL_DWS".
+
+Info: Changing component path "R21:" to "/55B32657".
+
+Changing component "R21:/55B32657" pin "1" net name from "VPP" to "/VPP".
+
+Changing component "R21:/55B32657" pin "2" net name from "N$24" to "/N$24".
+
+Info: Checking netlist component footprint "R22:/55B3271F:R0603_5MIL_DWS".
+
+Info: Changing component path "R22:" to "/55B3271F".
+
+Changing component "R22:/55B3271F" pin "1" net name from "N$24" to "/N$24".
+
+Changing component "R22:/55B3271F" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "R23:/55B327E7:R0603_5MIL_DWS".
+
+Info: Changing component path "R23:" to "/55B327E7".
+
+Changing component "R23:/55B327E7" pin "1" net name from "VCC" to "/VCC".
+
+Changing component "R23:/55B327E7" pin "2" net name from "N$66" to "/N$66".
+
+Info: Checking netlist component footprint "R24:/55B328AF:R0603_5MIL_DWS".
+
+Info: Changing component path "R24:" to "/55B328AF".
+
+Changing component "R24:/55B328AF" pin "1" net name from "N$66" to "/N$66".
+
+Changing component "R24:/55B328AF" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "R25:/55B32977:R0402_TI".
+
+Info: Changing component path "R25:" to "/55B32977".
+
+Changing component "R25:/55B32977" pin "1" net name from "GND" to "/GND".
+
+Changing component "R25:/55B32977" pin "2" net name from "N$2" to "/N$2".
+
+Info: Checking netlist component footprint "R26:/55B32A3F:R0603_5MIL_DWS".
+
+Info: Changing component path "R26:" to "/55B32A3F".
+
+Changing component "R26:/55B32A3F" pin "1" net name from "N$10" to "/N$10".
+
+Changing component "R26:/55B32A3F" pin "2" net name from "N$8" to "/N$8".
+
+Info: Checking netlist component footprint "R27:/55B32B07:R0603_5MIL_DWS".
+
+Info: Changing component path "R27:" to "/55B32B07".
+
+Changing component "R27:/55B32B07" pin "1" net name from "N$8" to "/N$8".
+
+Changing component "R27:/55B32B07" pin "2" net name from "N$9" to "/N$9".
+
+Info: Checking netlist component footprint "R28:/55B32BCF:R0603_5MIL_DWS".
+
+Info: Changing component path "R28:" to "/55B32BCF".
+
+Changing component "R28:/55B32BCF" pin "1" net name from "VCC" to "/VCC".
+
+Changing component "R28:/55B32BCF" pin "2" net name from "PORSTN" to "/PORSTN".
+
+Info: Checking netlist component footprint "R29:/55B32C97:R0603_5MIL_DWS".
+
+Info: Changing component path "R29:" to "/55B32C97".
+
+Changing component "R29:/55B32C97" pin "1" net name from "N$11" to "/N$11".
+
+Changing component "R29:/55B32C97" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "R30:/55B32D5F:R0603_5MIL_DWS".
+
+Info: Changing component path "R30:" to "/55B32D5F".
+
+Changing component "R30:/55B32D5F" pin "1" net name from "VEE" to "/LDOSEL".
+
+Changing component "R30:/55B32D5F" pin "2" net name from "VCC" to "/VCC".
+
+Info: Checking netlist component footprint "R31:/55B32E27:R0603_5MIL_DWS".
+
+Info: Changing component path "R31:" to "/55B32E27".
+
+Changing component "R31:/55B32E27" pin "1" net name from "TXOP4" to "/TXOP4".
+
+Changing component "R31:/55B32E27" pin "2" net name from "N$12" to "/N$12".
+
+Info: Checking netlist component footprint "R32:/55B32EEF:R0603_5MIL_DWS".
+
+Info: Changing component path "R32:" to "/55B32EEF".
+
+Changing component "R32:/55B32EEF" pin "1" net name from "TXOM4" to "/TXOM4".
+
+Changing component "R32:/55B32EEF" pin "2" net name from "N$12" to "/N$12".
+
+Info: Checking netlist component footprint "R33:/55B32FB7:R0603_5MIL_DWS".
+
+Info: Changing component path "R33:" to "/55B32FB7".
+
+Changing component "R33:/55B32FB7" pin "1" net name from "RXIP4" to "/RXIP4".
+
+Changing component "R33:/55B32FB7" pin "2" net name from "N$13" to "/N$13".
+
+Info: Checking netlist component footprint "R34:/55B3307F:R0603_5MIL_DWS".
+
+Info: Changing component path "R34:" to "/55B3307F".
+
+Changing component "R34:/55B3307F" pin "1" net name from "RXIM4" to "/RXIM4".
+
+Changing component "R34:/55B3307F" pin "2" net name from "N$13" to "/N$13".
+
+Info: Checking netlist component footprint "R35:/55B33147:R0603_5MIL_DWS".
+
+Info: Changing component path "R35:" to "/55B33147".
+
+Changing component "R35:/55B33147" pin "1" net name from "TXOP0" to "/TXOP0".
+
+Changing component "R35:/55B33147" pin "2" net name from "N$14" to "/N$14".
+
+Info: Checking netlist component footprint "R36:/55B3320F:R0603_5MIL_DWS".
+
+Info: Changing component path "R36:" to "/55B3320F".
+
+Changing component "R36:/55B3320F" pin "1" net name from "TXOM0" to "/TXOM0".
+
+Changing component "R36:/55B3320F" pin "2" net name from "N$14" to "/N$14".
+
+Info: Checking netlist component footprint "R37:/55B332D7:R0603_5MIL_DWS".
+
+Info: Changing component path "R37:" to "/55B332D7".
+
+Changing component "R37:/55B332D7" pin "1" net name from "RXIP0" to "/RXIP0".
+
+Changing component "R37:/55B332D7" pin "2" net name from "N$15" to "/N$15".
+
+Info: Checking netlist component footprint "R38:/55B3339F:R0603_5MIL_DWS".
+
+Info: Changing component path "R38:" to "/55B3339F".
+
+Changing component "R38:/55B3339F" pin "1" net name from "RXIM0" to "/RXIM0".
+
+Changing component "R38:/55B3339F" pin "2" net name from "N$15" to "/N$15".
+
+Info: Checking netlist component footprint "R39:/55B33467:R0603_5MIL_DWS".
+
+Info: Changing component path "R39:" to "/55B33467".
+
+Changing component "R39:/55B33467" pin "1" net name from "N$22" to "/VEE".
+
+Changing component "R39:/55B33467" pin "2" net name from "N$21" to "/N$22".
+
+Info: Checking netlist component footprint "R40:/55B3352F:R0603_5MIL_DWS".
+
+Info: Changing component path "R40:" to "/55B3352F".
+
+Changing component "R40:/55B3352F" pin "1" net name from "N$21" to "/N$22".
+
+Changing component "R40:/55B3352F" pin "2" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "U1:/55B335F7:TFBGA196B".
+
+Info: Changing component path "U1:" to "/55B335F7".
+
+Changing component "U1:/55B335F7" pin "A1" net name from "GND" to "/GND".
+
+Changing component "U1:/55B335F7" pin "A2" net name from "" to "Net-(U1-PadA2)".
+
+Changing component "U1:/55B335F7" pin "A3" net name from "" to "Net-(U1-PadA3)".
+
+Changing component "U1:/55B335F7" pin "A4" net name from "GND" to "/GND".
+
+Changing component "U1:/55B335F7" pin "A5" net name from "RF_VCC_1V2" to "/RF_VCC_1V2".
+
+Changing component "U1:/55B335F7" pin "A6" net name from "N$57" to "/N$57".
+
+Changing component "U1:/55B335F7" pin "A7" net name from "N$10" to "/N$10".
+
+Changing component "U1:/55B335F7" pin "A8" net name from "VPP" to "/VPP".
+
+Changing component "U1:/55B335F7" pin "A9" net name from "VCC" to "/VCC".
+
+Changing component "U1:/55B335F7" pin "A10" net name from "VOUT_1P2" to "/1.2V".
+
+Changing component "U1:/55B335F7" pin "A11" net name from "EJTAG_TRSTN" to "/EJTAG_TRSTN".
+
+Changing component "U1:/55B335F7" pin "A12" net name from "EJTAG_TCK" to "/EJTAG_TCK".
+
+Changing component "U1:/55B335F7" pin "A13" net name from "EJTAG_TMS" to "/EJTAG_TMS".
+
+Changing component "U1:/55B335F7" pin "A14" net name from "EJTAG_TDI" to "/EJTAG_TDI".
+
+Changing component "U1:/55B335F7" pin "B1" net name from "VCC" to "/VCC".
+
+Changing component "U1:/55B335F7" pin "B2" net name from "GND" to "/GND".
+
+Changing component "U1:/55B335F7" pin "B3" net name from "RF_VCC_1V2" to "/RF_VCC_1V2".
+
+Changing component "U1:/55B335F7" pin "B4" net name from "GND" to "/GND".
+
+Changing component "U1:/55B335F7" pin "B5" net name from "RF_VCC_1V2" to "/RF_VCC_1V2".
+
+Changing component "U1:/55B335F7" pin "B6" net name from "PLL_VCC_1V2" to "/PLL_VCC_1V2".
+
+Changing component "U1:/55B335F7" pin "B7" net name from "N$8" to "/N$8".
+
+Changing component "U1:/55B335F7" pin "B8" net name from "N$2" to "/N$2".
+
+Changing component "U1:/55B335F7" pin "B9" net name from "VOUT_1P2" to "/1.2V".
+
+Changing component "U1:/55B335F7" pin "B10" net name from "VOUT_1P2" to "/1.2V".
+
+Changing component "U1:/55B335F7" pin "B11" net name from "EJTAG_TDO" to "/EJTAG_TDO".
+
+Changing component "U1:/55B335F7" pin "B12" net name from "GPIO0" to "/GPIO0".
+
+Changing component "U1:/55B335F7" pin "B13" net name from "I2C_SD" to "/I2C_SD".
+
+Changing component "U1:/55B335F7" pin "B14" net name from "I2C_SCLK" to "/I2C_SCLK".
+
+Changing component "U1:/55B335F7" pin "C1" net name from "N$3" to "/N$3".
+
+Changing component "U1:/55B335F7" pin "C2" net name from "GND" to "/GND".
+
+Changing component "U1:/55B335F7" pin "C3" net name from "GND" to "/GND".
+
+Changing component "U1:/55B335F7" pin "C4" net name from "GND" to "/GND".
+
+Changing component "U1:/55B335F7" pin "C5" net name from "GND" to "/GND".
+
+Changing component "U1:/55B335F7" pin "C6" net name from "PLL_VCC_1V2" to "/PLL_VCC_1V2".
+
+Changing component "U1:/55B335F7" pin "C7" net name from "PLL_VCC_1V2" to "/PLL_VCC_1V2".
+
+Changing component "U1:/55B335F7" pin "C8" net name from "RF_VCC_1V2" to "/RF_VCC_1V2".
+
+Changing component "U1:/55B335F7" pin "C9" net name from "RF_VCC_1V2" to "/RF_VCC_1V2".
+
+Changing component "U1:/55B335F7" pin "C10" net name from "PORSTN" to "/PORSTN".
+
+Changing component "U1:/55B335F7" pin "C11" net name from "N$27" to "/N$27".
+
+Changing component "U1:/55B335F7" pin "C12" net name from "CAS" to "/A7".
+
+Changing component "U1:/55B335F7" pin "C13" net name from "WE" to "/A6".
+
+Changing component "U1:/55B335F7" pin "C14" net name from "1.2V" to "/CS1".
+
+Changing component "U1:/55B335F7" pin "D1" net name from "N$4" to "/N$4".
+
+Changing component "U1:/55B335F7" pin "D2" net name from "GND" to "/GND".
+
+Changing component "U1:/55B335F7" pin "D3" net name from "GND" to "/GND".
+
+Changing component "U1:/55B335F7" pin "D4" net name from "GND" to "/GND".
+
+Changing component "U1:/55B335F7" pin "D5" net name from "GND" to "/GND".
+
+Changing component "U1:/55B335F7" pin "D6" net name from "GND" to "/GND".
+
+Changing component "U1:/55B335F7" pin "D7" net name from "GND" to "/GND".
+
+Changing component "U1:/55B335F7" pin "D8" net name from "GND" to "/GND".
+
+Changing component "U1:/55B335F7" pin "D9" net name from "GND" to "/GND".
+
+Changing component "U1:/55B335F7" pin "D10" net name from "VCC" to "/VCC".
+
+Changing component "U1:/55B335F7" pin "D11" net name from "D1" to "/D1".
+
+Changing component "U1:/55B335F7" pin "D12" net name from "D2" to "/A0".
+
+Changing component "U1:/55B335F7" pin "D13" net name from "D3" to "/A1".
+
+Changing component "U1:/55B335F7" pin "D14" net name from "D4" to "/A2".
+
+Changing component "U1:/55B335F7" pin "E1" net name from "VCC" to "/VCC".
+
+Changing component "U1:/55B335F7" pin "E2" net name from "GND" to "/GND".
+
+Changing component "U1:/55B335F7" pin "E3" net name from "VCC" to "/VCC".
+
+Changing component "U1:/55B335F7" pin "E4" net name from "GND" to "/GND".
+
+Changing component "U1:/55B335F7" pin "E5" net name from "GND" to "/GND".
+
+Changing component "U1:/55B335F7" pin "E6" net name from "GND" to "/GND".
+
+Changing component "U1:/55B335F7" pin "E7" net name from "GND" to "/GND".
+
+Changing component "U1:/55B335F7" pin "E8" net name from "GND" to "/GND".
+
+Changing component "U1:/55B335F7" pin "E9" net name from "GND" to "/GND".
+
+Changing component "U1:/55B335F7" pin "E10" net name from "D0" to "/D0".
+
+Changing component "U1:/55B335F7" pin "E11" net name from "D5" to "/A3".
+
+Changing component "U1:/55B335F7" pin "E12" net name from "D7" to "/A5".
+
+Changing component "U1:/55B335F7" pin "E13" net name from "D9" to "/A7".
+
+Changing component "U1:/55B335F7" pin "E14" net name from "D10" to "/A8".
+
+Changing component "U1:/55B335F7" pin "F1" net name from "GND" to "/GND".
+
+Changing component "U1:/55B335F7" pin "F2" net name from "GND" to "/GND".
+
+Changing component "U1:/55B335F7" pin "F3" net name from "GND" to "/GND".
+
+Changing component "U1:/55B335F7" pin "F4" net name from "GND" to "/GND".
+
+Changing component "U1:/55B335F7" pin "F5" net name from "VCC" to "/VCC".
+
+Changing component "U1:/55B335F7" pin "F6" net name from "GND" to "/GND".
+
+Changing component "U1:/55B335F7" pin "F7" net name from "GND" to "/GND".
+
+Changing component "U1:/55B335F7" pin "F8" net name from "GND" to "/GND".
+
+Changing component "U1:/55B335F7" pin "F9" net name from "VOUT_1P2" to "/1.2V".
+
+Changing component "U1:/55B335F7" pin "F10" net name from "VCC" to "/VCC".
+
+Changing component "U1:/55B335F7" pin "F11" net name from "D6" to "/A4".
+
+Changing component "U1:/55B335F7" pin "F12" net name from "D8" to "/A6".
+
+Changing component "U1:/55B335F7" pin "F13" net name from "D13" to "/A11".
+
+Changing component "U1:/55B335F7" pin "F14" net name from "D15" to "/D15".
+
+Changing component "U1:/55B335F7" pin "G1" net name from "N$26" to "/VOUT_1P2".
+
+Changing component "U1:/55B335F7" pin "G2" net name from "VPP" to "/VPP".
+
+Changing component "U1:/55B335F7" pin "G3" net name from "VEE" to "/LDOSEL".
+
+Changing component "U1:/55B335F7" pin "G4" net name from "FB" to "/COMP".
+
+Changing component "U1:/55B335F7" pin "G5" net name from "VCC" to "/VCC".
+
+Changing component "U1:/55B335F7" pin "G6" net name from "GND" to "/GND".
+
+Changing component "U1:/55B335F7" pin "G7" net name from "GND" to "/GND".
+
+Changing component "U1:/55B335F7" pin "G8" net name from "GND" to "/GND".
+
+Changing component "U1:/55B335F7" pin "G9" net name from "VOUT_1P2" to "/1.2V".
+
+Changing component "U1:/55B335F7" pin "G10" net name from "VCC" to "/VCC".
+
+Changing component "U1:/55B335F7" pin "G11" net name from "D11" to "/A9".
+
+Changing component "U1:/55B335F7" pin "G12" net name from "D12" to "/A10".
+
+Changing component "U1:/55B335F7" pin "G13" net name from "D14" to "/A12".
+
+Changing component "U1:/55B335F7" pin "G14" net name from "A0" to "/A0".
+
+Changing component "U1:/55B335F7" pin "H1" net name from "EXT_LDO_1P2" to "/UGATE".
+
+Changing component "U1:/55B335F7" pin "H2" net name from "VCC" to "/VCC".
+
+Changing component "U1:/55B335F7" pin "H3" net name from "LDOSEL" to "/EXT_LDO_1P2".
+
+Changing component "U1:/55B335F7" pin "H4" net name from "LGATE" to "/FB".
+
+Changing component "U1:/55B335F7" pin "H5" net name from "VOUT_1P2" to "/1.2V".
+
+Changing component "U1:/55B335F7" pin "H6" net name from "GND" to "/GND".
+
+Changing component "U1:/55B335F7" pin "H7" net name from "GND" to "/GND".
+
+Changing component "U1:/55B335F7" pin "H8" net name from "GND" to "/GND".
+
+Changing component "U1:/55B335F7" pin "H9" net name from "VOUT_1P2" to "/1.2V".
+
+Changing component "U1:/55B335F7" pin "H10" net name from "VCC" to "/VCC".
+
+Changing component "U1:/55B335F7" pin "H11" net name from "A3" to "/A3".
+
+Changing component "U1:/55B335F7" pin "H12" net name from "A2" to "/A2".
+
+Changing component "U1:/55B335F7" pin "H13" net name from "A1" to "/A1".
+
+Changing component "U1:/55B335F7" pin "H14" net name from "N$18" to "/N$18".
+
+Changing component "U1:/55B335F7" pin "J1" net name from "UGATE" to "/LGATE".
+
+Changing component "U1:/55B335F7" pin "J2" net name from "VCC" to "/VCC".
+
+Changing component "U1:/55B335F7" pin "J3" net name from "SPI_MOSI" to "/SPI_MOSI".
+
+Changing component "U1:/55B335F7" pin "J4" net name from "DCD_N" to "/DCD_N".
+
+Changing component "U1:/55B335F7" pin "J5" net name from "VOUT_1P2" to "/1.2V".
+
+Changing component "U1:/55B335F7" pin "J6" net name from "GND" to "/GND".
+
+Changing component "U1:/55B335F7" pin "J7" net name from "GND" to "/GND".
+
+Changing component "U1:/55B335F7" pin "J8" net name from "GND" to "/GND".
+
+Changing component "U1:/55B335F7" pin "J9" net name from "GND" to "/GND".
+
+Changing component "U1:/55B335F7" pin "J10" net name from "DQM0" to "/A2".
+
+Changing component "U1:/55B335F7" pin "J11" net name from "A9" to "/A9".
+
+Changing component "U1:/55B335F7" pin "J12" net name from "A6" to "/A6".
+
+Changing component "U1:/55B335F7" pin "J13" net name from "A5" to "/A5".
+
+Changing component "U1:/55B335F7" pin "J14" net name from "A4" to "/A4".
+
+Changing component "U1:/55B335F7" pin "K1" net name from "WLAN_LED" to "/WLAN_LED".
+
+Changing component "U1:/55B335F7" pin "K2" net name from "TXD" to "/TXD".
+
+Changing component "U1:/55B335F7" pin "K3" net name from "LINK0" to "/LINK0".
+
+Changing component "U1:/55B335F7" pin "K4" net name from "CTS_N" to "/CTS_N".
+
+Changing component "U1:/55B335F7" pin "K5" net name from "VCC" to "/VCC".
+
+Changing component "U1:/55B335F7" pin "K6" net name from "VCC" to "/VCC".
+
+Changing component "U1:/55B335F7" pin "K7" net name from "VCC" to "/VCC".
+
+Changing component "U1:/55B335F7" pin "K8" net name from "VCC" to "/VCC".
+
+Changing component "U1:/55B335F7" pin "K9" net name from "GND" to "/GND".
+
+Changing component "U1:/55B335F7" pin "K10" net name from "GND" to "/GND".
+
+Changing component "U1:/55B335F7" pin "K11" net name from "CS" to "/A5".
+
+Changing component "U1:/55B335F7" pin "K12" net name from "A11" to "/A11".
+
+Changing component "U1:/55B335F7" pin "K13" net name from "A8" to "/A8".
+
+Changing component "U1:/55B335F7" pin "K14" net name from "A7" to "/A7".
+
+Changing component "U1:/55B335F7" pin "L1" net name from "LINK1" to "/LINK1".
+
+Changing component "U1:/55B335F7" pin "L2" net name from "SPI_CS1" to "/SPI_CS1".
+
+Changing component "U1:/55B335F7" pin "L3" net name from "DSR_N" to "/DSR_N".
+
+Changing component "U1:/55B335F7" pin "L4" net name from "LINK2" to "/LINK2".
+
+Changing component "U1:/55B335F7" pin "L5" net name from "RXIM0" to "/RXIM0".
+
+Changing component "U1:/55B335F7" pin "L6" net name from "RXIM1" to "/RXIM1".
+
+Changing component "U1:/55B335F7" pin "L7" net name from "TXOP2" to "/TXOP2".
+
+Changing component "U1:/55B335F7" pin "L8" net name from "RXIP3" to "/RXIP3".
+
+Changing component "U1:/55B335F7" pin "L9" net name from "TXOP4" to "/TXOP4".
+
+Changing component "U1:/55B335F7" pin "L10" net name from "GND" to "/GND".
+
+Changing component "U1:/55B335F7" pin "L11" net name from "RAS" to "/A8".
+
+Changing component "U1:/55B335F7" pin "L12" net name from "BA0" to "/BA0".
+
+Changing component "U1:/55B335F7" pin "L13" net name from "A12" to "/A12".
+
+Changing component "U1:/55B335F7" pin "L14" net name from "A10" to "/A10".
+
+Changing component "U1:/55B335F7" pin "M1" net name from "LINK3" to "/LINK3".
+
+Changing component "U1:/55B335F7" pin "M2" net name from "SPI_MISO" to "/SPI_MISO".
+
+Changing component "U1:/55B335F7" pin "M3" net name from "RIN" to "/RIN".
+
+Changing component "U1:/55B335F7" pin "M4" net name from "LINK4" to "/LINK4".
+
+Changing component "U1:/55B335F7" pin "M5" net name from "RXIP0" to "/RXIP0".
+
+Changing component "U1:/55B335F7" pin "M6" net name from "RXIP1" to "/RXIP1".
+
+Changing component "U1:/55B335F7" pin "M7" net name from "TXOM2" to "/TXOM2".
+
+Changing component "U1:/55B335F7" pin "M8" net name from "RXIM3" to "/RXIM3".
+
+Changing component "U1:/55B335F7" pin "M9" net name from "TXOM4" to "/TXOM4".
+
+Changing component "U1:/55B335F7" pin "M10" net name from "GND" to "/GND".
+
+Changing component "U1:/55B335F7" pin "M11" net name from "GND" to "/GND".
+
+Changing component "U1:/55B335F7" pin "M12" net name from "GND" to "/GND".
+
+Changing component "U1:/55B335F7" pin "M13" net name from "DQM1" to "/A3".
+
+Changing component "U1:/55B335F7" pin "M14" net name from "BA1" to "/A0".
+
+Changing component "U1:/55B335F7" pin "N1" net name from "SPI_CLK" to "/SPI_CLK".
+
+Changing component "U1:/55B335F7" pin "N2" net name from "UART_TXD2" to "/UART_TXD2".
+
+Changing component "U1:/55B335F7" pin "N3" net name from "RXD" to "/RXD".
+
+Changing component "U1:/55B335F7" pin "N4" net name from "DTR_N" to "/DTR_N".
+
+Changing component "U1:/55B335F7" pin "N5" net name from "TXOM0" to "/TXOM0".
+
+Changing component "U1:/55B335F7" pin "N6" net name from "TXOM1" to "/TXOM1".
+
+Changing component "U1:/55B335F7" pin "N7" net name from "RXIM2" to "/RXIM2".
+
+Changing component "U1:/55B335F7" pin "N8" net name from "TXOM3" to "/TXOM3".
+
+Changing component "U1:/55B335F7" pin "N9" net name from "RXIM4" to "/RXIM4".
+
+Changing component "U1:/55B335F7" pin "N10" net name from "GND" to "/GND".
+
+Changing component "U1:/55B335F7" pin "N11" net name from "VCC" to "/VCC".
+
+Changing component "U1:/55B335F7" pin "N12" net name from "UPHY0_PADM" to "/I2C_SD".
+
+Changing component "U1:/55B335F7" pin "N13" net name from "GND" to "/GND".
+
+Changing component "U1:/55B335F7" pin "N14" net name from "GND" to "/GND".
+
+Changing component "U1:/55B335F7" pin "P1" net name from "SPI_CS0" to "/SPI_CS0".
+
+Changing component "U1:/55B335F7" pin "P2" net name from "RTS_N" to "/RTS_N".
+
+Changing component "U1:/55B335F7" pin "P3" net name from "UART_RXD2" to "/UART_RXD2".
+
+Changing component "U1:/55B335F7" pin "P4" net name from "N$11" to "/N$11".
+
+Changing component "U1:/55B335F7" pin "P5" net name from "TXOP0" to "/TXOP0".
+
+Changing component "U1:/55B335F7" pin "P6" net name from "TXOP1" to "/TXOP1".
+
+Changing component "U1:/55B335F7" pin "P7" net name from "RXIP2" to "/RXIP2".
+
+Changing component "U1:/55B335F7" pin "P8" net name from "TXOP3" to "/TXOP3".
+
+Changing component "U1:/55B335F7" pin "P9" net name from "RXIP4" to "/RXIP4".
+
+Changing component "U1:/55B335F7" pin "P10" net name from "GND" to "/GND".
+
+Changing component "U1:/55B335F7" pin "P11" net name from "UPHY0_VRES" to "/UPHY0_VRES".
+
+Changing component "U1:/55B335F7" pin "P12" net name from "UPHY0_PADP" to "/GPIO0".
+
+Changing component "U1:/55B335F7" pin "P13" net name from "VOUT_1P2" to "/1.2V".
+
+Changing component "U1:/55B335F7" pin "P14" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "U2:/55B336BF:54TSOPII".
+
+Info: Changing component path "U2:" to "/55B336BF".
+
+Changing component "U2:/55B336BF" pin "1" net name from "VCC" to "/VCC".
+
+Changing component "U2:/55B336BF" pin "2" net name from "D2" to "/A0".
+
+Changing component "U2:/55B336BF" pin "3" net name from "VCC" to "/VCC".
+
+Changing component "U2:/55B336BF" pin "4" net name from "D1" to "/D1".
+
+Changing component "U2:/55B336BF" pin "5" net name from "D0" to "/D0".
+
+Changing component "U2:/55B336BF" pin "6" net name from "GND" to "/GND".
+
+Changing component "U2:/55B336BF" pin "7" net name from "D3" to "/A1".
+
+Changing component "U2:/55B336BF" pin "8" net name from "D4" to "/A2".
+
+Changing component "U2:/55B336BF" pin "9" net name from "VCC" to "/VCC".
+
+Changing component "U2:/55B336BF" pin "10" net name from "D7" to "/A5".
+
+Changing component "U2:/55B336BF" pin "11" net name from "D5" to "/A3".
+
+Changing component "U2:/55B336BF" pin "12" net name from "GND" to "/GND".
+
+Changing component "U2:/55B336BF" pin "13" net name from "D6" to "/A4".
+
+Changing component "U2:/55B336BF" pin "14" net name from "VCC" to "/VCC".
+
+Changing component "U2:/55B336BF" pin "15" net name from "DQM0" to "/A2".
+
+Changing component "U2:/55B336BF" pin "16" net name from "WE" to "/A6".
+
+Changing component "U2:/55B336BF" pin "17" net name from "CAS" to "/A7".
+
+Changing component "U2:/55B336BF" pin "18" net name from "RAS" to "/A8".
+
+Changing component "U2:/55B336BF" pin "19" net name from "CS" to "/A5".
+
+Changing component "U2:/55B336BF" pin "20" net name from "BA0" to "/BA0".
+
+Changing component "U2:/55B336BF" pin "21" net name from "BA1" to "/A0".
+
+Changing component "U2:/55B336BF" pin "22" net name from "A10" to "/A10".
+
+Changing component "U2:/55B336BF" pin "23" net name from "A0" to "/A0".
+
+Changing component "U2:/55B336BF" pin "24" net name from "A1" to "/A1".
+
+Changing component "U2:/55B336BF" pin "25" net name from "A2" to "/A2".
+
+Changing component "U2:/55B336BF" pin "26" net name from "A3" to "/A3".
+
+Changing component "U2:/55B336BF" pin "27" net name from "VCC" to "/VCC".
+
+Changing component "U2:/55B336BF" pin "28" net name from "GND" to "/GND".
+
+Changing component "U2:/55B336BF" pin "29" net name from "A4" to "/A4".
+
+Changing component "U2:/55B336BF" pin "30" net name from "A5" to "/A5".
+
+Changing component "U2:/55B336BF" pin "31" net name from "A6" to "/A6".
+
+Changing component "U2:/55B336BF" pin "32" net name from "A7" to "/A7".
+
+Changing component "U2:/55B336BF" pin "33" net name from "A8" to "/A8".
+
+Changing component "U2:/55B336BF" pin "34" net name from "A9" to "/A9".
+
+Changing component "U2:/55B336BF" pin "35" net name from "A11" to "/A11".
+
+Changing component "U2:/55B336BF" pin "36" net name from "A12" to "/A12".
+
+Changing component "U2:/55B336BF" pin "37" net name from "N$27" to "/N$27".
+
+Changing component "U2:/55B336BF" pin "38" net name from "N$19" to "/N$19".
+
+Changing component "U2:/55B336BF" pin "39" net name from "DQM1" to "/A3".
+
+Changing component "U2:/55B336BF" pin "40" net name from "1.2V" to "/CS1".
+
+Changing component "U2:/55B336BF" pin "41" net name from "GND" to "/GND".
+
+Changing component "U2:/55B336BF" pin "42" net name from "D8" to "/A6".
+
+Changing component "U2:/55B336BF" pin "43" net name from "VCC" to "/VCC".
+
+Changing component "U2:/55B336BF" pin "44" net name from "D10" to "/A8".
+
+Changing component "U2:/55B336BF" pin "45" net name from "D14" to "/A12".
+
+Changing component "U2:/55B336BF" pin "46" net name from "GND" to "/GND".
+
+Changing component "U2:/55B336BF" pin "47" net name from "D9" to "/A7".
+
+Changing component "U2:/55B336BF" pin "48" net name from "D12" to "/A10".
+
+Changing component "U2:/55B336BF" pin "49" net name from "VCC" to "/VCC".
+
+Changing component "U2:/55B336BF" pin "50" net name from "D13" to "/A11".
+
+Changing component "U2:/55B336BF" pin "51" net name from "D11" to "/A9".
+
+Changing component "U2:/55B336BF" pin "52" net name from "GND" to "/GND".
+
+Changing component "U2:/55B336BF" pin "53" net name from "D15" to "/D15".
+
+Changing component "U2:/55B336BF" pin "54" net name from "GND" to "/GND".
+
+Info: Checking netlist component footprint "U3:/55B33787:SO8_ATMEL_FLASH".
+
+Info: Changing component path "U3:" to "/55B33787".
+
+Changing component "U3:/55B33787" pin "1" net name from "SPI_CS0" to "/SPI_CS0".
+
+Changing component "U3:/55B33787" pin "2" net name from "SPI_MISO" to "/SPI_MISO".
+
+Changing component "U3:/55B33787" pin "3" net name from "VCC" to "/VCC".
+
+Changing component "U3:/55B33787" pin "4" net name from "GND" to "/GND".
+
+Changing component "U3:/55B33787" pin "5" net name from "SPI_MOSI" to "/SPI_MOSI".
+
+Changing component "U3:/55B33787" pin "6" net name from "N$1" to "/N$1".
+
+Changing component "U3:/55B33787" pin "7" net name from "VCC" to "/VCC".
+
+Changing component "U3:/55B33787" pin "8" net name from "VCC" to "/VCC".
+
+Info: Checking netlist component footprint "U4:/55B3384F:SOT23-5".
+
+Info: Changing component path "U4:" to "/55B3384F".
+
+Changing component "U4:/55B3384F" pin "1" net name from "+5V" to "/+5V".
+
+Changing component "U4:/55B3384F" pin "2" net name from "GND" to "/GND".
+
+Changing component "U4:/55B3384F" pin "3" net name from "N$23" to "/N$23".
+
+Changing component "U4:/55B3384F" pin "4" net name from "+5V" to "/+5V".
+
+Changing component "U4:/55B3384F" pin "5" net name from "N$24" to "/N$24".
+
+Info: Checking netlist component footprint "U5:/55B33917:SOT23-5".
+
+Info: Changing component path "U5:" to "/55B33917".
+
+Changing component "U5:/55B33917" pin "1" net name from "+5V" to "/+5V".
+
+Changing component "U5:/55B33917" pin "2" net name from "GND" to "/GND".
+
+Changing component "U5:/55B33917" pin "3" net name from "N$64" to "/N$64".
+
+Changing component "U5:/55B33917" pin "4" net name from "+5V" to "/+5V".
+
+Changing component "U5:/55B33917" pin "5" net name from "N$66" to "/N$66".
+
+Info: Checking netlist component footprint "U6:/55B339DF:SOT23".
+
+Info: Changing component path "U6:" to "/55B339DF".
+
+Changing component "U6:/55B339DF" pin "3" net name from "GND" to "/GND".
+
+Changing component "U6:/55B339DF" pin "2" net name from "VCC" to "/VCC".
+
+Changing component "U6:/55B339DF" pin "1" net name from "PORSTN" to "/PORSTN".
+
+Info: Checking netlist component footprint "U7:/55B33AA7:SOT23-5".
+
+Info: Changing component path "U7:" to "/55B33AA7".
+
+Changing component "U7:/55B33AA7" pin "1" net name from "+5V" to "/+5V".
+
+Changing component "U7:/55B33AA7" pin "2" net name from "GND" to "/GND".
+
+Changing component "U7:/55B33AA7" pin "3" net name from "N$20" to "/N$21".
+
+Changing component "U7:/55B33AA7" pin "4" net name from "+5V" to "/+5V".
+
+Changing component "U7:/55B33AA7" pin "5" net name from "N$21" to "/N$22".
+
+Info: Checking netlist component footprint "WLAN_ACT124:/55B34407:LED-0603".
+
+Info: Changing component path "WLAN_ACT124:" to "/55B34407".
+
+Changing component "WLAN_ACT124:/55B34407" pin "C" net name from "GND" to "/GND".
+
+Changing component "WLAN_ACT124:/55B34407" pin "A" net name from "N$35" to "/N$35".
+
+Warning: Copper zone (net name 'GND'): net has no pads connected.
+Warning: Copper zone (net name 'GND'): net has no pads connected.
+Warning: Copper zone (net name 'GND'): net has no pads connected.
+Warning: Copper zone (net name 'VCC'): net has no pads connected.
+Warning: Copper zone (net name ''): net has no pads connected.

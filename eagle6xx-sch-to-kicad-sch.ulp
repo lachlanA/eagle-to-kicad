@@ -388,6 +388,29 @@ string stripQutes( string source )
   return strsub( source, 1, strlen( source ) -2 );
 }
 
+//------------------------------------------------------
+// Replaces all occurrences of a charter in a string with a string
+//------------------------------------------------------
+string charstr_replace(string search, string replace, string subject)
+{
+  int lastpos = 0;
+  int pos = 0;
+  string before;
+  string after;
+
+  for( pos = 0; pos < strlen(search); pos++ )
+  {
+    lastpos = 0;
+    while( (( lastpos = strchr( subject, search[ pos ], lastpos)) != -1 ))
+    {
+      before = strsub(subject, 0, lastpos);  //  get the before string
+      after = strsub(subject, lastpos + 1, strlen(subject) - lastpos );
+      subject = before + replace + after;
+      lastpos = strlen(before) + strlen( replace ); // 
+    }
+  }
+  return subject;
+}
 
 //------------------------------------------------------
 //Find string in the globalNetList string arrray
@@ -578,11 +601,13 @@ int makeDevLibRefList( UL_SCHEMATIC SCH )
     // first search for deivce name
     found = 0;
 
-    if(  devLibsRefListSize )
+    sprintf( ts, "%s %s %s\n", P.device.name, P.device.library,  P.name );
+    outputStringToFile( "./tXXX.txt", ts, 1, 't');
+
+
+    if( devLibsRefListSize )
     {
 
-      //      sprintf( ts, "\n%s \"%s\" %s", P.device.name, P.device.library,  P.name );
-      //      outputStringToFile( "./tXXX.txt", ts, 1, 't');
       
       sprintf(  tmpS, "%s \"%s\" %s", P.device.name, P.device.library,  P.name );
 
@@ -750,7 +775,7 @@ void outputCmpFile( string fileName, int xcount )
       printf("TimeStamp = /%s;\n", tempSX[ 0 ]);
       printf("Reference = %s;\n", tempSX[ 1 ]);
       printf("ValeurCmp = %s;\n", tempSX[ 2 ]);
-      printf("IdModule  = %s;\n", strupr( tempSX[ 3 ]));
+      printf("IdModule  = %s;\n", strupr( charstr_replace( ",/", "_", tempSX[ 3 ])));
       printf("EndCmp\n");
     }
     printf("\nEndListe");
@@ -1786,9 +1811,9 @@ void write_kicad_components( UL_SHEET S )
 
 
           if ( addLibPrefix )
-            cmpList[ cmpListSize++ ] = timehash + " " + P.name + " " + str_replace(",", "_", deviceName ) + " " + libName + libNamePartLibNameSeperator + str_replace(",", "_", P.device.package.name ) ;
+            cmpList[ cmpListSize++ ] = timehash + " " + P.name + " " + charstr_replace(",", "_", deviceName ) + " " + libName + libNamePartLibNameSeperator + charstr_replace(",", "_", P.device.package.name ) ;
           else
-            cmpList[ cmpListSize++ ] = timehash + " " + P.name + " " + str_replace(",", "_", deviceName ) + " " + str_replace(",", "_", P.device.package.name );
+            cmpList[ cmpListSize++ ] = timehash + " " + P.name + " " + charstr_replace(",", "_", deviceName ) + " " + charstr_replace(",", "_", P.device.package.name );
 
 
           if(refanceName == "")
@@ -2029,7 +2054,7 @@ void write_kicad_components( UL_SHEET S )
                                     tmpXA[ 0 ] = stripQutes( str_replace( ",", "_", tmpXA[ 0 ] ));
                                     tmpXA[ 0 ] = "\"" + strupr( libName ) + libNamePartNameSeperator + tmpXA[ 0 ] + "\"";
                                     printf("F %d %s", ct, strjoin( tmpXA, ' ' ));    // Print smashed text
-                                    //                                    printf("F5 %d \"%s\"\n", ct, strupr( libName ) + libNamePartNameSeperator + stripQutes( str_replace( ",", "_", IgateSymTextOutPut[ ct1 ])));
+                                    //                                    printf("F %d \"%s\"\n", ct, strupr( libName ) + libNamePartNameSeperator + stripQutes( str_replace( ",", "_", IgateSymTextOutPut[ ct1 ])));
                                   }
                                   else
                                     printf("F %d %s", ct,  str_replace( ",", "_", IgateSymTextOutPut[ ct1 ]));
@@ -2058,12 +2083,18 @@ void write_kicad_components( UL_SHEET S )
 
 		      string tmp = strF0F1F2[ ct ];
 
-		      if(( ct == 0 ) && addLibPrefix )  // add prefix to refance name ?
-			tmp = tmp;
+                      //		      if(( ct == 0 ) && addLibPrefix )  // add prefix to refance name ?
                       //			tmp = strupr( libName ) + libNamePartNameSeperator + tmp;                      
-		      if(( ct == 2 ) && addLibPrefix )  // add prefix to foot print ? and repalce "," with "_"
-			tmp = strupr( libName ) + libNamePartLibNameSeperator + str_replace( ",", "_", tmp );
-			  
+
+		      if(( ct == 2 ))  // add prefix to foot print ? and repalce "," or "/"  with "_"
+                      {
+                        if( addLibPrefix )
+                        {
+                          tmp = strupr( libName ) + libNamePartLibNameSeperator + charstr_replace( ",/", "_", tmp );
+                        }
+                        //                        else
+                          //                          tmp = charstr_replace( ",/", "_", tmp );                          
+                      }
 
 		      if( outPutVersion == 1 )
 			printf("F %d \"%s\" H %d %d 70  %.4d %c %c\n", ct,  tmp, (posX - 10), -(posY+10+(ct*100)), 1, hAlign, vAlign );
@@ -2208,8 +2239,8 @@ void write_kicad_components( UL_SHEET S )
                     printf("F %d %s", count,  writeInstanceText( T, 0, posX, -posY, partAngle, partMirror, prefixToValue, refanceName ));
                     printf("F %d %s", count + 1,  writeInstanceText( T, 0, posX, -posY, partAngle, partMirror, "", "" ));
 
-                    printf("F %d \"\" H %d %d 60 0001 C CNN", count+2, posX, -posY );
-                    printf("\nF %d \"\" H %d %d 60 0001 C CNN\n", count+3, posX, -posY );
+                    printf("F %d \"\" H %d %d 60 0001 C CNN\n", count+2, posX, -posY );
+                    printf("F %d \"\" H %d %d 60 0001 C CNN\n", count+3, posX, -posY );
                     
                     count + 4;
                     continue;
@@ -2231,8 +2262,8 @@ void write_kicad_components( UL_SHEET S )
                     //                    printf("F %d %s", count,  writeInstanceText( T, 0, posX, -posY, partAngle, partMirror, prefixToValue, "\"" + refanceName + "\"" ));                    
                     printf("F %d %s", count + 1,  writeInstanceText( T, 0, posX, -posY, partAngle, partMirror, "", "" ));
 
-                    printf("F %d \"\" H %d %d 60 0001 C CNN", count+2, posX, -posY );
-                    printf("\nF %d \"\" H %d %d 60 0001 C CNN\n", count+3, posX, -posY );
+                    printf("F %d \"\" H %d %d 60 0001 C CNN\n", count+2, posX, -posY );
+                    printf("F %d \"\" H %d %d 60 0001 C CNN\n", count+3, posX, -posY );
                     count + 4;
                     continue;
                   }
@@ -3028,11 +3059,11 @@ int main()
               sheetsizes[ totalSheets + 1 ] = g_selected;
         }
 
-        int nx = 0;
-        for( nx = 0; nx < devLibsRefListSize; nx++ )
-        {
-          outputStringToFile( "./tXXX.txt", devLibsRefList[ nx ] + "\n", 1, 't');
-        }
+        //        int nx = 0;
+        //        for( nx = 0; nx < devLibsRefListSize; nx++ )
+          //        {
+          //          outputStringToFile( "./tXXX.txt", devLibsRefList[ nx ] + "\n", 1, 't');
+          //        }
 
 
         if( totalSheets > 1 )

@@ -19,10 +19,14 @@
 // 13-Mar-2015  Add more help to info boxs.  L. A.
 //  
 #require 6.0301
-              
 #include "eagle_to_kicad_include.inc"
 //
-string Version = "6.1";
+string Version = "6.2";
+
+int TEMP_HOLD_FOR_OVER_LAPPING_PIN = 19180;  //  Tempory of the sysmbole editor when we have over lapping pin's to deal with
+
+
+
 string infoCombineLibNames  = "Combine all the seprate Eagle libs into one KiCad lib<br>"+
                               "This make's the conversion preccess easy and faster.<br>"+
                               "<b>But means that you lose tack of which parts<br>"+
@@ -170,6 +174,172 @@ string HelpText[] = {
   "Der Export-Pfad kann mit 'Durchsuchen' eingestellt werden. "
   "Wenn eines der Bibliotheken bereits existiert, werden Sie gefragt, ob die bestehende Datei gelöscht werden darf."
 };
+
+int PinX[]; //  space for checking over lapping x/y
+int PinY[];
+string Pname[]; // Name of the overlape
+int overLappingPinErrorCount = 0;
+int waring_count = 0;
+int error_count = 0;
+
+string logfile;     // Name of the log file
+string logbuffer;   // Buffer for the log warnings/messages
+string logbufferError;   // Buffer for the log messages
+
+string checkFor_bad = "";
+string checkFor_badPostion = "";
+
+//------------------------------------------------------
+// Replaces all occurrences of a charter in a string with a string
+//------------------------------------------------------
+string charstr_replace(string search, string replace, string subject)
+{
+  int lastpos = 0;
+  int pos = 0;
+  string before;
+  string after;
+
+  for( pos = 0; pos < strlen(search); pos++ )
+  {
+    lastpos = 0;
+    while( (( lastpos = strchr( subject, search[ pos ], lastpos)) != -1 ))
+    {
+      before = strsub(subject, 0, lastpos);  //  get the before string
+      after = strsub(subject, lastpos + 1, strlen(subject) - lastpos );
+      subject = before + replace + after;
+      lastpos = strlen(before) + strlen( replace ); // 
+    }
+  }
+  return subject;
+}
+
+// Check for Bad Charters
+// Return int count of bad charters.
+// and set 
+// string checkFor_bad: list of bad charters"";
+// string checkFor_badPostion: postion of bad charter;
+//
+int checkForBadCharstr( string search, string subject)
+{
+  int lastpos = 0;
+  int pos = 0;
+  int badcount = 0;
+
+  checkFor_badPostion = subject;
+  checkFor_bad = "";
+  
+  // space fill string
+  for( pos = 0; pos < strlen( subject ); pos++ )
+    checkFor_badPostion[pos] = ' ';
+  
+  for( pos = 0; pos < strlen(search); pos++ )
+  {
+    lastpos = 0;
+    while( (( lastpos = strchr( subject, search[ pos ], lastpos)) != -1 ))
+    {
+      checkFor_badPostion[ lastpos ] = search[ pos ];
+      checkFor_bad += search[ pos ];
+      badcount++;
+      if ( ++lastpos > strlen(subject))
+        return badcount;
+    }
+  }
+
+  return badcount;
+}
+
+
+
+
+
+// *******************************************
+//
+// Output a string to a file.
+// openOverWriteCrateAppendMode set's optin's
+// openOverWriteCrateAppendMode = 0,   Append to a existining file only, return's -2 if the file is not found.
+// openOverWriteCrateAppendMode = 1,   Append to a existining file or crate a new file if it dose exist.
+// openOverWriteCrateAppendMode = 2,   Over write a existining file or crate a new file if it dose exist.
+// binaryText ='B' or 'b' for output binary mode
+//   binaryText ='T' or 't' for output binary text mode
+// return's -1 if input errror
+// or -2 if no file found
+// or output of fileerror,   which I have no idea what it will be,  just if 0,  then write was ok.
+//
+int outputStringToFile( string fileName, string outputString, char openOverWriteCrateAppendMode, char binaryText )
+{
+  string fa[];
+  int n;
+  string  mode = "Ft";
+  
+  fileerror();
+
+  switch( binaryText )
+  {
+    case 't':
+    case 'T':
+      mode = "Ft";
+      break;
+
+    case 'b':
+    case 'B':
+      mode = "Fb";
+      break;
+    default:
+      return -1;
+  }
+
+  switch( openOverWriteCrateAppendMode )
+  {
+    case 0:
+      if( fileglob( fa, fileName ) == 0 )
+        return -2;
+      mode += "a";
+      break;
+    case 1:
+      mode += "a";
+      break;
+    case 2:
+      mode += "w";
+      break;
+    default:
+      return -1;
+
+  }
+
+  // Out put the data to fileName  
+  output( fileName, mode )
+  {
+    
+    printf("%s", outputString );
+    n = fileerror();
+  }
+
+  return n;
+}
+
+// **************
+// check for overlapping pin's
+//
+int check_overlap( UL_PIN P, int pincount )
+{
+  int i;
+
+  PinX[ pincount ] = P.x;
+  PinY[ pincount ] = P.y;
+  Pname[ pincount ] = P.name;
+  
+  for( i = 0; i < pincount; i++ )
+  {
+    if( ( PinX[ i ] == P.x ) && ( PinY[ i ] == P.y ))
+    {
+      overLappingPinErrorCount++;
+      return i+1;
+    }
+  }
+  return 0;
+}
+
+
 
 void DisplayHelp() {
   dlgDialog(TR("Export EAGLE libraries - Help")) {
@@ -466,7 +636,10 @@ void DrawPolygon(UL_POLYGON PL) {
   sprintf(h, ";\n"); cmd += h;
 }
 
-void DrawPin(UL_PIN P) {
+//
+// Draw pin command
+int DrawPin(UL_PIN P, int printhead, int error, string symbol_name )
+{
   string DIR = "", FUNC = "", LEN = "", VIS = "", ANGLE = "R0";
   if (P.angle == 90)  (ANGLE  = "R90");
   if (P.angle == 180) (ANGLE  = "R180");
@@ -502,18 +675,67 @@ void DrawPin(UL_PIN P) {
     case PIN_LENGTH_MIDDLE : LEN = "Middle"; break;
     case PIN_LENGTH_LONG   : LEN = "Long";
   }
+  if( error )
+  {
+    string xt;
+    sprintf(h, "Pin '%s' %s %s %s %s %s %d (%f %f);\n", addApostroph( P.name ), DIR, FUNC, LEN, ANGLE, VIS, P.swaplevel, u2mic( TEMP_HOLD_FOR_OVER_LAPPING_PIN ), u2mic( TEMP_HOLD_FOR_OVER_LAPPING_PIN ));    
+    cmd += h;
+    sprintf(h, "move (%f %f)(%f %f);\n", u2mic( TEMP_HOLD_FOR_OVER_LAPPING_PIN ), u2mic( TEMP_HOLD_FOR_OVER_LAPPING_PIN ),  u2mic(P.x), u2mic(P.y));    
+    cmd += h;
+    
+    if( !printhead )
+    {
+      sprintf(xt, "WARNING: Over lapping Pin(s) on SYMBOL:%s\n", symbol_name );
+      logbuffer += xt;    
+    }
+    sprintf(xt, "   Pin =%s\n", addApostroph( P.name ));
+    logbuffer += xt;
+    printhead = 1;
+    return 1;
+    //    outputStringToFile( logfile, "\nWORNING OVER LAPPING PIN:    " + xt, 1, 't');
+  }
+  else
+    sprintf(h, "Pin '%s' %s %s %s %s %s %d (%f %f);\n", addApostroph( P.name ), DIR, FUNC, LEN, ANGLE, VIS, P.swaplevel, u2mic(P.x), u2mic(P.y));
 
-  sprintf(h, "Pin '%s' %s %s %s %s %s %d (%f %f);\n",
-  addApostroph(P.name),  // 2012-02-08
-  DIR, FUNC, LEN, ANGLE, VIS, P.swaplevel, u2mic(P.x), u2mic(P.y));
   cmd += h;
+
+  return printhead;
+
 }
 
 void DrawSymbol(UL_SYMBOL S) {
-  S.circles(C)    DrawCircle(C);
-  S.rectangles(R) DrawRectangle(R);
-  S.wires(W)      DrawWire(W);
-  S.pins(P)       DrawPin(P);
+  int pinCount = 0;
+  int error_ofsetX = 1;
+  int error_ofsetY = 1;  
+  int ofsetX;
+  int ofsetY;
+  int printheader = 0;
+  S.circles(C)
+      DrawCircle(C);
+
+  printheader = 0;  
+  S.rectangles(R)
+      DrawRectangle(R);
+
+  printheader = 0;  
+  S.wires(W)
+      DrawWire(W);
+
+  pinCount = 0;
+  printheader = 0;  
+  S.pins(P)
+  {
+    if( check_overlap( P, pinCount ))
+    {
+      printheader = DrawPin(P, printheader, 1, S.name );
+    }
+    else
+      DrawPin(P, printheader, 0, "" );
+
+    pinCount++;
+  }
+
+  printheader = 0;    
   S.texts(T)      DrawText(T);
   S.polygons(PL)  DrawPolygon(PL);
   S.frames(F)     DrawFrame(F);
@@ -523,15 +745,24 @@ void DrawSymbol(UL_SYMBOL S) {
 
 void DrawPackage(UL_PACKAGE P) {
   sprintf(h, "GRID mic;\n"); cmd+=h; // 2011-04-11
-  P.circles(C)    DrawCircle(C);
-  P.wires(W)      DrawWire(W);
-  P.rectangles(R) DrawRectangle(R);
-  P.contacts(C)   DrawContact(C);
-  P.texts(T)      DrawText(T);
-  P.holes(H)      DrawHole(H);
-  P.polygons(PL)  DrawPolygon(PL);
-  P.frames(F)     DrawFrame(F);
-  P.dimensions(D) DrawDimension(D);
+  P.circles(C)
+      DrawCircle(C);
+  P.wires(W)
+      DrawWire(W);
+  P.rectangles(R)
+      DrawRectangle(R);
+  P.contacts(C)
+      DrawContact(C);
+  P.texts(T)
+      DrawText(T);
+  P.holes(H)
+      DrawHole(H);
+  P.polygons(PL)
+      DrawPolygon(PL);
+  P.frames(F)
+      DrawFrame(F);
+  P.dimensions(D)
+      DrawDimension(D);
   cmd  += "DESCRIPTION '" + addApostroph(replacenewline(P.description)) + "';\n";
 }
 
@@ -543,7 +774,8 @@ void DrawDevice(UL_DEVICESET D, UL_LIBRARY LBR) {
   cmd  += "DESCRIPTION '" + addApostroph(replacenewline(D.description)) + "';\n";
   cmd  += "PREFIX '" + D.prefix + "';\n";
   cmd  += "VALUE " + D.value + ";\n";
-  D.gates(G) {
+  D.gates(G)
+  {
     string GateAddlevel;
     switch (G.addlevel) {
       case GATE_ADDLEVEL_NEXT    : GateAddlevel = "Next";    break;
@@ -560,11 +792,31 @@ void DrawDevice(UL_DEVICESET D, UL_LIBRARY LBR) {
     sprintf(h, "ADD '%s' '%s' (%f %f);\n", addApostroph(symname), addApostroph(G.name), u2mic(G.x), u2mic(G.y)); // 2012-02-07
     cmd += h;
   }
-  D.devices(DV) {
+  
+  D.devices(DV)
+  {
+    int result;
+    string tmpS;
+    
     if (DV.package) {
       string pacname = ReplaceAt(DV.package.name); // !!!
     if( AddLibPrefix == 1)       //if (Merge == 1)
         pacname = LbrPrefix(LBR.name) + pacname;
+
+    if( result = checkForBadCharstr( "()", DV.name ))
+    {
+      error_count++;
+      sprintf( tmpS, "%s%s%s", "ERROR: package name:", pacname,"  Has Bad/illegal charter in it's package Alisa name!\n");
+      logbufferError += tmpS;
+      sprintf( tmpS, "%s%s\n", "   Package Alaise  Name:", DV.name);
+      logbufferError += tmpS;
+      sprintf( tmpS, "%s%s\n", "   Error Postion & Char:", checkFor_badPostion );
+      logbufferError += tmpS;
+      sprintf( tmpS, "%s", "   Bad charter(s) have been replaced with  '_'  This MAY FIX OR, CAUSE MORE ERROR'S! Plese fix the Alias!\n");
+      logbufferError += tmpS;
+      cmd += ("PACKAGE '" + addApostroph(pacname) + "' " + charstr_replace("()", "", DV.name ) + ";\n"); // addApostroph here problematic !
+    }
+    else
       cmd += "PACKAGE '" + addApostroph(pacname) + "' " + DV.name + ";\n"; // addApostroph here problematic !
     }
     DV.gates(G) {
@@ -588,6 +840,7 @@ void DrawDevice(UL_DEVICESET D, UL_LIBRARY LBR) {
         }
       }
     }
+
     string t[];
     int n = strsplit(t, DV.technologies, ' ');
     for (int i = 0; i < n; i++) {
@@ -734,6 +987,8 @@ void make_one_lbr(void) {
   int noLbrs = 1;
   if (board) board(B)
     {
+      //      dlgMessageBox("board-libs:" + B.name );             
+
       B.libraries(LBR)
       {
         CurrentLbrName = filesetext(EditName, "");
@@ -750,6 +1005,8 @@ void make_one_lbr(void) {
     }
   if (schematic) schematic(SCH)
     {
+      //      dlgMessageBox("sch-libs:" + SCH.name );             
+      
       SCH.libraries(LBR)
       {
         CurrentLbrName = filesetext(EditName, "");
@@ -787,7 +1044,20 @@ void make_one_lbr(void) {
   return;
 }
 
-// -----------
+
+//
+// Wright log file.
+//
+void wright_log_to_disk( string logdata )
+{
+  logfile = filesetext(EditName, "");
+  logfile = WorkPath +  logfile +  "_EALGE_LIB_EXPORT.LOG";
+  output( logfile, "wtD")
+      printf("%s", logdata );
+}
+
+
+// Wright comand file -----------
 void show_save_script_file(string cm) {
   ScriptName = WorkPath+PureScriptName;
   output(ScriptName, "wtD") printf("%s", cm);
@@ -802,8 +1072,12 @@ if (library) {
   exit(1);
 }
 else {
-  if (board) board(B)         EditName = filename(B.name);  // name of loaded board/schematic w/o path
-  if (schematic) schematic(S) EditName = filename(S.name);
+  if (board)
+    board(B)
+        EditName = filename(B.name);  // name of loaded board/schematic w/o path
+  if (schematic)
+    schematic(S)
+        EditName = filename(S.name);
 }
 
 PureScriptName = filesetext(EditName, ".scr");               // name of generated script w/o path
@@ -826,8 +1100,8 @@ if( strlen( tmpSX = cfgget( cfg_conflictPartsLibsListsize )) > 0 )
 if( strlen( tmpSX = cfgget( cfg_addLibPrefix )) > 0 )
     AddLibPrefix = strtol( tmpSX );
 
-
-
+logbuffer = "\n#**** LOG Warning Start ****#\n";
+logbufferError = "\n#**** LOG Errors Start ****#\n";
 
 int Result = dlgDialog(TR("Export EAGLE libraries from drawing")) {
     dlgHBoxLayout {
@@ -880,7 +1154,7 @@ int Result = dlgDialog(TR("Export EAGLE libraries from drawing")) {
         if( ( ConflictPartsCount > 0 ) && ( AddLibPrefix != 1 ))
         {
           if( dlgMessageBox("!Warning there are Part's with have the same name's,  but from diffent libs" +
-                            " KICAD will reject libs which have name in them!" +
+                            " KICAD will reject part which have name!" +
                             " Please tick the Add library names as prefix to get around this problem" +
                             " Or fix the part name in the lib refance"+
                             " Cotinue with this,  Or Change to add libprefix ?", "&Continue", "Change" ) == 1 )
@@ -897,6 +1171,19 @@ int Result = dlgDialog(TR("Export EAGLE libraries from drawing")) {
         show_save_script_file(cmd);
 
 
+        if( overLappingPinErrorCount || error_count )
+        {
+          wright_log_to_disk( logbufferError + logbuffer );
+
+          dlgMessageBox( "There Were Error's during he export plese read the<br>" + logfile + "  file\n" );
+
+        }
+        else
+        {
+          logbuffer += "OK: Eagle lib export from SCH/PCB OK\n";
+          wright_log_to_disk( logbuffer );
+        }
+        
         tmpS1 = cfgget( cfg_SCRIP_ULP );
         if( strlen( tmpS1 ) > 1 )
           myULP_HOME = tmpS1;
