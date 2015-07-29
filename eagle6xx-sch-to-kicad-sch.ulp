@@ -13,6 +13,9 @@
        
 /*
  * CHANGELOG================================================
+ * 28.07.2015: Remove debug printer
+ *             Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
+ *
  * 19.07.2015: Fix / slash problem,  with device/part names
  *             Fix some of my really bad spelling mistake's !
  *             Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
@@ -601,8 +604,8 @@ int makeDevLibRefList( UL_SCHEMATIC SCH )
     // first search for deivce name
     found = 0;
 
-    sprintf( ts, "%s %s %s\n", P.device.name, P.device.library,  P.name );
-    outputStringToFile( "./tXXX.txt", ts, 1, 't');
+//    sprintf( ts, "%s %s %s\n", P.device.name, P.device.library,  P.name );
+//    outputStringToFile( "./tXXX.txt", ts, 1, 't');
 
 
     if( devLibsRefListSize )

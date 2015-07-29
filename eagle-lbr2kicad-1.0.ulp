@@ -1612,17 +1612,17 @@ void write_kikad_def_alias( UL_DEVICE DEV, UL_GATE G, string symbolName, int cou
       switch( outPutFootPrint )
       {
         case 0: // Dont prefix lib name to footprint name
-          printf("F2 \"%s\" 30 150 20 H I C CNN\n", escape_quotes( charstr_replace(",/", "_", DEV.package.name)));
+          printf("F2 \"%s\" 30 150 20 H I C CNN\n", escape_quotes( charstr_replace(",/()", "_", DEV.package.name)));
           //          printf("F2 \"%s\" 30 150 20 H I C CNN\n", escape_quotes(str_replace(",", "_", str_replace("/", "_", DEV.package.name))));          
           //          printf("F2 \"%s\" 30 150 20 H I C CNN\n", escape_quotes(str_replace(",", "_", DEV.package.name)));
           break;
         case 1: // Prexfix lib name to footprint name
-          printf("F2 \"%s_%s\" 30 150 20 H I C CNN\n", footPrintPreFix, escape_quotes( charstr_replace(",/", "_", DEV.package.name)));
+          printf("F2 \"%s_%s\" 30 150 20 H I C CNN\n", footPrintPreFix, escape_quotes( charstr_replace(",/()", "_", DEV.package.name)));
           //          printf("F2 \"%s_%s\" 30 150 20 H I C CNN\n", footPrintPreFix, escape_quotes(str_replace(",", "_", DEV.package.name)));          
           //	 printf("F2 \"%s-%s\" 0 150 50 H I C C\n", DEV.library, DEV.package.name);
           break;
         case 2: // Prexfix name to footprint name
-          printf("F2 \"%s_%s\" 30 150 20 H I C CNN\n", footPrintPreFix, escape_quotes( charstr_replace(",/", "_", DEV.package.name)));
+          printf("F2 \"%s_%s\" 30 150 20 H I C CNN\n", footPrintPreFix, escape_quotes( charstr_replace(",/()", "_", DEV.package.name)));
           //          printf("F2 \"%s_%s\" 30 150 20 H I C CNN\n", footPrintPreFix, escape_quotes( str_replace(",", "_", DEV.package.name)));          
           break;
       }

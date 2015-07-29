@@ -15,15 +15,17 @@
 //-------------------------------------------------------------------------------- 
 // Change log.
 // Date:    Note:
-// 10-Feb-2015  Change hooks to work the other conversion programs.  L. A.
+// 28-Jul-2015  Fix a number of problems where,  Pin and Pad's over lap, and add error reporting log file.
 // 13-Mar-2015  Add more help to info boxs.  L. A.
+// 10-Feb-2015  Change hooks to work the other conversion programs.  L. A.
 //  
 #require 6.0301
 #include "eagle_to_kicad_include.inc"
 //
-string Version = "6.2";
+string Version = "6.3";
 
 int TEMP_HOLD_FOR_OVER_LAPPING_PIN = 19180;  //  Tempory of the sysmbole editor when we have over lapping pin's to deal with
+int TEMP_HOLD_FOR_OVER_LAPPING_SMD_PAD = 19180;  //  Tempory of the sysmbole editor when we have over lapping hole/smd pad's to deal with
 
 
 
@@ -527,7 +529,9 @@ void DrawRectangle(UL_RECTANGLE R) {
            u2mic(R.x2), u2mic(R.y2));
            cmd += h;
 }
-
+//
+// Draw contact and SMD pad
+//
 void DrawContact(UL_CONTACT C) {
   string ShapeString;
   string ShapeFlag;
@@ -565,14 +569,12 @@ void DrawContact(UL_CONTACT C) {
     //
     // SMD [x_width y_width] [-roundness] [orientation] [flags] ['name'] *..
     //
-     sprintf(h, "SMD %f %f -%d R%.1f %s '%s' (%f %f);\n",
-             u2mic(C.smd.dx), u2mic(C.smd.dy),
-             C.smd.roundness,
-             C.smd.angle,
-             ShapeFlag,
-             addApostroph(C.smd.name),  // 2012-03-29
-             u2mic(C.smd.x), u2mic(C.smd.y));
-             cmd += h;
+     //     sprintf(h, "SMD %f %f -%d R%.1f %s '%s' (%f %f);\n", u2mic(C.smd.dx), u2mic(C.smd.dy), C.smd.roundness, C.smd.angle, ShapeFlag, addApostroph(C.smd.name), u2mic(C.smd.x), u2mic(C.smd.y));
+
+     sprintf(h, "SMD %f %f -%d R%.1f %s '%s' (%f %f);\n", u2mic(C.smd.dx), u2mic(C.smd.dy), C.smd.roundness, C.smd.angle, ShapeFlag, addApostroph(C.smd.name), u2mic( TEMP_HOLD_FOR_OVER_LAPPING_SMD_PAD ), u2mic( TEMP_HOLD_FOR_OVER_LAPPING_SMD_PAD ));
+     cmd += h;
+     sprintf(h, "move (%f %f)(%f %f);\n", u2mic( TEMP_HOLD_FOR_OVER_LAPPING_SMD_PAD ), u2mic( TEMP_HOLD_FOR_OVER_LAPPING_SMD_PAD ),  u2mic( C.smd.x ), u2mic( C.smd.y ));    
+     cmd += h;
   }
 }
 
