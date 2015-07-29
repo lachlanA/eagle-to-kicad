@@ -11,7 +11,7 @@
 	* Make project director to store all the converted files.  
 	* And basic error checking.  
 	* Eagle 6.xx PCB files can be directly import to KiCad.  
-    * The example director contain's a number of converted sch/board.
+    * The **examples** director contain's a number of converted sch's/board's.
 
 * By using the  the following **ulp's**  a consistent link from the SCH to PCB is maintained So forward and backwoods net-list annotation work's under KiCad!  
 
