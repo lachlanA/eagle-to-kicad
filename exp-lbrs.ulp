@@ -821,7 +821,7 @@ void DrawDevice(UL_DEVICESET D, UL_LIBRARY LBR) {
       logbufferError += tmpS;
       sprintf( tmpS, "%s", "   Bad charter(s) have been replaced with  '_'  This MAY FIX OR, CAUSE MORE ERROR'S! Plese fix the Alias!\n");
       logbufferError += tmpS;
-      cmd += ("PACKAGE '" + addApostroph(pacname) + "' " + charstr_replace("()", "", DV.name ) + ";\n"); // addApostroph here problematic !
+      cmd += ("PACKAGE '" + addApostroph(pacname) + "' " + charstr_replace("()", "_", DV.name ) + ";\n"); // addApostroph here problematic !
     }
     else
       cmd += "PACKAGE '" + addApostroph(pacname) + "' " + DV.name + ";\n"; // addApostroph here problematic !
