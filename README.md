@@ -32,9 +32,9 @@
 ***eagle_to_kicad_include.inc*** ...........  Include file used by the other 4 ULP's__ 
 ####HOW TO RUN THE ULP'S 
  
- **WARNING Always backup your Eagle SCH/PCB files before running this program!**
- **KiCad via's don't retain NET information from Eagle PCB, so KiCad flood fill's will not connect to them !!!**
- **This is very import to rember as you will connection's to gnd/power plains**
+ **WARNING Always backup your Eagle SCH/PCB files before running this program!**  
+ **KiCad via's don't retain NET information from Eagle PCB, so KiCad flood fill's will not connect to them !!!**  
+ **This is very import to remember as connection's to gnd/power plains using flood fill's wont work**  
  
 * **1:** Start your Eagle program *(Make sure your using  version 6.xx of Eagle)*
 
