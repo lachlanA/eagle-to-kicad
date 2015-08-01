@@ -11,7 +11,8 @@
 	* Make project director to store all the converted files.  
 	* And basic error checking.  
 	* Eagle 6.xx PCB files can be directly import to KiCad.  
-    * The **examples** director contain's a number of converted sch's/board's.
+	* Ealge stand alone lbr's can be convered to KiCad lib/mod using eagle-lbr2kicad-1.0.ulp  
+    * The **examples** director contain's a number of converted sch's/board's.  
 
 * By using the  the following **ulp's**  a consistent link from the SCH to PCB is maintained So forward and backwoods net-list annotation work's under KiCad!  
 
@@ -31,8 +32,10 @@
 ***eagle_to_kicad_include.inc*** ...........  Include file used by the other 4 ULP's__ 
 ####HOW TO RUN THE ULP'S 
  
-**WARNING Always backup your Eagle SCH/PCB files before running this program!**  
-
+ **WARNING Always backup your Eagle SCH/PCB files before running this program!**
+ **KiCad via's don't retain NET information from Eagle PCB, so KiCad flood fill's will not connect to them !!!**
+ **This is very import to rember as you will connection's to gnd/power plains**
+ 
 * **1:** Start your Eagle program *(Make sure your using  version 6.xx of Eagle)*
 
 * **2:** Open the eagle SCH/PCB  file you wish to convert. Make sure the eagle SCH and PCB file's are both, Correct and pass all ERC/DRC checks in Eagle.  
