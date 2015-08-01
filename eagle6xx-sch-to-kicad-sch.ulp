@@ -13,6 +13,11 @@
        
 /*
  * CHANGELOG================================================
+ * 31.07.2015: Add warning about Eagle lib's Ghost parts
+ *             Add check/warning for wrong path to converstion scripts.
+ *             Fix some spelling stuff.
+ *             Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
+ *
  * 28.07.2015: Remove debug printer
  *             Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
  *
@@ -72,7 +77,7 @@
 
 
 int debug = 0;       
-real VERSION   = 1.2;
+real VERSION   = 1.3;
 string BUILD_DATE = "19-JULY-2015";
 real fontSize_PartPreFix_Ajust = 1.0;
 string libNamePartNameSeperator = "_";      // This is part Name  so   libName "_" partName  is is DEF, and F0 filed in KiCad
@@ -83,21 +88,26 @@ int libNameAliasPrefixEnable = 0; // Add the KiCad tablas Alisa name to the foot
 string infoAddLibName       = "<b>Eagle SCH/PCB will not show any charters after \'@\' in pin names<br>"+
                              "Checking this will delete any charters after and including the <b>'@'</b><br>so it wont show in KiCad</pre>";
 
-string infoTargetDirectory  = "<h3>Set the target directory for all the converted eagle files.</h3>"+
+string infoTargetDirectory  = "<h3>Set the target directory for all the converted Eagle files.</h3>"+
                              "<b>Note this directory should be a clean directory"+
                              "With out any other file's, as the contents may be<center><font color=\"red\">OVER WRITTEN WITHOUT WARNING!</b></center>";
 
-string infoHelp             = "This ULP is a converts from Eagle sch/PCB to KiCad sch/PCB<br>"+
+string infoHelp             = "This ULP is a converts from Eagle SCH/PCB to KiCad sch/PCB<br>"+
                               "It consist of 3 different ULP's hack to work together<br>"+
                               " ";
-string infoULPdir           = "<b>The low cation of the eagle ULP conversion script's</b>";
+string infoULPdir           = "<b>Eagle ULP conversion script location</b>";
 
-string infoPartNameConflict = "Eagle allows duplicate part name's if the lib name is different<br>"+
-                              "IE 7400:<i><b>libfred<b></i>,  7400:<i><b>libnerd<b></i>,  while Kicad dose not allow duplication's<br>"+
-                              "In most case's there is no conflict, but if there is a conflict<br>"+
-                              "you have 2 options:<pre>  1: Rename the part.</pre><pre>  2: Tick this option to</pre>"+
-                              "allow this program to add lib prefix to the part name. This will also fix the problem.<br>"+
-                              "<b><center>Note this program automatically check's for conflicts and set's the option if needed<br><br></center></b>";
+string infoPartNameConflict = "Eagle allows duplicate part name's in SCH/PCB if they come from different lib's<br>"+
+                              "<b>IE:</b><br><i><b> libfred<b></i>:74LS00:,<br>"+
+                              "<i><b> libnerd<b></i>:74LS00,<br><br>"+
+                              "While KiCad dose not allow duplication's in part name's<br>"+
+                              "In most case's there is no conflict, but if there is a conflict.<br>"+
+                              "You have 2 options:<br><br> 1: Rename the part in ealge's LIB/SCH/PCB. <i>If you have access to them</i><br> 2: Tick this option <b><i>Adding lib name to Part Name</b></i><br><br>"+
+                              "Which allowing this program to add lib prefix to the part name. This also fix's the problem.<br>"+
+                              "<br><b><font color=\"purple\">Note 1: This program automatically check's for conflicts and set's the option if needed<br><br></b>"+
+                              "<b><font color=\"red\">Note 2: Eagle has some nasty bug's in there library management,  which is some case's there will be ghost parts in the lib's!<br>"+
+                              "<b>IE: parts which you don't use in your SCH but are still output from the lib-export stage of this program,  which will magically be used instead of the part you have designed with !<br>"+
+                              "The only way to get this problem, is to turn the <i>Adding lib name to Part Name: back on!" ;
 
 string infoCombineLibNames  = "Combine all the separate Eagle lib's into one KiCad lib<br>"+
                               "This make's the conversion process easy and faster.<br>"+
@@ -126,8 +136,8 @@ string infoNetLableFix      = "<u><b><font color=\"red\">The problem:</font></b>
 
 string infoExportLibsFromEagle = "Extract lib's from Eagle SCH/PCB for KiCad <i>lib module.</i><br>"+
                                  "<b><i>NOTE:</b></i> If you <b><i><u>don't</b></i></u> use this option, you will need to find<br>"+
-                                 "the eagle <i>.lbr(s)</i> library's files and convert those across<br>"+
-                                 " one by one using the eagle-lbr2kicad-1.0.ulp";
+                                 "the Eagle <i>.lbr(s)</i> library's files and convert those across<br>"+
+                                 " one by one using the Eagle-lbr2kicad-1.0.ulp";
 
 
 
@@ -432,9 +442,10 @@ int array_find(string search, int arraySize )
     }
     return 0;
 }
+
 //--------------------
 // check for existing file
-//
+// Return's 1 if found
 int check_for_exist_file(string FileName) {
   string a[];
   int n = fileglob(a, FileName);
@@ -1928,8 +1939,8 @@ void write_kicad_components( UL_SHEET S )
 	      // Smash text section, note only the >NAME and >VALUE can be smashed !
 	      // if >NAME and >VALUE are not smashed, they wont apear here.
 	      // But in  I.gate.symbol.texts(T) section, Also note that depending on weather the 
-	      // >NAME and/or >VALUE have been changed/deleted then added back in the eagle lib,  and the sch is update from
-	      // that eagle lib's, the >NAME and/or >VALUE could be in any order in I.gate.symbol.texts(T)
+	      // >NAME and/or >VALUE have been changed/deleted then added back in the Eagle lib,  and the sch is update from
+	      // that Eagle lib's, the >NAME and/or >VALUE could be in any order in I.gate.symbol.texts(T)
 	      // section's !! how brain dead is that.. !!
 	      I.texts(T)
 		{
@@ -2227,8 +2238,8 @@ void write_kicad_components( UL_SHEET S )
 	      // Smash text section, note only the >NAME and >VALUE can be smashed !
 	      // if >NAME and >VALUE are not smashed, they wont apear here.
 	      // But in  I.gate.symbol.texts(T) section, Also note that depending on weather the 
-	      // >NAME and/or >VALUE have been changed/deleted then added back in the eagle lib,  and the sch is update from
-	      // that eagle lib's, the >NAME and/or >VALUE could be in any order in I.gate.symbol.texts(T)
+	      // >NAME and/or >VALUE have been changed/deleted then added back in the Eagle lib,  and the sch is update from
+	      // that Eagle lib's, the >NAME and/or >VALUE could be in any order in I.gate.symbol.texts(T)
 	      // section's !! how brain dead is that.. !!
               count = 0;
               string prefixToValue = "";
@@ -2731,7 +2742,8 @@ void openSchematicPath( string startPath, int sheetcount )
 }
 
 //---------------------------------------------
-//
+// returns 1 for retry
+// -1 for cancal
 //
 int result;
 int space = 10;
@@ -2742,8 +2754,10 @@ int mainDialog( string titleString, int sheetcount, string schName )
 {
 
   int result;
+  int rs = 0;
   int saveAsDefault = 1;
   int saveAsDefaultULP_Path = 1;
+  string tmpS10 = "";
   //  int saveAsDefault = 1;
   //  int saveAsDefault = 1;  
   //  int saveAsDefaultOld = 1;          
@@ -2754,281 +2768,310 @@ int mainDialog( string titleString, int sheetcount, string schName )
 //    dlgIntEdit( sheetcount, 0, 99);
 //  };
 
-  
-  result = dlgDialog(titleStr)
-    {
+  do{
+    result = dlgDialog(titleStr)
+        {
 	  
-      dlgTabWidget 
-      {
-	//=====================TAB1=============================================================
-	dlgTabPage("Output:") 
-	{
-          string tmpSX;
-          
-	  dlgHBoxLayout dlgSpacing(900);
-          dlgHBoxLayout
+          dlgTabWidget 
           {
-            dlgStretch(0);
-            dlgSpacing(space);
-            dlgLabel("Lowcation of the ULP convertion scrip files");
-            tmpSX = cfgget( cfg_SCRIP_ULP, myULP_HOME );
-            if( strlen(tmpSX ) )
-              myULP_HOME = tmpSX;
-            dlgStringEdit( myULP_HOME );
-            dlgCheckBox("Save as default", saveAsDefaultULP_Path );
-            dlgPushButton("Edit") ( myULP_HOME = dlgDirectory("Select Targget directory", "C:\\") + '/' );
-            dlgPushButton("Info") { if (dlgMessageBox( infoULPdir, "Ok") == 0); };
-            dlgStretch(0);
-          }
-
-          dlgHBoxLayout
-          {
-            dlgStretch(0);
-            dlgSpacing(space);
-            dlgLabel("Target Dirctory For KiCAD files");
-            tmpSX = cfgget( cfg_TARGET_DIR, outputPath );
-
-            if( strlen(tmpSX ) )
-              outputPath = tmpSX;
-
-            dlgStringEdit( outputPath );
-            dlgCheckBox("Save as default", saveAsDefault );
-            dlgPushButton("Edit") ( outputPath = dlgDirectory("Select Targget directory", "C:\\") + '/' );
-            dlgPushButton("Info") { if (dlgMessageBox( infoTargetDirectory, "Ok") == 0); };
-            dlgStretch(0);
-          }
-          
-          
-          if( sheetcount > 1 ) // more then one sheet ?
-            sheetcount++; // Then add master sheet.
-          
-          for( int i = 0; i < sheetcount; i++ )
-          {
-            dlgHBoxLayout
+            //=====================TAB1=============================================================
+            dlgTabPage("Output:") 
             {
-              dlgSpacing(space);
+              string tmpSX;
+          
+              dlgHBoxLayout dlgSpacing(900);
+              dlgHBoxLayout
+              {
+                dlgStretch(0);
+                dlgSpacing(space);
 
-              if(( i == 0 ) && ( sheetcount > 1 ))
-              {
-                dlgLabel("Names Of KiCAD Master Sheet"); dlgStringEdit( sch_name[ i ] ); 
-              }
-              else
-              {
-                if( sheetcount == 1 )
+                if( strlen( tmpS10 ))
                 {
-                  dlgLabel("Names Of KiCAD Sheet"); dlgStringEdit( sch_name[ i ] );
+                  myULP_HOME = tmpS10;
                 }
                 else
                 {
-                  dlgLabel("Names Of KiCAD Sub Sheet"); dlgStringEdit( sch_name[ i ] );
+                  tmpSX = cfgget( cfg_SCRIP_ULP, myULP_HOME );
+                  if( strlen(tmpSX ) )
+                    myULP_HOME = tmpSX;
                 }
+                //                dlgMessageBox( myULP_HOME + "/exp-lbrs.ulp");
+                if( !(check_for_exist_file( myULP_HOME + "exp-lbrs.ulp" ) &&  check_for_exist_file( myULP_HOME + "eagle-lbr2kicad-1.0.ulp") && check_for_exist_file( myULP_HOME + "renumber-sheet.ulp" )) )
+                {
+                  dlgLabel("<b><font color=\"red\">ULP conversion script files Location Not correct!");
+                  tmpS10 = myULP_HOME;
+                  rs = 1;
+                }
+                else
+                {
+                  dlgLabel("<font color=\"green\">ULP conversion script files Location");
+                  rs = 0;
+                  tmpS10 = "";                  
+                }
+                
+                dlgStringEdit(  myULP_HOME );
+                dlgCheckBox("Save as default", saveAsDefaultULP_Path );
+                dlgPushButton("Edit") { tmpS10 = myULP_HOME = dlgDirectory("Select Targget directory", "C:\\") + '/'; rs = 1; dlgAccept(); };
+                dlgPushButton("Info") { if (dlgMessageBox( infoULPdir, "Ok") == 0); };
+                dlgStretch(0);
+
+                /* if( !(check_for_exist_file( myULP_HOME + "exp-lbrs.ulp" ) &&  check_for_exist_file( myULP_HOME + "eagle-lbr2kicad-1.0.ulp") && check_for_exist_file( myULP_HOME + "renum.ulp" ) )) */
+                /*   { */
+                
+                /*   } */
+
+
               }
+
+              dlgHBoxLayout
+              {
+                dlgStretch(0);
+                dlgSpacing(space);
+                dlgLabel("Target Dirctory For KiCAD files");
+                tmpSX = cfgget( cfg_TARGET_DIR, outputPath );
+
+                if( strlen(tmpSX ) )
+                  outputPath = tmpSX;
+
+                dlgStringEdit( outputPath );
+                dlgCheckBox("Save as default", saveAsDefault );
+                dlgPushButton("Edit") ( outputPath = dlgDirectory("Select Targget directory", "C:\\") + '/' );
+                dlgPushButton("Info") { if (dlgMessageBox( infoTargetDirectory, "Ok") == 0); };
+                dlgStretch(0);
+              }
+          
+          
+              if( sheetcount > 1 ) // more then one sheet ?
+                sheetcount++; // Then add master sheet.
+          
+              for( int i = 0; i < sheetcount; i++ )
+              {
+                dlgHBoxLayout
+                {
+                  dlgSpacing(space);
+
+                  if(( i == 0 ) && ( sheetcount > 1 ))
+                  {
+                    dlgLabel("Names Of KiCAD Master Sheet"); dlgStringEdit( sch_name[ i ] ); 
+                  }
+                  else
+                  {
+                    if( sheetcount == 1 )
+                    {
+                      dlgLabel("Names Of KiCAD Sheet"); dlgStringEdit( sch_name[ i ] );
+                    }
+                    else
+                    {
+                      dlgLabel("Names Of KiCAD Sub Sheet"); dlgStringEdit( sch_name[ i ] );
+                    }
+                  }
               
 
-              //              dlgStringEdit( sch_name[ i ] );
-              dlgSpacing(space);
-              dlgComboBox(g_comboBoxArray, sheetsizes[ i ])
-	      {
-		setTransY();
-	      }
-              //              dlgPushButton("Edit") openSchematicPath("C:\\", 0 );
+                  //              dlgStringEdit( sch_name[ i ] );
+                  dlgSpacing(space);
+                  dlgComboBox(g_comboBoxArray, sheetsizes[ i ])
+                  {
+                    setTransY();
+                  }
+                  //              dlgPushButton("Edit") openSchematicPath("C:\\", 0 );
 
-              dlgSpacing(space);
-            }
-          }
+                  dlgSpacing(space);
+                }
+              }
 
           
-	  dlgHBoxLayout
-	  {
-            if( conflictPartsLibsListsize )            
+              dlgHBoxLayout
+              {
+                if( conflictPartsLibsListsize )            
+                {
+                  addLibPrefix = 1;
+                  dlgCheckBox("", addLibPrefix ); dlgLabel("<font color=\"orange\"><nobr><b>ADDING LIB NAME TO PART NAME IS REQIRED TO AVOID PART-LIB CONFLICT FOR KICAD!</b></nobr></font>"); dlgStretch(1);
+                  dlgSpacing(2); dlgPushButton("Info") { if (dlgMessageBox( infoPartNameConflict, "Ok") == 0); } dlgSpacing(10);              
+                }
+                else
+                {
+                  addLibPrefix = 0;
+                  dlgCheckBox("", addLibPrefix ); dlgLabel("<nobr><font color=\"green\"><b>Adding lib name to Part Name:</font><font color=\"purple\"> <b>MAY NOT BE REQIRED</b>,But Click on <b><i>Info</i></b> for details on some nasty surprises!</b></font></nobr>"); dlgStretch(0);
+                  dlgSpacing(2); dlgPushButton("Info") { if (dlgMessageBox( infoPartNameConflict, "Ok") == 0); } dlgStretch(10); dlgSpacing(20);
+                }
+              }
+              dlgHBoxLayout
+              {
+                dlgCheckBox("", enableNetListLableFix ); dlgLabel("<nobr><b>Enable Netlist Label Fix</b></nobr>"); dlgSpacing(20); dlgStretch(0);
+                dlgSpacing(2); dlgPushButton("Info") { if (dlgMessageBox( infoNetLableFix, "Ok") == 0); } dlgStretch(10); dlgSpacing(20);
+              }
+
+              dlgHBoxLayout
+              {
+                dlgCheckBox("", exportLibsFromEagle ); dlgLabel("<nobr><b>Extract libs from Eagle SCH/PCB</b></nobr>"); dlgSpacing(20);
+                dlgPushButton("Info") { if (dlgMessageBox( infoExportLibsFromEagle, "Ok") == 0); } dlgStretch(0); dlgSpacing(20);            
+              }
+
+          
+              dlgHBoxLayout
+              {
+                dlgCheckBox("", combineLibs ); dlgLabel("<nobr><b>Combine All libs in One</b></nobr>"); dlgStretch(0);
+                dlgStringEdit( combineLibsName );
+                dlgSpacing(2);  dlgPushButton("Edit") { combineLibsName = dlgFileSave( "Name of Combined Library", outputPath + filesetext( schName, ".lbr"), "*.lbr");}             
+                dlgPushButton("Info") { if (dlgMessageBox( infoCombineLibNames, "Ok") == 0); } dlgStretch(0); dlgSpacing(20);            
+              }
+
+              dlgHBoxLayout
+              {
+                dlgStretch(0); dlgPushButton("Help") { if (dlgMessageBox( infoHelp, "Ok") == 0); } dlgStretch(0); 
+              }
+
+
+              dlgStretch(10);
+            }
+            //=====================TAB2=============================================================
+            dlgTabPage("Sheet Size:") 
+            { 
+              dlgSpacing(space);
+              dlgHBoxLayout
+              {
+                dlgSpacing(space);
+                dlgComboBox(g_comboBoxArray, g_selected)
+                { 
+                  setTransY();
+                }
+                dlgStretch(1);
+                dlgSpacing(space);
+              }
+              dlgSpacing(space);
+	
+              dlgGroup("User defined:")
+              {
+	
+                dlgHBoxLayout
+                {
+                  dlgLabel("Size X:");
+                  dlgIntEdit(g_dimX, 0, 99999);
+	      
+                  dlgSpacing(space);
+	      
+                  dlgLabel("Size Y:");
+                  dlgIntEdit(g_dimY, 0, 99999);
+                }
+              }
+            }
+            //=====================TAB1=============================================================
+            dlgTabPage("Comments:") 
+            {  
+              dlgHBoxLayout
+              {
+                dlgLabel("Title:");
+                dlgStringEdit(g_strTitle);
+              }
+	       
+              dlgHBoxLayout
+              {
+                dlgLabel("Date:");
+                dlgStringEdit(g_strDate);
+              }
+	 
+              dlgHBoxLayout
+              {
+                dlgLabel("Rev:");
+                dlgStringEdit(g_strRev);
+              }
+	 
+              dlgHBoxLayout
+              {
+                dlgLabel("Comp:");
+                dlgStringEdit(g_strComp);
+              }
+	 
+              dlgHBoxLayout
+              {
+                dlgLabel("Comment1:");
+                dlgStringEdit(g_comment1);
+              }
+	 
+              dlgHBoxLayout
+              {
+                dlgLabel("Comment2:");
+                dlgStringEdit(g_comment2);
+              }
+	 
+              dlgHBoxLayout
+              {
+                dlgLabel("Comment3:");
+                dlgStringEdit(g_comment3);
+              }
+	 
+              dlgHBoxLayout
+              {
+                dlgLabel("Comment4:");
+                dlgStringEdit(g_comment4);
+              }  
+            }
+
+        
+            if( conflictPartsLibsListsize )
             {
-              addLibPrefix = 1;
-              dlgCheckBox("", addLibPrefix ); dlgLabel("<font color=\"orange\"><nobr><b>ADDING LIB NAME TO PART NAME IS REQIRED TO AVOID PART-LIB CONFLICT FOR KICAD!</b></nobr></font>"); dlgStretch(1);
-              dlgSpacing(2); dlgPushButton("Info") { if (dlgMessageBox( infoPartNameConflict, "Ok") == 0); } dlgSpacing(10);              
+              dlgTabPage("CONFLICTING PARTS-LIB'S") 
+              {
+                //          string Colors[] = { "red\tThe color RED\tConverted", "green\tThe color GREEN", "blue\tThe color BLUE" };
+                int Selected = 0; // 
+                dlgListView("DEVICE\tLIB\tREFANCE\tCONFLICT'S WITH\tDEVICE\tLIB\tREFANCE>", conflictPartsLibsList, Selected) dlgMessageBox("More info "); 
+          
+              }
             }
             else
             {
-              addLibPrefix = 0;
-              dlgCheckBox("", addLibPrefix ); dlgLabel("<font color=\"green\"><nobr><b>Adding lib name to Part Name is NOT REQIRED</b></nobr></font>"); dlgStretch(0);
-              dlgSpacing(2); dlgPushButton("Info") { if (dlgMessageBox( infoPartNameConflict, "Ok") == 0); } dlgStretch(10); dlgSpacing(20);
+              dlgTabPage("THERE ARE NO CONFLICTING PART'S-LIB'S") 
+              {
+                dlgLabel("<H1>THERE ARE NO CONFLICTING PART'S-LIB'S</H1>");
+              }
             }
-	  }
-	  dlgHBoxLayout
-	  {
-            dlgCheckBox("", enableNetListLableFix ); dlgLabel("<nobr><b>Enable Netlist Label Fix</b></nobr>"); dlgSpacing(20); dlgStretch(0);
-            dlgSpacing(2); dlgPushButton("Info") { if (dlgMessageBox( infoNetLableFix, "Ok") == 0); } dlgStretch(10); dlgSpacing(20);
-	  }
-
-	  dlgHBoxLayout
-	  {
-            dlgCheckBox("", exportLibsFromEagle ); dlgLabel("<nobr><b>Extract libs from Eagle SCH/PCB</b></nobr>"); dlgSpacing(20);
-            dlgPushButton("Info") { if (dlgMessageBox( infoExportLibsFromEagle, "Ok") == 0); } dlgStretch(0); dlgSpacing(20);            
-	  }
 
           
-	  dlgHBoxLayout
-	  {
-            dlgCheckBox("", combineLibs ); dlgLabel("<nobr><b>Combine All libs in One</b></nobr>"); dlgStretch(0);
-            dlgStringEdit( combineLibsName );
-            dlgSpacing(2);  dlgPushButton("Edit") { combineLibsName = dlgFileSave( "Name of Combined Library", outputPath + filesetext( schName, ".lbr"), "*.lbr");}             
-            dlgPushButton("Info") { if (dlgMessageBox( infoCombineLibNames, "Ok") == 0); } dlgStretch(0); dlgSpacing(20);            
-	  }
-
-          dlgHBoxLayout
-	  {
-	    dlgStretch(0); dlgPushButton("Help") { if (dlgMessageBox( infoHelp, "Ok") == 0); } dlgStretch(0); 
-	  }
+            dlgTabPage("Eagle LIBS Used") 
+            {
+              int Selected = 0; // 
+              dlgListView("LIB\tConversion Compelete\tDate of Conversion", libsUsedList, Selected) dlgMessageBox("More info "); 
+            }
 
 
-	  dlgStretch(10);
-	}
-	//=====================TAB2=============================================================
-	dlgTabPage("Sheet Size:") 
-	{ 
-	  dlgSpacing(space);
-	  dlgHBoxLayout
-	  {
-	    dlgSpacing(space);
-	    dlgComboBox(g_comboBoxArray, g_selected)
-	      { 
-		setTransY();
-	      }
-	    dlgStretch(1);
-	    dlgSpacing(space);
-	  }
-	  dlgSpacing(space);
-	
-	  dlgGroup("User defined:")
-	  {
-	
-	    dlgHBoxLayout
-	      {
-		dlgLabel("Size X:");
-		dlgIntEdit(g_dimX, 0, 99999);
-	      
-		dlgSpacing(space);
-	      
-		dlgLabel("Size Y:");
-		dlgIntEdit(g_dimY, 0, 99999);
-	      }
-	  }
-	}
-	//=====================TAB1=============================================================
-	dlgTabPage("Comments:") 
-	{  
-	  dlgHBoxLayout
-	  {
-            dlgLabel("Title:");
-	    dlgStringEdit(g_strTitle);
-	  }
-	       
-	  dlgHBoxLayout
-	  {
-            dlgLabel("Date:");
-	    dlgStringEdit(g_strDate);
-	  }
-	 
-	  dlgHBoxLayout
-	  {
-            dlgLabel("Rev:");
-            dlgStringEdit(g_strRev);
-	  }
-	 
-	  dlgHBoxLayout
-	  {
-            dlgLabel("Comp:");
-            dlgStringEdit(g_strComp);
-	  }
-	 
-	  dlgHBoxLayout
-	  {
-            dlgLabel("Comment1:");
-            dlgStringEdit(g_comment1);
-	  }
-	 
-	  dlgHBoxLayout
-	  {
-            dlgLabel("Comment2:");
-            dlgStringEdit(g_comment2);
-	  }
-	 
-	  dlgHBoxLayout
-	  {
-            dlgLabel("Comment3:");
-            dlgStringEdit(g_comment3);
-	  }
-	 
-	  dlgHBoxLayout
-	  {
-            dlgLabel("Comment4:");
-            dlgStringEdit(g_comment4);
-	  }  
-	}
-
-        
-        if( conflictPartsLibsListsize )
-        {
-          dlgTabPage("CONFLICTING PARTS-LIB'S") 
-          {
-            //          string Colors[] = { "red\tThe color RED\tConverted", "green\tThe color GREEN", "blue\tThe color BLUE" };
-            int Selected = 0; // 
-            dlgListView("DEVICE\tLIB\tREFANCE\tCONFLICT'S WITH\tDEVICE\tLIB\tREFANCE>", conflictPartsLibsList, Selected) dlgMessageBox("More info "); 
-          
           }
-        }
-        else
-        {
-          dlgTabPage("THERE ARE NO CONFLICTING PART'S-LIB'S") 
+          dlgVBoxLayout 
           {
-            dlgLabel("<H1>THERE ARE NO CONFLICTING PART'S-LIB'S</H1>");
+            dlgStretch(0);
+            dlgHBoxLayout 
+            {
+              dlgStretch(1);
+              dlgPushButton("+OK")
+              {
+                if( saveAsDefault )
+                  cfgset( cfg_TARGET_DIR, outputPath );
+                /* else */
+                /*   cfgset( cfg_TARGET_DIR, "" ); */
+
+                if( saveAsDefaultULP_Path )
+                  cfgset( cfg_SCRIP_ULP, myULP_HOME );
+                /* else */
+                /*   cfgset(cfg_TARGET_DIR, "" ); */
+
+                cfgset( cfg_conflictPartsLibsListsize, intToString( conflictPartsLibsListsize )); 
+                cfgset( cfg_addLibPrefix, intToString( addLibPrefix ));            
+
+                dlgAccept();
+              };
+
+              dlgSpacing(space);
+              dlgPushButton("-Cancel") dlgReject();
+              dlgStretch(0);
+              dlgSpacing(space);
+            }
+            dlgStretch(10);
           }
-        }
+        };
+  } while( rs == 1 );
 
-          
-	dlgTabPage("Eagle LIBS Used") 
-	{
-          int Selected = 0; // 
-          dlgListView("LIB\tConversion Compelete\tDate of Conversion", libsUsedList, Selected) dlgMessageBox("More info "); 
-        }
-
-
-      }
-      dlgVBoxLayout 
-      {
-	dlgStretch(0);
-	dlgHBoxLayout 
-	{
-	  dlgStretch(1);
-	  dlgPushButton("+OK")
-          {
-            if( saveAsDefault )
-              cfgset( cfg_TARGET_DIR, outputPath );
-            /* else */
-            /*   cfgset( cfg_TARGET_DIR, "" ); */
-
-            if( saveAsDefaultULP_Path )
-              cfgset( cfg_SCRIP_ULP, myULP_HOME );
-            /* else */
-            /*   cfgset(cfg_TARGET_DIR, "" ); */
-
-
-            
-            cfgset( cfg_conflictPartsLibsListsize, intToString( conflictPartsLibsListsize )); 
-            cfgset( cfg_addLibPrefix, intToString( addLibPrefix ));            
-
-            dlgAccept();
-          };
-
-	  dlgSpacing(space);
-	  dlgPushButton("-Cancel") dlgReject();
-	  dlgStretch(0);
-	  dlgSpacing(space);
-	}
-	dlgStretch(10);
-      }
-    };
+ 
   return result;
-}
+}  // mainDialog( string titleString, int sheetcount, string schName )
 
 //
 //------------------------------------------------------
@@ -3126,6 +3169,7 @@ int main()
           combineLibsName = filesetext( filename(SCH.name), ".lbr");            
 
           result = mainDialog( titleStr, totalSheets, filesetext( filename(SCH.name), "") );
+
           
           if( combineLibs ) // Set combineLibsName option ?
             cfgset( cfg_CombinedLrbFileName, combineLibsName );  // yes and save for the next programe
@@ -3227,8 +3271,8 @@ int main()
                     "You have 2 way's to go, to commplet the convesion to KiCad<br>" +
                     "<blockquote> (1) simple:<br>Run extractEagleLibsFromSCH<br>"+
                     "&nbsp;&nbsp;This is also the only option you have if, you dont<br>" +
-                    "&nbsp;&nbsp;have the eagle lbr files<br>"+
-                    "&nbsp;&nbsp;if you have the eagle extract the libs</blockquote>" + "  " +
+                    "&nbsp;&nbsp;have the Eagle lbr files<br>"+
+                    "&nbsp;&nbsp;if you have the Eagle extract the libs</blockquote>" + "  " +
                     cfgget( cfg_conflictPartsLibsListsize ) + " " +
                     cfgget( cfg_addLibPrefix ));
     */

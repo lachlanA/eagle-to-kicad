@@ -15,6 +15,7 @@
 //-------------------------------------------------------------------------------- 
 // Change log.
 // Date:    Note:
+// 31-Jul-2015  Fix some spelling mistakes.  L. A.
 // 28-Jul-2015  Fix a number of problems where,  Pin and Pad's over lap, and add error reporting log file.
 // 13-Mar-2015  Add more help to info boxs.  L. A.
 // 10-Feb-2015  Change hooks to work the other conversion programs.  L. A.
@@ -22,7 +23,7 @@
 #require 6.0301
 #include "eagle_to_kicad_include.inc"
 //
-string Version = "6.3";
+string Version = "6.4";
 
 int TEMP_HOLD_FOR_OVER_LAPPING_PIN = 19180;  //  Tempory of the sysmbole editor when we have over lapping pin's to deal with
 int TEMP_HOLD_FOR_OVER_LAPPING_SMD_PAD = 19180;  //  Tempory of the sysmbole editor when we have over lapping hole/smd pad's to deal with
@@ -136,7 +137,7 @@ int    Merge = 0;
 
 int    AddLibPrefix = 0;
 int    ConflictPartsCount = 0;
-int    OverWrieNoWarning = 0;
+//int    OverWrieNoWarning = 0;
 string myULP_HOME = EAGLE_HOME + '/';
 
 char   ascii127[]       =   { 181,  196,  214,  220,  223, 0 }; // not allowed character 2010-05-12
@@ -427,8 +428,12 @@ string LbrPrefix(string s) {
   return ReplaceInvalidCharsForObjNames(s) + "_";
 }
 
+//
 // check for existing file
-int exist_file(string FileName) {
+// Returns 1 if found.
+//
+int exist_file(string FileName)
+{
   string a[];
   int n = fileglob(a, FileName);
   if (n == 0) return 0;
@@ -1177,8 +1182,11 @@ int Result = dlgDialog(TR("Export EAGLE libraries from drawing")) {
         {
           wright_log_to_disk( logbufferError + logbuffer );
 
-          dlgMessageBox( "There Were Error's during he export plese read the<br>" + logfile + "  file\n" );
+          if( overLappingPinErrorCount )
+            dlgMessageBox( "<font color=\"purple\">There were OverLappingPinPad warnings during the export please read the report file:<br>" + logfile  );
 
+          if( error_count )
+            dlgMessageBox( "<font color=\"red\">There were Errors during the export please read the report file:<br>" + logfile  );
         }
         else
         {
