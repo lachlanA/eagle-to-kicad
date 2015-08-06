@@ -16,6 +16,10 @@
 
 * By using the  the following **ulp's**  a consistent link from the SCH to PCB is maintained So forward and backwoods net-list annotation work's under KiCad!  
 
+ **WARNING KiCad via's don't retain NET information from Eagle PCB, so KiCad flood fill's will not connect to them !!!**  
+ **This is very import to remember as connection's to gnd OR power plains using flood fill's wont work as expected!**  
+
+
 ###Installing.
 * Download the zip file, (*click on the Button to the your bottom right on this page*. **Download ZIP**) And unzip using your favorite zip program to your target directory. *OR* if your prefer git
 
@@ -33,8 +37,6 @@
 ####HOW TO RUN THE ULP'S 
  
  **WARNING Always backup your Eagle SCH/PCB files before running this program!**  
- **KiCad via's don't retain NET information from Eagle PCB, so KiCad flood fill's will not connect to them !!!**  
- **This is very import to remember as connection's to gnd/power plains using flood fill's wont work**  
  
 * **1:** Start your Eagle program *(Make sure your using  version 6.xx of Eagle)*
 
