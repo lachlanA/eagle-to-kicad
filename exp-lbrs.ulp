@@ -668,7 +668,7 @@ int DrawPin(UL_PIN P, int printhead, int error, string symbol_name )
     case PIN_DIRECTION_NC  : DIR = "NC";  break;
     case PIN_DIRECTION_IN  : DIR = "In";  break;
     case PIN_DIRECTION_OUT : DIR = "Out"; break;
-    case PIN_DIRECTION_IO  : DIR = "IO"; break;  // 2011-10-10
+    case PIN_DIRECTION_IO  : DIR = "IO";  break;  // 2011-10-10
     case PIN_DIRECTION_OC  : DIR = "OC";  break;
     case PIN_DIRECTION_PWR : DIR = "Pwr"; break;
     case PIN_DIRECTION_PAS : DIR = "Pas"; break;

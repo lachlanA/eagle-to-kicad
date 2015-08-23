@@ -1,21 +1,23 @@
 #usage "<b>Renumber the parts of a schematic</b><p>"
-       "This version renumbers only devices with packages (no supply) "
-       "sorted by sheets and coordinates (vertical/descending, horizontal/ascending).<br>"
-       "Optional: The starting point for the numeration of parts on the first sheet "
-       "defines an offset value for the following pages.<br>"
-       "Example:<br>"
-       " - 0 = R1 ... Rn<br>"
-       " - 100 sheet 1: R101..R199 sheet 2: R201..R299 ...<br>"
-       " - 500 sheet 1: R501..R999 sheet 2: R1001..R1499 ...<br>"
-       " - 1000 sheet 1: R1001..R1999 sheet 2: R2001..R2999 ...<br>"
-       "<p>"
-       "<author>Author: support@cadsoft.de</author>"
+"This version renumbers only devices with packages (no supply) "
+"sorted by sheets and coordinates (vertical/descending, horizontal/ascending).<br>"
+"Optional: The starting point for the numeration of parts on the first sheet "
+"defines an offset value for the following pages.<br>"
+"Example:<br>"
+" - 0 = R1 ... Rn<br>"
+" - 100 sheet 1: R101..R199 sheet 2: R201..R299 ...<br>"
+" - 500 sheet 1: R501..R999 sheet 2: R1001..R1499 ...<br>"
+" - 1000 sheet 1: R1001..R1999 sheet 2: R2001..R2999 ...<br>"
+"<p>"
+"<author>Author: support@cadsoft.de</author>"
 
+#require 6.0000
+
+#include "eagle_to_kicad_include.inc"
 
 // THIS PROGRAM IS PROVIDED AS IS AND WITHOUT WARRANTY OF ANY KIND, EXPRESSED OR IMPLIED
 
 string Version = "ULP Version 4.4.3";
-#include "eagle_to_kicad_include.inc"
 
 /*
  * CHANGELOG================================================
@@ -80,6 +82,10 @@ string ckname[];
 
 
 string cmd;  // holds the script to renumbing in sch
+string lib_cmd; // hold's script for building lib pads
+string pcb_cmd; // Hold scrtip for removeing via's and adding pads in it's place.
+string sch_cmd; // Hold script for sch pad's add.
+
 string c;
 
 real Grid = 100; // in 100 Mil
@@ -89,35 +95,46 @@ string lbr[], dev[], sym[];
 int maxRefNumber = 0;   // Hold the maxium refance number on this schmatic
 // this will be the start of the number parts which dont have a refance
 
+int wire_Sx[];
+int wire_Sy[];
+int wire_Ex[];
+int wire_Ey[];
+int wireCount;
+int noconnect_via_count;
+
+
+// Pad buffer
+int pad_size[];  // hold list of pads size
+int pad_drill[];  // hold list of pad drill size.
+int pad_shape[]; // hold list of pad shaps
+string pac_name[]; // Package name
+string dev_name[]; // Device name
+int pad_buffer_size;
+
+int pad_count;
+string pac_prefix = "VPAC";
+string dev_prefix = "VPDEV";
+int sch_pad_X = 0;
+int sch_pad_Y = 0;
+int sch_net_count = 0;
+
+int enable_via_to_pad = 1;
+int docment_via_to_pad = 1;
+int libsetup = 0;
+
+string WorkPath;
+string CurrentLbrName = "vpad";
+
+string shapeTablePad[] = {"Square", "Round", "Octagon"};
+
+string schname = "";
+
 string outputPath = EAGLE_HOME + '/';
 string myULP_HOME = EAGLE_HOME + '/';
 
-string schname = "";
 string infoTargetDirectory  = "<h3>Set the target directory for the KiCad files.</h3>"+
                              "<b>Note this directory should be a clean directory"+
                              "With out any other file's, as the contents may be<center><font color=\"red\">OVER WRITTEN WITHOUT WARNING!</b></center>";
-
-
-//--------------------------------------------------------------------------------
-//Returns 1, if EAGLE is running under Windows (0 for Linux/Mac)
-//
-int IsWindows()
-{
-  if ((strsub(argv[0],0,1)=="/") && (strsub(argv[0],0,2)!="//"))
-    return 0;
-  return 1;
-}
-//--------------------------------------------------------------------------------
-// check for existing file
-// Returns 1 if found.
-//
-int exist_file(string FileName)
-{
-  string a[];
-  int n = fileglob(a, FileName);
-  if (n == 0) return 0;
-  else return 1;
-}
 
 
 //--------------------------------------------------------------------------------
@@ -281,6 +298,26 @@ void Rename(int x, int y, string New) {
 }
 
 //--------------------------------------------------------------------------------
+// check for existing file
+// Returns 1 if found.
+//
+int exist_file(string FileName)
+{
+  string a[];
+  int n = fileglob(a, FileName);
+  if (n == 0) return 0;
+  else return 1;
+}
+
+//--------------------------------------------------------------------------------
+//
+string get_project_path() {
+  if (board)     board(B)     return(filedir(B.name));
+  if (schematic) schematic(B) return(filedir(B.name));
+  if (library)   library(B)   return(filedir(B.name));
+}
+
+//--------------------------------------------------------------------------------
 // Generates an EAGLE script file that does the whole renumbering.
 // The tricky part here is that we cannot rename an element to a name
 // that already exists in the schematic (which, e.g. might be necessary if
@@ -387,8 +424,8 @@ void visible(UL_SCHEMATIC S) {
 }
 
 //--------------------------------------------------------------------------------
-//
-//
+// dialog box
+// 
 void menue(void)
 {
   string tmpSX;
@@ -396,15 +433,8 @@ void menue(void)
   int saveAsDefault = 1;
   int saveAsDefaultULP_Path = 1;
   
-  int Result = dlgDialog("Add numbers to unnumbered part reference's")
+  int Result = dlgDialog("Vis to Pad hack")
       {
-
-        dlgLabel("<b><font color=\"red\">This ULP will add numbers to any part Refance whichs dose not have<br>" + 
-                 "Number postfix, IE: 'C' will become 'C1' etc<br>!"+
-                 "Note 1: Any parts which do have a nuwmic postfix will not be chance<br>"+
-                 "Note 2: This will ");
-
-        
         dlgHBoxLayout
         {
           dlgStretch(0);
@@ -458,195 +488,365 @@ void menue(void)
 }
 
 
+//--------------------------------------------------------------------------------
+// find connected wire to via.
+// return 0 if not found, else return 1 if found.
+//
+//
+int findViaWire( int X, int Y, int tablesize )
+{
+  int i;
+  for( i = 0; i < tablesize; i++ )
+  {
+    if(( X == wire_Sx[ i ]) && ( Y == wire_Sy[ i ]))
+      return 1;
+
+    if(( X == wire_Ex[ i ]) && ( Y == wire_Ey[ i ]))
+      return 1;
+  }
+  return 0;  // not found !  
+}
+
 
 //--------------------------------------------------------------------------------
-// Main
+// find connected wire to via.
+// return 0 if not found, else return index + 1 if found.
 //
-if (schematic) {
-  if (sheet) {
-    sheet(S) actual_sheet = S.number;
-    sprintf(sheet_info, "The current sheet is %d", actual_sheet);
-  }
-  schematic(S) {
-    schname = filename( S.name );
-
-    menue();
-    int l = 1;
-    int chk;
-
-    // find the hightest number part of the refance name
-    S.sheets(SH) 
+//
+int findViaPad( int via_size, int via_drill, int via_shape, int tablesize )
+{
+  int i;
+  string t;
+  
+  for( i = 0; i < tablesize; i++ )
+  {
+    if(( via_size == pad_size[ i ]) && ( via_drill == pad_drill[ i ]) && ( via_shape == pad_shape[i]) )
     {
-      int  tmpn;
-      string tmpS;
-      SH.parts(P)
-      {
-        if( ( tmpn = GetNumberIndex(P.name)) == -1 )
-          continue;
-        else
-        {
-          if( ( tmpn = strtol( strsub( P.name, tmpn ))) > maxRefNumber )
-            maxRefNumber = tmpn;
-        }
-      }
-    }  // sheets(SH) 
-
-    
-    S.sheets(SH) {
-      if (only_actual_sheet) {
-        ; // do not change the actual sheet number
-      }
-      else {
-        actual_sheet = SH.number;  // set the numer to actuel sheet number
-      }
-      if (actual_sheet == SH.number) { // 2008.01.30
-
-        SH.parts(P)
-        {
-          int n = GetNumberIndex(P.name);  // index to start of Refance number in Refance
-
-          if( n == -1 )           // Only renumber parts which have no numbers !
-            n = strlen(P.name);
-          else
-            n = 0;  // Has Refance number so invert the meaning for the next check.
-            
-          if (n > 0)  // do we have a refance number on the end ?
-          { // Yes !
-            if (P.device.package)    // **** only Devices with Packages
-            {                        // **** without Supply symbol Frames ect...
-              // **** DO NOT RENUMBER Elements with this PREFIX
-              if (prefix(P.name) == NoPrefixRenumber)    // returns Refance without any traling number
-                ;    // Do thing is match
-              else {
-                DevPrefix[Dnr] = prefix(P.name);   // Treturns Refnace without any traling number
-                DevName[Dnr] = P.name; // holds Refnace/prefix with traling number
-                ++Dnr;
-                P.instances(I) {
-                  int found = -1;
-                  for (int fn = 0; fn < nrNames; fn++) {
-                    if (OldNames[fn] == P.name)
-                    {
-                       found = fn;
-                       break;
-                    }
-                  }
-                  if (found < 0) {
-                    x[nrNames] = u2mil(I.x);    // cannot use E.x/y directly because of
-                    y[nrNames] = u2mil(I.y);    // sort() problem with integers > 32767
-                    OldNames[nrNames] = P.name; // in version 3.50
-                    NewNames[nrNames] = strsub(P.name, 0, n);
-                    Sheet[nrNames] = I.sheet;
-                    Prefix[nrNames] = prefix(P.name);   // Treturns Refnace without any traling number
-                    ++nrNames;
-                  }
-
-                  else
-                  {
-                    if (Sheet[fn] == I.sheet)
-                    {
-                      if ( u2mil(I.x) < x[fn] || u2mil(I.y) > y[fn] )
-                      {
-                         // tausche wenn x kleiner oder y groesser
-                         x[fn] > u2mil(I.x);
-                         y[fn] > u2mil(I.y);
-                      }
-                    }
-                  }
-                }
-              }
-            }   // if (P.device.package) {    // **** only Devices with Packages    // Only Symbol (Supply, Port, Frame...)
-            else
-            {  // *** check PartName on Symbols Supply, Port, Frame ... ***
-              SymPrefix[Snr] = prefix(P.name);  // Treturns Refnace without any traling number
-              SymDevName[Snr] = P.name; // holds Refnace/prefix with traling number
-              P.instances(I) {
-                SymNames[Snr] = P.name;     // Device-Name of Symbol
-                SymX[Snr] = u2mil(I.x);       // cannot use E.x/y directly because of
-                SymY[Snr] = u2mil(I.y);       // sort() problem with integers > 32767
-                symsh[Snr] = I.sheet;
-                ++Snr;
-                break;
-              }
-            }
-          }   // if (n > 0)  // do we have a refance number on the end ?
-
-          P.instances(I) {
-            ckx[chk] = u2mil(I.x);  // cannot use E.x/y directly because of
-            cky[chk] = u2mil(I.y);  // sort() problem with integers > 32767
-            ckname[chk] = I.name;
-            cksh[chk] = I.sheet;
-            chk++;
-          }
-        }
-      } // 2008.01.30
+      return i + 1;
     }
-
-    CheckSameOrigin(chk);
-    SortElements();
-    GenerateNames();  // Add new number to Refances and put in NewNames
-    setgridmil ();
-    GenerateScript();
-
-    if (CheckNames()) { //check collision before rename ***
-      int select;
-      dlgDialog("Symbol ref Device Names") {
-        dlgVBoxLayout {
-          dlgLabel("Warnings for renumber!");
-          dlgTextView(Error);
-        }
-        dlgHBoxLayout {
-          dlgSpacing(450);
-        }
-        dlgHBoxLayout {
-          dlgPushButton("+&OK") dlgAccept();
-          dlgStretch(1);
-        }
-      };
-      exit (-1);
-    }
-
-    sprintf(c, "GRID INCH 0.1;\n");
-    cmd += c;
-    sprintf(c, "EDIT .S%d;\n", actual_sheet);
-    cmd += c;
-    visible(S);
-
-
-    if( IsWindows() == 0 ) // Returns 0 for Linux/Mac
-    { // Linux
-      system( "mkdir " + outputPath + "modified_eagle_files"  );
-    }
-    else
-    { // Windows
-      system( "cmd.exe /c " + outputPath + "modified_eagle_files"  );
-    }
-      
-      
-    
-    // write save command
-    if( IsWindows() == 0 ) // Returns 0 for Linux/Mac
-      sprintf(c, "write @%s;\n", outputPath + "modified_eagle_files" +"/"+ schname );
-    else
-      sprintf(c, "write @%s;\n", outputPath + "modified_eagle_files" +"\\"+ schname );      
-
-    cmd += c;
-    sprintf(c, "board;\n");    
-    cmd += c;
-
-    sprintf(c, "run fix_via_hack.ulp;\n");    
-    cmd += c;
-
-
-
-
-    
-    string fname = filesetext(S.name, "~renumsch.scr");
-    output(fname, "wtD") printf("%s", cmd);
-    exit ("SCRIPT '" + fname + "';");
   }
+  return 0;  // not found !  
 }
 
-else {
-   dlgMessageBox("\n    Start this ULP in a Schematic    \n");
-   exit (0);
+
+//--------------------------------------------------------------------------------
+// Crate lib, if lib exist's delete it, and make new one.
+//
+void CreateOneLibHeader( UL_LIBRARY LBR )
+{
+  string c;
+
+  if (exist_file(WorkPath+CurrentLbrName+".lbr"))
+  {
+     sprintf(c, "REMOVE '%s';\n", WorkPath+CurrentLbrName+".lbr");
+     lib_cmd += c; // delete existing lbr
+  }
+  sprintf(c, "OPEN '~dummy~.lbr';\nCLOSE;\nOPEN '%s.lbr';\n", WorkPath+CurrentLbrName); 
+  lib_cmd += c;
+
+  LBR.layers(L)
+  {
+    sprintf(c, "Layer %d %s;\n", L.number, L.name); lib_cmd += c;
+  }
+  
+  sprintf(c, "Set Wire_bend 2;\nSet Select_factor 0;\nSet Undo_log off;\n");
+  lib_cmd += c;
+  sprintf(c, "Grid mic;\n");
+  lib_cmd += c;
+  sprintf(c, "Display All;\n");
+  lib_cmd += c;
+  lib_cmd += "DESCRIPTION 'TemporyVPADlib';\n\n";
 }
+
+
+
+//--------------------------------------------------------------------------------
+// Add new pad the same size, and type to tempory lib.
+//
+int add_new_pad( UL_VIA V, UL_LIBRARY LBR )
+{
+  string c;
+
+  pad_size[ pad_buffer_size ] = V.diameter[ V.start ]; //size of first part
+  pad_drill[ pad_buffer_size ] = V.drill;
+  pad_shape[ pad_buffer_size ] = V.shape[ V.start ];
+  sprintf( pac_name[ pad_buffer_size ], "%s%d", pac_prefix, pad_buffer_size );
+  sprintf( dev_name[ pad_buffer_size ], "%s%d", dev_prefix, pad_buffer_size );    
+
+
+  if( libsetup == 0 ) // is the lib setup ?
+  {
+    lib_cmd = "";
+    CreateOneLibHeader( LBR ); // Open new lib for pads
+
+    sprintf(c, "Edit '%s.SYM';\n", "VPAD");
+    lib_cmd += c;
+    sprintf(c, "Layer 94;\n");
+    lib_cmd += c;
+    sprintf(c, "Pin 'VP' Pas None Short R0 Off 0 (0 0);\n");
+    lib_cmd += c;
+    sprintf(c, "DESCRIPTION '';\n");
+    lib_cmd += c;
+
+    libsetup = 1;
+  }
+
+  sprintf(c, "\nEDIT '%s.PAC';\n", pac_name[ pad_buffer_size ]);
+  lib_cmd += c;
+  sprintf(c, "GRID mic;\n");
+  lib_cmd += c;
+  sprintf( c, "CHANGE DRILL %f;\n", u2mic(pad_drill[ pad_buffer_size ] ));  
+  lib_cmd += c;
+  sprintf( c, "PAD %f %s R0.0 '%s'(%f %f);\n", u2mic( pad_size[ pad_buffer_size ]), shapeTablePad[ pad_shape[ pad_buffer_size ]], "VP",  u2mic(0), u2mic(0));
+  lib_cmd += c;
+  sprintf(c, "DESCRIPTION '';\n");
+  lib_cmd += c;
+
+  sprintf(c, "\nEDIT '%s.DEV';\n", dev_name[ pad_buffer_size ]);
+  lib_cmd += c;
+  sprintf(c, "DESCRIPTION 'VIAPAD';\n");
+  lib_cmd += c;
+  sprintf(c, "PREFIX 'VP';\n");  
+  lib_cmd += c;
+  sprintf(c, "VALUE Off;\n");
+  lib_cmd += c;
+  sprintf(c, "CHANGE Addlevel  Next;\n");
+  lib_cmd += c;
+  sprintf(c, "CHANGE Swaplevel 0;\n");
+  lib_cmd += c;
+  sprintf(c, "ADD '%s' '%s' (%f %f);\n", "VPAD", "G$1", u2mic(0), u2mic(0));
+  lib_cmd += c;
+  sprintf(c, "PACKAGE '%s' '';\n", pac_name[ pad_buffer_size ] );
+  lib_cmd += c;
+  sprintf(c, "CONNECT ALL 'G$1.VP' 'VP';\n");
+  lib_cmd += c;
+  sprintf(c, "TECHNOLOGY '''''';\n\n" );
+  lib_cmd += c;
+  pad_buffer_size++;
+
+  //  string t;
+  //  sprintf(t, "addnewpad pad_buffer_size=%d", pad_buffer_size );
+  //  dlgMessageBox( t);            
+
+  return pad_buffer_size;
+
+}
+
+
+//--------------------------------------------------------------------------------
+//
+//
+//--------------------------------------------------------------------------------
+int main()
+{
+  string fname;
+  string tmpSX;
+  
+  if( schematic || library )
+  {
+    dlgMessageBox("<b><h2>This ulp can only be run with the target pcb board open!</h2></b>");             
+    exit( EXIT_FAILURE );
+  }
+
+
+  // Check to see if there is a config file path set for target directory
+  if( strlen( tmpSX = cfgget( cfg_TARGET_DIR )) > 0 )
+  {
+    WorkPath = tmpSX;  // Yes .. so use it.
+  }
+  else
+    WorkPath = get_project_path();  // No so use the default
+
+
+
+
+
+  board(B) {
+    schname = filesetext(B.name,".sch");
+    //    pcbname = filesetext(B.name,".brd");    
+
+    noconnect_via_count = 0;
+    pad_buffer_size = 0;
+    
+    B.signals(S) {
+      wireCount = 0;
+      int via_replace = 0;
+      string netname = S.name;
+      int viaX;
+      int viaY;
+      
+      S.wires(W) {
+        wire_Sx[ wireCount ] = W.x1;
+        wire_Sy[ wireCount ] = W.y1;        
+        wire_Ex[ wireCount ] = W.x2;
+        wire_Ey[ wireCount ] = W.y2;        
+        wireCount++;
+      }
+      S.vias(V) {
+        // Is there a wire connected to this via ?
+        if( findViaWire( V.x, V.y, wireCount ) == 0 ) 
+        { // No, so docment and build scripts to add to sch and pcb and temporty lbr
+          noconnect_via_count++;
+
+          if( docment_via_to_pad )
+          {
+
+          }
+          
+          if( enable_via_to_pad )
+          {
+
+          }
+        }  // if( findViaWire( V.x, V.y, wireCount ) == 0 ) 
+      }  // vias(V) {
+    }  // signals(S) {
+  }  // board(B) {
+
+
+    if( noconnect_via_count > 0 )
+      menue();
+    
+
+    noconnect_via_count = 0;
+    wireCount= 0;
+
+  
+
+  board(B) {
+    schname = filesetext(B.name,".sch");
+    //    pcbname = filesetext(B.name,".brd");    
+    fname = filesetext(B.name, "~fix_via_hack.scr");  
+    sprintf(c, "grid mic;\n");
+    cmd += c;
+    noconnect_via_count = 0;
+    pad_buffer_size = 0;
+    
+    B.signals(S) {
+      wireCount = 0;
+      int via_replace = 0;
+      string netname = S.name;
+      int viaX;
+      int viaY;
+      
+      S.wires(W) {
+        wire_Sx[ wireCount ] = W.x1;
+        wire_Sy[ wireCount ] = W.y1;        
+        wire_Ex[ wireCount ] = W.x2;
+        wire_Ey[ wireCount ] = W.y2;        
+        wireCount++;
+      }
+      S.vias(V) {
+        // Is there a wire connected to this via ?
+        if( findViaWire( V.x, V.y, wireCount ) == 0 ) 
+        { // No, so docment and build scripts to add to sch and pcb and temporty lbr
+          noconnect_via_count++;
+
+
+          viaX = V.x;
+          viaY = V.y;
+          
+          if( docment_via_to_pad )
+          {
+            sprintf(c, "layer %d;\n", 51 ); // select Doc layer
+            pcb_cmd += c;
+            sprintf(c, "CHANGE FONT VECTOR;\n"); // select Font
+            pcb_cmd += c;
+            sprintf(c, "CHANGE SIZE 0.1;\n");
+            pcb_cmd += c;
+            sprintf( c, "TEXT '%s' R0 (%f %f);\n", S.name, u2mm(V.x) + 0.1, u2mm(V.y));
+            pcb_cmd += c;          
+            sprintf(c, "SET WIRE_BEND 7;\n");
+            pcb_cmd += c;
+            sprintf( c, "wire '%s' %f (%f %f) (%f %f );\n", S.name,  100.0,  u2mic(V.x), u2mic(V.y), u2mic(V.x - ( V.diameter[V.start] /2)), u2mic(V.y + ( V.diameter[V.start] /4 )));
+            pcb_cmd += c;
+            sprintf( c, "wire '%s' %f (%f %f) (%f %f );\n", S.name,  100.0, u2mic(V.x - ( V.diameter[V.start] /2)), u2mic(V.y - ( V.diameter[V.start] /4 )), u2mic(V.x), u2mic(V.y));
+            pcb_cmd += c;
+          }
+          
+          if( enable_via_to_pad )
+          {
+            int idx;
+            string t;
+            
+            via_replace++;  // Mark for clean up
+
+            idx = findViaPad( V.diameter[V.start], V.drill, V.shape[V.start], pad_buffer_size );
+            if( idx == 0 )
+            {
+              UL_LIBRARY L;              
+              B.libraries(LBR){
+                L = LBR;
+              }
+              idx = add_new_pad(V, L);
+            }
+            idx--; // ajust to base zero
+
+            //            idx = 0; // ??? ajust to base zero            
+
+            sprintf(c, "DISPLAY NONE;\n");  // dispaly only via layer for delete
+            pcb_cmd += c;
+            sprintf(c, "DISPLAY 18;\n");  // show via layer
+            pcb_cmd += c;
+            sprintf(c, "RIPUP (%f %f);\n", u2mic(V.x), u2mic(V.y));  // remove the via
+            pcb_cmd += c;
+            sprintf(c, "DISPLAY ALL;\n");  // show via layer
+            pcb_cmd += c;
+            
+            sprintf(c, "grid mic;\n");
+            sch_cmd += c;
+            sprintf(c, "add '%s@%s' '%s%d' (%f %f);\n", dev_name[idx], WorkPath+CurrentLbrName, "VP_", pad_count, u2mic(sch_pad_X), u2mic(sch_pad_Y ) - ( sch_net_count * 2540.0 ));  // add the pad sch
+            sch_cmd += c;
+            sprintf(c, "move '%s%d' (%f %f);\n", "VP_", pad_count, u2mic(V.x), u2mic(V.y));  // move the Pad into where the via was
+            pcb_cmd += c;
+
+            pad_count++;
+          }
+        }  // if( findViaWire( V.x, V.y, wireCount ) == 0 ) 
+      }  // vias(V) {
+      if( via_replace ) // Did we replace any via's wit pad's on the signal ?
+      {
+        via_replace = 0;
+        sprintf(c, "NET %s (%f %f )( %f %f );\n", S.name, u2mic(sch_pad_X ), u2mic(sch_pad_Y ) - ( sch_net_count * 2540.0 ), u2mic(sch_pad_X) - 2540.0, u2mic( sch_pad_Y ) - ( sch_net_count * 2540.0 ) );
+        sch_cmd += c;
+        sprintf(c, "LABEL (%f %f)(%f %f );\n", u2mic(sch_pad_X ), u2mic(sch_pad_Y ) - ( sch_net_count * 2540.0 ), u2mic(sch_pad_X) - 2540.0, u2mic(sch_pad_Y ) - ( sch_net_count * 2540.0 ));
+        sch_cmd += c;
+
+        sch_net_count++; // add new offset
+      }
+    }  // signals(S) {
+  }  // board(B) { 
+
+
+ //  sprintf( c, "wire %s %f (%f %f) (%f %f ) 'fred'  0.05 ( 0.1 0.1 ) ( 0.1 2 )
+
+
+  // write save command
+  cmd += lib_cmd;
+  sprintf(c, "write;\n");
+  cmd += c;
+  sprintf(c, "edit %s;\n", schname );    
+  cmd += c;
+  cmd += sch_cmd;  
+  sprintf(c, "write;\n");
+  cmd += c;
+  sprintf(c, "edit .brd;\n");    
+  cmd += c;
+  cmd += pcb_cmd;
+  sprintf(c, "edit %s;\n", schname );    
+  cmd += c;
+  sprintf(c, "write;\n");
+  cmd += c;
+
+  sprintf(c, "run eagle6xx-sch-to-kicad-sch.ulp;\n");
+  cmd += c;
+  
+    
+  output(fname, "wtD")
+      printf("%s", cmd);
+
+  exit ("SCRIPT '" + fname + "';");
+
+  return 0;
+}
+
+
