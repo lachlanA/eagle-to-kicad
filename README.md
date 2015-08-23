@@ -1,7 +1,7 @@
 ###**Converting from Eagle to KiCad.**
 
 
-* The following 4 **ulp** (eagle user script file) and one **ulp** include file, work in together or stand alone too converts **Eagle**  *sch/lbr's* version 6.xx file(s) to **KiCad** *sch* and *lib/mod* files.  
+* The following 5 **ulp** (eagle user script file) and one **ulp** include file, work in together or stand alone too converts **Eagle**  *sch/lbr's* version 6.xx file(s) to **KiCad** *sch* and *lib/mod* files.  
 
 * The Programs will do
 	* Eagle multi sheet sch to KiCad  multi sheets.  
