@@ -3282,7 +3282,7 @@ int main()
     string tmpS1;    
     if( exportLibsFromEagle ) // export libs from sch/pcb ?
     { // yes
-      sprintf(tmpS1, "run %s;\n", myULP_HOME + "exp-lbrs.ulp" );
+      sprintf(tmpS1, "run '%s';\n", myULP_HOME + "exp-lbrs.ulp" );
     }
     else
     { // 

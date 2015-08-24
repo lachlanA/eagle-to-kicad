@@ -93,6 +93,8 @@ string outputPath = EAGLE_HOME + '/';
 string myULP_HOME = EAGLE_HOME + '/';
 
 string schname = "";
+string pcbname = "";
+
 string infoTargetDirectory  = "<h3>Set the target directory for the KiCad files.</h3>"+
                              "<b>Note this directory should be a clean directory"+
                              "With out any other file's, as the contents may be<center><font color=\"red\">OVER WRITTEN WITHOUT WARNING!</b></center>";
@@ -469,7 +471,9 @@ if (schematic) {
   }
   schematic(S) {
     schname = filename( S.name );
+    pcbname = filesetext( filename(S.name),".brd");
 
+    
     menue();
     int l = 1;
     int chk;
@@ -614,32 +618,37 @@ if (schematic) {
 
     if( IsWindows() == 0 ) // Returns 0 for Linux/Mac
     { // Linux
-      system( "mkdir " + outputPath + "modified_eagle_files"  );
+      system( "mkdir " +"'"+ outputPath + "modified_eagle_files"+"'"  );
     }
     else
     { // Windows
-      system( "cmd.exe /c " + outputPath + "modified_eagle_files"  );
+      system( "cmd.exe /c " +"'"+ outputPath + "modified_eagle_files"+"'"  );
     }
       
       
     
     // write save command
     if( IsWindows() == 0 ) // Returns 0 for Linux/Mac
-      sprintf(c, "write @%s;\n", outputPath + "modified_eagle_files" +"/"+ schname );
-    else
-      sprintf(c, "write @%s;\n", outputPath + "modified_eagle_files" +"\\"+ schname );      
+      sprintf(c, "write '@%s';\n", outputPath + "modified_eagle_files" +"/"+ schname );
 
+    else
+      sprintf(c, "write '@%s';\n", outputPath + "modified_eagle_files" +"\\"+ schname );
     cmd += c;
+
     sprintf(c, "board;\n");    
     cmd += c;
+    if( IsWindows() == 0 ) // Returns 0 for Linux/Mac
+      sprintf(c, "write '@%s';\n", outputPath + "modified_eagle_files" +"/"+ pcbname );
+    else
+      sprintf(c, "write '@%s';\n", outputPath + "modified_eagle_files" +"\\"+ pcbname );            
+    cmd += c;
 
+    sprintf(c, "\n");    
+    cmd += c;    
     sprintf(c, "run fix_via_hack.ulp;\n");    
     cmd += c;
 
 
-
-
-    
     string fname = filesetext(S.name, "~renumsch.scr");
     output(fname, "wtD") printf("%s", cmd);
     exit ("SCRIPT '" + fname + "';");

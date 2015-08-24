@@ -662,7 +662,7 @@ int main()
 
 
   board(B) {
-    schname = filesetext(B.name,".sch");
+    //    schname = filesetext(B.name,".sch");
     //    pcbname = filesetext(B.name,".brd");    
 
     noconnect_via_count = 0;
@@ -715,7 +715,8 @@ int main()
   board(B) {
     schname = filesetext(B.name,".sch");
     //    pcbname = filesetext(B.name,".brd");    
-    fname = filesetext(B.name, "~fix_via_hack.scr");  
+    fname = filesetext(B.name, "~fix_via_hack.scr");
+    //    fname = "'"+filesetext(B.name, "~fix_via_hack.scr")+"'";      
     sprintf(c, "grid mic;\n");
     cmd += c;
     noconnect_via_count = 0;
@@ -824,7 +825,7 @@ int main()
   cmd += lib_cmd;
   sprintf(c, "write;\n");
   cmd += c;
-  sprintf(c, "edit %s;\n", schname );    
+  sprintf(c, "edit '%s';\n", schname );    
   cmd += c;
   cmd += sch_cmd;  
   sprintf(c, "write;\n");
@@ -832,7 +833,7 @@ int main()
   sprintf(c, "edit .brd;\n");    
   cmd += c;
   cmd += pcb_cmd;
-  sprintf(c, "edit %s;\n", schname );    
+  sprintf(c, "edit '%s';\n", schname );    
   cmd += c;
   sprintf(c, "write;\n");
   cmd += c;
