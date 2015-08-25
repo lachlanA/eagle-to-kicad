@@ -1,0 +1,2488 @@
+Cmp-Mod V01 Created by Cvpcb (2015-02-06 BZR 5410)-product   date = Mon 09 Feb 2015 04:12:04 PM PST
+
+BeginCmp
+TimeStamp = /55DCE07F;
+Reference = C101;
+ValeurCmp = CAP0402;
+IdModule  = PIXHAWK2_0402-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DCE147;
+Reference = C102;
+ValeurCmp = CAP0402;
+IdModule  = PIXHAWK2_0402-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DCE20F;
+Reference = C103;
+ValeurCmp = CAP0402;
+IdModule  = PIXHAWK2_0402-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DCE4CB;
+Reference = R101;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DCE593;
+Reference = R102;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DCE65B;
+Reference = U101;
+ValeurCmp = STM32F4X7VX;
+IdModule  = PIXHAWK2_TQFP100;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DCEB0B;
+Reference = U102;
+ValeurCmp = FM25V01;
+IdModule  = PIXHAWK2_SO08;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DCEBD3;
+Reference = X101;
+ValeurCmp = OSCILLATOR-3.2X2.5;
+IdModule  = PIXHAWK2_OSCILLATOR-3.2X2.5;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DCECFF;
+Reference = C201;
+ValeurCmp = CAP0402;
+IdModule  = PIXHAWK2_0402-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DCEDC7;
+Reference = C202;
+ValeurCmp = CAP0402;
+IdModule  = PIXHAWK2_0402-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DCEE8F;
+Reference = D201;
+ValeurCmp = DIODE-TVS;
+IdModule  = PIXHAWK2_0402-TVS;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DCEF57;
+Reference = D202;
+ValeurCmp = DIODE-TVS;
+IdModule  = PIXHAWK2_0402-TVS;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DCF01F;
+Reference = D203;
+ValeurCmp = DIODE-TVS;
+IdModule  = PIXHAWK2_0402-TVS;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DCF33F;
+Reference = J201;
+ValeurCmp = DF13-6P-1.25V;
+IdModule  = CON-HIROSE-DF13_DF13C-6P-1.25V;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DCF407;
+Reference = J202;
+ValeurCmp = DF13-6P-1.25V;
+IdModule  = CON-HIROSE-DF13_DF13C-6P-1.25V;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DCF4CF;
+Reference = J203;
+ValeurCmp = DF13-6P-1.25V;
+IdModule  = CON-HIROSE-DF13_DF13C-6P-1.25V;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DCF597;
+Reference = J204;
+ValeurCmp = DF13-6P-1.25V;
+IdModule  = CON-HIROSE-DF13_DF13C-6P-1.25V;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DCF65F;
+Reference = L201;
+ValeurCmp = KNH16C104DA5TS;
+IdModule  = PIXHAWK2_KYOCERA-KNH16-DA;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DCF727;
+Reference = L202;
+ValeurCmp = KNH16C104DA5TS;
+IdModule  = PIXHAWK2_KYOCERA-KNH16-DA;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DCF7EF;
+Reference = L203;
+ValeurCmp = KNH16C104DA5TS;
+IdModule  = PIXHAWK2_KYOCERA-KNH16-DA;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DCF8B7;
+Reference = R201;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DCF97F;
+Reference = R202;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DCFA47;
+Reference = R203;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DCFB0F;
+Reference = R204;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DCFBD7;
+Reference = R205;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DCFC9F;
+Reference = R206;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DCFD67;
+Reference = R207;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DCFE2F;
+Reference = R208;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DCFEF7;
+Reference = R209;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DCFFBF;
+Reference = R210;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD0087;
+Reference = R211;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD014F;
+Reference = R212;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD0217;
+Reference = R213;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD02DF;
+Reference = R214;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD03A7;
+Reference = R215;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD046F;
+Reference = R216;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD0537;
+Reference = U201;
+ValeurCmp = TXS0108QFN20;
+IdModule  = PIXHAWK2_QFN20-RGY;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD05FF;
+Reference = U202;
+ValeurCmp = TXS0108QFN20;
+IdModule  = PIXHAWK2_QFN20-RGY;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD08BB;
+Reference = J301;
+ValeurCmp = MOLEX-47346-0001;
+IdModule  = PIXHAWK2_MOLEX-47346-0001;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD0983;
+Reference = J302;
+ValeurCmp = DF13-4P-1.25V;
+IdModule  = CON-HIROSE-DF13_DF13C-4P-1.25V;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD0A4B;
+Reference = JX301;
+ValeurCmp = ARM_MINI_JTAG-SMT;
+IdModule  = PIXHAWK2_FTSH-105-01-XXX-DV-K;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD0E33;
+Reference = R301;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD0EFB;
+Reference = R302;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD0FC3;
+Reference = R303;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD108B;
+Reference = R304;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD1153;
+Reference = R305;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD121B;
+Reference = R306;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD12E3;
+Reference = R307;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD13AB;
+Reference = U301;
+ValeurCmp = MICROSDSDI;
+IdModule  = BASEBOARD_MICROSD;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD1473;
+Reference = U302;
+ValeurCmp = NUF2042XV6;
+IdModule  = PIXHAWK2_SOT563-6;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD159F;
+Reference = C401;
+ValeurCmp = CAP0402;
+IdModule  = PIXHAWK2_0402-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD1667;
+Reference = C402;
+ValeurCmp = CAP0402;
+IdModule  = PIXHAWK2_0402-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD172F;
+Reference = D401;
+ValeurCmp = DIODE-TVS;
+IdModule  = PIXHAWK2_0402-TVS;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD17F7;
+Reference = D402;
+ValeurCmp = DIODE-TVS;
+IdModule  = PIXHAWK2_0402-TVS;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD18BF;
+Reference = D403;
+ValeurCmp = DIODE-TVS;
+IdModule  = PIXHAWK2_0402-TVS;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD1987;
+Reference = D404;
+ValeurCmp = DIODE-TVS;
+IdModule  = PIXHAWK2_0402-TVS;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD1D0B;
+Reference = J401;
+ValeurCmp = DF13-4P-1.25V;
+IdModule  = CON-HIROSE-DF13_DF13C-4P-1.25V;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD1DD3;
+Reference = J402;
+ValeurCmp = DF13-3P-1.25V;
+IdModule  = CON-HIROSE-DF13_DF13C-3P-1.25V;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD1E9B;
+Reference = J403;
+ValeurCmp = DF13-7P-1.25V;
+IdModule  = CON-HIROSE-DF13_DF13C-7P-1.25V;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD1F63;
+Reference = J404;
+ValeurCmp = DF13-5P-1.25V;
+IdModule  = CON-HIROSE-DF13_DF13C-5P-1.25V;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD202B;
+Reference = J405;
+ValeurCmp = DF13-4P-1.25V;
+IdModule  = CON-HIROSE-DF13_DF13C-4P-1.25V;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD20F3;
+Reference = L401;
+ValeurCmp = KNH16C104DA5TS;
+IdModule  = PIXHAWK2_KYOCERA-KNH16-DA;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD21BB;
+Reference = L402;
+ValeurCmp = KNH16C104DA5TS;
+IdModule  = PIXHAWK2_KYOCERA-KNH16-DA;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD2283;
+Reference = L403;
+ValeurCmp = KNH16C104DA5TS;
+IdModule  = PIXHAWK2_KYOCERA-KNH16-DA;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD234B;
+Reference = L404;
+ValeurCmp = KNH16C104DA5TS;
+IdModule  = PIXHAWK2_KYOCERA-KNH16-DA;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD2413;
+Reference = R401;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD24DB;
+Reference = R402;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD25A3;
+Reference = R403;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD266B;
+Reference = R404;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD2733;
+Reference = R405;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD27FB;
+Reference = R406;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD28C3;
+Reference = R407;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD298B;
+Reference = R408;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD2A53;
+Reference = R409;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD2B1B;
+Reference = U401;
+ValeurCmp = MAX3051MAX3051EKA;
+IdModule  = PIXHAWK2_SOT23-8;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD2C47;
+Reference = C501;
+ValeurCmp = CAP0805;
+IdModule  = PIXHAWK2_0805-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD2D0F;
+Reference = C502;
+ValeurCmp = CAP0402;
+IdModule  = PIXHAWK2_0402-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD2DD7;
+Reference = C503;
+ValeurCmp = CAP0402;
+IdModule  = PIXHAWK2_0402-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD2E9F;
+Reference = C504;
+ValeurCmp = CAP0402;
+IdModule  = PIXHAWK2_0402-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD2F67;
+Reference = C505;
+ValeurCmp = CAP0402;
+IdModule  = PIXHAWK2_0402-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD302F;
+Reference = C506;
+ValeurCmp = CAP0805;
+IdModule  = PIXHAWK2_0805-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD30F7;
+Reference = C507;
+ValeurCmp = CAP0402;
+IdModule  = PIXHAWK2_0402-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD31BF;
+Reference = C508;
+ValeurCmp = CAP0402;
+IdModule  = PIXHAWK2_0402-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD3287;
+Reference = C509;
+ValeurCmp = CAP0805;
+IdModule  = PIXHAWK2_0805-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD334F;
+Reference = C510;
+ValeurCmp = CAP0402;
+IdModule  = PIXHAWK2_0402-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD3417;
+Reference = C511;
+ValeurCmp = CAP0805;
+IdModule  = PIXHAWK2_0805-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD34DF;
+Reference = C512;
+ValeurCmp = CAP0603;
+IdModule  = PIXHAWK2_0603-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD35A7;
+Reference = C513;
+ValeurCmp = CAP0603;
+IdModule  = PIXHAWK2_0603-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD366F;
+Reference = C514;
+ValeurCmp = CAP0402;
+IdModule  = PIXHAWK2_0402-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD3737;
+Reference = C515;
+ValeurCmp = CAP0603;
+IdModule  = PIXHAWK2_0603-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD3F6B;
+Reference = U501;
+ValeurCmp = L3G4200DH-LL;
+IdModule  = PIXHAWK2_L3G4200DH-MAN;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD4033;
+Reference = U502;
+ValeurCmp = L3GD20H;
+IdModule  = PIXHAWK2_LGA-16L;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD40FB;
+Reference = U504;
+ValeurCmp = LSM303D;
+IdModule  = PIXHAWK2_LGA-16L;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD41C3;
+Reference = U505;
+ValeurCmp = MPU-6000;
+IdModule  = PIXHAWK2_QFN-24;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD428B;
+Reference = U506;
+ValeurCmp = MS5611-01BA;
+IdModule  = PIXHAWK2_MS5611-01BA;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD4353;
+Reference = X503;
+ValeurCmp = CONN_FPC_10RA;
+IdModule  = PIXHAWK2_51281-1094;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD47A0;
+Reference = B601;
+ValeurCmp = MS621FE;
+IdModule  = PIXHAWK2_MS621FE;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD4868;
+Reference = C601;
+ValeurCmp = CAP0805;
+IdModule  = PIXHAWK2_0805-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD4930;
+Reference = C602;
+ValeurCmp = CAP0402;
+IdModule  = PIXHAWK2_0402-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD49F8;
+Reference = C603;
+ValeurCmp = CAP0603;
+IdModule  = PIXHAWK2_0603-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD4AC0;
+Reference = C604;
+ValeurCmp = CAP0805;
+IdModule  = PIXHAWK2_0805-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD4B88;
+Reference = C605;
+ValeurCmp = CAP0805;
+IdModule  = PIXHAWK2_0805-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD4C50;
+Reference = C606;
+ValeurCmp = CAP0402;
+IdModule  = PIXHAWK2_0402-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD4D18;
+Reference = C607;
+ValeurCmp = CAP0402;
+IdModule  = PIXHAWK2_0402-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD4DE0;
+Reference = C608;
+ValeurCmp = CAP0402;
+IdModule  = PIXHAWK2_0402-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD4EA8;
+Reference = C609;
+ValeurCmp = CAP0402;
+IdModule  = PIXHAWK2_0402-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD4F70;
+Reference = C610;
+ValeurCmp = CAP0402;
+IdModule  = PIXHAWK2_0402-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD5038;
+Reference = C611;
+ValeurCmp = CAP0603;
+IdModule  = PIXHAWK2_0603-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD5100;
+Reference = C612;
+ValeurCmp = CAP0402;
+IdModule  = PIXHAWK2_0402-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD51C8;
+Reference = C613;
+ValeurCmp = CAP0603;
+IdModule  = PIXHAWK2_0603-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD5290;
+Reference = C614;
+ValeurCmp = CAP1206;
+IdModule  = PIXHAWK2_1206-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD5358;
+Reference = C615;
+ValeurCmp = CAP0402;
+IdModule  = PIXHAWK2_0402-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD5420;
+Reference = C616;
+ValeurCmp = CAP0402;
+IdModule  = PIXHAWK2_0402-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD54E8;
+Reference = C617;
+ValeurCmp = CAP0402;
+IdModule  = PIXHAWK2_0402-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD55B0;
+Reference = C618;
+ValeurCmp = CAP1206;
+IdModule  = PIXHAWK2_1206-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD5678;
+Reference = D2;
+ValeurCmp = DIODE-SCHOTTKY_SOD323;
+IdModule  = PIXHAWK2_SOD323;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD61CC;
+Reference = L603;
+ValeurCmp = KNH16C104DA5TS;
+IdModule  = PIXHAWK2_KYOCERA-KNH16-DA;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD6294;
+Reference = Q601;
+ValeurCmp = MMBT3906LT1SMD;
+IdModule  = TRANSISTOR-PNP_SOT23-BEC;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD635C;
+Reference = R602;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD6424;
+Reference = R603;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD64EC;
+Reference = R604;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD65B4;
+Reference = R608;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD667C;
+Reference = R609;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD6744;
+Reference = R610;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD680C;
+Reference = R611;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD68D4;
+Reference = R615;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD699C;
+Reference = R616;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD6A64;
+Reference = R617;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD6B2C;
+Reference = R620;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD6BF4;
+Reference = R621;
+ValeurCmp = RESISTOR0603-RES;
+IdModule  = PIXHAWK2_0603-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD6CBC;
+Reference = R635;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD6D84;
+Reference = S601;
+ValeurCmp = SWITCH-MOMENTARY-2;
+IdModule  = PIXHAWK2_EVQP7J01K;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD6E4C;
+Reference = U101;
+ValeurCmp = STM32F4X7VX;
+IdModule  = PIXHAWK2_TQFP100;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD6FDC;
+Reference = U601;
+ValeurCmp = BQ24315;
+IdModule  = PIXHAWK2_QFN8-DSG;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD70A4;
+Reference = U602;
+ValeurCmp = BQ24315;
+IdModule  = PIXHAWK2_QFN8-DSG;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD716C;
+Reference = U603;
+ValeurCmp = MIC5332;
+IdModule  = PIXHAWK2_MLF-8-EPAD;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD7298;
+Reference = C701;
+ValeurCmp = CAP0402;
+IdModule  = PIXHAWK2_0402-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD7360;
+Reference = C702;
+ValeurCmp = CAP0603;
+IdModule  = PIXHAWK2_0603-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD7428;
+Reference = C703;
+ValeurCmp = CAP0402;
+IdModule  = PIXHAWK2_0402-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD74F0;
+Reference = C704;
+ValeurCmp = CAP0402;
+IdModule  = PIXHAWK2_0402-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD75B8;
+Reference = D701;
+ValeurCmp = DIODE-TVS;
+IdModule  = PIXHAWK2_0402-TVS;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD7B30;
+Reference = J701;
+ValeurCmp = DF13-2P-1.25V;
+IdModule  = CON-HIROSE-DF13_DF13C-2P-1.25V;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD7BF8;
+Reference = J702;
+ValeurCmp = DF13-3P-1.25V;
+IdModule  = CON-HIROSE-DF13_DF13C-3P-1.25V;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD7CC0;
+Reference = L701;
+ValeurCmp = INDUCTOR0805;
+IdModule  = PIXHAWK2_0805-IND;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD7D88;
+Reference = LED701;
+ValeurCmp = LED0603;
+IdModule  = PIXHAWK2_0603-LED;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD7E50;
+Reference = LED702;
+ValeurCmp = LED0603;
+IdModule  = PIXHAWK2_0603-LED;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD7F18;
+Reference = LED703;
+ValeurCmp = LED0603;
+IdModule  = PIXHAWK2_0603-LED;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD7FE0;
+Reference = LED704;
+ValeurCmp = LED0603;
+IdModule  = PIXHAWK2_0603-LED;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD80A8;
+Reference = LED705;
+ValeurCmp = LED0603;
+IdModule  = PIXHAWK2_0603-LED;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD8170;
+Reference = R3;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD8238;
+Reference = R4;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD8300;
+Reference = R701;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD83C8;
+Reference = R702;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD8490;
+Reference = R703;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD8558;
+Reference = R704;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD8620;
+Reference = R705;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD86E8;
+Reference = R706;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD87B0;
+Reference = R707;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD8878;
+Reference = R708;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD8940;
+Reference = R709;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD8A08;
+Reference = R710;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD8AD0;
+Reference = R711;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD8B98;
+Reference = R712;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD8C60;
+Reference = R713;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD8D28;
+Reference = U701;
+ValeurCmp = TCA62724FMG;
+IdModule  = PIXHAWK2_SON10;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD8DF0;
+Reference = U702;
+ValeurCmp = LT3469;
+IdModule  = PIXHAWK2_SOT23-8;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD8EB8;
+Reference = U703;
+ValeurCmp = RGB-LED6-PLCC;
+IdModule  = PIXHAWK2_6-PLCC;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD90AC;
+Reference = C801;
+ValeurCmp = CAP0402;
+IdModule  = PIXHAWK2_0402-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD9174;
+Reference = C802;
+ValeurCmp = CAP0402;
+IdModule  = PIXHAWK2_0402-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD923C;
+Reference = C803;
+ValeurCmp = CAP0402;
+IdModule  = PIXHAWK2_0402-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD9304;
+Reference = C804;
+ValeurCmp = CAP0402;
+IdModule  = PIXHAWK2_0402-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD93CC;
+Reference = C805;
+ValeurCmp = CAP0402;
+IdModule  = PIXHAWK2_0402-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD9494;
+Reference = C806;
+ValeurCmp = CAP0402;
+IdModule  = PIXHAWK2_0402-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD955C;
+Reference = D801;
+ValeurCmp = DIODE-TVS;
+IdModule  = PIXHAWK2_0402-TVS;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD9C64;
+Reference = J801;
+ValeurCmp = JST-ZH-3;
+IdModule  = FOR-TRANSFERS_JST-ZH-SMT-VERTICAL;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD9D2C;
+Reference = JX801;
+ValeurCmp = HEADER-3X1BOARDEDGE-SHORT;
+IdModule  = PIXHAWK2_HEADER_3X01_SMD_H_BOARD_EDGE_SHORT;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DD9DF4;
+Reference = JX802;
+ValeurCmp = ARM_MINI_JTAG-SMT;
+IdModule  = PIXHAWK2_FTSH-105-01-XXX-DV-K;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDA1DC;
+Reference = R801;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDA2A4;
+Reference = R802;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDA36C;
+Reference = R803;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDA434;
+Reference = R804;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDA4FC;
+Reference = S801;
+ValeurCmp = SWITCH-MOMENTARY-2;
+IdModule  = PIXHAWK2_EVQP7J01K;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDA5C4;
+Reference = U801;
+ValeurCmp = STM32F10XCXT6;
+IdModule  = PIXHAWK2_TQFP48;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDA9AC;
+Reference = X801;
+ValeurCmp = OSCILLATOR-3.2X2.5;
+IdModule  = PIXHAWK2_OSCILLATOR-3.2X2.5;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDAAD8;
+Reference = C901;
+ValeurCmp = CAP0402;
+IdModule  = PIXHAWK2_0402-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDABA0;
+Reference = C902;
+ValeurCmp = CAP0402;
+IdModule  = PIXHAWK2_0402-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDAC68;
+Reference = C903;
+ValeurCmp = CAP0402;
+IdModule  = PIXHAWK2_0402-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDAD30;
+Reference = D1;
+ValeurCmp = DIODE-SCHOTTKY_MSMP;
+IdModule  = PIXHAWK2_MICROSMP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDADF8;
+Reference = D901;
+ValeurCmp = DIODE-TVS;
+IdModule  = PIXHAWK2_0402-TVS;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDAEC0;
+Reference = D902;
+ValeurCmp = DIODE-TVS;
+IdModule  = PIXHAWK2_0402-TVS;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDAF88;
+Reference = D903;
+ValeurCmp = DIODE-TVS;
+IdModule  = PIXHAWK2_0402-TVS;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDB370;
+Reference = J901;
+ValeurCmp = HEADER-3X163X16RA;
+IdModule  = PIXHAWK2_3X16RA;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDBB40;
+Reference = L901;
+ValeurCmp = KNH16C104DA5TS;
+IdModule  = PIXHAWK2_KYOCERA-KNH16-DA;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDBC08;
+Reference = R901;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDBCD0;
+Reference = R902;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDBD98;
+Reference = R903;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDBE60;
+Reference = R904;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDBF28;
+Reference = R905;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDBFF0;
+Reference = R906;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDC0B8;
+Reference = R907;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDC180;
+Reference = R908;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDC248;
+Reference = R909;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDC310;
+Reference = R910;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDC3D8;
+Reference = R911;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDC4A0;
+Reference = R912;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDC568;
+Reference = R913;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDC630;
+Reference = R914;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDC6F8;
+Reference = R915;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDC7C0;
+Reference = R916;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDC888;
+Reference = R917;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDC950;
+Reference = R918;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDCA18;
+Reference = R919;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDCAE0;
+Reference = R922;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDCBA8;
+Reference = U901;
+ValeurCmp = TXS0108QFN20;
+IdModule  = PIXHAWK2_QFN20-RGY;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDCC70;
+Reference = U902;
+ValeurCmp = TXS0108QFN20;
+IdModule  = PIXHAWK2_QFN20-RGY;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDCD38;
+Reference = U903;
+ValeurCmp = 74LVC2G240-TSSOP-8;
+IdModule  = PIXHAWK2_TSSOP8_SOT505-2;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDCE64;
+Reference = C1001;
+ValeurCmp = CAP0805;
+IdModule  = PIXHAWK2_0805-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDCF2C;
+Reference = C1002;
+ValeurCmp = CAP0402;
+IdModule  = PIXHAWK2_0402-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDCFF4;
+Reference = C1003;
+ValeurCmp = CAP0603;
+IdModule  = PIXHAWK2_0603-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDD0BC;
+Reference = C1004;
+ValeurCmp = CAP0603;
+IdModule  = PIXHAWK2_0603-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDD184;
+Reference = C1005;
+ValeurCmp = CAP0402;
+IdModule  = PIXHAWK2_0402-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDD24C;
+Reference = C1008;
+ValeurCmp = CAP0402;
+IdModule  = PIXHAWK2_0402-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDD314;
+Reference = D1001;
+ValeurCmp = PMEG2005CT;
+IdModule  = PIXHAWK2_SOT23-3;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDD3DC;
+Reference = F1001;
+ValeurCmp = PTCSMD;
+IdModule  = PIXHAWK2_PTC-1206;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDD8F1;
+Reference = R1001;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDD9B9;
+Reference = R1002;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDDA81;
+Reference = U1001;
+ValeurCmp = BQ24313;
+IdModule  = PIXHAWK2_QFN8-DSG;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDDB49;
+Reference = U1002;
+ValeurCmp = MIC5332;
+IdModule  = PIXHAWK2_MLF-8-EPAD;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDDC75;
+Reference = C1101;
+ValeurCmp = CAP0805;
+IdModule  = PIXHAWK2_0805-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDDD3D;
+Reference = C1102;
+ValeurCmp = CAP0805;
+IdModule  = PIXHAWK2_0805-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDDE05;
+Reference = C1103;
+ValeurCmp = CAP0805;
+IdModule  = PIXHAWK2_0805-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDDECD;
+Reference = C1104;
+ValeurCmp = CAP1206;
+IdModule  = PIXHAWK2_1206-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDDF95;
+Reference = C1105;
+ValeurCmp = CAP0402;
+IdModule  = PIXHAWK2_0402-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDE05D;
+Reference = C1106;
+ValeurCmp = CAP0402;
+IdModule  = PIXHAWK2_0402-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDE125;
+Reference = C1107;
+ValeurCmp = CAP0402;
+IdModule  = PIXHAWK2_0402-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDE1ED;
+Reference = C1108;
+ValeurCmp = CAP0402;
+IdModule  = PIXHAWK2_0402-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDE2B5;
+Reference = C1109;
+ValeurCmp = CAP0402;
+IdModule  = PIXHAWK2_0402-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDE37D;
+Reference = C1110;
+ValeurCmp = CAP0402;
+IdModule  = PIXHAWK2_0402-CAP;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDE8F5;
+Reference = J601;
+ValeurCmp = DF13-6P-1.25V;
+IdModule  = CON-HIROSE-DF13_DF13C-6P-1.25V;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDE9BD;
+Reference = L1101;
+ValeurCmp = KNH16C104DA5TS;
+IdModule  = PIXHAWK2_KYOCERA-KNH16-DA;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDEA85;
+Reference = L1102;
+ValeurCmp = KNH16C104DA5TS;
+IdModule  = PIXHAWK2_KYOCERA-KNH16-DA;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDEB4D;
+Reference = R1101;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDEC15;
+Reference = R1102;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDECDD;
+Reference = R1103;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDEDA5;
+Reference = R1104;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDEE6D;
+Reference = R1105;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDEF35;
+Reference = R1106;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDEFFD;
+Reference = R1107;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDF0C5;
+Reference = R1109;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDF18D;
+Reference = R1110;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDF255;
+Reference = R1111;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDF31D;
+Reference = R1112;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDF3E5;
+Reference = R1113;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDF4AD;
+Reference = R1114;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDF575;
+Reference = R1115;
+ValeurCmp = RESISTOR0402-RES;
+IdModule  = PIXHAWK2_0402-RES;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDF63D;
+Reference = RN1101;
+ValeurCmp = 4R-NEXB28V;
+IdModule  = RESISTOR-DIL_EXB28V;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDF7CD;
+Reference = U1101;
+ValeurCmp = LTC4117;
+IdModule  = PIXHAWK2_MO-220;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDF895;
+Reference = U1102;
+ValeurCmp = MOSFET-DUAL-PCHANNEL-CHIPFET;
+IdModule  = PIXHAWK2_1206-8;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDF9C1;
+Reference = U1103;
+ValeurCmp = MOSFET-DUAL-PCHANNEL-CHIPFET;
+IdModule  = PIXHAWK2_1206-8;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDFAED;
+Reference = U1104;
+ValeurCmp = MOSFET-DUAL-PCHANNEL-CHIPFET;
+IdModule  = PIXHAWK2_1206-8;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDFC7D;
+Reference = !VBUS_VALID1116;
+ValeurCmp = PAD.04;
+IdModule  = PIXHAWK2_PAD.04X.04;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDFD45;
+Reference = !VDD_BRICK_VALID1116;
+ValeurCmp = PAD.04;
+IdModule  = PIXHAWK2_PAD.04X.04;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDFE0D;
+Reference = !VDD_SERVO_VALID1116;
+ValeurCmp = PAD.04;
+IdModule  = PIXHAWK2_PAD.04X.04;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDFED5;
+Reference = ADC_PR1116;
+ValeurCmp = PAD.04;
+IdModule  = PIXHAWK2_PAD.04X.04;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DDFF9D;
+Reference = CAN_H1116;
+ValeurCmp = PAD.04;
+IdModule  = PIXHAWK2_PAD.04X.04;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE0065;
+Reference = CAN_L1116;
+ValeurCmp = PAD.04;
+IdModule  = PIXHAWK2_PAD.04X.04;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE0191;
+Reference = FMU-BOOT1101;
+ValeurCmp = PAD.04;
+IdModule  = PIXHAWK2_PAD.04X.04;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE0259;
+Reference = GND.1116;
+ValeurCmp = PAD.04;
+IdModule  = PIXHAWK2_PAD.04X.04;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE0321;
+Reference = GND1116;
+ValeurCmp = PAD.04;
+IdModule  = PIXHAWK2_PAD.04X.04;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE03E9;
+Reference = IO-BOOT1101;
+ValeurCmp = PAD.04;
+IdModule  = PIXHAWK2_PAD.04X.04;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE04B1;
+Reference = JP1;
+ValeurCmp = FIDUCIAL1.5X3;
+IdModule  = PIXHAWK2_FIDUCIAL-1.5X3;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE0579;
+Reference = JP2;
+ValeurCmp = FIDUCIAL1.5X3;
+IdModule  = PIXHAWK2_FIDUCIAL-1.5X3;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE0641;
+Reference = M3_MOUNT1101;
+ValeurCmp = MOUNT-HOLE3.1MM;
+IdModule  = PIXHAWK2_MOUNT-HOLE3.1;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE0709;
+Reference = M3_MOUNT1102;
+ValeurCmp = MOUNT-HOLE3.1MM;
+IdModule  = PIXHAWK2_MOUNT-HOLE3.1;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE07D1;
+Reference = M3_MOUNT1103;
+ValeurCmp = MOUNT-HOLE3.1MM;
+IdModule  = PIXHAWK2_MOUNT-HOLE3.1;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE0899;
+Reference = M3_MOUNT1104;
+ValeurCmp = MOUNT-HOLE3.1MM;
+IdModule  = PIXHAWK2_MOUNT-HOLE3.1;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE0961;
+Reference = OSHW_LOGO1116;
+ValeurCmp = OSHW-LOGOS;
+IdModule  = PIXHAWK2_OSHW-LOGO-S;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE0A29;
+Reference = S1RX1116;
+ValeurCmp = PAD.04;
+IdModule  = PIXHAWK2_PAD.04X.04;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE0AF1;
+Reference = S1TX1116;
+ValeurCmp = PAD.04;
+IdModule  = PIXHAWK2_PAD.04X.04;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE0BB9;
+Reference = S2RX1116;
+ValeurCmp = PAD.04;
+IdModule  = PIXHAWK2_PAD.04X.04;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE0C81;
+Reference = S2TX1116;
+ValeurCmp = PAD.04;
+IdModule  = PIXHAWK2_PAD.04X.04;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE0D49;
+Reference = S3RX1116;
+ValeurCmp = PAD.04;
+IdModule  = PIXHAWK2_PAD.04X.04;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE0E11;
+Reference = S3TX1116;
+ValeurCmp = PAD.04;
+IdModule  = PIXHAWK2_PAD.04X.04;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE0ED9;
+Reference = S4RX1116;
+ValeurCmp = PAD.04;
+IdModule  = PIXHAWK2_PAD.04X.04;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE0FA1;
+Reference = S4TX1116;
+ValeurCmp = PAD.04;
+IdModule  = PIXHAWK2_PAD.04X.04;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE1069;
+Reference = S5_RX1116;
+ValeurCmp = PAD.04;
+IdModule  = PIXHAWK2_PAD.04X.04;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE1131;
+Reference = S5_TX1116;
+ValeurCmp = PAD.04;
+IdModule  = PIXHAWK2_PAD.04X.04;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE11F9;
+Reference = VBUS1116;
+ValeurCmp = PAD.04;
+IdModule  = PIXHAWK2_PAD.04X.04;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE12C1;
+Reference = VDDA_3V1101;
+ValeurCmp = PAD.04;
+IdModule  = PIXHAWK2_PAD.04X.04;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE1389;
+Reference = VDD_3V1101;
+ValeurCmp = PAD.04;
+IdModule  = PIXHAWK2_PAD.04X.04;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE1451;
+Reference = VDD_5V_BRICK1116;
+ValeurCmp = PAD.04;
+IdModule  = PIXHAWK2_PAD.04X.04;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE1519;
+Reference = VDD_5V_IN1116;
+ValeurCmp = PAD.04;
+IdModule  = PIXHAWK2_PAD.04X.04;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE15E1;
+Reference = VDD_SERVO1116;
+ValeurCmp = PAD.04;
+IdModule  = PIXHAWK2_PAD.04X.04;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE16A9;
+Reference = VP_0;
+ValeurCmp = VPDEV0;
+IdModule  = VPAD_VPAC0;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE1771;
+Reference = VP_1;
+ValeurCmp = VPDEV0;
+IdModule  = VPAD_VPAC0;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE1839;
+Reference = VP_2;
+ValeurCmp = VPDEV0;
+IdModule  = VPAD_VPAC0;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE1901;
+Reference = VP_3;
+ValeurCmp = VPDEV0;
+IdModule  = VPAD_VPAC0;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE19C9;
+Reference = VP_4;
+ValeurCmp = VPDEV1;
+IdModule  = VPAD_VPAC1;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE1A91;
+Reference = VP_5;
+ValeurCmp = VPDEV1;
+IdModule  = VPAD_VPAC1;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE1B59;
+Reference = VP_6;
+ValeurCmp = VPDEV1;
+IdModule  = VPAD_VPAC1;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE1C21;
+Reference = VP_7;
+ValeurCmp = VPDEV1;
+IdModule  = VPAD_VPAC1;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE1CE9;
+Reference = VP_8;
+ValeurCmp = VPDEV1;
+IdModule  = VPAD_VPAC1;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE1DB1;
+Reference = VP_9;
+ValeurCmp = VPDEV1;
+IdModule  = VPAD_VPAC1;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE1E79;
+Reference = VP_10;
+ValeurCmp = VPDEV1;
+IdModule  = VPAD_VPAC1;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE1F41;
+Reference = VP_11;
+ValeurCmp = VPDEV1;
+IdModule  = VPAD_VPAC1;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE2009;
+Reference = VP_12;
+ValeurCmp = VPDEV1;
+IdModule  = VPAD_VPAC1;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE20D1;
+Reference = VP_13;
+ValeurCmp = VPDEV1;
+IdModule  = VPAD_VPAC1;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE2199;
+Reference = VP_14;
+ValeurCmp = VPDEV1;
+IdModule  = VPAD_VPAC1;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE2261;
+Reference = VP_15;
+ValeurCmp = VPDEV1;
+IdModule  = VPAD_VPAC1;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE2329;
+Reference = VP_16;
+ValeurCmp = VPDEV1;
+IdModule  = VPAD_VPAC1;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE23F1;
+Reference = VP_17;
+ValeurCmp = VPDEV1;
+IdModule  = VPAD_VPAC1;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE24B9;
+Reference = VP_18;
+ValeurCmp = VPDEV1;
+IdModule  = VPAD_VPAC1;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE2581;
+Reference = VP_19;
+ValeurCmp = VPDEV1;
+IdModule  = VPAD_VPAC1;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE2649;
+Reference = VP_20;
+ValeurCmp = VPDEV1;
+IdModule  = VPAD_VPAC1;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE2711;
+Reference = VP_21;
+ValeurCmp = VPDEV1;
+IdModule  = VPAD_VPAC1;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE27D9;
+Reference = VP_22;
+ValeurCmp = VPDEV1;
+IdModule  = VPAD_VPAC1;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE28A1;
+Reference = VP_23;
+ValeurCmp = VPDEV1;
+IdModule  = VPAD_VPAC1;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE2969;
+Reference = VP_24;
+ValeurCmp = VPDEV1;
+IdModule  = VPAD_VPAC1;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE2A31;
+Reference = VP_25;
+ValeurCmp = VPDEV1;
+IdModule  = VPAD_VPAC1;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE2AF9;
+Reference = VP_26;
+ValeurCmp = VPDEV1;
+IdModule  = VPAD_VPAC1;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE2BC1;
+Reference = VP_27;
+ValeurCmp = VPDEV1;
+IdModule  = VPAD_VPAC1;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE2C89;
+Reference = VP_28;
+ValeurCmp = VPDEV1;
+IdModule  = VPAD_VPAC1;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE2D51;
+Reference = VP_29;
+ValeurCmp = VPDEV1;
+IdModule  = VPAD_VPAC1;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE2E19;
+Reference = VP_30;
+ValeurCmp = VPDEV1;
+IdModule  = VPAD_VPAC1;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE2EE1;
+Reference = VP_31;
+ValeurCmp = VPDEV1;
+IdModule  = VPAD_VPAC1;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE2FA9;
+Reference = VP_32;
+ValeurCmp = VPDEV1;
+IdModule  = VPAD_VPAC1;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE3071;
+Reference = VP_33;
+ValeurCmp = VPDEV0;
+IdModule  = VPAD_VPAC0;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE3139;
+Reference = VP_34;
+ValeurCmp = VPDEV0;
+IdModule  = VPAD_VPAC0;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE3201;
+Reference = VP_35;
+ValeurCmp = VPDEV0;
+IdModule  = VPAD_VPAC0;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE32C9;
+Reference = VP_36;
+ValeurCmp = VPDEV1;
+IdModule  = VPAD_VPAC1;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE3391;
+Reference = VP_37;
+ValeurCmp = VPDEV1;
+IdModule  = VPAD_VPAC1;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE3459;
+Reference = VP_38;
+ValeurCmp = VPDEV2;
+IdModule  = VPAD_VPAC2;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE3521;
+Reference = VP_39;
+ValeurCmp = VPDEV1;
+IdModule  = VPAD_VPAC1;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE35E9;
+Reference = VP_40;
+ValeurCmp = VPDEV1;
+IdModule  = VPAD_VPAC1;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE36B1;
+Reference = VP_41;
+ValeurCmp = VPDEV0;
+IdModule  = VPAD_VPAC0;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE3779;
+Reference = VP_42;
+ValeurCmp = VPDEV0;
+IdModule  = VPAD_VPAC0;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE3841;
+Reference = VP_43;
+ValeurCmp = VPDEV0;
+IdModule  = VPAD_VPAC0;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE3909;
+Reference = VP_44;
+ValeurCmp = VPDEV1;
+IdModule  = VPAD_VPAC1;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE39D1;
+Reference = VP_45;
+ValeurCmp = VPDEV1;
+IdModule  = VPAD_VPAC1;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE3A99;
+Reference = VP_46;
+ValeurCmp = VPDEV1;
+IdModule  = VPAD_VPAC1;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE3B61;
+Reference = VP_47;
+ValeurCmp = VPDEV1;
+IdModule  = VPAD_VPAC1;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE3C29;
+Reference = VP_48;
+ValeurCmp = VPDEV1;
+IdModule  = VPAD_VPAC1;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE3CF1;
+Reference = VP_49;
+ValeurCmp = VPDEV1;
+IdModule  = VPAD_VPAC1;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE3DB9;
+Reference = VP_50;
+ValeurCmp = VPDEV1;
+IdModule  = VPAD_VPAC1;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE3E81;
+Reference = VP_51;
+ValeurCmp = VPDEV0;
+IdModule  = VPAD_VPAC0;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE3F49;
+Reference = VP_52;
+ValeurCmp = VPDEV0;
+IdModule  = VPAD_VPAC0;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE4011;
+Reference = VP_53;
+ValeurCmp = VPDEV0;
+IdModule  = VPAD_VPAC0;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE40D9;
+Reference = VP_54;
+ValeurCmp = VPDEV0;
+IdModule  = VPAD_VPAC0;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE41A1;
+Reference = VP_55;
+ValeurCmp = VPDEV0;
+IdModule  = VPAD_VPAC0;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE4269;
+Reference = VP_56;
+ValeurCmp = VPDEV0;
+IdModule  = VPAD_VPAC0;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE4331;
+Reference = VP_57;
+ValeurCmp = VPDEV0;
+IdModule  = VPAD_VPAC0;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE43F9;
+Reference = VP_58;
+ValeurCmp = VPDEV0;
+IdModule  = VPAD_VPAC0;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE44C1;
+Reference = VP_59;
+ValeurCmp = VPDEV0;
+IdModule  = VPAD_VPAC0;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE4589;
+Reference = VP_60;
+ValeurCmp = VPDEV0;
+IdModule  = VPAD_VPAC0;
+EndCmp
+
+BeginCmp
+TimeStamp = /55DE4651;
+Reference = VP_61;
+ValeurCmp = VPDEV0;
+IdModule  = VPAD_VPAC0;
+EndCmp
+
+EndListe
