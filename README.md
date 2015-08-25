@@ -1,7 +1,7 @@
 ###**Converting from Eagle to KiCad.**
 
 
-* The following 5 **ulp** (eagle user script file) and one **ulp** include file, work in together or stand alone too converts **Eagle**  *sch/lbr's* version 6.xx file(s) to **KiCad** *sch* and *lib/mod* files.  
+* The following 5 **ulp** (eagle user script file) and one **ulp** include file, work together or stand alone to convert **Eagle**  *sch/lbr's* version 6.xx file(s) to **KiCad** *sch* and *lib/mod* files.  
 
 * The Programs will do
 	* Eagle multi sheet sch to KiCad  multi sheets.  
@@ -18,7 +18,7 @@
 * By using the  the following **ulp's**  a consistent link from the SCH to PCB is maintained So forward and backwoods net-list annotation work's under KiCad!  
 
  **WARNING KiCad via's don't retain NET information from Eagle,  so KiCad flood fill's will not connect to them !!!**
- **The option to convert free(unnconect Via's) to Pads can help witht he problem.**  
+ **The option to convert free(unnconect Via's) to Pads can help with the problem.**  
 
 
 ###Installing.
@@ -49,7 +49,8 @@
 * **4:** A file requester window will open.  Using this, to select find or type the location of the ***renumber-sheet.ulp*** ULP you download from this website. We use this script to make sure all part prefix's are ending in a number  IE:   R0,  X1   etc. As KiCad will ask to renumber any prefix which dose not end in a number. *(It may do this any way, but don't worry it wont change any Prefix's which have already been numbered unless you tell it too!)*  Keeping prefix's consistent from SCH to PCB will allow net-list forward and back annotation to work in KiCad. Select **OK** *(this will run the scrip)*.  When this completes all references with out a number, should have a number appended to them. Note: This number will start from the largest reference number on the SCH/PCB.
 
 * **5:** Next stage will run automatically, ***fix_via_hack.ulp*** This will check for free unconnected VIA'S and convert them to PADS,  this is very much a hack, as it change's the Eagle SCH/PCB files.  The changed files are saved in ***targetdir/modified_eagle_files/***
-There are 2 option's Document the VIA'S/PADS buy putting a ">" and net lable name on the VIA/PAD. Second option is to Not to convert the VIA's to PAD'S.
+There are 2 option's Document the VIA'S/PADS buy putting a **>** and net lable name on the VIA/PAD on layer 51 for Ealge, and Dwgs.User for KiCad. Second option is to Not to convert the VIA's to PAD'S.
+The ulp hack add's pad's to the SCH file, at x/y 0.0 0.0 this may conflict with any net/part at this lowcation, so please move the sch/pcb contents so, there is no parts/nets at this lowcation before running the script.
 
 * **6:** Next stage will run automatically  
 Set the option/location of the download ULP. And also Make sure you make/select a ***clean target directory*** where all the KiCad file's will be put. Select OK, And with luck you should have SCH part done.   The previous ULP will link automatically to ***exp-lbrs.ulp*** for the  next step: If you have selected extract the KiCad lib's from Eagle SCH/PCB *(The default).* This  ULP will build  Eagle lbr file,  *Note: this can be a very slow process,  and will  
