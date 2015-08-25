@@ -17,7 +17,7 @@
 
 // THIS PROGRAM IS PROVIDED AS IS AND WITHOUT WARRANTY OF ANY KIND, EXPRESSED OR IMPLIED
 
-string Version = "ULP Version 4.4.3";
+string Version = "ULP Version 4.4.4";
 
 /*
  * CHANGELOG================================================
@@ -135,6 +135,35 @@ string myULP_HOME = EAGLE_HOME + '/';
 string infoTargetDirectory  = "<h3>Set the target directory for the KiCad files.</h3>"+
                              "<b>Note this directory should be a clean directory"+
                              "With out any other file's, as the contents may be<center><font color=\"red\">OVER WRITTEN WITHOUT WARNING!</b></center>";
+
+string infoULPdir           = "<b>Eagle ULP conversion script location</b>";
+
+string ULP_Path;
+char bkslash = '/';
+int pos = strrchr(argv[0], bkslash);
+
+
+//--------------------------------------------------------------------------------
+//Returns 1, if EAGLE is running under Windows (0 for Linux/Mac)
+//
+int IsWindows()
+{
+  if ((strsub(argv[0],0,1)=="/") && (strsub(argv[0],0,2)!="//"))
+    return 0;
+  return 1;
+}
+
+
+//--------------------
+// check for existing file
+// Return's 1 if found
+int check_for_exist_file(string FileName) {
+  string a[];
+  int n = fileglob(a, FileName);
+  if (n == 0) return 0;
+  else return 1;
+}
+
 
 
 //--------------------------------------------------------------------------------
@@ -428,13 +457,69 @@ void visible(UL_SCHEMATIC S) {
 // 
 void menue(void)
 {
+
+  int result;
+  int rs = 0;
   string tmpSX;
   int space = 10;
   int saveAsDefault = 1;
   int saveAsDefaultULP_Path = 1;
+  string tmpS10 = "";
   
-  int Result = dlgDialog("Vis to Pad hack")
+  result = dlgDialog("Vis to Pad hack:" + "  BUILD DATE:" + BUILD_DATE )
       {
+        dlgLabel("<b><font color=\"red\">This ULP will change unconnected VIA's to PADS with Same Net name as the VIA's<br>" + 
+                 "<font color=\"blue\">This is needed because KiCad dose not support Net Names on VIA'S.!<br>"+
+                 "If unconnected VIA's (<i>By that I mean VIA'S which have no track's connected to a PAD</i>)<br>"+
+                 "will lose net names, and will not connect to fill's or power plane's!<br>"+
+                 "This hack will help out by converting all those unconnected VIA'S to Pads<br>"+
+                 "<i>Click on Info for more, information and problem's which is could fix/make!</i><br>"+
+                 "<b>NOTE:<i> This hack modifies both the eagle sch and PCB file,  which are saved in the TARGET-DIRECTORY/modified_eagle_files/</i>");
+ 
+        dlgHBoxLayout dlgSpacing(900);
+        dlgHBoxLayout
+        {
+          dlgStretch(0);
+          dlgSpacing(space);
+
+          if( strlen( tmpS10 ))
+          {
+            myULP_HOME = tmpS10;
+          }
+          else
+          {
+            tmpSX = cfgget( cfg_SCRIP_ULP, myULP_HOME );
+            if( strlen(tmpSX ) )
+              myULP_HOME = tmpSX;
+          }
+          //                dlgMessageBox( myULP_HOME + "/exp-lbrs.ulp");
+          if( !(check_for_exist_file( myULP_HOME + "exp-lbrs.ulp" ) &&  check_for_exist_file( myULP_HOME + "eagle-lbr2kicad-1.0.ulp") && check_for_exist_file( myULP_HOME + "renumber-sheet.ulp" )) )
+          {
+            dlgLabel("<b><font color=\"red\">ULP conversion script files Location Not correct!");
+            tmpS10 = myULP_HOME;
+            rs = 1;
+          }
+          else
+          {
+            dlgLabel("<font color=\"green\">ULP conversion script files Location");
+            rs = 0;
+            tmpS10 = "";                  
+          }
+                
+          dlgStringEdit(  myULP_HOME );
+          dlgCheckBox("Save as default", saveAsDefaultULP_Path );
+          dlgPushButton("Edit") { tmpS10 = myULP_HOME = dlgDirectory("Select Targget directory", "C:\\") + '/'; rs = 1; dlgAccept(); };
+          dlgPushButton("Info") { if (dlgMessageBox( infoULPdir, "Ok") == 0); };
+          dlgStretch(0);
+
+          /* if( !(check_for_exist_file( myULP_HOME + "exp-lbrs.ulp" ) &&  check_for_exist_file( myULP_HOME + "eagle-lbr2kicad-1.0.ulp") && check_for_exist_file( myULP_HOME + "renum.ulp" ) )) */
+          /*   { */
+                
+          /*   } */
+
+
+        }
+
         dlgHBoxLayout
         {
           dlgStretch(0);
@@ -482,7 +567,7 @@ void menue(void)
         }
       };
 
-  if (!Result)
+  if (!result)
     exit (0);
   return ;
 }
@@ -641,7 +726,20 @@ int main()
 {
   string fname;
   string tmpSX;
-  
+
+  if (pos >= 0) 
+  { 
+    string tmpSX = ""; 
+    ULP_Path = strsub(argv[0], 0, pos + 1);
+
+    tmpSX = cfgget( cfg_SCRIP_ULP, myULP_HOME );
+    if( strlen(tmpSX ) )
+      myULP_HOME = tmpSX;
+    else
+      myULP_HOME = ULP_Path; 
+  }
+
+
   if( schematic || library )
   {
     dlgMessageBox("<b><h2>This ulp can only be run with the target pcb board open!</h2></b>");             

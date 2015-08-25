@@ -99,6 +99,15 @@ string infoTargetDirectory  = "<h3>Set the target directory for the KiCad files.
                              "<b>Note this directory should be a clean directory"+
                              "With out any other file's, as the contents may be<center><font color=\"red\">OVER WRITTEN WITHOUT WARNING!</b></center>";
 
+string infoULPdir           = "<b>Eagle ULP conversion script location</b>";
+
+string ULP_Path;
+char bkslash = '/';
+int pos = strrchr(argv[0], bkslash);
+
+
+
+
 
 //--------------------------------------------------------------------------------
 //Returns 1, if EAGLE is running under Windows (0 for Linux/Mac)
@@ -109,6 +118,68 @@ int IsWindows()
     return 0;
   return 1;
 }
+
+
+//--------------------
+// check for existing file
+// Return's 1 if found
+int check_for_exist_file(string FileName) {
+  string a[];
+  int n = fileglob(a, FileName);
+  if (n == 0) return 0;
+  else return 1;
+}
+
+
+//------------------------------------------------------
+// Replaces all occurrences of a charter in a string with a string
+//------------------------------------------------------
+string charstr_replace(string search, string replace, string subject)
+{
+  int lastpos = 0;
+  int pos = 0;
+  string before;
+  string after;
+
+  for( pos = 0; pos < strlen(search); pos++ )
+  {
+    lastpos = 0;
+    while( (( lastpos = strchr( subject, search[ pos ], lastpos)) != -1 ))
+    {
+      before = strsub(subject, 0, lastpos);  //  get the before string
+      after = strsub(subject, lastpos + 1, strlen(subject) - lastpos );
+      subject = before + replace + after;
+      lastpos = strlen(before) + strlen( replace ); // 
+    }
+  }
+  return subject;
+}
+//------------------------------------------------------
+//Replaces all occurrences of a substring found within a string.
+//------------------------------------------------------
+string str_replace(string search, string replace, string subject)
+{
+    int lastpos = 0;
+    int pos;
+    string before;
+    string after;
+
+    // Check if there is any thing to replace
+    if( strstr(subject, search, lastpos) == -1)
+    	return subject;  // No so just return input string
+    
+    while (strstr(subject, search, lastpos) >= 0)
+    {
+        pos = strstr(subject, search, lastpos);
+        before = strsub(subject, 0, pos);
+        after = strsub(subject, pos + strlen(search), strlen(subject) - ( pos + strlen(search)) );
+        subject = before + replace + after;
+        lastpos = pos + strlen(replace);
+    }
+    return subject;
+}
+
+
 //--------------------------------------------------------------------------------
 // check for existing file
 // Returns 1 if found.
@@ -393,19 +464,66 @@ void visible(UL_SCHEMATIC S) {
 //
 void menue(void)
 {
+  int result;
+  int rs = 0;
   string tmpSX;
   int space = 10;
   int saveAsDefault = 1;
   int saveAsDefaultULP_Path = 1;
+  string tmpS10 = "";
+
   
-  int Result = dlgDialog("Add numbers to unnumbered part reference's")
+  result = dlgDialog("Add numbers to unnumbered part reference's:  " + "BUILD DATE:" + BUILD_DATE )
       {
 
-        dlgLabel("<b><font color=\"red\">This ULP will add numbers to any part Refance whichs dose not have<br>" + 
-                 "Number postfix, IE: 'C' will become 'C1' etc<br>!"+
-                 "Note 1: Any parts which do have a nuwmic postfix will not be chance<br>"+
-                 "Note 2: This will ");
+        dlgLabel("<b><font color=\"red\">This ULP will add numbers to any part Reference which dose not have " + 
+                 "Number post-fix, IE: 'C' will become 'C1' etc!<br>"+
+                 "<font color=\"blue\">Note 1:<i> Any parts which do have a numeric post-fix will not be chance.</i><br>"+
+                 "Note 2:<i> This will modify the Eagle SCH/PCB files and save the results in TARGET-DIRECTORY/modified_eagle_files/</i>");
 
+              dlgHBoxLayout dlgSpacing(900);
+              dlgHBoxLayout
+              {
+                dlgStretch(0);
+                dlgSpacing(space);
+
+                if( strlen( tmpS10 ))
+                {
+                  myULP_HOME = tmpS10;
+                }
+                else
+                {
+                  tmpSX = cfgget( cfg_SCRIP_ULP, myULP_HOME );
+                  if( strlen(tmpSX ) )
+                    myULP_HOME = tmpSX;
+                }
+                //                dlgMessageBox( myULP_HOME + "/exp-lbrs.ulp");
+                if( !(check_for_exist_file( myULP_HOME + "exp-lbrs.ulp" ) &&  check_for_exist_file( myULP_HOME + "eagle-lbr2kicad-1.0.ulp") && check_for_exist_file( myULP_HOME + "renumber-sheet.ulp" )) )
+                {
+                  dlgLabel("<b><font color=\"red\">ULP conversion script files Location Not correct!");
+                  tmpS10 = myULP_HOME;
+                  rs = 1;
+                }
+                else
+                {
+                  dlgLabel("<font color=\"green\">ULP conversion script files Location");
+                  rs = 0;
+                  tmpS10 = "";                  
+                }
+                
+                dlgStringEdit(  myULP_HOME );
+                dlgCheckBox("Save as default", saveAsDefaultULP_Path );
+                dlgPushButton("Edit") { tmpS10 = myULP_HOME = dlgDirectory("Select Targget directory", "C:\\") + '/'; rs = 1; dlgAccept(); };
+                dlgPushButton("Info") { if (dlgMessageBox( infoULPdir, "Ok") == 0); };
+                dlgStretch(0);
+
+                /* if( !(check_for_exist_file( myULP_HOME + "exp-lbrs.ulp" ) &&  check_for_exist_file( myULP_HOME + "eagle-lbr2kicad-1.0.ulp") && check_for_exist_file( myULP_HOME + "renum.ulp" ) )) */
+                /*   { */
+                
+                /*   } */
+
+
+              }
         
         dlgHBoxLayout
         {
@@ -454,7 +572,7 @@ void menue(void)
         }
       };
 
-  if (!Result)
+  if (!result)
     exit (0);
   return ;
 }
@@ -464,6 +582,23 @@ void menue(void)
 //--------------------------------------------------------------------------------
 // Main
 //
+
+if (pos >= 0) 
+{ 
+  string tmpSX = ""; 
+  ULP_Path = strsub(argv[0], 0, pos + 1);
+
+  tmpSX = cfgget( cfg_SCRIP_ULP, myULP_HOME );
+  if( strlen(tmpSX ) )
+    myULP_HOME = tmpSX;
+  else
+    myULP_HOME = ULP_Path; 
+}
+
+//dlgMessageBox(  "ULP_Path=" + ULP_Path);
+
+
+
 if (schematic) {
   if (sheet) {
     sheet(S) actual_sheet = S.number;
@@ -616,13 +751,23 @@ if (schematic) {
     visible(S);
 
 
+    
+    //    dlgMessageBox(ULP_Path,"aroo","aree");                       //opens a dialog box with the path in the notification area
+
+        
+
+
+
     if( IsWindows() == 0 ) // Returns 0 for Linux/Mac
     { // Linux
       system( "mkdir " +"'"+ outputPath + "modified_eagle_files"+"'"  );
     }
     else
     { // Windows
-      system( "cmd.exe /c " +"'"+ outputPath + "modified_eagle_files"+"'"  );
+      string t = "'" + str_replace("/", "\\\\", outputPath + "modified_eagle_files"  )+"'";
+//      dlgMessageBox(  "cmd.exe /c mkdir " + t );
+//      dlgMessageBox(  "cmd.exe /c mkdir " +"'" + str_replace("/", "\\\\", outputPath + "modified_eagle_files"  )+"'");
+      system( "cmd.exe /c mkdir \"" + str_replace("/", "\\\\", outputPath + "modified_eagle_files"  )+"\"");
     }
       
       
@@ -630,7 +775,6 @@ if (schematic) {
     // write save command
     if( IsWindows() == 0 ) // Returns 0 for Linux/Mac
       sprintf(c, "write '@%s';\n", outputPath + "modified_eagle_files" +"/"+ schname );
-
     else
       sprintf(c, "write '@%s';\n", outputPath + "modified_eagle_files" +"\\"+ schname );
     cmd += c;

@@ -15,6 +15,7 @@
 //-------------------------------------------------------------------------------- 
 // Change log.
 // Date:    Note:
+// 25-Aug-2015  Fix space in Path problem, for windows by adding ' ' L. A.
 // 31-Jul-2015  Fix some spelling mistakes.  L. A.
 // 28-Jul-2015  Fix a number of problems where,  Pin and Pad's over lap, and add error reporting log file.
 // 13-Mar-2015  Add more help to info boxs.  L. A.
@@ -23,7 +24,7 @@
 #require 6.0301
 #include "eagle_to_kicad_include.inc"
 //
-string Version = "6.4";
+string Version = "6.5";
 
 int TEMP_HOLD_FOR_OVER_LAPPING_PIN = 19180;  //  Tempory of the sysmbole editor when we have over lapping pin's to deal with
 int TEMP_HOLD_FOR_OVER_LAPPING_SMD_PAD = 19180;  //  Tempory of the sysmbole editor when we have over lapping hole/smd pad's to deal with
@@ -1198,7 +1199,7 @@ int Result = dlgDialog(TR("Export EAGLE libraries from drawing")) {
         if( strlen( tmpS1 ) > 1 )
           myULP_HOME = tmpS1;
         
-        sprintf(tmpS1, "SCRIPT %s;run %s\n", ScriptName, myULP_HOME + "eagle-lbr2kicad-1.0.ulp" );
+        sprintf(tmpS1, "SCRIPT '%s'\n;run '%s'\n", ScriptName, myULP_HOME + "eagle-lbr2kicad-1.0.ulp" );
         exit( tmpS1 );
         
         //        exit("SCRIPT '"+ScriptName+"';\n"); // pass script file name back to eagle sch/pcb
