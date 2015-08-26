@@ -537,9 +537,31 @@ void menue(void)
           dlgStretch(0);
         }
 
+
+        dlgHBoxLayout
+        {
+          dlgStretch(10);
+          dlgSpacing(space);
+          dlgLabel("Convert Via to PAD's");
+          dlgCheckBox("YES", enable_via_to_pad );
+          dlgPushButton("Info") { if (dlgMessageBox( infoTargetDirectory, "Ok") == 0); };
+          dlgStretch(0);
+        }
+
+        dlgHBoxLayout
+        {
+          dlgStretch(10);
+          dlgSpacing(space);
+          dlgLabel("Docment unconnect VIA's");
+          dlgCheckBox("YES", docment_via_to_pad );
+          dlgPushButton("Info") { if (dlgMessageBox( infoTargetDirectory, "Ok") == 0); };
+          dlgStretch(0);
+        }
+
+      
         dlgVBoxLayout 
         {
-          dlgStretch(0);
+          dlgStretch(10);
           dlgHBoxLayout 
           {
             dlgStretch(1);
