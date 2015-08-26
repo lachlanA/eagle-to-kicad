@@ -1881,10 +1881,10 @@ void write_kicad_components( UL_SHEET S )
 
 	      printf( "$Comp\n" );
 	      if( addLibPrefix )
-                printf( "L %s %s\n", strupr( libName ) + libNamePartNameSeperator + charstr_replace( ",()", "_", deviceName), refanceName );
+                printf( "L %s %s\n", strupr( libName ) + libNamePartNameSeperator + charstr_replace( ",()/", "_", deviceName), refanceName );
               //                printf( "L %s %s\n", strupr( libName ) + libNamePartNameSeperator + str_replace( ",", "_", deviceName), refanceName );              
 	      else
-		printf( "L %s %s\n", charstr_replace( ",()", "_", deviceName), refanceName );
+		printf( "L %s %s\n", charstr_replace( ",()/", "_", deviceName), refanceName );
               //		printf( "L %s %s\n", str_replace( ",", "_", deviceName), refanceName );
 	      //	      printf( "L %s %s\n", deviceName, refanceName );
 	      //	      printf( "U %d %d %X\n", 1, 1, time() );
@@ -2222,10 +2222,10 @@ void write_kicad_components( UL_SHEET S )
 
 	      printf( "$Comp\n" );
 	      if( addLibPrefix )
-		printf( "L %s %s\n", strupr( libName ) + libNamePartNameSeperator + charstr_replace( ",()", "_", deviceName), "#" + refanceName );
+		printf( "L %s %s\n", strupr( libName ) + libNamePartNameSeperator + charstr_replace( ",()/", "_", deviceName), "#" + refanceName );
               //              printf( "L %s %s\n", strupr( libName ) + libNamePartNameSeperator + str_replace( ",", "_", deviceName), "#" + refanceName );
 	      else
-		printf( "L %s %s\n", charstr_replace( ",()", "_", deviceName), "#" + refanceName );
+		printf( "L %s %s\n", charstr_replace( ",()/", "_", deviceName), "#" + refanceName );
               //              printf( "L %s %s\n", str_replace( ",", "_", deviceName), "#" + refanceName );              
 
 	      //	      printf( "L %s %s\n", deviceName, refanceName );
