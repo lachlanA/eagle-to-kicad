@@ -1,0 +1,10 @@
+GRID MIL 100 OFF;
+DISPLAY NONE 94 -95 -96;
+GRID INCH 0.1;
+EDIT .S1;
+DISP NONE 91 92 94 95 96 97 98 101 102 104 116 121 122 151 200 201 202 203 204 205 206 207 208 209 210 211 212 213 214 215 216 217 218 254 ;
+write '@/home/laudas/eagle/eagle-lbr2kicad/examples/OLINUXINO/A10-A20-OLINUXINO-MICRO-4GB_Rev_D/kicad_files/modified_eagle_files/A10-A20-OLINUXINO-MICRO-4GB_Rev_D.sch';
+board;
+write '@/home/laudas/eagle/eagle-lbr2kicad/examples/OLINUXINO/A10-A20-OLINUXINO-MICRO-4GB_Rev_D/kicad_files/modified_eagle_files/A10-A20-OLINUXINO-MICRO-4GB_Rev_D.brd';
+
+run fix_via_hack.ulp;

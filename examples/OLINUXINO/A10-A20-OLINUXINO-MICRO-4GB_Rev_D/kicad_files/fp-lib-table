@@ -1,0 +1,3 @@
+(fp_lib_table
+  (lib (name A10-A20-OLINUXINO-MICRO-4GB_Rev_D)(type Legacy)(uri /home/laudas/eagle/eagle-lbr2kicad/examples/OLINUXINO/A10-A20-OLINUXINO-MICRO-4GB_Rev_D/kicad_files/A10-A20-OLINUXINO-MICRO-4GB_Rev_D.mod)(options "")(descr ""))
+)
