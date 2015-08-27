@@ -1,8 +1,0 @@
-grid mic;
-write;
-edit '/home/laudas/eagle/eagle-lbr2kicad/examples/OLINUXINO/A10-A20-OLINUXINO-MICRO-4GB_Rev_D/kicad_files/modified_eagle_files/A10-A20-OLINUXINO-MICRO-4GB_Rev_D.sch';
-write;
-edit .brd;
-edit '/home/laudas/eagle/eagle-lbr2kicad/examples/OLINUXINO/A10-A20-OLINUXINO-MICRO-4GB_Rev_D/kicad_files/modified_eagle_files/A10-A20-OLINUXINO-MICRO-4GB_Rev_D.sch';
-write;
-run eagle6xx-sch-to-kicad-sch.ulp;

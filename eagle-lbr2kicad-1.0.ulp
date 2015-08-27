@@ -15,6 +15,9 @@
 
 /*
  * CHANGELOG=(dd.mm.yyyy)===============================================
+ * 27.08.2015:  Fix Power systembal to correct for KiCad Power fills, change power supllie to opersit of Eagle.
+ *              Change pin to hide when power. supply system.
+ *
  * 19.07.2015:  Fix / slash in Ealge's lib and part name's and device name
  *              Add faster string replace/subsute sub "string charstr_replace(string search, string replace, string subject)"
  *              Thanks to: Lachlan  "lachlanusa (at) gmail.com"
@@ -138,7 +141,7 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-real VERSION   = 1.4;
+real VERSION   = 1.5;
 int add_libnamePrefixToPartName = 0;
 
 int rect_conv  = 1; // many QFP-like packages use rectangles as a pin contour (too much segments in the ki-format)
@@ -1158,7 +1161,7 @@ void write_kikad_polygon( UL_GATE G, int transX, int transY, int gatePos )
 	if( polyCoord[0] == ' ' )  // Remove leading space, not shure how it get's in the string !!
 	  polyCoord = strsub( polyCoord, 1);	  
 	  
-	  printf("P %d %d %d %d %s %c\n", countPolyCoord, gatePos, 1, 0, polyCoord, fillPattern);
+	  printf("P %d %d %d %d %s %c N\n", countPolyCoord, gatePos, 1, 0, polyCoord, fillPattern);
 
     }
 }
@@ -1191,7 +1194,7 @@ void write_kikad_arc_line( UL_GATE G, int transX, int transY, int gatePos )
             int y1     = WIRE.y1 / g_Fact - transY;
             int x2     = WIRE.x2 / g_Fact - transX;
             int y2     = WIRE.y2 / g_Fact - transY;
-            printf("P 2 %d %d %d %d %d %d %d\n", gatePos, 0, 0, x1, y1, x2, y2 );
+            printf("P 2 %d %d %d %d %d %d %d N\n", gatePos, 0, 0, x1, y1, x2, y2 );
         }
     }
 }
@@ -1333,12 +1336,40 @@ void write_kikad_pins( UL_GATE G, int  transX, int transY, int gatePos )
         int    posX       = P.x / g_Fact - transX;
         int    posY       = P.y / g_Fact - transY;
         int    padCount   = 0;
-
+        int    x2         = 0;
+        int    y2         = 0;
+        
         if (pinCount >= 9999 )
         {
             dlgMessageBox("Canceled! To many pin numbers. (>9999)" );
             exit(EXIT_FAILURE);
         }
+
+
+
+        switch (P.length)
+        {
+          case PIN_LENGTH_POINT:
+            pinLength = 0;
+            break;
+
+          case PIN_LENGTH_SHORT:
+            pinLength = 100;
+            break;
+
+          case PIN_LENGTH_MIDDLE:
+            pinLength = 200;
+            break;
+
+          case PIN_LENGTH_LONG:
+            pinLength = 300;
+            break;
+
+          default:
+            pinLength = 200;
+            break;
+        }
+
 
         pinAngle = P.angle;
 
@@ -1346,47 +1377,35 @@ void write_kikad_pins( UL_GATE G, int  transX, int transY, int gatePos )
         {
         case 0:
             orient = 'R';
+            x2 = posX + pinLength;
+            y2 = posY;
             break;
 
         case 90:
             orient = 'U';
+            x2 = posX;
+            y2 = posY + pinLength;
             break;
 
         case 180:
             orient = 'L';
+            x2 = posX + pinLength;
+            y2 = posY;
             break;
 
         case 270:
             orient = 'D';
+            x2 = posX;
+            y2 = posY - pinLength;
             break;
 
         default:
             orient = 'R';
+            x2 = posX + pinLength;
+            y2 = posY;
             break;
         }
 
-        switch (P.length)
-        {
-        case PIN_LENGTH_POINT:
-            pinLength = 0;
-            break;
-
-        case PIN_LENGTH_SHORT:
-            pinLength = 100;
-            break;
-
-        case PIN_LENGTH_MIDDLE:
-            pinLength = 200;
-            break;
-
-        case PIN_LENGTH_LONG:
-            pinLength = 300;
-            break;
-
-        default:
-            pinLength = 200;
-            break;
-        }
 
         switch (P.direction)
         {
@@ -1410,7 +1429,7 @@ void write_kikad_pins( UL_GATE G, int  transX, int transY, int gatePos )
             pinType = 'C';
             break;
 
-        case PIN_DIRECTION_PWR:
+          case PIN_DIRECTION_PWR: // Input for KiCad
             pinType = 'W';
             break;
 
@@ -1422,7 +1441,7 @@ void write_kikad_pins( UL_GATE G, int  transX, int transY, int gatePos )
             pinType = 'T';
             break;
 
-        case PIN_DIRECTION_SUP:
+          case PIN_DIRECTION_SUP: // Output for KiCad
             pinType = 'w';
             break;
 
@@ -1454,8 +1473,8 @@ void write_kikad_pins( UL_GATE G, int  transX, int transY, int gatePos )
             break;
         }
 
-        P.contacts(pad)
-        {
+        P.contacts(pad)  // Real componet ?
+        { // Yes
             if (padCount > 0)
             {
                 pinShape = "N";
@@ -1469,13 +1488,21 @@ void write_kikad_pins( UL_GATE G, int  transX, int transY, int gatePos )
             padCount++;
         }
 
-        if (padCount == 0)
-        {
-            printf( "X %s %s %d %d %d %c %d %d %d %d %c %s\n", stripArfterAT(P.name, '@', deleteTextArfterATsysbolInPinName), "~",
-                    posX, posY,
-                    pinLength, orient,
-                    40, 40, gatePos, 1,
-                    pinType, pinShape );
+        if (padCount == 0) // Virtual componet ?
+        { //Yes
+          pinShape = "N";        // Pin shape is hide for KiCad !
+          if( pinType == 'w' )   // Change meaning for virual suplie ?
+            pinType = 'W';   // Change meaning for virual suplie to Input
+
+          
+          printf("P 2 %d %d %d %d %d %d %d N\n", gatePos, 0, 0, posX, posY, x2, y2 );
+
+          
+          printf( "X %s %s %d %d %d %c %d %d %d %d %c %s\n", stripArfterAT(P.name, '@', deleteTextArfterATsysbolInPinName), "~",
+                  posX, posY,
+                  pinLength, orient,
+                  40, 40, gatePos, 1,
+                  pinType, pinShape );
         }
     }
 }
@@ -1936,19 +1963,24 @@ void write_kikad_lib( string fileName )
             string prefixString = DEV.prefix;
             string drawPinNumberStr  = "N";
             string drawPinNameStr  = "N";
-
+            char partType = 'N';
 
 
             // Scan thou  pins looking for visabele not visable status
             int pinNameVisable = 0;
             int pinNumberVisable = 0;
             int pinCt = 0;
+            int pinPower = 0;
+            
             DEV.gates(G)
             {
               G.symbol.pins(P)
               {
                 pinCt++;
 
+                if( P.direction == PIN_DIRECTION_SUP ) // power supply pin pin ?
+                  pinPower = 1; // yes
+                
                 if( P.visible == 0)
                   continue;
                 else
@@ -1969,8 +2001,11 @@ void write_kikad_lib( string fileName )
               sprintf( prefixString, "%s", undefinedPartPreFix);
             }
             if( (!( DEV.package )) && ( pinCt <= 1 )) // dos it have package and pint count <= 1 ?
+            {
               prefixString = "#" + prefixString; //  No, so mark as virtual componet
-
+              if( pinPower == 1 )  // Is it a power supply pin ?
+                partType = 'P';   // Ok mark as vuiral Power supply
+            }
 
 
             switch (drawPinNumber)		    
@@ -2169,10 +2204,10 @@ void write_kikad_lib( string fileName )
 
               
               if( add_libnamePrefixToPartName )
-                printf("\nDEF %s_%s %s %d %d %s %s %d %c %c\n", g_lib_prefix, escape_quotes( charstr_replace( ",/", "_",nameString ) + tmpsx  ) , prefixString, 0, 40, drawPinNumberStr, drawPinNameStr, countGates, 'L', 'N');
+                printf("\nDEF %s_%s %s %d %d %s %s %d %c %c\n", g_lib_prefix, escape_quotes( charstr_replace( ",/", "_",nameString ) + tmpsx  ) , prefixString, 0, 40, drawPinNumberStr, drawPinNameStr, countGates, 'L', partType );
               //                printf("\nDEF %s_%s %s %d %d %s %s %d %c %c\n", g_lib_prefix, escape_quotes( str_replace( ",", "_",nameString ) + tmpsx  ) , prefixString, 0, 40, drawPinNumberStr, drawPinNameStr, countGates, 'L', 'N');              
               else
-                printf("\nDEF %s %s %d %d %s %s %d %c %c\n", escape_quotes( charstr_replace( ",/", "_", nameString ) + tmpsx), prefixString, 0, 40, drawPinNumberStr, drawPinNameStr, countGates, 'L', 'N');
+                printf("\nDEF %s %s %d %d %s %s %d %c %c\n", escape_quotes( charstr_replace( ",/", "_", nameString ) + tmpsx), prefixString, 0, 40, drawPinNumberStr, drawPinNameStr, countGates, 'L', partType );
               //              printf("\nDEF %s %s %d %d %s %s %d %c %c\n", escape_quotes( str_replace( ",", "_", nameString ) + tmpsx), prefixString, 0, 40, drawPinNumberStr, drawPinNameStr, countGates, 'L', 'N');                        
 
               int gatePos = 0;
