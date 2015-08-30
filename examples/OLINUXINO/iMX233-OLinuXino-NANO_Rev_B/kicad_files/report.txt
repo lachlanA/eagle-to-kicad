@@ -1,0 +1,1468 @@
+Info: Reading netlist file "/home/laudas/eagle/eagle-lbr2kicad/examples/OLINUXINO/iMX233-OLinuXino-NANO_Rev_B/kicad_files/iMX233-OLinuXino-NANO_Rev_B.net".
+
+Info: Using references to match components and footprints.
+
+* Warning: component 'VP_5': board footprint 'VPAC1', netlist footprint 'VPAD_VPAC1'
+
+* Warning: component 'VP_7': board footprint 'VPAC1', netlist footprint 'VPAD_VPAC1'
+
+* Warning: component 'VP_6': board footprint 'VPAC1', netlist footprint 'VPAD_VPAC1'
+
+* Warning: component 'VP_4': board footprint 'VPAC1', netlist footprint 'VPAD_VPAC1'
+
+* Warning: component 'VP_3': board footprint 'VPAC1', netlist footprint 'VPAD_VPAC1'
+
+* Warning: component 'VP_2': board footprint 'VPAC1', netlist footprint 'VPAD_VPAC1'
+
+* Warning: component 'VP_1': board footprint 'VPAC1', netlist footprint 'VPAD_VPAC1'
+
+* Warning: component 'VP_0': board footprint 'VPAC0', netlist footprint 'VPAD_VPAC0'
+
+* Warning: component 'U$7': board footprint 'FIDUCIAL-1X2', netlist footprint 'SPARKFUNEAGLE-6-6-07_FIDUCIAL-1X2'
+
+* Warning: component 'U$13': board footprint 'FIDUCIAL-1X2', netlist footprint 'SPARKFUNEAGLE-6-6-07_FIDUCIAL-1X2'
+
+* Warning: component 'U$3': board footprint 'FIDUCIAL-1X2', netlist footprint 'SPARKFUNEAGLE-6-6-07_FIDUCIAL-1X2'
+
+* Warning: component 'U$2': board footprint 'FIDUCIAL-1X2', netlist footprint 'SPARKFUNEAGLE-6-6-07_FIDUCIAL-1X2'
+
+* Warning: component 'U$1': board footprint 'FIDUCIAL-1X2', netlist footprint 'SPARKFUNEAGLE-6-6-07_FIDUCIAL-1X2'
+
+* Warning: component 'U$14': board footprint 'FIDUCIAL-1X2', netlist footprint 'SPARKFUNEAGLE-6-6-07_FIDUCIAL-1X2'
+
+* Warning: component 'D2': board footprint 'SOT23C', netlist footprint 'SEMICON-SMD-IPC_SOT23C'
+
+* Warning: component 'T1': board footprint 'SOT23', netlist footprint 'SEMICON-SMD-IPC_SOT23'
+
+* Warning: component 'T2': board footprint 'SOT23', netlist footprint 'SEMICON-SMD-IPC_SOT23'
+
+* Warning: component 'R7': board footprint 'R0603_5MIL_DWS', netlist footprint 'RCL_R0603_5MIL_DWS'
+
+* Warning: component 'R14': board footprint 'R0603_5MIL_DWS', netlist footprint 'RCL_R0603_5MIL_DWS'
+
+* Warning: component 'R10': board footprint 'R0603_5MIL_DWS', netlist footprint 'RCL_R0603_5MIL_DWS'
+
+* Warning: component 'R9': board footprint 'R0603_5MIL_DWS', netlist footprint 'RCL_R0603_5MIL_DWS'
+
+* Warning: component 'R13': board footprint 'R0603_5MIL_DWS', netlist footprint 'RCL_R0603_5MIL_DWS'
+
+* Warning: component 'R11': board footprint 'R0603_5MIL_DWS', netlist footprint 'RCL_R0603_5MIL_DWS'
+
+* Warning: component 'R12': board footprint 'R0603_5MIL_DWS', netlist footprint 'RCL_R0603_5MIL_DWS'
+
+* Warning: component 'R16': board footprint 'R0603_5MIL_DWS', netlist footprint 'RCL_R0603_5MIL_DWS'
+
+* Warning: component 'R8': board footprint 'R0603_5MIL_DWS', netlist footprint 'RCL_R0603_5MIL_DWS'
+
+* Warning: component 'R17': board footprint 'R0603_5MIL_DWS', netlist footprint 'RCL_R0603_5MIL_DWS'
+
+* Warning: component 'R18': board footprint 'R0603_5MIL_DWS', netlist footprint 'RCL_R0603_5MIL_DWS'
+
+* Warning: component 'R19': board footprint 'R0603_5MIL_DWS', netlist footprint 'RCL_R0603_5MIL_DWS'
+
+* Warning: component 'R20': board footprint 'R0603_5MIL_DWS', netlist footprint 'RCL_R0603_5MIL_DWS'
+
+* Warning: component 'R21': board footprint 'R0603_5MIL_DWS', netlist footprint 'RCL_R0603_5MIL_DWS'
+
+* Warning: component 'R22': board footprint 'R0603_5MIL_DWS', netlist footprint 'RCL_R0603_5MIL_DWS'
+
+* Warning: component 'R23': board footprint 'R0603_5MIL_DWS', netlist footprint 'RCL_R0603_5MIL_DWS'
+
+* Warning: component 'R6': board footprint 'R0603_5MIL_DWS', netlist footprint 'RCL_R0603_5MIL_DWS'
+
+* Warning: component 'R5': board footprint 'R0603_5MIL_DWS', netlist footprint 'RCL_R0603_5MIL_DWS'
+
+* Warning: component 'R1': board footprint 'R0603_5MIL_DWS', netlist footprint 'RCL_R0603_5MIL_DWS'
+
+* Warning: component 'R2': board footprint 'R0603_5MIL_DWS', netlist footprint 'RCL_R0603_5MIL_DWS'
+
+* Warning: component 'R3': board footprint 'R0603_5MIL_DWS', netlist footprint 'RCL_R0603_5MIL_DWS'
+
+* Warning: component 'R4': board footprint 'R0603_5MIL_DWS', netlist footprint 'RCL_R0603_5MIL_DWS'
+
+* Warning: component 'L1': board footprint 'L7078', netlist footprint 'RCL_L7078'
+
+* Warning: component 'L3': board footprint 'L0805_5MIL_DWS', netlist footprint 'RCL_L0805_5MIL_DWS'
+
+* Warning: component 'L2': board footprint 'L0805_5MIL_DWS', netlist footprint 'RCL_L0805_5MIL_DWS'
+
+* Warning: component 'L4': board footprint 'L0805_5MIL_DWS', netlist footprint 'RCL_L0805_5MIL_DWS'
+
+* Warning: component 'C45': board footprint 'CT7343', netlist footprint 'RCL_CT7343'
+
+* Warning: component 'C9': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C10': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C11': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C8': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C44': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C13': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C53': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C52': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C51': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C34': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C15': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C1': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C17': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C2': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C3': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C4': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C26': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C29': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C31': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C32': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C33': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C50': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C5': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C36': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C37': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C39': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C40': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C41': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C43': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C47': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C48': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C49': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C12': board footprint 'C0402_TI', netlist footprint 'RCL_C0402_TI'
+
+* Warning: component 'C6': board footprint 'C0402_TI', netlist footprint 'RCL_C0402_TI'
+
+* Warning: component 'C16': board footprint 'C0402_TI', netlist footprint 'RCL_C0402_TI'
+
+* Warning: component 'C18': board footprint 'C0402_TI', netlist footprint 'RCL_C0402_TI'
+
+* Warning: component 'C19': board footprint 'C0402_TI', netlist footprint 'RCL_C0402_TI'
+
+* Warning: component 'C20': board footprint 'C0402_TI', netlist footprint 'RCL_C0402_TI'
+
+* Warning: component 'C21': board footprint 'C0402_TI', netlist footprint 'RCL_C0402_TI'
+
+* Warning: component 'C22': board footprint 'C0402_TI', netlist footprint 'RCL_C0402_TI'
+
+* Warning: component 'C23': board footprint 'C0402_TI', netlist footprint 'RCL_C0402_TI'
+
+* Warning: component 'C24': board footprint 'C0402_TI', netlist footprint 'RCL_C0402_TI'
+
+* Warning: component 'C25': board footprint 'C0402_TI', netlist footprint 'RCL_C0402_TI'
+
+* Warning: component 'C27': board footprint 'C0402_TI', netlist footprint 'RCL_C0402_TI'
+
+* Warning: component 'C28': board footprint 'C0402_TI', netlist footprint 'RCL_C0402_TI'
+
+* Warning: component 'C30': board footprint 'C0402_TI', netlist footprint 'RCL_C0402_TI'
+
+* Warning: component 'C35': board footprint 'C0402_TI', netlist footprint 'RCL_C0402_TI'
+
+* Warning: component 'C38': board footprint 'C0402_TI', netlist footprint 'RCL_C0402_TI'
+
+* Warning: component 'C42': board footprint 'C0402_TI', netlist footprint 'RCL_C0402_TI'
+
+* Warning: component 'C14': board footprint 'C0402_TI', netlist footprint 'RCL_C0402_TI'
+
+* Warning: component 'C7': board footprint 'C0402_TI', netlist footprint 'RCL_C0402_TI'
+
+* Warning: component 'JTAG135': board footprint 'WU08S', netlist footprint 'PENKO_WU08S'
+
+* Warning: component 'USB_CON135': board footprint 'HN1X4', netlist footprint 'PENKO_HN1X4'
+
+* Warning: component 'U_DEBUG135': board footprint 'HN1X4', netlist footprint 'PENKO_HN1X4'
+
+* Warning: component 'CON1': board footprint 'HN1X30_WITHOUT(15-20)', netlist footprint 'PENKO_HN1X30_WITHOUT(15-20)'
+
+* Warning: component 'CON2': board footprint 'HN1X30_WITHOUT(15-20)', netlist footprint 'PENKO_HN1X30_WITHOUT(15-20)'
+
+* Warning: component 'LIPO_BAT135': board footprint 'DW02R', netlist footprint 'PENKO_DW02R'
+
+* Warning: component 'U2': board footprint 'TQFP128LD', netlist footprint 'OLIMEX_IC_TQFP128LD'
+
+* Warning: component 'U3': board footprint 'SOT23-5', netlist footprint 'OLIMEX_IC_SOT23-5'
+
+* Warning: component 'U1': board footprint '66TSOP-II', netlist footprint 'OLIMEX_IC_66TSOP-II'
+
+* Warning: component 'VR1': board footprint 'SOT-23-5', netlist footprint 'OLIMEX_DISCRET_SOT-23-5'
+
+* Warning: component 'RM3': board footprint 'R_MATRIX_4', netlist footprint 'OLIMEX_DISCRET_R_MATRIX_4'
+
+* Warning: component 'RM2': board footprint 'R_MATRIX_4', netlist footprint 'OLIMEX_DISCRET_R_MATRIX_4'
+
+* Warning: component 'RM1': board footprint 'R_MATRIX_4', netlist footprint 'OLIMEX_DISCRET_R_MATRIX_4'
+
+* Warning: component 'D3': board footprint 'DO214AA', netlist footprint 'OLIMEX_DISCRET_DO214AA'
+
+* Warning: component 'R15': board footprint '0603_0R', netlist footprint 'OLIMEX_DISCRET_0603_0R'
+
+* Warning: component 'USB_HOST135': board footprint 'USB_A_VERTICAL_PTH', netlist footprint 'OLIMEX_CONNECTORS_USB_A_VERTICAL_PTH'
+
+* Warning: component 'SD135': board footprint 'TFR%2fC-MEM-CON', netlist footprint 'OLIMEX_CONNECTORS_TFR_C-MEM-CON'
+
+* Warning: component 'DH/DS135': board footprint 'SJ_2_SMALLER', netlist footprint 'JUMPER_SJ_2_SMALLER'
+
+* Warning: component 'CSS/CSH135': board footprint 'SJ_2_SMALLER', netlist footprint 'JUMPER_SJ_2_SMALLER'
+
+* Warning: component 'CH/CS135': board footprint 'SJ_2_SMALLER', netlist footprint 'JUMPER_SJ_2_SMALLER'
+
+* Warning: component '0': board footprint 'SJ_1_SMALLER', netlist footprint 'JUMPER_SJ_1_SMALLER'
+
+* Warning: component '3': board footprint 'SJ_1_SMALLER', netlist footprint 'JUMPER_SJ_1_SMALLER'
+
+* Warning: component '2': board footprint 'SJ_1_SMALLER', netlist footprint 'JUMPER_SJ_1_SMALLER'
+
+* Warning: component '1': board footprint 'SJ_1_SMALLER', netlist footprint 'JUMPER_SJ_1_SMALLER'
+
+* Warning: component 'SJTAG_PSW135': board footprint 'TESTPAD', netlist footprint 'GOGO_TESTPAD'
+
+* Warning: component 'D1': board footprint 'MLL-41', netlist footprint 'GOGO_MLL-41'
+
+* Warning: component 'RESET135': board footprint 'IT1185AU2', netlist footprint 'GOGO_IT1185AU2'
+
+* Warning: component 'RECOVERY135': board footprint 'IT1185AU2', netlist footprint 'GOGO_IT1185AU2'
+
+* Warning: component 'POWER135': board footprint 'IT1185AU2', netlist footprint 'GOGO_IT1185AU2'
+
+* Warning: component 'LED1': board footprint 'LED-0603', netlist footprint 'DOUBLE-SIDE_LED-0603'
+
+* Warning: component 'Q1': board footprint 'HCX-4S', netlist footprint 'CRYSTAL_HCX-4S'
+
+* Warning: component 'UEXT135': board footprint 'ML10_S', netlist footprint 'CON-HARTING-ML_ML10_S'
+
+Info: Checking netlist component footprint "0:/55E286C7:JUMPER_SJ_1_SMALLER".
+
+Info: Changing component path "0:" to "/55E286C7".
+
+Changing component "0:/55E286C7" pin "1" net name from "N$105" to "/N$105".
+
+Info: Checking netlist component footprint "1:/55E2878F:JUMPER_SJ_1_SMALLER".
+
+Info: Changing component path "1:" to "/55E2878F".
+
+Changing component "1:/55E2878F" pin "1" net name from "N$104" to "/N$104".
+
+Info: Checking netlist component footprint "2:/55E28857:JUMPER_SJ_1_SMALLER".
+
+Info: Changing component path "2:" to "/55E28857".
+
+Changing component "2:/55E28857" pin "1" net name from "N$103" to "/N$103".
+
+Info: Checking netlist component footprint "3:/55E2891F:JUMPER_SJ_1_SMALLER".
+
+Info: Changing component path "3:" to "/55E2891F".
+
+Changing component "3:/55E2891F" pin "1" net name from "N$101" to "/N$101".
+
+Info: Checking netlist component footprint "C1:/55E289E7:RCL_C0603_DWS".
+
+Info: Changing component path "C1:" to "/55E289E7".
+
+Changing component "C1:/55E289E7" pin "2" net name from "DCDC_VDDD" to "/DCDC_VDDD".
+
+Info: Checking netlist component footprint "C2:/55E28AAF:RCL_C0603_DWS".
+
+Info: Changing component path "C2:" to "/55E28AAF".
+
+Changing component "C2:/55E28AAF" pin "2" net name from "DCDC_VDDD" to "/DCDC_VDDD".
+
+Info: Checking netlist component footprint "C3:/55E28B77:RCL_C0603_DWS".
+
+Info: Changing component path "C3:" to "/55E28B77".
+
+Info: Checking netlist component footprint "C4:/55E28C3F:RCL_C0603_DWS".
+
+Info: Changing component path "C4:" to "/55E28C3F".
+
+Info: Checking netlist component footprint "C5:/55E28D07:RCL_C0603_DWS".
+
+Info: Changing component path "C5:" to "/55E28D07".
+
+Info: Checking netlist component footprint "C6:/55E28DCF:RCL_C0402_TI".
+
+Info: Changing component path "C6:" to "/55E28DCF".
+
+Info: Checking netlist component footprint "C7:/55E28E97:RCL_C0402_TI".
+
+Info: Changing component path "C7:" to "/55E28E97".
+
+Info: Checking netlist component footprint "C8:/55E28F5F:RCL_C0603_DWS".
+
+Info: Changing component path "C8:" to "/55E28F5F".
+
+Info: Checking netlist component footprint "C9:/55E29027:RCL_C0603_DWS".
+
+Info: Changing component path "C9:" to "/55E29027".
+
+Changing component "C9:/55E29027" pin "2" net name from "VDD4P2" to "/VDD4P2".
+
+Info: Checking netlist component footprint "C10:/55E290EF:RCL_C0603_DWS".
+
+Info: Changing component path "C10:" to "/55E290EF".
+
+Changing component "C10:/55E290EF" pin "2" net name from "VDD4P2" to "/VDD4P2".
+
+Info: Checking netlist component footprint "C11:/55E291B7:RCL_C0603_DWS".
+
+Info: Changing component path "C11:" to "/55E291B7".
+
+Info: Checking netlist component footprint "C12:/55E2927F:RCL_C0402_TI".
+
+Info: Changing component path "C12:" to "/55E2927F".
+
+Info: Checking netlist component footprint "C13:/55E29347:RCL_C0603_DWS".
+
+Info: Changing component path "C13:" to "/55E29347".
+
+Changing component "C13:/55E29347" pin "2" net name from "DCDC_VDDD" to "/DCDC_VDDD".
+
+Info: Checking netlist component footprint "C14:/55E2940F:RCL_C0402_TI".
+
+Info: Changing component path "C14:" to "/55E2940F".
+
+Changing component "C14:/55E2940F" pin "2" net name from "DCDC_VDDD" to "/DCDC_VDDD".
+
+Info: Checking netlist component footprint "C15:/55E294D7:RCL_C0603_DWS".
+
+Info: Changing component path "C15:" to "/55E294D7".
+
+Info: Checking netlist component footprint "C16:/55E2959F:RCL_C0402_TI".
+
+Info: Changing component path "C16:" to "/55E2959F".
+
+Info: Checking netlist component footprint "C17:/55E29667:RCL_C0603_DWS".
+
+Info: Changing component path "C17:" to "/55E29667".
+
+Info: Checking netlist component footprint "C18:/55E2972F:RCL_C0402_TI".
+
+Info: Changing component path "C18:" to "/55E2972F".
+
+Info: Checking netlist component footprint "C19:/55E297F7:RCL_C0402_TI".
+
+Info: Changing component path "C19:" to "/55E297F7".
+
+Info: Checking netlist component footprint "C20:/55E298BF:RCL_C0402_TI".
+
+Info: Changing component path "C20:" to "/55E298BF".
+
+Info: Checking netlist component footprint "C21:/55E29987:RCL_C0402_TI".
+
+Info: Changing component path "C21:" to "/55E29987".
+
+Info: Checking netlist component footprint "C22:/55E29A4F:RCL_C0402_TI".
+
+Info: Changing component path "C22:" to "/55E29A4F".
+
+Info: Checking netlist component footprint "C23:/55E29B17:RCL_C0402_TI".
+
+Info: Changing component path "C23:" to "/55E29B17".
+
+Info: Checking netlist component footprint "C24:/55E29BDF:RCL_C0402_TI".
+
+Info: Changing component path "C24:" to "/55E29BDF".
+
+Info: Checking netlist component footprint "C25:/55E29CA7:RCL_C0402_TI".
+
+Info: Changing component path "C25:" to "/55E29CA7".
+
+Info: Checking netlist component footprint "C26:/55E29D6F:RCL_C0603_DWS".
+
+Info: Changing component path "C26:" to "/55E29D6F".
+
+Changing component "C26:/55E29D6F" pin "2" net name from "DCDC_VDDA" to "/DCDC_VDDA".
+
+Info: Checking netlist component footprint "C27:/55E29E37:RCL_C0402_TI".
+
+Info: Changing component path "C27:" to "/55E29E37".
+
+Changing component "C27:/55E29E37" pin "2" net name from "DCDC_VDDA" to "/DCDC_VDDA".
+
+Info: Checking netlist component footprint "C28:/55E29EFF:RCL_C0402_TI".
+
+Info: Changing component path "C28:" to "/55E29EFF".
+
+Changing component "C28:/55E29EFF" pin "2" net name from "N$7" to "/N$7".
+
+Info: Checking netlist component footprint "C29:/55E29FC7:RCL_C0603_DWS".
+
+Info: Changing component path "C29:" to "/55E29FC7".
+
+Info: Checking netlist component footprint "C30:/55E2A08F:RCL_C0402_TI".
+
+Info: Changing component path "C30:" to "/55E2A08F".
+
+Changing component "C30:/55E2A08F" pin "2" net name from "N$7" to "/N$7".
+
+Info: Checking netlist component footprint "C31:/55E2A157:RCL_C0603_DWS".
+
+Info: Changing component path "C31:" to "/55E2A157".
+
+Info: Checking netlist component footprint "C32:/55E2A21F:RCL_C0603_DWS".
+
+Info: Changing component path "C32:" to "/55E2A21F".
+
+Info: Checking netlist component footprint "C33:/55E2A2E7:RCL_C0603_DWS".
+
+Info: Changing component path "C33:" to "/55E2A2E7".
+
+Changing component "C33:/55E2A2E7" pin "2" net name from "N$18" to "/N$18".
+
+Info: Checking netlist component footprint "C34:/55E2A3AF:RCL_C0603_DWS".
+
+Info: Changing component path "C34:" to "/55E2A3AF".
+
+Changing component "C34:/55E2A3AF" pin "2" net name from "N$19" to "/N$19".
+
+Info: Checking netlist component footprint "C35:/55E2A477:RCL_C0402_TI".
+
+Info: Changing component path "C35:" to "/55E2A477".
+
+Changing component "C35:/55E2A477" pin "2" net name from "VDDXTAL" to "/VDDXTAL".
+
+Info: Checking netlist component footprint "C36:/55E2A53F:RCL_C0603_DWS".
+
+Info: Changing component path "C36:" to "/55E2A53F".
+
+Changing component "C36:/55E2A53F" pin "2" net name from "XTALI" to "/XTALI".
+
+Info: Checking netlist component footprint "C37:/55E2A607:RCL_C0603_DWS".
+
+Info: Changing component path "C37:" to "/55E2A607".
+
+Changing component "C37:/55E2A607" pin "2" net name from "XTALO" to "/XTALO".
+
+Info: Checking netlist component footprint "C38:/55E2A6CF:RCL_C0402_TI".
+
+Info: Changing component path "C38:" to "/55E2A6CF".
+
+Changing component "C38:/55E2A6CF" pin "2" net name from "DCDC_VDDA" to "/DCDC_VDDA".
+
+Info: Checking netlist component footprint "C39:/55E2A797:RCL_C0603_DWS".
+
+Info: Changing component path "C39:" to "/55E2A797".
+
+Changing component "C39:/55E2A797" pin "2" net name from "N$25" to "/N$25".
+
+Info: Checking netlist component footprint "C40:/55E2A85F:RCL_C0603_DWS".
+
+Info: Changing component path "C40:" to "/55E2A85F".
+
+Changing component "C40:/55E2A85F" pin "2" net name from "SD_VCC" to "/SD_VCC".
+
+Info: Checking netlist component footprint "C41:/55E2A927:RCL_C0603_DWS".
+
+Info: Changing component path "C41:" to "/55E2A927".
+
+Changing component "C41:/55E2A927" pin "2" net name from "SD_VCC" to "/SD_VCC".
+
+Info: Checking netlist component footprint "C42:/55E2A9EF:RCL_C0402_TI".
+
+Info: Changing component path "C42:" to "/55E2A9EF".
+
+Changing component "C42:/55E2A9EF" pin "1" net name from "N$38" to "/N$38".
+
+Info: Checking netlist component footprint "C43:/55E2AAB7:RCL_C0603_DWS".
+
+Info: Changing component path "C43:" to "/55E2AAB7".
+
+Info: Checking netlist component footprint "C44:/55E2AB7F:RCL_C0603_DWS".
+
+Info: Changing component path "C44:" to "/55E2AB7F".
+
+Changing component "C44:/55E2AB7F" pin "1" net name from "VDAC1" to "/VDAC1".
+
+Info: Checking netlist component footprint "C45:/55E2AC47:RCL_CT7343".
+
+Info: Changing component path "C45:" to "/55E2AC47".
+
+Info: Checking netlist component footprint "C47:/55E2AD0F:RCL_C0603_DWS".
+
+Info: Changing component path "C47:" to "/55E2AD0F".
+
+Info: Checking netlist component footprint "C48:/55E2ADD7:RCL_C0603_DWS".
+
+Info: Changing component path "C48:" to "/55E2ADD7".
+
+Info: Checking netlist component footprint "C49:/55E2AE9F:RCL_C0603_DWS".
+
+Info: Changing component path "C49:" to "/55E2AE9F".
+
+Info: Checking netlist component footprint "C50:/55E2AF67:RCL_C0603_DWS".
+
+Info: Changing component path "C50:" to "/55E2AF67".
+
+Info: Checking netlist component footprint "C51:/55E2B02F:RCL_C0603_DWS".
+
+Info: Changing component path "C51:" to "/55E2B02F".
+
+Info: Checking netlist component footprint "C52:/55E2B0F7:RCL_C0603_DWS".
+
+Info: Changing component path "C52:" to "/55E2B0F7".
+
+Changing component "C52:/55E2B0F7" pin "1" net name from "+5V_HOST_PWR" to "/+5V_HOST_PWR".
+
+Info: Checking netlist component footprint "C53:/55E2B1BF:RCL_C0603_DWS".
+
+Info: Changing component path "C53:" to "/55E2B1BF".
+
+Changing component "C53:/55E2B1BF" pin "1" net name from "+5V_HOST_PWR" to "/+5V_HOST_PWR".
+
+Info: Checking netlist component footprint "CH/CS135:/55E2B287:JUMPER_SJ_2_SMALLER".
+
+Info: Changing component path "CH/CS135:" to "/55E2B287".
+
+Changing component "CH/CS135:/55E2B287" pin "1" net name from "PIN22/LCD_EN/I2C_SCL" to "/PIN22/LCD_EN/I2C_SCL".
+
+Changing component "CH/CS135:/55E2B287" pin "2" net name from "I2C_SCL" to "/I2C_SCL".
+
+Changing component "CH/CS135:/55E2B287" pin "3" net name from "PIN29/SOFT_SCL" to "/PIN29/SOFT_SCL".
+
+Info: Checking netlist component footprint "CON1:/55E2B34F:PENKO_HN1X30_WITHOUT(15-20)".
+
+Info: Changing component path "CON1:" to "/55E2B34F".
+
+Changing component "CON1:/55E2B34F" pin "4" net name from "PIN1/LCD_D00" to "/PIN1/LCD_D00".
+
+Changing component "CON1:/55E2B34F" pin "5" net name from "PIN2/LCD_D01" to "/PIN2/LCD_D01".
+
+Changing component "CON1:/55E2B34F" pin "6" net name from "PIN3/LCD_D02" to "/PIN3/LCD_D02".
+
+Changing component "CON1:/55E2B34F" pin "7" net name from "PIN4/LCD_D03" to "/PIN4/LCD_D03".
+
+Changing component "CON1:/55E2B34F" pin "8" net name from "PIN5/LCD_D04" to "/PIN5/LCD_D04".
+
+Changing component "CON1:/55E2B34F" pin "9" net name from "PIN6/LCD_D05" to "/PIN6/LCD_D05".
+
+Changing component "CON1:/55E2B34F" pin "10" net name from "PIN7/LCD_D06" to "/PIN7/LCD_D06".
+
+Changing component "CON1:/55E2B34F" pin "11" net name from "PIN8/LCD_D07" to "/PIN8/LCD_D07".
+
+Changing component "CON1:/55E2B34F" pin "12" net name from "PIN9/LCD_D08/SSP2_MISO" to "/PIN9/LCD_D08/SSP2_MISO".
+
+Changing component "CON1:/55E2B34F" pin "13" net name from "PIN10/LCD_D09" to "/PIN10/LCD_D09".
+
+Changing component "CON1:/55E2B34F" pin "14" net name from "PIN11/LCD_D10" to "/PIN11/LCD_D10".
+
+Changing component "CON1:/55E2B34F" pin "21" net name from "PIN12/LCD_D11" to "/PIN12/LCD_D11".
+
+Changing component "CON1:/55E2B34F" pin "22" net name from "PIN13/LCD_D12" to "/PIN13/LCD_D12".
+
+Changing component "CON1:/55E2B34F" pin "23" net name from "PIN14/LCD_D13" to "/PIN14/LCD_D13".
+
+Changing component "CON1:/55E2B34F" pin "24" net name from "PIN15/LCD_D14" to "/PIN15/LCD_D14".
+
+Changing component "CON1:/55E2B34F" pin "25" net name from "PIN16/LCD_D15" to "/PIN16/LCD_D15".
+
+Changing component "CON1:/55E2B34F" pin "26" net name from "PIN17/LCD_D16" to "/PIN17/LCD_D16".
+
+Changing component "CON1:/55E2B34F" pin "27" net name from "PIN18/LCD_D17/USB_EN" to "/PIN18/LCD_D17/USB_EN".
+
+Changing component "CON1:/55E2B34F" pin "28" net name from "PIN20/LCD_VSYNC" to "/PIN20/LCD_VSYNC".
+
+Changing component "CON1:/55E2B34F" pin "29" net name from "PIN21/LCD_HSYNC/I2C_SDA" to "/PIN21/LCD_HSYNC/I2C_SDA".
+
+Changing component "CON1:/55E2B34F" pin "30" net name from "PIN22/LCD_EN/I2C_SCL" to "/PIN22/LCD_EN/I2C_SCL".
+
+Info: Checking netlist component footprint "CON2:/55E2B417:PENKO_HN1X30_WITHOUT(15-20)".
+
+Info: Changing component path "CON2:" to "/55E2B417".
+
+Changing component "CON2:/55E2B417" pin "4" net name from "PWM0/DUART_RXD" to "/PWM0/DUART_RXD".
+
+Changing component "CON2:/55E2B417" pin "5" net name from "PWM1/DUART_TXD" to "/PWM1/DUART_TXD".
+
+Changing component "CON2:/55E2B417" pin "6" net name from "VDAC1" to "/VDAC1".
+
+Changing component "CON2:/55E2B417" pin "7" net name from "HPL" to "/HPL".
+
+Changing component "CON2:/55E2B417" pin "8" net name from "HPR" to "/HPR".
+
+Changing component "CON2:/55E2B417" pin "9" net name from "HP_VGND" to "/HP_VGND".
+
+Changing component "CON2:/55E2B417" pin "10" net name from "LIN1_INL" to "/LIN1_INL".
+
+Changing component "CON2:/55E2B417" pin "11" net name from "LIN1_INR" to "/LIN1_INR".
+
+Changing component "CON2:/55E2B417" pin "12" net name from "PIN34/MIC" to "/PIN34/MIC".
+
+Changing component "CON2:/55E2B417" pin "13" net name from "PIN33/LRADC0" to "/PIN33/LRADC0".
+
+Changing component "CON2:/55E2B417" pin "14" net name from "PIN32/LRADC1" to "/PIN32/LRADC1".
+
+Changing component "CON2:/55E2B417" pin "21" net name from "PIN31" to "/PIN31".
+
+Changing component "CON2:/55E2B417" pin "22" net name from "PIN30" to "/PIN30".
+
+Changing component "CON2:/55E2B417" pin "23" net name from "PIN29/SOFT_SCL" to "/PIN29/SOFT_SCL".
+
+Changing component "CON2:/55E2B417" pin "24" net name from "PIN28/SOFT_SDA" to "/PIN28/SOFT_SDA".
+
+Changing component "CON2:/55E2B417" pin "25" net name from "PIN27/PWM2" to "/PIN27/PWM2".
+
+Changing component "CON2:/55E2B417" pin "26" net name from "PIN26/LCD_CS" to "/PIN26/LCD_CS".
+
+Changing component "CON2:/55E2B417" pin "27" net name from "PIN25/LCD_RS" to "/PIN25/LCD_RS".
+
+Changing component "CON2:/55E2B417" pin "28" net name from "PIN24/LCD_WR" to "/PIN24/LCD_WR".
+
+Changing component "CON2:/55E2B417" pin "29" net name from "PIN23/LCD_DISP" to "/PIN23/LCD_DISP".
+
+Changing component "CON2:/55E2B417" pin "30" net name from "PIN19/LCD_DOTCLK" to "/PIN19/LCD_DOTCLK".
+
+Info: Checking netlist component footprint "CSS/CSH135:/55E2B4DF:JUMPER_SJ_2_SMALLER".
+
+Info: Changing component path "CSS/CSH135:" to "/55E2B4DF".
+
+Changing component "CSS/CSH135:/55E2B4DF" pin "1" net name from "CS_UEXT" to "/CS_UEXT".
+
+Changing component "CSS/CSH135:/55E2B4DF" pin "2" net name from "CS_UEXT_GPIO" to "/CS_UEXT_GPIO".
+
+Changing component "CSS/CSH135:/55E2B4DF" pin "3" net name from "PIN12/LCD_D11" to "/PIN12/LCD_D11".
+
+Info: Checking netlist component footprint "D1:/55E2B5A7:GOGO_MLL-41".
+
+Info: Changing component path "D1:" to "/55E2B5A7".
+
+Changing component "D1:/55E2B5A7" pin "K" net name from "VDD4P2" to "/VDD4P2".
+
+Info: Checking netlist component footprint "D2:/55E2B66F:SEMICON-SMD-IPC_SOT23C".
+
+Info: Changing component path "D2:" to "/55E2B66F".
+
+Changing component "D2:/55E2B66F" pin "3" net name from "N$11" to "/N$11".
+
+Changing component "D2:/55E2B66F" pin "2" net name from "PWM0/DUART_RXD" to "/PWM0/DUART_RXD".
+
+Changing component "D2:/55E2B66F" pin "1" net name from "" to "Net-(D2-Pad1)".
+
+Info: Checking netlist component footprint "D3:/55E2B737:OLIMEX_DISCRET_DO214AA".
+
+Info: Changing component path "D3:" to "/55E2B737".
+
+Info: Checking netlist component footprint "DH/DS135:/55E2B7FF:JUMPER_SJ_2_SMALLER".
+
+Info: Changing component path "DH/DS135:" to "/55E2B7FF".
+
+Changing component "DH/DS135:/55E2B7FF" pin "1" net name from "PIN21/LCD_HSYNC/I2C_SDA" to "/PIN21/LCD_HSYNC/I2C_SDA".
+
+Changing component "DH/DS135:/55E2B7FF" pin "2" net name from "I2C_SDA" to "/I2C_SDA".
+
+Changing component "DH/DS135:/55E2B7FF" pin "3" net name from "PIN28/SOFT_SDA" to "/PIN28/SOFT_SDA".
+
+Info: Checking netlist component footprint "JTAG135:/55E2C73B:PENKO_WU08S".
+
+Info: Changing component path "JTAG135:" to "/55E2C73B".
+
+Changing component "JTAG135:/55E2C73B" pin "4" net name from "SSP1_SCK" to "/SSP1_SCK".
+
+Changing component "JTAG135:/55E2C73B" pin "2" net name from "SSP1_DATA0" to "/SSP1_DATA0".
+
+Changing component "JTAG135:/55E2C73B" pin "1" net name from "SSP1_DATA1" to "/SSP1_DATA1".
+
+Changing component "JTAG135:/55E2C73B" pin "5" net name from "SD_VCC" to "/SD_VCC".
+
+Changing component "JTAG135:/55E2C73B" pin "6" net name from "SSP1_CMD" to "/SSP1_CMD".
+
+Changing component "JTAG135:/55E2C73B" pin "7" net name from "SSP1_DATA3" to "/SSP1_DATA3".
+
+Changing component "JTAG135:/55E2C73B" pin "8" net name from "SSP1_DATA2" to "/SSP1_DATA2".
+
+Info: Checking netlist component footprint "L1:/55E2C803:RCL_L7078".
+
+Info: Changing component path "L1:" to "/55E2C803".
+
+Changing component "L1:/55E2C803" pin "1" net name from "N$19" to "/N$19".
+
+Changing component "L1:/55E2C803" pin "2" net name from "N$18" to "/N$18".
+
+Info: Checking netlist component footprint "L2:/55E2C8CB:RCL_L0805_5MIL_DWS".
+
+Info: Changing component path "L2:" to "/55E2C8CB".
+
+Changing component "L2:/55E2C8CB" pin "2" net name from "SD_VCC" to "/SD_VCC".
+
+Info: Checking netlist component footprint "L3:/55E2C993:RCL_L0805_5MIL_DWS".
+
+Info: Changing component path "L3:" to "/55E2C993".
+
+Changing component "L3:/55E2C993" pin "1" net name from "+5V_HOST_PWR" to "/+5V_HOST_PWR".
+
+Changing component "L3:/55E2C993" pin "2" net name from "N$3" to "/N$3".
+
+Info: Checking netlist component footprint "L4:/55E2CA5B:RCL_L0805_5MIL_DWS".
+
+Info: Changing component path "L4:" to "/55E2CA5B".
+
+Changing component "L4:/55E2CA5B" pin "2" net name from "N$266" to "/N$266".
+
+Info: Checking netlist component footprint "LED1:/55E2CB23:DOUBLE-SIDE_LED-0603".
+
+Info: Changing component path "LED1:" to "/55E2CB23".
+
+Changing component "LED1:/55E2CB23" pin "C" net name from "N$42" to "/N$42".
+
+Changing component "LED1:/55E2CB23" pin "A" net name from "LED1" to "/LED1".
+
+Info: Checking netlist component footprint "LIPO_BAT135:/55E2CBEB:PENKO_DW02R".
+
+Info: Changing component path "LIPO_BAT135:" to "/55E2CBEB".
+
+Info: Checking netlist component footprint "POWER135:/55E2D163:GOGO_IT1185AU2".
+
+Info: Changing component path "POWER135:" to "/55E2D163".
+
+Changing component "POWER135:/55E2D163" pin "1" net name from "N$1" to "/N$1".
+
+Changing component "POWER135:/55E2D163" pin "2" net name from "SJTAG_PSW" to "/SJTAG_PSW".
+
+Info: Checking netlist component footprint "Q1:/55E2D22B:CRYSTAL_HCX-4S".
+
+Info: Changing component path "Q1:" to "/55E2D22B".
+
+Changing component "Q1:/55E2D22B" pin "1" net name from "XTALO" to "/XTALO".
+
+Changing component "Q1:/55E2D22B" pin "2" net name from "XTALI" to "/XTALI".
+
+Info: Checking netlist component footprint "R1:/55E2D2F3:RCL_R0603_5MIL_DWS".
+
+Info: Changing component path "R1:" to "/55E2D2F3".
+
+Changing component "R1:/55E2D2F3" pin "2" net name from "PIN6/LCD_D05" to "/PIN6/LCD_D05".
+
+Info: Checking netlist component footprint "R2:/55E2D3BB:RCL_R0603_5MIL_DWS".
+
+Info: Changing component path "R2:" to "/55E2D3BB".
+
+Changing component "R2:/55E2D3BB" pin "1" net name from "CS" to "/CS".
+
+Info: Checking netlist component footprint "R3:/55E2D483:RCL_R0603_5MIL_DWS".
+
+Info: Changing component path "R3:" to "/55E2D483".
+
+Changing component "R3:/55E2D483" pin "1" net name from "CLKN" to "/CLKN".
+
+Changing component "R3:/55E2D483" pin "2" net name from "CLK" to "/CLK".
+
+Info: Checking netlist component footprint "R4:/55E2D54B:RCL_R0603_5MIL_DWS".
+
+Info: Changing component path "R4:" to "/55E2D54B".
+
+Changing component "R4:/55E2D54B" pin "2" net name from "PIN25/LCD_RS" to "/PIN25/LCD_RS".
+
+Info: Checking netlist component footprint "R5:/55E2D613:RCL_R0603_5MIL_DWS".
+
+Info: Changing component path "R5:" to "/55E2D613".
+
+Changing component "R5:/55E2D613" pin "1" net name from "N$7" to "/N$7".
+
+Info: Checking netlist component footprint "R6:/55E2D6DB:RCL_R0603_5MIL_DWS".
+
+Info: Changing component path "R6:" to "/55E2D6DB".
+
+Changing component "R6:/55E2D6DB" pin "2" net name from "N$7" to "/N$7".
+
+Info: Checking netlist component footprint "R7:/55E2D7A3:RCL_R0603_5MIL_DWS".
+
+Info: Changing component path "R7:" to "/55E2D7A3".
+
+Changing component "R7:/55E2D7A3" pin "2" net name from "N$42" to "/N$42".
+
+Info: Checking netlist component footprint "R8:/55E2D86B:RCL_R0603_5MIL_DWS".
+
+Info: Changing component path "R8:" to "/55E2D86B".
+
+Changing component "R8:/55E2D86B" pin "1" net name from "SSP1_DATA3" to "/SSP1_DATA3".
+
+Info: Checking netlist component footprint "R9:/55E2D933:RCL_R0603_5MIL_DWS".
+
+Info: Changing component path "R9:" to "/55E2D933".
+
+Changing component "R9:/55E2D933" pin "1" net name from "SSP1_CMD" to "/SSP1_CMD".
+
+Info: Checking netlist component footprint "R10:/55E2D9FB:RCL_R0603_5MIL_DWS".
+
+Info: Changing component path "R10:" to "/55E2D9FB".
+
+Changing component "R10:/55E2D9FB" pin "1" net name from "I2C_SCL" to "/I2C_SCL".
+
+Info: Checking netlist component footprint "R11:/55E2DAC3:RCL_R0603_5MIL_DWS".
+
+Info: Changing component path "R11:" to "/55E2DAC3".
+
+Changing component "R11:/55E2DAC3" pin "1" net name from "CS_UEXT_GPIO" to "/CS_UEXT_GPIO".
+
+Info: Checking netlist component footprint "R12:/55E2DB8B:RCL_R0603_5MIL_DWS".
+
+Info: Changing component path "R12:" to "/55E2DB8B".
+
+Changing component "R12:/55E2DB8B" pin "1" net name from "I2C_SDA" to "/I2C_SDA".
+
+Info: Checking netlist component footprint "R13:/55E2DC53:RCL_R0603_5MIL_DWS".
+
+Info: Changing component path "R13:" to "/55E2DC53".
+
+Changing component "R13:/55E2DC53" pin "2" net name from "PWM0/DUART_RXD" to "/PWM0/DUART_RXD".
+
+Info: Checking netlist component footprint "R14:/55E2DD1B:RCL_R0603_5MIL_DWS".
+
+Info: Changing component path "R14:" to "/55E2DD1B".
+
+Changing component "R14:/55E2DD1B" pin "1" net name from "PSWITCH" to "/PSWITCH".
+
+Changing component "R14:/55E2DD1B" pin "2" net name from "SJTAG_PSW" to "/SJTAG_PSW".
+
+Info: Checking netlist component footprint "R15:/55E2DDE3:OLIMEX_DISCRET_0603_0R".
+
+Info: Changing component path "R15:" to "/55E2DDE3".
+
+Changing component "R15:/55E2DDE3" pin "1" net name from "N$1" to "/N$1".
+
+Changing component "R15:/55E2DDE3" pin "2" net name from "VDDXTAL" to "/VDDXTAL".
+
+Info: Checking netlist component footprint "R16:/55E2DEAB:RCL_R0603_5MIL_DWS".
+
+Info: Changing component path "R16:" to "/55E2DEAB".
+
+Changing component "R16:/55E2DEAB" pin "1" net name from "N$43" to "/N$43".
+
+Changing component "R16:/55E2DEAB" pin "2" net name from "RESET" to "/RESET".
+
+Info: Checking netlist component footprint "R17:/55E2DF73:RCL_R0603_5MIL_DWS".
+
+Info: Changing component path "R17:" to "/55E2DF73".
+
+Changing component "R17:/55E2DF73" pin "1" net name from "N$43" to "/N$43".
+
+Info: Checking netlist component footprint "R18:/55E2E03B:RCL_R0603_5MIL_DWS".
+
+Info: Changing component path "R18:" to "/55E2E03B".
+
+Changing component "R18:/55E2E03B" pin "1" net name from "N$38" to "/N$38".
+
+Changing component "R18:/55E2E03B" pin "2" net name from "SJTAG_PSW" to "/SJTAG_PSW".
+
+Info: Checking netlist component footprint "R19:/55E2E103:RCL_R0603_5MIL_DWS".
+
+Info: Changing component path "R19:" to "/55E2E103".
+
+Changing component "R19:/55E2E103" pin "1" net name from "N$9" to "/N$9".
+
+Info: Checking netlist component footprint "R20:/55E2E1CB:RCL_R0603_5MIL_DWS".
+
+Info: Changing component path "R20:" to "/55E2E1CB".
+
+Changing component "R20:/55E2E1CB" pin "2" net name from "N$6" to "/N$6".
+
+Info: Checking netlist component footprint "R21:/55E2E293:RCL_R0603_5MIL_DWS".
+
+Info: Changing component path "R21:" to "/55E2E293".
+
+Changing component "R21:/55E2E293" pin "2" net name from "PIN18/LCD_D17/USB_EN" to "/PIN18/LCD_D17/USB_EN".
+
+Info: Checking netlist component footprint "R22:/55E2E35B:RCL_R0603_5MIL_DWS".
+
+Info: Changing component path "R22:" to "/55E2E35B".
+
+Changing component "R22:/55E2E35B" pin "1" net name from "PIN30" to "/PIN30".
+
+Info: Checking netlist component footprint "R23:/55E2E423:RCL_R0603_5MIL_DWS".
+
+Info: Changing component path "R23:" to "/55E2E423".
+
+Changing component "R23:/55E2E423" pin "2" net name from "PIN30" to "/PIN30".
+
+Info: Checking netlist component footprint "RECOVERY135:/55E2E4EB:GOGO_IT1185AU2".
+
+Info: Changing component path "RECOVERY135:" to "/55E2E4EB".
+
+Changing component "RECOVERY135:/55E2E4EB" pin "1" net name from "N$9" to "/N$9".
+
+Changing component "RECOVERY135:/55E2E4EB" pin "2" net name from "SJTAG_PSW" to "/SJTAG_PSW".
+
+Info: Checking netlist component footprint "RESET135:/55E2E5B3:GOGO_IT1185AU2".
+
+Info: Changing component path "RESET135:" to "/55E2E5B3".
+
+Changing component "RESET135:/55E2E5B3" pin "1" net name from "RESET" to "/RESET".
+
+Info: Checking netlist component footprint "RM1:/55E2E67B:OLIMEX_DISCRET_R_MATRIX_4".
+
+Info: Changing component path "RM1:" to "/55E2E67B".
+
+Changing component "RM1:/55E2E67B" pin "1.1" net name from "N$105" to "/N$105".
+
+Changing component "RM1:/55E2E67B" pin "1.2" net name from "PIN1/LCD_D00" to "/PIN1/LCD_D00".
+
+Changing component "RM1:/55E2E67B" pin "2.1" net name from "N$104" to "/N$104".
+
+Changing component "RM1:/55E2E67B" pin "2.2" net name from "PIN2/LCD_D01" to "/PIN2/LCD_D01".
+
+Changing component "RM1:/55E2E67B" pin "4.2" net name from "PIN4/LCD_D03" to "/PIN4/LCD_D03".
+
+Changing component "RM1:/55E2E67B" pin "4.1" net name from "N$101" to "/N$101".
+
+Changing component "RM1:/55E2E67B" pin "3.2" net name from "PIN3/LCD_D02" to "/PIN3/LCD_D02".
+
+Changing component "RM1:/55E2E67B" pin "3.1" net name from "N$103" to "/N$103".
+
+Info: Checking netlist component footprint "RM2:/55E2E743:OLIMEX_DISCRET_R_MATRIX_4".
+
+Info: Changing component path "RM2:" to "/55E2E743".
+
+Changing component "RM2:/55E2E743" pin "1.1" net name from "PIN1/LCD_D00" to "/PIN1/LCD_D00".
+
+Changing component "RM2:/55E2E743" pin "2.1" net name from "PIN2/LCD_D01" to "/PIN2/LCD_D01".
+
+Changing component "RM2:/55E2E743" pin "4.1" net name from "PIN4/LCD_D03" to "/PIN4/LCD_D03".
+
+Changing component "RM2:/55E2E743" pin "3.1" net name from "PIN3/LCD_D02" to "/PIN3/LCD_D02".
+
+Info: Checking netlist component footprint "RM3:/55E2E80B:OLIMEX_DISCRET_R_MATRIX_4".
+
+Info: Changing component path "RM3:" to "/55E2E80B".
+
+Changing component "RM3:/55E2E80B" pin "1.2" net name from "SJTAG_PSW" to "/SJTAG_PSW".
+
+Changing component "RM3:/55E2E80B" pin "2.2" net name from "SSP1_DATA2" to "/SSP1_DATA2".
+
+Changing component "RM3:/55E2E80B" pin "4.2" net name from "SSP1_DATA1" to "/SSP1_DATA1".
+
+Changing component "RM3:/55E2E80B" pin "3.2" net name from "SSP1_DATA0" to "/SSP1_DATA0".
+
+Info: Checking netlist component footprint "SD135:/55E2E9FF:OLIMEX_CONNECTORS_TFR_C-MEM-CON".
+
+Info: Changing component path "SD135:" to "/55E2E9FF".
+
+Changing component "SD135:/55E2E9FF" pin "8" net name from "SSP1_DATA1" to "/SSP1_DATA1".
+
+Changing component "SD135:/55E2E9FF" pin "7" net name from "SSP1_DATA0" to "/SSP1_DATA0".
+
+Changing component "SD135:/55E2E9FF" pin "5" net name from "SSP1_SCK" to "/SSP1_SCK".
+
+Changing component "SD135:/55E2E9FF" pin "4" net name from "SD_VCC" to "/SD_VCC".
+
+Changing component "SD135:/55E2E9FF" pin "3" net name from "SSP1_CMD" to "/SSP1_CMD".
+
+Changing component "SD135:/55E2E9FF" pin "2" net name from "SSP1_DATA3" to "/SSP1_DATA3".
+
+Changing component "SD135:/55E2E9FF" pin "1" net name from "SSP1_DATA2" to "/SSP1_DATA2".
+
+Info: Checking netlist component footprint "SJTAG_PSW135:/55E2EAC7:GOGO_TESTPAD".
+
+Info: Changing component path "SJTAG_PSW135:" to "/55E2EAC7".
+
+Changing component "SJTAG_PSW135:/55E2EAC7" pin "P$1" net name from "SJTAG_PSW" to "/SJTAG_PSW".
+
+Info: Checking netlist component footprint "T1:/55E2EB8F:SEMICON-SMD-IPC_SOT23".
+
+Info: Changing component path "T1:" to "/55E2EB8F".
+
+Changing component "T1:/55E2EB8F" pin "3" net name from "XTALI" to "/XTALI".
+
+Changing component "T1:/55E2EB8F" pin "1" net name from "N$43" to "/N$43".
+
+Info: Checking netlist component footprint "T2:/55E2EC57:SEMICON-SMD-IPC_SOT23".
+
+Info: Changing component path "T2:" to "/55E2EC57".
+
+Changing component "T2:/55E2EC57" pin "3" net name from "XTALO" to "/XTALO".
+
+Info: Checking netlist component footprint "U$1:/55E2ED1F:SPARKFUNEAGLE-6-6-07_FIDUCIAL-1X2".
+
+Info: Changing component path "U$1:" to "/55E2ED1F".
+
+Info: Checking netlist component footprint "U$2:/55E2EDE7:SPARKFUNEAGLE-6-6-07_FIDUCIAL-1X2".
+
+Info: Changing component path "U$2:" to "/55E2EDE7".
+
+Info: Checking netlist component footprint "U$3:/55E2EEAF:SPARKFUNEAGLE-6-6-07_FIDUCIAL-1X2".
+
+Info: Changing component path "U$3:" to "/55E2EEAF".
+
+Info: Checking netlist component footprint "U$7:/55E2EF77:SPARKFUNEAGLE-6-6-07_FIDUCIAL-1X2".
+
+Info: Changing component path "U$7:" to "/55E2EF77".
+
+Info: Checking netlist component footprint "U$13:/55E2F03F:SPARKFUNEAGLE-6-6-07_FIDUCIAL-1X2".
+
+Info: Changing component path "U$13:" to "/55E2F03F".
+
+Info: Checking netlist component footprint "U$14:/55E2F107:SPARKFUNEAGLE-6-6-07_FIDUCIAL-1X2".
+
+Info: Changing component path "U$14:" to "/55E2F107".
+
+Info: Checking netlist component footprint "U1:/55E2F1CF:OLIMEX_IC_66TSOP-II".
+
+Info: Changing component path "U1:" to "/55E2F1CF".
+
+Changing component "U1:/55E2F1CF" pin "2" net name from "D0" to "/D0".
+
+Changing component "U1:/55E2F1CF" pin "4" net name from "D1" to "/D1".
+
+Changing component "U1:/55E2F1CF" pin "5" net name from "D2" to "/D2".
+
+Changing component "U1:/55E2F1CF" pin "7" net name from "D3" to "/D3".
+
+Changing component "U1:/55E2F1CF" pin "8" net name from "D4" to "/D4".
+
+Changing component "U1:/55E2F1CF" pin "10" net name from "D5" to "/D5".
+
+Changing component "U1:/55E2F1CF" pin "11" net name from "D6" to "/D6".
+
+Changing component "U1:/55E2F1CF" pin "13" net name from "D7" to "/D7".
+
+Changing component "U1:/55E2F1CF" pin "14" net name from "" to "Net-(U1-Pad14)".
+
+Changing component "U1:/55E2F1CF" pin "16" net name from "DQS0" to "/DQS0".
+
+Changing component "U1:/55E2F1CF" pin "17" net name from "" to "Net-(U1-Pad17)".
+
+Changing component "U1:/55E2F1CF" pin "19" net name from "" to "Net-(U1-Pad19)".
+
+Changing component "U1:/55E2F1CF" pin "20" net name from "DQM0" to "/DQM0".
+
+Changing component "U1:/55E2F1CF" pin "21" net name from "WEN" to "/WEN".
+
+Changing component "U1:/55E2F1CF" pin "22" net name from "CASN" to "/CASN".
+
+Changing component "U1:/55E2F1CF" pin "23" net name from "RASN" to "/RASN".
+
+Changing component "U1:/55E2F1CF" pin "24" net name from "CS" to "/CS".
+
+Changing component "U1:/55E2F1CF" pin "25" net name from "" to "Net-(U1-Pad25)".
+
+Changing component "U1:/55E2F1CF" pin "26" net name from "BA0" to "/BA0".
+
+Changing component "U1:/55E2F1CF" pin "27" net name from "BA1" to "/BA1".
+
+Changing component "U1:/55E2F1CF" pin "28" net name from "A10" to "/A10".
+
+Changing component "U1:/55E2F1CF" pin "29" net name from "A0" to "/A0".
+
+Changing component "U1:/55E2F1CF" pin "30" net name from "A1" to "/A1".
+
+Changing component "U1:/55E2F1CF" pin "31" net name from "A2" to "/A2".
+
+Changing component "U1:/55E2F1CF" pin "32" net name from "A3" to "/A3".
+
+Changing component "U1:/55E2F1CF" pin "35" net name from "A4" to "/A4".
+
+Changing component "U1:/55E2F1CF" pin "36" net name from "A5" to "/A5".
+
+Changing component "U1:/55E2F1CF" pin "37" net name from "A6" to "/A6".
+
+Changing component "U1:/55E2F1CF" pin "38" net name from "A7" to "/A7".
+
+Changing component "U1:/55E2F1CF" pin "39" net name from "A8" to "/A8".
+
+Changing component "U1:/55E2F1CF" pin "40" net name from "A9" to "/A9".
+
+Changing component "U1:/55E2F1CF" pin "41" net name from "A11" to "/A11".
+
+Changing component "U1:/55E2F1CF" pin "42" net name from "A12" to "/A12".
+
+Changing component "U1:/55E2F1CF" pin "43" net name from "" to "Net-(U1-Pad43)".
+
+Changing component "U1:/55E2F1CF" pin "44" net name from "CKE" to "/CKE".
+
+Changing component "U1:/55E2F1CF" pin "45" net name from "CLK" to "/CLK".
+
+Changing component "U1:/55E2F1CF" pin "46" net name from "CLKN" to "/CLKN".
+
+Changing component "U1:/55E2F1CF" pin "47" net name from "DQM1" to "/DQM1".
+
+Changing component "U1:/55E2F1CF" pin "49" net name from "N$7" to "/N$7".
+
+Changing component "U1:/55E2F1CF" pin "50" net name from "" to "Net-(U1-Pad50)".
+
+Changing component "U1:/55E2F1CF" pin "51" net name from "DQS1" to "/DQS1".
+
+Changing component "U1:/55E2F1CF" pin "53" net name from "" to "Net-(U1-Pad53)".
+
+Changing component "U1:/55E2F1CF" pin "54" net name from "D8" to "/D8".
+
+Changing component "U1:/55E2F1CF" pin "56" net name from "D9" to "/D9".
+
+Changing component "U1:/55E2F1CF" pin "57" net name from "D10" to "/D10".
+
+Changing component "U1:/55E2F1CF" pin "59" net name from "D11" to "/D11".
+
+Changing component "U1:/55E2F1CF" pin "60" net name from "D12" to "/D12".
+
+Changing component "U1:/55E2F1CF" pin "62" net name from "D13" to "/D13".
+
+Changing component "U1:/55E2F1CF" pin "63" net name from "D14" to "/D14".
+
+Changing component "U1:/55E2F1CF" pin "65" net name from "D15" to "/D15".
+
+Info: Checking netlist component footprint "U2:/55E2F297:OLIMEX_IC_TQFP128LD".
+
+Info: Changing component path "U2:" to "/55E2F297".
+
+Changing component "U2:/55E2F297" pin "1" net name from "DCDC_VDDD" to "/DCDC_VDDD".
+
+Changing component "U2:/55E2F297" pin "2" net name from "PIN1/LCD_D00" to "/PIN1/LCD_D00".
+
+Changing component "U2:/55E2F297" pin "3" net name from "PIN2/LCD_D01" to "/PIN2/LCD_D01".
+
+Changing component "U2:/55E2F297" pin "4" net name from "PIN3/LCD_D02" to "/PIN3/LCD_D02".
+
+Changing component "U2:/55E2F297" pin "5" net name from "PIN4/LCD_D03" to "/PIN4/LCD_D03".
+
+Changing component "U2:/55E2F297" pin "6" net name from "PIN5/LCD_D04" to "/PIN5/LCD_D04".
+
+Changing component "U2:/55E2F297" pin "7" net name from "PIN6/LCD_D05" to "/PIN6/LCD_D05".
+
+Changing component "U2:/55E2F297" pin "8" net name from "PIN7/LCD_D06" to "/PIN7/LCD_D06".
+
+Changing component "U2:/55E2F297" pin "9" net name from "PIN8/LCD_D07" to "/PIN8/LCD_D07".
+
+Changing component "U2:/55E2F297" pin "10" net name from "PIN26/LCD_CS" to "/PIN26/LCD_CS".
+
+Changing component "U2:/55E2F297" pin "11" net name from "PIN22/LCD_EN/I2C_SCL" to "/PIN22/LCD_EN/I2C_SCL".
+
+Changing component "U2:/55E2F297" pin "12" net name from "PIN23/LCD_DISP" to "/PIN23/LCD_DISP".
+
+Changing component "U2:/55E2F297" pin "13" net name from "PIN24/LCD_WR" to "/PIN24/LCD_WR".
+
+Changing component "U2:/55E2F297" pin "14" net name from "PIN25/LCD_RS" to "/PIN25/LCD_RS".
+
+Changing component "U2:/55E2F297" pin "15" net name from "PIN21/LCD_HSYNC/I2C_SDA" to "/PIN21/LCD_HSYNC/I2C_SDA".
+
+Changing component "U2:/55E2F297" pin "16" net name from "PIN20/LCD_VSYNC" to "/PIN20/LCD_VSYNC".
+
+Changing component "U2:/55E2F297" pin "17" net name from "PIN19/LCD_DOTCLK" to "/PIN19/LCD_DOTCLK".
+
+Changing component "U2:/55E2F297" pin "19" net name from "PIN17/LCD_D16" to "/PIN17/LCD_D16".
+
+Changing component "U2:/55E2F297" pin "20" net name from "PIN18/LCD_D17/USB_EN" to "/PIN18/LCD_D17/USB_EN".
+
+Changing component "U2:/55E2F297" pin "21" net name from "SSP2_MOSI" to "/SSP2_MOSI".
+
+Changing component "U2:/55E2F297" pin "22" net name from "PIN9/LCD_D08/SSP2_MISO" to "/PIN9/LCD_D08/SSP2_MISO".
+
+Changing component "U2:/55E2F297" pin "23" net name from "PIN10/LCD_D09" to "/PIN10/LCD_D09".
+
+Changing component "U2:/55E2F297" pin "24" net name from "PIN11/LCD_D10" to "/PIN11/LCD_D10".
+
+Changing component "U2:/55E2F297" pin "25" net name from "PIN12/LCD_D11" to "/PIN12/LCD_D11".
+
+Changing component "U2:/55E2F297" pin "26" net name from "PIN14/LCD_D13" to "/PIN14/LCD_D13".
+
+Changing component "U2:/55E2F297" pin "27" net name from "PIN13/LCD_D12" to "/PIN13/LCD_D12".
+
+Changing component "U2:/55E2F297" pin "28" net name from "PIN16/LCD_D15" to "/PIN16/LCD_D15".
+
+Changing component "U2:/55E2F297" pin "29" net name from "PIN15/LCD_D14" to "/PIN15/LCD_D14".
+
+Changing component "U2:/55E2F297" pin "31" net name from "PIN28/SOFT_SDA" to "/PIN28/SOFT_SDA".
+
+Changing component "U2:/55E2F297" pin "32" net name from "CS_UEXT" to "/CS_UEXT".
+
+Changing component "U2:/55E2F297" pin "33" net name from "SSP2_SCK" to "/SSP2_SCK".
+
+Changing component "U2:/55E2F297" pin "34" net name from "PIN29/SOFT_SCL" to "/PIN29/SOFT_SCL".
+
+Changing component "U2:/55E2F297" pin "36" net name from "CLK" to "/CLK".
+
+Changing component "U2:/55E2F297" pin "37" net name from "CLKN" to "/CLKN".
+
+Changing component "U2:/55E2F297" pin "39" net name from "DQS0" to "/DQS0".
+
+Changing component "U2:/55E2F297" pin "40" net name from "DQS1" to "/DQS1".
+
+Changing component "U2:/55E2F297" pin "41" net name from "D0" to "/D0".
+
+Changing component "U2:/55E2F297" pin "42" net name from "D2" to "/D2".
+
+Changing component "U2:/55E2F297" pin "43" net name from "D1" to "/D1".
+
+Changing component "U2:/55E2F297" pin "44" net name from "D3" to "/D3".
+
+Changing component "U2:/55E2F297" pin "46" net name from "DQM0" to "/DQM0".
+
+Changing component "U2:/55E2F297" pin "47" net name from "D4" to "/D4".
+
+Changing component "U2:/55E2F297" pin "48" net name from "D5" to "/D5".
+
+Changing component "U2:/55E2F297" pin "49" net name from "D6" to "/D6".
+
+Changing component "U2:/55E2F297" pin "50" net name from "D7" to "/D7".
+
+Changing component "U2:/55E2F297" pin "51" net name from "D8" to "/D8".
+
+Changing component "U2:/55E2F297" pin "52" net name from "D9" to "/D9".
+
+Changing component "U2:/55E2F297" pin "54" net name from "D10" to "/D10".
+
+Changing component "U2:/55E2F297" pin "55" net name from "D11" to "/D11".
+
+Changing component "U2:/55E2F297" pin "56" net name from "DQM1" to "/DQM1".
+
+Changing component "U2:/55E2F297" pin "57" net name from "D12" to "/D12".
+
+Changing component "U2:/55E2F297" pin "58" net name from "D13" to "/D13".
+
+Changing component "U2:/55E2F297" pin "59" net name from "D15" to "/D15".
+
+Changing component "U2:/55E2F297" pin "60" net name from "D14" to "/D14".
+
+Changing component "U2:/55E2F297" pin "61" net name from "CASN" to "/CASN".
+
+Changing component "U2:/55E2F297" pin "62" net name from "RASN" to "/RASN".
+
+Changing component "U2:/55E2F297" pin "63" net name from "CS" to "/CS".
+
+Changing component "U2:/55E2F297" pin "64" net name from "A12" to "/A12".
+
+Changing component "U2:/55E2F297" pin "65" net name from "A11" to "/A11".
+
+Changing component "U2:/55E2F297" pin "66" net name from "A10" to "/A10".
+
+Changing component "U2:/55E2F297" pin "67" net name from "A9" to "/A9".
+
+Changing component "U2:/55E2F297" pin "68" net name from "A8" to "/A8".
+
+Changing component "U2:/55E2F297" pin "69" net name from "A7" to "/A7".
+
+Changing component "U2:/55E2F297" pin "70" net name from "A6" to "/A6".
+
+Changing component "U2:/55E2F297" pin "71" net name from "A5" to "/A5".
+
+Changing component "U2:/55E2F297" pin "72" net name from "A4" to "/A4".
+
+Changing component "U2:/55E2F297" pin "73" net name from "A3" to "/A3".
+
+Changing component "U2:/55E2F297" pin "74" net name from "A2" to "/A2".
+
+Changing component "U2:/55E2F297" pin "75" net name from "A1" to "/A1".
+
+Changing component "U2:/55E2F297" pin "76" net name from "A0" to "/A0".
+
+Changing component "U2:/55E2F297" pin "77" net name from "WEN" to "/WEN".
+
+Changing component "U2:/55E2F297" pin "78" net name from "CKE" to "/CKE".
+
+Changing component "U2:/55E2F297" pin "79" net name from "BA0" to "/BA0".
+
+Changing component "U2:/55E2F297" pin "80" net name from "BA1" to "/BA1".
+
+Changing component "U2:/55E2F297" pin "81" net name from "PIN30" to "/PIN30".
+
+Changing component "U2:/55E2F297" pin "82" net name from "PIN31" to "/PIN31".
+
+Changing component "U2:/55E2F297" pin "83" net name from "SSP1_CMD" to "/SSP1_CMD".
+
+Changing component "U2:/55E2F297" pin "84" net name from "SSP1_DATA0" to "/SSP1_DATA0".
+
+Changing component "U2:/55E2F297" pin "85" net name from "SSP1_DATA1" to "/SSP1_DATA1".
+
+Changing component "U2:/55E2F297" pin "86" net name from "SSP1_DATA2" to "/SSP1_DATA2".
+
+Changing component "U2:/55E2F297" pin "87" net name from "SSP1_DATA3" to "/SSP1_DATA3".
+
+Changing component "U2:/55E2F297" pin "88" net name from "LED1" to "/LED1".
+
+Changing component "U2:/55E2F297" pin "89" net name from "DEBUG" to "/DEBUG".
+
+Changing component "U2:/55E2F297" pin "90" net name from "SSP1_SCK" to "/SSP1_SCK".
+
+Changing component "U2:/55E2F297" pin "91" net name from "PIN27/PWM2" to "/PIN27/PWM2".
+
+Changing component "U2:/55E2F297" pin "93" net name from "DCDC_VDDD" to "/DCDC_VDDD".
+
+Changing component "U2:/55E2F297" pin "94" net name from "DCDC_VDDD" to "/DCDC_VDDD".
+
+Changing component "U2:/55E2F297" pin "96" net name from "DCDC_VDDA" to "/DCDC_VDDA".
+
+Changing component "U2:/55E2F297" pin "97" net name from "N$18" to "/N$18".
+
+Changing component "U2:/55E2F297" pin "99" net name from "N$19" to "/N$19".
+
+Changing component "U2:/55E2F297" pin "101" net name from "VDD4P2" to "/VDD4P2".
+
+Changing component "U2:/55E2F297" pin "104" net name from "VDAC1" to "/VDAC1".
+
+Changing component "U2:/55E2F297" pin "107" net name from "PIN32/LRADC1" to "/PIN32/LRADC1".
+
+Changing component "U2:/55E2F297" pin "108" net name from "PIN33/LRADC0" to "/PIN33/LRADC0".
+
+Changing component "U2:/55E2F297" pin "109" net name from "HPR" to "/HPR".
+
+Changing component "U2:/55E2F297" pin "110" net name from "DCDC_VDDA" to "/DCDC_VDDA".
+
+Changing component "U2:/55E2F297" pin "111" net name from "HP_VGND" to "/HP_VGND".
+
+Changing component "U2:/55E2F297" pin "113" net name from "HPL" to "/HPL".
+
+Changing component "U2:/55E2F297" pin "114" net name from "LIN1_INR" to "/LIN1_INR".
+
+Changing component "U2:/55E2F297" pin "115" net name from "LIN1_INL" to "/LIN1_INL".
+
+Changing component "U2:/55E2F297" pin "116" net name from "PIN34/MIC" to "/PIN34/MIC".
+
+Changing component "U2:/55E2F297" pin "117" net name from "N$25" to "/N$25".
+
+Changing component "U2:/55E2F297" pin "119" net name from "PSWITCH" to "/PSWITCH".
+
+Changing component "U2:/55E2F297" pin "120" net name from "VDDXTAL" to "/VDDXTAL".
+
+Changing component "U2:/55E2F297" pin "121" net name from "XTALO" to "/XTALO".
+
+Changing component "U2:/55E2F297" pin "122" net name from "XTALI" to "/XTALI".
+
+Changing component "U2:/55E2F297" pin "123" net name from "USB_DM" to "/USB_DM".
+
+Changing component "U2:/55E2F297" pin "124" net name from "USB_DP" to "/USB_DP".
+
+Changing component "U2:/55E2F297" pin "125" net name from "PWM0/DUART_RXD" to "/PWM0/DUART_RXD".
+
+Changing component "U2:/55E2F297" pin "126" net name from "PWM1/DUART_TXD" to "/PWM1/DUART_TXD".
+
+Changing component "U2:/55E2F297" pin "127" net name from "AUART1_TXD" to "/AUART1_TXD".
+
+Changing component "U2:/55E2F297" pin "128" net name from "AUART1_RXD" to "/AUART1_RXD".
+
+Info: Checking netlist component footprint "U3:/55E2F35F:OLIMEX_IC_SOT23-5".
+
+Info: Changing component path "U3:" to "/55E2F35F".
+
+Changing component "U3:/55E2F35F" pin "1" net name from "N$3" to "/N$3".
+
+Changing component "U3:/55E2F35F" pin "3" net name from "N$6" to "/N$6".
+
+Changing component "U3:/55E2F35F" pin "4" net name from "PIN18/LCD_D17/USB_EN" to "/PIN18/LCD_D17/USB_EN".
+
+Info: Checking netlist component footprint "UEXT135:/55E2F427:CON-HARTING-ML_ML10_S".
+
+Info: Changing component path "UEXT135:" to "/55E2F427".
+
+Changing component "UEXT135:/55E2F427" pin "3" net name from "AUART1_TXD" to "/AUART1_TXD".
+
+Changing component "UEXT135:/55E2F427" pin "4" net name from "AUART1_RXD" to "/AUART1_RXD".
+
+Changing component "UEXT135:/55E2F427" pin "5" net name from "I2C_SCL" to "/I2C_SCL".
+
+Changing component "UEXT135:/55E2F427" pin "6" net name from "I2C_SDA" to "/I2C_SDA".
+
+Changing component "UEXT135:/55E2F427" pin "7" net name from "PIN9/LCD_D08/SSP2_MISO" to "/PIN9/LCD_D08/SSP2_MISO".
+
+Changing component "UEXT135:/55E2F427" pin "8" net name from "SSP2_MOSI" to "/SSP2_MOSI".
+
+Changing component "UEXT135:/55E2F427" pin "9" net name from "SSP2_SCK" to "/SSP2_SCK".
+
+Changing component "UEXT135:/55E2F427" pin "10" net name from "CS_UEXT_GPIO" to "/CS_UEXT_GPIO".
+
+Info: Checking netlist component footprint "USB_CON135:/55E2F4EF:PENKO_HN1X4".
+
+Info: Changing component path "USB_CON135:" to "/55E2F4EF".
+
+Changing component "USB_CON135:/55E2F4EF" pin "1" net name from "+5V_HOST_PWR" to "/+5V_HOST_PWR".
+
+Changing component "USB_CON135:/55E2F4EF" pin "2" net name from "USB_DM" to "/USB_DM".
+
+Changing component "USB_CON135:/55E2F4EF" pin "3" net name from "USB_DP" to "/USB_DP".
+
+Info: Checking netlist component footprint "USB_HOST135:/55E2F5B7:OLIMEX_CONNECTORS_USB_A_VERTICAL_PTH".
+
+Info: Changing component path "USB_HOST135:" to "/55E2F5B7".
+
+Changing component "USB_HOST135:/55E2F5B7" pin "P$3" net name from "N$266" to "/N$266".
+
+Changing component "USB_HOST135:/55E2F5B7" pin "P$4" net name from "N$266" to "/N$266".
+
+Changing component "USB_HOST135:/55E2F5B7" pin "1" net name from "+5V_HOST_PWR" to "/+5V_HOST_PWR".
+
+Changing component "USB_HOST135:/55E2F5B7" pin "2" net name from "USB_DM" to "/USB_DM".
+
+Changing component "USB_HOST135:/55E2F5B7" pin "3" net name from "USB_DP" to "/USB_DP".
+
+Info: Checking netlist component footprint "U_DEBUG135:/55E2F67F:PENKO_HN1X4".
+
+Info: Changing component path "U_DEBUG135:" to "/55E2F67F".
+
+Changing component "U_DEBUG135:/55E2F67F" pin "1" net name from "N$11" to "/N$11".
+
+Changing component "U_DEBUG135:/55E2F67F" pin "2" net name from "PWM1/DUART_TXD" to "/PWM1/DUART_TXD".
+
+Changing component "U_DEBUG135:/55E2F67F" pin "4" net name from "DEBUG" to "/DEBUG".
+
+Info: Checking netlist component footprint "VP_0:/55E2FC5B:VPAD_VPAC0".
+
+Info: Changing component path "VP_0:" to "/55E2FC5B".
+
+Info: Checking netlist component footprint "VP_1:/55E2FD23:VPAD_VPAC1".
+
+Info: Changing component path "VP_1:" to "/55E2FD23".
+
+Info: Checking netlist component footprint "VP_2:/55E2FDEB:VPAD_VPAC1".
+
+Info: Changing component path "VP_2:" to "/55E2FDEB".
+
+Info: Checking netlist component footprint "VP_3:/55E2FEB3:VPAD_VPAC1".
+
+Info: Changing component path "VP_3:" to "/55E2FEB3".
+
+Info: Checking netlist component footprint "VP_4:/55E2FF7B:VPAD_VPAC1".
+
+Info: Changing component path "VP_4:" to "/55E2FF7B".
+
+Info: Checking netlist component footprint "VP_5:/55E30043:VPAD_VPAC1".
+
+Info: Changing component path "VP_5:" to "/55E30043".
+
+Info: Checking netlist component footprint "VP_6:/55E3010B:VPAD_VPAC1".
+
+Info: Changing component path "VP_6:" to "/55E3010B".
+
+Info: Checking netlist component footprint "VP_7:/55E301D3:VPAD_VPAC1".
+
+Info: Changing component path "VP_7:" to "/55E301D3".
+
+Info: Checking netlist component footprint "VR1:/55E3029B:OLIMEX_DISCRET_SOT-23-5".
+
+Info: Changing component path "VR1:" to "/55E3029B".
+
+Remove single pad net "Net-(D2-Pad1)" on "D2" pad '1'
+
+Remove single pad net "Net-(U1-Pad14)" on "U1" pad '14'
+
+Remove single pad net "Net-(U1-Pad17)" on "U1" pad '17'
+
+Remove single pad net "Net-(U1-Pad19)" on "U1" pad '19'
+
+Remove single pad net "Net-(U1-Pad25)" on "U1" pad '25'
+
+Remove single pad net "Net-(U1-Pad43)" on "U1" pad '43'
+
+Remove single pad net "Net-(U1-Pad50)" on "U1" pad '50'
+
+Remove single pad net "Net-(U1-Pad53)" on "U1" pad '53'
+

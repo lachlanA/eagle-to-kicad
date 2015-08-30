@@ -2204,10 +2204,10 @@ void write_kikad_lib( string fileName )
 
               
               if( add_libnamePrefixToPartName )
-                printf("\nDEF %s_%s %s %d %d %s %s %d %c %c\n", g_lib_prefix, escape_quotes( charstr_replace( ",/", "_",nameString ) + tmpsx  ) , prefixString, 0, 40, drawPinNumberStr, drawPinNameStr, countGates, 'L', partType );
+                printf("\nDEF %s_%s %s %d %d %s %s %d %c %c\n", g_lib_prefix, escape_quotes( charstr_replace( ",/()", "_",nameString ) + tmpsx  ) , prefixString, 0, 40, drawPinNumberStr, drawPinNameStr, countGates, 'L', partType );
               //                printf("\nDEF %s_%s %s %d %d %s %s %d %c %c\n", g_lib_prefix, escape_quotes( str_replace( ",", "_",nameString ) + tmpsx  ) , prefixString, 0, 40, drawPinNumberStr, drawPinNameStr, countGates, 'L', 'N');              
               else
-                printf("\nDEF %s %s %d %d %s %s %d %c %c\n", escape_quotes( charstr_replace( ",/", "_", nameString ) + tmpsx), prefixString, 0, 40, drawPinNumberStr, drawPinNameStr, countGates, 'L', partType );
+                printf("\nDEF %s %s %d %d %s %s %d %c %c\n", escape_quotes( charstr_replace( ",/()", "_", nameString ) + tmpsx), prefixString, 0, 40, drawPinNumberStr, drawPinNameStr, countGates, 'L', partType );
               //              printf("\nDEF %s %s %d %d %s %s %d %c %c\n", escape_quotes( str_replace( ",", "_", nameString ) + tmpsx), prefixString, 0, 40, drawPinNumberStr, drawPinNameStr, countGates, 'L', 'N');                        
 
               int gatePos = 0;
