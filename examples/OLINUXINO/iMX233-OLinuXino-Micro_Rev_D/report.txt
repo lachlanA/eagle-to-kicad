@@ -1,0 +1,513 @@
+Info: Reading netlist file "/home/laudas/eagle/eagle-lbr2kicad/examples/OLINUXINO/iMX233-OLinuXino-Micro_Rev_D/kicad_files/iMX233-OLinuXino-Micro_Rev_D.net".
+
+Info: Using references to match components and footprints.
+
+* Warning: component 'D2': board footprint 'SOT23C(BAT54S)', netlist footprint 'SEMICON-SMD-IPC_SOT23C(BAT54S)'
+
+* Warning: component 'D4': board footprint 'SOT23C', netlist footprint 'SEMICON-SMD-IPC_SOT23C'
+
+* Warning: component 'T1': board footprint 'SOT23', netlist footprint 'SEMICON-SMD-IPC_SOT23'
+
+* Warning: component 'T2': board footprint 'SOT23', netlist footprint 'SEMICON-SMD-IPC_SOT23'
+
+* Warning: component 'R12': board footprint 'R0603_5MIL_DWS', netlist footprint 'RCL_R0603_5MIL_DWS'
+
+* Warning: component 'R22': board footprint 'R0603_5MIL_DWS', netlist footprint 'RCL_R0603_5MIL_DWS'
+
+* Warning: component 'R21': board footprint 'R0603_5MIL_DWS', netlist footprint 'RCL_R0603_5MIL_DWS'
+
+* Warning: component 'R20': board footprint 'R0603_5MIL_DWS', netlist footprint 'RCL_R0603_5MIL_DWS'
+
+* Warning: component 'R19': board footprint 'R0603_5MIL_DWS', netlist footprint 'RCL_R0603_5MIL_DWS'
+
+* Warning: component 'R18': board footprint 'R0603_5MIL_DWS', netlist footprint 'RCL_R0603_5MIL_DWS'
+
+* Warning: component 'R17': board footprint 'R0603_5MIL_DWS', netlist footprint 'RCL_R0603_5MIL_DWS'
+
+* Warning: component 'R16': board footprint 'R0603_5MIL_DWS', netlist footprint 'RCL_R0603_5MIL_DWS'
+
+* Warning: component 'R15': board footprint 'R0603_5MIL_DWS', netlist footprint 'RCL_R0603_5MIL_DWS'
+
+* Warning: component 'R14': board footprint 'R0603_5MIL_DWS', netlist footprint 'RCL_R0603_5MIL_DWS'
+
+* Warning: component 'R13': board footprint 'R0603_5MIL_DWS', netlist footprint 'RCL_R0603_5MIL_DWS'
+
+* Warning: component 'R25': board footprint 'R0603_5MIL_DWS', netlist footprint 'RCL_R0603_5MIL_DWS'
+
+* Warning: component 'R11': board footprint 'R0603_5MIL_DWS', netlist footprint 'RCL_R0603_5MIL_DWS'
+
+* Warning: component 'R10': board footprint 'R0603_5MIL_DWS', netlist footprint 'RCL_R0603_5MIL_DWS'
+
+* Warning: component 'R2': board footprint 'R0603_5MIL_DWS', netlist footprint 'RCL_R0603_5MIL_DWS'
+
+* Warning: component 'R3': board footprint 'R0603_5MIL_DWS', netlist footprint 'RCL_R0603_5MIL_DWS'
+
+* Warning: component 'R4': board footprint 'R0603_5MIL_DWS', netlist footprint 'RCL_R0603_5MIL_DWS'
+
+* Warning: component 'R5': board footprint 'R0603_5MIL_DWS', netlist footprint 'RCL_R0603_5MIL_DWS'
+
+* Warning: component 'R9': board footprint 'R0603_5MIL_DWS', netlist footprint 'RCL_R0603_5MIL_DWS'
+
+* Warning: component 'R7': board footprint 'R0603_5MIL_DWS', netlist footprint 'RCL_R0603_5MIL_DWS'
+
+* Warning: component 'R8': board footprint 'R0603_5MIL_DWS', netlist footprint 'RCL_R0603_5MIL_DWS'
+
+* Warning: component 'L1': board footprint 'L7078', netlist footprint 'RCL_L7078'
+
+* Warning: component 'L2': board footprint 'L0805_5MIL_DWS', netlist footprint 'RCL_L0805_5MIL_DWS'
+
+* Warning: component 'L3': board footprint 'L0805_5MIL_DWS', netlist footprint 'RCL_L0805_5MIL_DWS'
+
+* Warning: component 'L4': board footprint 'L0805_5MIL_DWS', netlist footprint 'RCL_L0805_5MIL_DWS'
+
+* Warning: component 'C51': board footprint 'E2,5-6,3', netlist footprint 'RCL_E2_5-6_3'
+
+* Warning: component 'C50': board footprint 'E2,5-6,3', netlist footprint 'RCL_E2_5-6_3'
+
+* Warning: component 'C48': board footprint 'E2,5-6,3', netlist footprint 'RCL_E2_5-6_3'
+
+* Warning: component 'C3': board footprint 'C1206', netlist footprint 'RCL_C1206'
+
+* Warning: component 'C18': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C14': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C15': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C16': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C17': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C21': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C19': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C20': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C25': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C13': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C12': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C11': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C10': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C9': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C8': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C7': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C6': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C5': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C4': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C2': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C1': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C23': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C24': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C26': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C27': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C28': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C29': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C30': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C31': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C32': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C33': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C34': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C35': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C36': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C37': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C38': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C39': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C40': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C41': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C42': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C43': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C44': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C45': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C46': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C47': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C49': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'C22': board footprint 'C0603_DWS', netlist footprint 'RCL_C0603_DWS'
+
+* Warning: component 'JTAG135': board footprint 'WU08S', netlist footprint 'PENKO_WU08S'
+
+* Warning: component 'FET1': board footprint 'SOT23', netlist footprint 'PENKO_SOT23'
+
+* Warning: component 'SJTAG135': board footprint 'HN1X4', netlist footprint 'PENKO_HN1X4'
+
+* Warning: component 'U_DEBUG135': board footprint 'HN1X4', netlist footprint 'PENKO_HN1X4'
+
+* Warning: component 'CON2': board footprint 'HN1X30', netlist footprint 'PENKO_HN1X30'
+
+* Warning: component 'CON1': board footprint 'HN1X30', netlist footprint 'PENKO_HN1X30'
+
+* Warning: component 'U1': board footprint 'TQFP128LD', netlist footprint 'OLIMEX_IC_TQFP128LD'
+
+* Warning: component 'U3': board footprint 'SOT23-5', netlist footprint 'OLIMEX_IC_SOT23-5'
+
+* Warning: component 'U2': board footprint '66TSOP-II', netlist footprint 'OLIMEX_IC_66TSOP-II'
+
+* Warning: component 'VR1': board footprint 'SOT-23-5', netlist footprint 'OLIMEX_DISCRET_SOT-23-5'
+
+* Warning: component 'T3': board footprint 'SOT-23', netlist footprint 'OLIMEX_DISCRET_SOT-23'
+
+* Warning: component 'T4': board footprint 'SOT-23', netlist footprint 'OLIMEX_DISCRET_SOT-23'
+
+* Warning: component 'RM1': board footprint 'R_MATRIX_4', netlist footprint 'OLIMEX_DISCRET_R_MATRIX_4'
+
+* Warning: component 'RM2': board footprint 'R_MATRIX_4', netlist footprint 'OLIMEX_DISCRET_R_MATRIX_4'
+
+* Warning: component 'RM3': board footprint 'R_MATRIX_4', netlist footprint 'OLIMEX_DISCRET_R_MATRIX_4'
+
+* Warning: component 'D3': board footprint 'DO214AA', netlist footprint 'OLIMEX_DISCRET_DO214AA'
+
+* Warning: component 'R1': board footprint '0603_0R', netlist footprint 'OLIMEX_DISCRET_0603_0R'
+
+* Warning: component 'R26': board footprint '0603_0R', netlist footprint 'OLIMEX_DISCRET_0603_0R'
+
+* Warning: component 'R6': board footprint '0603_0R', netlist footprint 'OLIMEX_DISCRET_0603_0R'
+
+* Warning: component 'COMPOSITE_VIDEO135': board footprint 'VIDEO_CINCH', netlist footprint 'OLIMEX_CONNECTORS_VIDEO_CINCH'
+
+* Warning: component 'USB_HOST135': board footprint 'USB_PN87520_HOST_PTH', netlist footprint 'OLIMEX_CONNECTORS_USB_PN87520_HOST_PTH'
+
+* Warning: component 'SD/MMC135': board footprint 'TFC-WPAPR-08', netlist footprint 'OLIMEX_CONNECTORS_TFC-WPAPR-08'
+
+* Warning: component 'SDA_HW/SDA_SW135': board footprint 'SJ_2_SMALL', netlist footprint 'JUMPER_SJ_2_SMALL'
+
+* Warning: component 'CS_SW/CS_HW135': board footprint 'SJ_2_SMALL', netlist footprint 'JUMPER_SJ_2_SMALL'
+
+* Warning: component 'SCL_HW/SCL_SW135': board footprint 'SJ_2_SMALL', netlist footprint 'JUMPER_SJ_2_SMALL'
+
+* Warning: component 'D01_H135': board footprint 'SJ_1_SMALLER', netlist footprint 'JUMPER_SJ_1_SMALLER'
+
+* Warning: component 'D03_H135': board footprint 'SJ_1_SMALLER', netlist footprint 'JUMPER_SJ_1_SMALLER'
+
+* Warning: component 'D02_H135': board footprint 'SJ_1_SMALLER', netlist footprint 'JUMPER_SJ_1_SMALLER'
+
+* Warning: component '3.3V_E135': board footprint 'SJ_1_SMALLER', netlist footprint 'JUMPER_SJ_1_SMALLER'
+
+* Warning: component 'D00_H135': board footprint 'SJ_1_SMALLER', netlist footprint 'JUMPER_SJ_1_SMALLER'
+
+* Warning: component '5V_E135': board footprint 'SJ-CLOSE', netlist footprint 'JUMPER_SJ-CLOSE'
+
+* Warning: component 'RESET135': board footprint 'SW-TAKT_6X3.5_SMD', netlist footprint 'GOGO_SW-TAKT_6X3.5_SMD'
+
+* Warning: component 'RECOVERY135': board footprint 'SW-TAKT_6X3.5_SMD', netlist footprint 'GOGO_SW-TAKT_6X3.5_SMD'
+
+* Warning: component 'POWER135': board footprint 'SW-TAKT_6X3.5_SMD', netlist footprint 'GOGO_SW-TAKT_6X3.5_SMD'
+
+* Warning: component 'PWR135': board footprint 'PWR_JACK_UNI_MILLING', netlist footprint 'GOGO_PWR_JACK_UNI_MILLING'
+
+* Warning: component 'D1': board footprint 'MLL-41', netlist footprint 'GOGO_MLL-41'
+
+* Warning: component 'LED1': board footprint 'LED-0603', netlist footprint 'DOUBLE-SIDE_LED-0603'
+
+* Warning: component 'Q1': board footprint 'HC49%2fSMD2_THIN', netlist footprint 'CRYSTAL_HC49_SMD2_THIN'
+
+Info: Checking netlist component footprint "3.3V_E135:/55E28C3D:JUMPER_SJ_1_SMALLER".
+
+Info: Checking netlist component footprint "5V_E135:/55E28D05:JUMPER_SJ-CLOSE".
+
+Info: Checking netlist component footprint "C1:/55E28DCD:RCL_C0603_DWS".
+
+Info: Checking netlist component footprint "C2:/55E28E95:RCL_C0603_DWS".
+
+Info: Checking netlist component footprint "C3:/55E28F5D:RCL_C1206".
+
+Info: Checking netlist component footprint "C4:/55E29025:RCL_C0603_DWS".
+
+Info: Checking netlist component footprint "C5:/55E290ED:RCL_C0603_DWS".
+
+Info: Checking netlist component footprint "C6:/55E291B5:RCL_C0603_DWS".
+
+Info: Checking netlist component footprint "C7:/55E2927D:RCL_C0603_DWS".
+
+Info: Checking netlist component footprint "C8:/55E29345:RCL_C0603_DWS".
+
+Info: Checking netlist component footprint "C9:/55E2940D:RCL_C0603_DWS".
+
+Info: Checking netlist component footprint "C10:/55E294D5:RCL_C0603_DWS".
+
+Info: Checking netlist component footprint "C11:/55E2959D:RCL_C0603_DWS".
+
+Info: Checking netlist component footprint "C12:/55E29665:RCL_C0603_DWS".
+
+Info: Checking netlist component footprint "C13:/55E2972D:RCL_C0603_DWS".
+
+Info: Checking netlist component footprint "C14:/55E297F5:RCL_C0603_DWS".
+
+Info: Checking netlist component footprint "C15:/55E298BD:RCL_C0603_DWS".
+
+Info: Checking netlist component footprint "C16:/55E29985:RCL_C0603_DWS".
+
+Info: Checking netlist component footprint "C17:/55E29A4D:RCL_C0603_DWS".
+
+Info: Checking netlist component footprint "C18:/55E29B15:RCL_C0603_DWS".
+
+Info: Checking netlist component footprint "C19:/55E29BDD:RCL_C0603_DWS".
+
+Info: Checking netlist component footprint "C20:/55E29CA5:RCL_C0603_DWS".
+
+Info: Checking netlist component footprint "C21:/55E29D6D:RCL_C0603_DWS".
+
+Info: Checking netlist component footprint "C22:/55E29E35:RCL_C0603_DWS".
+
+Info: Checking netlist component footprint "C23:/55E29EFD:RCL_C0603_DWS".
+
+Info: Checking netlist component footprint "C24:/55E29FC5:RCL_C0603_DWS".
+
+Info: Checking netlist component footprint "C25:/55E2A08D:RCL_C0603_DWS".
+
+Info: Checking netlist component footprint "C26:/55E2A155:RCL_C0603_DWS".
+
+Info: Checking netlist component footprint "C27:/55E2A21D:RCL_C0603_DWS".
+
+Info: Checking netlist component footprint "C28:/55E2A2E5:RCL_C0603_DWS".
+
+Info: Checking netlist component footprint "C29:/55E2A3AD:RCL_C0603_DWS".
+
+Info: Checking netlist component footprint "C30:/55E2A475:RCL_C0603_DWS".
+
+Info: Checking netlist component footprint "C31:/55E2A53D:RCL_C0603_DWS".
+
+Info: Checking netlist component footprint "C32:/55E2A605:RCL_C0603_DWS".
+
+Info: Checking netlist component footprint "C33:/55E2A6CD:RCL_C0603_DWS".
+
+Info: Checking netlist component footprint "C34:/55E2A795:RCL_C0603_DWS".
+
+Info: Checking netlist component footprint "C35:/55E2A85D:RCL_C0603_DWS".
+
+Info: Checking netlist component footprint "C36:/55E2A925:RCL_C0603_DWS".
+
+Info: Checking netlist component footprint "C37:/55E2A9ED:RCL_C0603_DWS".
+
+Info: Checking netlist component footprint "C38:/55E2AAB5:RCL_C0603_DWS".
+
+Info: Checking netlist component footprint "C39:/55E2AB7D:RCL_C0603_DWS".
+
+Info: Checking netlist component footprint "C40:/55E2AC45:RCL_C0603_DWS".
+
+Info: Checking netlist component footprint "C41:/55E2AD0D:RCL_C0603_DWS".
+
+Info: Checking netlist component footprint "C42:/55E2ADD5:RCL_C0603_DWS".
+
+Info: Checking netlist component footprint "C43:/55E2AE9D:RCL_C0603_DWS".
+
+Info: Checking netlist component footprint "C44:/55E2AF65:RCL_C0603_DWS".
+
+Info: Checking netlist component footprint "C45:/55E2B02D:RCL_C0603_DWS".
+
+Info: Checking netlist component footprint "C46:/55E2B0F5:RCL_C0603_DWS".
+
+Info: Checking netlist component footprint "C47:/55E2B1BD:RCL_C0603_DWS".
+
+Info: Checking netlist component footprint "C48:/55E2B285:RCL_E2_5-6_3".
+
+Info: Checking netlist component footprint "C49:/55E2B34D:RCL_C0603_DWS".
+
+Info: Checking netlist component footprint "C50:/55E2B415:RCL_E2_5-6_3".
+
+Info: Checking netlist component footprint "C51:/55E2B4DD:RCL_E2_5-6_3".
+
+Info: Checking netlist component footprint "COMPOSITE_VIDEO135:/55E2B5A5:OLIMEX_CONNECTORS_VIDEO_CINCH".
+
+Info: Checking netlist component footprint "CON1:/55E2B66D:PENKO_HN1X30".
+
+Info: Checking netlist component footprint "CON2:/55E2B735:PENKO_HN1X30".
+
+Info: Checking netlist component footprint "CS_SW/CS_HW135:/55E2B7FD:JUMPER_SJ_2_SMALL".
+
+Info: Checking netlist component footprint "D00_H135:/55E2B8C5:JUMPER_SJ_1_SMALLER".
+
+Info: Checking netlist component footprint "D1:/55E2B98D:GOGO_MLL-41".
+
+Info: Checking netlist component footprint "D01_H135:/55E2BA55:JUMPER_SJ_1_SMALLER".
+
+Info: Checking netlist component footprint "D2:/55E2BB1D:SEMICON-SMD-IPC_SOT23C(BAT54S)".
+
+Info: Checking netlist component footprint "D02_H135:/55E2BBE5:JUMPER_SJ_1_SMALLER".
+
+Info: Checking netlist component footprint "D3:/55E2BCAD:OLIMEX_DISCRET_DO214AA".
+
+Info: Checking netlist component footprint "D03_H135:/55E2BD75:JUMPER_SJ_1_SMALLER".
+
+Info: Checking netlist component footprint "D4:/55E2BE3D:SEMICON-SMD-IPC_SOT23C".
+
+Changing component "D4:/55E2BE3D" pin "1" net name from "" to "Net-(D4-Pad1)".
+
+Info: Checking netlist component footprint "FET1:/55E2BF05:PENKO_SOT23".
+
+Info: Checking netlist component footprint "JTAG135:/55E2CFD1:PENKO_WU08S".
+
+Info: Checking netlist component footprint "L1:/55E2D099:RCL_L7078".
+
+Info: Checking netlist component footprint "L2:/55E2D161:RCL_L0805_5MIL_DWS".
+
+Info: Checking netlist component footprint "L3:/55E2D229:RCL_L0805_5MIL_DWS".
+
+Info: Checking netlist component footprint "L4:/55E2D2F1:RCL_L0805_5MIL_DWS".
+
+Info: Checking netlist component footprint "LED1:/55E2D3B9:DOUBLE-SIDE_LED-0603".
+
+Info: Checking netlist component footprint "POWER135:/55E2D931:GOGO_SW-TAKT_6X3.5_SMD".
+
+Info: Checking netlist component footprint "PWR135:/55E2D9F9:GOGO_PWR_JACK_UNI_MILLING".
+
+Info: Checking netlist component footprint "Q1:/55E2DAC1:CRYSTAL_HC49_SMD2_THIN".
+
+Info: Checking netlist component footprint "R1:/55E2DB89:OLIMEX_DISCRET_0603_0R".
+
+Info: Checking netlist component footprint "R2:/55E2DC51:RCL_R0603_5MIL_DWS".
+
+Info: Checking netlist component footprint "R3:/55E2DD19:RCL_R0603_5MIL_DWS".
+
+Info: Checking netlist component footprint "R4:/55E2DDE1:RCL_R0603_5MIL_DWS".
+
+Info: Checking netlist component footprint "R5:/55E2DEA9:RCL_R0603_5MIL_DWS".
+
+Info: Checking netlist component footprint "R6:/55E2DF71:OLIMEX_DISCRET_0603_0R".
+
+Info: Checking netlist component footprint "R7:/55E2E039:RCL_R0603_5MIL_DWS".
+
+Info: Checking netlist component footprint "R8:/55E2E101:RCL_R0603_5MIL_DWS".
+
+Info: Checking netlist component footprint "R9:/55E2E1C9:RCL_R0603_5MIL_DWS".
+
+Info: Checking netlist component footprint "R10:/55E2E291:RCL_R0603_5MIL_DWS".
+
+Info: Checking netlist component footprint "R11:/55E2E359:RCL_R0603_5MIL_DWS".
+
+Info: Checking netlist component footprint "R12:/55E2E421:RCL_R0603_5MIL_DWS".
+
+Info: Checking netlist component footprint "R13:/55E2E4E9:RCL_R0603_5MIL_DWS".
+
+Info: Checking netlist component footprint "R14:/55E2E5B1:RCL_R0603_5MIL_DWS".
+
+Info: Checking netlist component footprint "R15:/55E2E679:RCL_R0603_5MIL_DWS".
+
+Info: Checking netlist component footprint "R16:/55E2E741:RCL_R0603_5MIL_DWS".
+
+Info: Checking netlist component footprint "R17:/55E2E809:RCL_R0603_5MIL_DWS".
+
+Info: Checking netlist component footprint "R18:/55E2E8D1:RCL_R0603_5MIL_DWS".
+
+Info: Checking netlist component footprint "R19:/55E2E999:RCL_R0603_5MIL_DWS".
+
+Info: Checking netlist component footprint "R20:/55E2EA61:RCL_R0603_5MIL_DWS".
+
+Info: Checking netlist component footprint "R21:/55E2EB29:RCL_R0603_5MIL_DWS".
+
+Info: Checking netlist component footprint "R22:/55E2EBF1:RCL_R0603_5MIL_DWS".
+
+Info: Checking netlist component footprint "R25:/55E2ECB9:RCL_R0603_5MIL_DWS".
+
+Info: Checking netlist component footprint "R26:/55E2ED81:OLIMEX_DISCRET_0603_0R".
+
+Info: Checking netlist component footprint "RECOVERY135:/55E2EE49:GOGO_SW-TAKT_6X3.5_SMD".
+
+Info: Checking netlist component footprint "RESET135:/55E2EF11:GOGO_SW-TAKT_6X3.5_SMD".
+
+Info: Checking netlist component footprint "RM1:/55E2EFD9:OLIMEX_DISCRET_R_MATRIX_4".
+
+Info: Checking netlist component footprint "RM2:/55E2F1CD:OLIMEX_DISCRET_R_MATRIX_4".
+
+Info: Checking netlist component footprint "RM3:/55E2F295:OLIMEX_DISCRET_R_MATRIX_4".
+
+Info: Checking netlist component footprint "SCL_HW/SCL_SW135:/55E2F35D:JUMPER_SJ_2_SMALL".
+
+Info: Checking netlist component footprint "SD/MMC135:/55E2F425:OLIMEX_CONNECTORS_TFC-WPAPR-08".
+
+Changing component "SD/MMC135:/55E2F425" pin "9" net name from "" to "Net-(SD/MMC135-Pad9)".
+
+Info: Checking netlist component footprint "SDA_HW/SDA_SW135:/55E2F4ED:JUMPER_SJ_2_SMALL".
+
+Info: Checking netlist component footprint "SJTAG135:/55E2F5B5:PENKO_HN1X4".
+
+Info: Checking netlist component footprint "T1:/55E2F67D:SEMICON-SMD-IPC_SOT23".
+
+Info: Checking netlist component footprint "T2:/55E2F745:SEMICON-SMD-IPC_SOT23".
+
+Info: Checking netlist component footprint "T3:/55E2F80D:OLIMEX_DISCRET_SOT-23".
+
+Info: Checking netlist component footprint "T4:/55E2F8D5:OLIMEX_DISCRET_SOT-23".
+
+Info: Checking netlist component footprint "U1:/55E2F99D:OLIMEX_IC_TQFP128LD".
+
+Info: Checking netlist component footprint "U2:/55E2FA65:OLIMEX_IC_66TSOP-II".
+
+Changing component "U2:/55E2FA65" pin "14" net name from "" to "Net-(U2-Pad14)".
+
+Changing component "U2:/55E2FA65" pin "17" net name from "" to "Net-(U2-Pad17)".
+
+Changing component "U2:/55E2FA65" pin "19" net name from "" to "Net-(U2-Pad19)".
+
+Changing component "U2:/55E2FA65" pin "25" net name from "" to "Net-(U2-Pad25)".
+
+Changing component "U2:/55E2FA65" pin "43" net name from "" to "Net-(U2-Pad43)".
+
+Changing component "U2:/55E2FA65" pin "50" net name from "" to "Net-(U2-Pad50)".
+
+Changing component "U2:/55E2FA65" pin "53" net name from "" to "Net-(U2-Pad53)".
+
+Info: Checking netlist component footprint "U3:/55E2FB2D:OLIMEX_IC_SOT23-5".
+
+Info: Checking netlist component footprint "USB_HOST135:/55E2FBF5:OLIMEX_CONNECTORS_USB_PN87520_HOST_PTH".
+
+Info: Checking netlist component footprint "U_DEBUG135:/55E2FCBD:PENKO_HN1X4".
+
+Info: Checking netlist component footprint "VR1:/55E30361:OLIMEX_DISCRET_SOT-23-5".
+
+Remove single pad net "Net-(D4-Pad1)" on "D4" pad '1'
+
+Remove single pad net "Net-(SD/MMC135-Pad9)" on "SD/MMC135" pad '9'
+
+Remove single pad net "Net-(U2-Pad14)" on "U2" pad '14'
+
+Remove single pad net "Net-(U2-Pad17)" on "U2" pad '17'
+
+Remove single pad net "Net-(U2-Pad19)" on "U2" pad '19'
+
+Remove single pad net "Net-(U2-Pad25)" on "U2" pad '25'
+
+Remove single pad net "Net-(U2-Pad43)" on "U2" pad '43'
+
+Remove single pad net "Net-(U2-Pad50)" on "U2" pad '50'
+
+Remove single pad net "Net-(U2-Pad53)" on "U2" pad '53'
+
+Warning: Copper zone (net name ''): net has no pads connected.
