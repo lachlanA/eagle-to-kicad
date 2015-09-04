@@ -95,9 +95,9 @@ string myULP_HOME = EAGLE_HOME + '/';
 string schname = "";
 string pcbname = "";
 
-string infoTargetDirectory  = "<h3>Set the target directory for the KiCad files.</h3>"+
-                             "<b>Note this directory should be a clean directory"+
-                             "With out any other file's, as the contents may be<center><font color=\"red\">OVER WRITTEN WITHOUT WARNING!</b></center>";
+string infoTargetDirectory  = "<b>Set the target directory for the KiCad/Eagle files.<br>"+
+                             "<b>Note this directory should be a clean directory<br>"+
+                             "With out any other file's, as the contents-<br><center><font color=\"red\">WILL BE OVER WRITTEN WITHOUT WARNING!</b></center>";
 
 string infoULPdir           = "<b>Eagle ULP conversion script location</b>";
 

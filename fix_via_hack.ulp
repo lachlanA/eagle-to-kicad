@@ -132,9 +132,24 @@ string schname = "";
 string outputPath = EAGLE_HOME + '/';
 string myULP_HOME = EAGLE_HOME + '/';
 
-string infoTargetDirectory  = "<h3>Set the target directory for the KiCad files.</h3>"+
-                             "<b>Note this directory should be a clean directory"+
-                             "With out any other file's, as the contents may be<center><font color=\"red\">OVER WRITTEN WITHOUT WARNING!</b></center>";
+string infoTargetDirectory  =  "<b>Set the target directory for the KiCad/Eagle files.<br>"+
+                             "<b>Note this directory should be a clean directory<br>"+
+                             "With out any other file's, as the contents-<br><center><font color=\"red\">WILL BE OVER WRITTEN WITHOUT WARNING!</b></center>";
+
+string infoConvertViaToPad  =  "<b>Eagle use's via's for connections to fill's and power plane's, this works well for Eagle<br>"+
+    "<b>But will not work for KiCad, because KiCad does not retain Net list information for unconnected via's<br>"+
+    "<b>It only retains net information when the via is connected to a PAD,  using a track<br>"+
+    "<b>By converting the unconnected via's to Pad's KiCad will keep the net information and allow fill's and power plane's to work like<br>"+
+    "<b>they do on Eagle. But there  are some problems with this fix-<br><br>"+
+    "1: Blind via's wont work, as Pads will go thou all layers,  while blind vie's only go thou the configured layers.<br>"+
+    "2: The fix change's the Eagle SCH/PCB file's by converting via's to Pads, the hack change's the SCH by adding 1 Pin Pad's<br>"+
+    "&nbsp;&nbsp;&nbsp;&nbsp;this is a very big hack, you will see x=0 y=0-number diffident net's and pad's in the Eagle SCH file<br>"+
+    "&nbsp;&nbsp;&nbsp;&nbsp;this mod-filed Eagle file's are saved in the $TARGETDIRECTOR/modified_eagle_files/";
+
+string infoDocomentUnconnectVias  =  "<b>This Option add's a \">\" to the via or converted pad,<br>"+
+    "Making it easy to find the changed via's/pad's on the PCB<br>"+
+    "Note this will show up as layer 51 (tDocu) on Eagle's PCB, and Dwgs.User on KiCad pcbnew.<br>";
+
 
 string infoULPdir           = "<b>Eagle ULP conversion script location</b>";
 
@@ -469,7 +484,7 @@ void menue(void)
   result = dlgDialog("Vis to Pad hack:" + "  BUILD DATE:" + BUILD_DATE )
       {
         dlgLabel("<b><font color=\"red\">This ULP will change unconnected VIA's to PADS with Same Net name as the VIA's<br>" + 
-                 "<font color=\"blue\">This is needed because KiCad dose not support Net Names on VIA'S.!<br>"+
+                 "<font color=\"blue\">This is needed because KiCad does not support Net Names on VIA'S.!<br>"+
                  "If unconnected VIA's (<i>By that I mean VIA'S which have no track's connected to a PAD</i>)<br>"+
                  "will lose net names, and will not connect to fill's or power plane's!<br>"+
                  "This hack will help out by converting all those unconnected VIA'S to Pads<br>"+
@@ -544,7 +559,7 @@ void menue(void)
           dlgSpacing(space);
           dlgLabel("Convert Via to PAD's");
           dlgCheckBox("YES", enable_via_to_pad );
-          dlgPushButton("Info") { if (dlgMessageBox( infoTargetDirectory, "Ok") == 0); };
+          dlgPushButton("Info") { if (dlgMessageBox( infoConvertViaToPad, "Ok") == 0); };
           dlgStretch(0);
         }
 
@@ -554,7 +569,7 @@ void menue(void)
           dlgSpacing(space);
           dlgLabel("Docment unconnect VIA's");
           dlgCheckBox("YES", docment_via_to_pad );
-          dlgPushButton("Info") { if (dlgMessageBox( infoTargetDirectory, "Ok") == 0); };
+          dlgPushButton("Info") { if (dlgMessageBox( infoDocomentUnconnectVias, "Ok") == 0); };
           dlgStretch(0);
         }
 

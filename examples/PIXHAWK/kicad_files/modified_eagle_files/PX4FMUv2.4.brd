@@ -6,9 +6,9 @@
 <setting alwaysvectorfont="yes"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="4" unitdist="mil" unit="mic" style="dots" multiple="1" display="yes" altdistance="4" altunitdist="mil" altunit="mil"/>
+<grid distance="0.1" unitdist="mm" unit="mic" style="dots" multiple="10" display="yes" altdistance="1" altunitdist="mil" altunit="mil"/>
 <layers>
-<layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
+<layer number="1" name="Top" color="4" fill="0" visible="yes" active="yes"/>
 <layer number="2" name="Ground" color="2" fill="10" visible="yes" active="yes"/>
 <layer number="3" name="Horizontal" color="13" fill="15" visible="yes" active="yes"/>
 <layer number="4" name="Route4" color="1" fill="4" visible="no" active="no"/>
@@ -23,13 +23,13 @@
 <layer number="13" name="Route13" color="4" fill="5" visible="no" active="no"/>
 <layer number="14" name="Vertical" color="14" fill="15" visible="yes" active="yes"/>
 <layer number="15" name="Power" color="11" fill="15" visible="yes" active="yes"/>
-<layer number="16" name="Bottom" color="1" fill="1" visible="yes" active="yes"/>
+<layer number="16" name="Bottom" color="1" fill="0" visible="yes" active="yes"/>
 <layer number="17" name="Pads" color="2" fill="1" visible="yes" active="yes"/>
 <layer number="18" name="Vias" color="2" fill="1" visible="yes" active="yes"/>
 <layer number="19" name="Unrouted" color="14" fill="1" visible="yes" active="yes"/>
 <layer number="20" name="Dimension" color="15" fill="1" visible="yes" active="yes"/>
-<layer number="21" name="tPlace" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="22" name="bPlace" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="21" name="tPlace" color="7" fill="0" visible="yes" active="yes"/>
+<layer number="22" name="bPlace" color="7" fill="0" visible="yes" active="yes"/>
 <layer number="23" name="tOrigins" color="15" fill="1" visible="yes" active="yes"/>
 <layer number="24" name="bOrigins" color="15" fill="1" visible="yes" active="yes"/>
 <layer number="25" name="tNames" color="7" fill="1" visible="yes" active="yes"/>
@@ -5054,7 +5054,7 @@ Source: PANASONIC .. aoc0000ce1.pdf</description>
 <contactref element="VP_51" pad="VP"/>
 <contactref element="VP_52" pad="VP"/>
 <contactref element="VP_53" pad="VP"/>
-<wire x1="53.34" y1="21.844" x2="69.3928" y2="35.3568" width="0" layer="19" extent="1-1"/>
+<wire x1="69.3928" y1="35.3568" x2="53.34" y2="21.844" width="0" layer="19" extent="1-1"/>
 <wire x1="69.3928" y1="36.068" x2="69.3928" y2="35.3568" width="0" layer="19" extent="1-1"/>
 <wire x1="63.9064" y1="25.2984" x2="69.3928" y2="36.068" width="0" layer="19" extent="1-1"/>
 <wire x1="69.3928" y1="27.5336" x2="63.9064" y2="25.2984" width="0" layer="19" extent="1-1"/>
@@ -7279,7 +7279,7 @@ Source: PANASONIC .. aoc0000ce1.pdf</description>
 <wire x1="11.5824" y1="10.3632" x2="11.5824" y2="10.3632" width="0" layer="19" extent="1-16"/>
 <contactref element="VP_31" pad="VP"/>
 <contactref element="VP_32" pad="VP"/>
-<wire x1="11.0744" y1="10.3632" x2="11.5824" y2="10.3632" width="0" layer="19" extent="1-1"/>
+<wire x1="11.5824" y1="10.3632" x2="11.0744" y2="10.3632" width="0" layer="19" extent="1-1"/>
 <wire x1="13.1542" y1="2.7022" x2="11.0744" y2="10.3632" width="0" layer="19" extent="1-1"/>
 <wire x1="13.1612" y1="9.3344" x2="12.9112" y2="3.9624" width="0" layer="19" extent="1-1"/>
 <wire x1="11.5824" y1="10.3632" x2="13.1612" y2="9.3344" width="0" layer="19" extent="1-1"/>
@@ -8349,7 +8349,7 @@ Source: PANASONIC .. aoc0000ce1.pdf</description>
 <contactref element="VP_60" pad="VP"/>
 <contactref element="VP_61" pad="VP"/>
 <contactref element="VP_61" pad="VP"/>
-<wire x1="66.8528" y1="34.2392" x2="66.8528" y2="34.8488" width="0" layer="19" extent="1-1"/>
+<wire x1="66.8528" y1="34.8488" x2="66.8528" y2="34.2392" width="0" layer="19" extent="1-1"/>
 <wire x1="66.8528" y1="33.6296" x2="66.8528" y2="34.2392" width="0" layer="19" extent="1-1"/>
 <wire x1="3.7592" y1="3.683" x2="66.8528" y2="33.6296" width="0" layer="19" extent="1-1"/>
 <wire x1="3.7592" y1="6.223" x2="3.7592" y2="3.683" width="0" layer="19" extent="1-1"/>

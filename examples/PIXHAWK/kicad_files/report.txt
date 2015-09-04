@@ -710,2158 +710,1507 @@ Info: Using references to match components and footprints.
 
 * Warning: component 'U301': board footprint 'MICROSD', netlist footprint 'BASEBOARD_MICROSD'
 
-Info: Checking netlist component footprint "!VBUS_VALID1116:/55DCE09F/55DDFCE1:PIXHAWK2_PAD.04X.04".
+Info: Checking netlist component footprint "!VBUS_VALID1116:/55E9991E/55EAB5B7:PIXHAWK2_PAD.04X.04".
 
-Info: Changing component path "!VBUS_VALID1116:" to "/55DCE09F/55DDFCE1".
+Info: Changing component path "!VBUS_VALID1116:" to "/55E9991E/55EAB5B7".
 
-Info: Checking netlist component footprint "!VDD_BRICK_VALID1116:/55DCE09F/55DDFDA9:PIXHAWK2_PAD.04X.04".
+Info: Checking netlist component footprint "!VDD_BRICK_VALID1116:/55E9991E/55EAB67F:PIXHAWK2_PAD.04X.04".
 
-Info: Changing component path "!VDD_BRICK_VALID1116:" to "/55DCE09F/55DDFDA9".
+Info: Changing component path "!VDD_BRICK_VALID1116:" to "/55E9991E/55EAB67F".
 
-Info: Checking netlist component footprint "!VDD_SERVO_VALID1116:/55DCE09F/55DDFE71:PIXHAWK2_PAD.04X.04".
+Info: Checking netlist component footprint "!VDD_SERVO_VALID1116:/55E9991E/55EAB747:PIXHAWK2_PAD.04X.04".
 
-Info: Changing component path "!VDD_SERVO_VALID1116:" to "/55DCE09F/55DDFE71".
+Info: Changing component path "!VDD_SERVO_VALID1116:" to "/55E9991E/55EAB747".
 
-Info: Checking netlist component footprint "ADC_PR1116:/55DCE09F/55DDFF39:PIXHAWK2_PAD.04X.04".
+Info: Checking netlist component footprint "ADC_PR1116:/55E9991E/55EAB80F:PIXHAWK2_PAD.04X.04".
 
-Info: Changing component path "ADC_PR1116:" to "/55DCE09F/55DDFF39".
+Info: Changing component path "ADC_PR1116:" to "/55E9991E/55EAB80F".
 
-Info: Checking netlist component footprint "B601:/55DCE093/55DD4804:PIXHAWK2_MS621FE".
+Info: Checking netlist component footprint "B601:/55E99912/55EA00DA:PIXHAWK2_MS621FE".
 
-Info: Changing component path "B601:" to "/55DCE093/55DD4804".
+Info: Changing component path "B601:" to "/55E99912/55EA00DA".
 
-Info: Checking netlist component footprint "C101:/55DCE089/55DCE0E3:PIXHAWK2_0402-CAP".
+Info: Checking netlist component footprint "C101:/55E99908/55E999B9:PIXHAWK2_0402-CAP".
 
-Info: Changing component path "C101:" to "/55DCE089/55DCE0E3".
+Info: Changing component path "C101:" to "/55E99908/55E999B9".
 
-Info: Checking netlist component footprint "C102:/55DCE089/55DCE1AB:PIXHAWK2_0402-CAP".
+Info: Checking netlist component footprint "C102:/55E99908/55E99A81:PIXHAWK2_0402-CAP".
 
-Info: Changing component path "C102:" to "/55DCE089/55DCE1AB".
+Info: Changing component path "C102:" to "/55E99908/55E99A81".
 
-Changing component "C102:/55DCE089/55DCE1AB" pin "P$1" net name from "N$2" to "/PX4FMUv2.4_SS_1/N$2".
+Info: Checking netlist component footprint "C103:/55E99908/55E99B49:PIXHAWK2_0402-CAP".
 
-Info: Checking netlist component footprint "C103:/55DCE089/55DCE273:PIXHAWK2_0402-CAP".
+Info: Changing component path "C103:" to "/55E99908/55E99B49".
 
-Info: Changing component path "C103:" to "/55DCE089/55DCE273".
+Info: Checking netlist component footprint "C201:/55E9990A/55E9A639:PIXHAWK2_0402-CAP".
 
-Changing component "C103:/55DCE089/55DCE273" pin "P$2" net name from "N$1" to "/PX4FMUv2.4_SS_1/N$1".
+Info: Changing component path "C201:" to "/55E9990A/55E9A639".
 
-Info: Checking netlist component footprint "C201:/55DCE08B/55DCED63:PIXHAWK2_0402-CAP".
+Info: Checking netlist component footprint "C202:/55E9990A/55E9A701:PIXHAWK2_0402-CAP".
 
-Info: Changing component path "C201:" to "/55DCE08B/55DCED63".
+Info: Changing component path "C202:" to "/55E9990A/55E9A701".
 
-Info: Checking netlist component footprint "C202:/55DCE08B/55DCEE2B:PIXHAWK2_0402-CAP".
+Info: Checking netlist component footprint "C401:/55E9990E/55E9CED9:PIXHAWK2_0402-CAP".
 
-Info: Changing component path "C202:" to "/55DCE08B/55DCEE2B".
+Info: Changing component path "C401:" to "/55E9990E/55E9CED9".
 
-Info: Checking netlist component footprint "C401:/55DCE08F/55DD1603:PIXHAWK2_0402-CAP".
+Info: Checking netlist component footprint "C402:/55E9990E/55E9CFA1:PIXHAWK2_0402-CAP".
 
-Info: Changing component path "C401:" to "/55DCE08F/55DD1603".
+Info: Changing component path "C402:" to "/55E9990E/55E9CFA1".
 
-Info: Checking netlist component footprint "C402:/55DCE08F/55DD16CB:PIXHAWK2_0402-CAP".
+Info: Checking netlist component footprint "C501:/55E99910/55E9E581:PIXHAWK2_0805-CAP".
 
-Info: Changing component path "C402:" to "/55DCE08F/55DD16CB".
+Info: Changing component path "C501:" to "/55E99910/55E9E581".
 
-Info: Checking netlist component footprint "C501:/55DCE091/55DD2CAB:PIXHAWK2_0805-CAP".
+Info: Checking netlist component footprint "C502:/55E99910/55E9E649:PIXHAWK2_0402-CAP".
 
-Info: Changing component path "C501:" to "/55DCE091/55DD2CAB".
+Info: Changing component path "C502:" to "/55E99910/55E9E649".
 
-Info: Checking netlist component footprint "C502:/55DCE091/55DD2D73:PIXHAWK2_0402-CAP".
+Info: Checking netlist component footprint "C503:/55E99910/55E9E711:PIXHAWK2_0402-CAP".
 
-Info: Changing component path "C502:" to "/55DCE091/55DD2D73".
+Info: Changing component path "C503:" to "/55E99910/55E9E711".
 
-Info: Checking netlist component footprint "C503:/55DCE091/55DD2E3B:PIXHAWK2_0402-CAP".
+Info: Checking netlist component footprint "C504:/55E99910/55E9E7D9:PIXHAWK2_0402-CAP".
 
-Info: Changing component path "C503:" to "/55DCE091/55DD2E3B".
+Info: Changing component path "C504:" to "/55E99910/55E9E7D9".
 
-Info: Checking netlist component footprint "C504:/55DCE091/55DD2F03:PIXHAWK2_0402-CAP".
+Info: Checking netlist component footprint "C505:/55E99910/55E9E8A1:PIXHAWK2_0402-CAP".
 
-Info: Changing component path "C504:" to "/55DCE091/55DD2F03".
+Info: Changing component path "C505:" to "/55E99910/55E9E8A1".
 
-Changing component "C504:/55DCE091/55DD2F03" pin "P$1" net name from "N$35" to "/PX4FMUv2.4_SS_5/N$35".
+Info: Checking netlist component footprint "C506:/55E99910/55E9E969:PIXHAWK2_0805-CAP".
 
-Info: Checking netlist component footprint "C505:/55DCE091/55DD2FCB:PIXHAWK2_0402-CAP".
+Info: Changing component path "C506:" to "/55E99910/55E9E969".
 
-Info: Changing component path "C505:" to "/55DCE091/55DD2FCB".
+Info: Checking netlist component footprint "C507:/55E99910/55E9EA31:PIXHAWK2_0402-CAP".
 
-Changing component "C505:/55DCE091/55DD2FCB" pin "P$1" net name from "N$30" to "/PX4FMUv2.4_SS_5/N$30".
+Info: Changing component path "C507:" to "/55E99910/55E9EA31".
 
-Info: Checking netlist component footprint "C506:/55DCE091/55DD3093:PIXHAWK2_0805-CAP".
+Info: Checking netlist component footprint "C508:/55E99910/55E9EAF9:PIXHAWK2_0402-CAP".
 
-Info: Changing component path "C506:" to "/55DCE091/55DD3093".
+Info: Changing component path "C508:" to "/55E99910/55E9EAF9".
 
-Info: Checking netlist component footprint "C507:/55DCE091/55DD315B:PIXHAWK2_0402-CAP".
+Info: Checking netlist component footprint "C509:/55E99910/55E9EBC1:PIXHAWK2_0805-CAP".
 
-Info: Changing component path "C507:" to "/55DCE091/55DD315B".
+Info: Changing component path "C509:" to "/55E99910/55E9EBC1".
 
-Info: Checking netlist component footprint "C508:/55DCE091/55DD3223:PIXHAWK2_0402-CAP".
+Info: Checking netlist component footprint "C510:/55E99910/55E9EC89:PIXHAWK2_0402-CAP".
 
-Info: Changing component path "C508:" to "/55DCE091/55DD3223".
+Info: Changing component path "C510:" to "/55E99910/55E9EC89".
 
-Info: Checking netlist component footprint "C509:/55DCE091/55DD32EB:PIXHAWK2_0805-CAP".
+Info: Checking netlist component footprint "C511:/55E99910/55E9ED51:PIXHAWK2_0805-CAP".
 
-Info: Changing component path "C509:" to "/55DCE091/55DD32EB".
+Info: Changing component path "C511:" to "/55E99910/55E9ED51".
 
-Changing component "C509:/55DCE091/55DD32EB" pin "P$1" net name from "N$6" to "/PX4FMUv2.4_SS_5/N$6".
+Info: Checking netlist component footprint "C512:/55E99910/55E9EE19:PIXHAWK2_0603-CAP".
 
-Info: Checking netlist component footprint "C510:/55DCE091/55DD33B3:PIXHAWK2_0402-CAP".
+Info: Changing component path "C512:" to "/55E99910/55E9EE19".
 
-Info: Changing component path "C510:" to "/55DCE091/55DD33B3".
+Info: Checking netlist component footprint "C513:/55E99910/55E9EEE1:PIXHAWK2_0603-CAP".
 
-Changing component "C510:/55DCE091/55DD33B3" pin "P$1" net name from "N$10" to "/PX4FMUv2.4_SS_5/N$10".
+Info: Changing component path "C513:" to "/55E99910/55E9EEE1".
 
-Changing component "C510:/55DCE091/55DD33B3" pin "P$2" net name from "N$17" to "/PX4FMUv2.4_SS_5/N$17".
+Info: Checking netlist component footprint "C514:/55E99910/55E9EFA9:PIXHAWK2_0402-CAP".
 
-Info: Checking netlist component footprint "C511:/55DCE091/55DD347B:PIXHAWK2_0805-CAP".
+Info: Changing component path "C514:" to "/55E99910/55E9EFA9".
 
-Info: Changing component path "C511:" to "/55DCE091/55DD347B".
+Info: Checking netlist component footprint "C515:/55E99910/55E9F071:PIXHAWK2_0603-CAP".
 
-Info: Checking netlist component footprint "C512:/55DCE091/55DD3543:PIXHAWK2_0603-CAP".
+Info: Changing component path "C515:" to "/55E99910/55E9F071".
 
-Info: Changing component path "C512:" to "/55DCE091/55DD3543".
+Info: Checking netlist component footprint "C601:/55E99912/55EA01A2:PIXHAWK2_0805-CAP".
 
-Changing component "C512:/55DCE091/55DD3543" pin "P$1" net name from "N$50" to "/PX4FMUv2.4_SS_5/N$50".
+Info: Changing component path "C601:" to "/55E99912/55EA01A2".
 
-Info: Checking netlist component footprint "C513:/55DCE091/55DD360B:PIXHAWK2_0603-CAP".
+Info: Checking netlist component footprint "C602:/55E99912/55EA026A:PIXHAWK2_0402-CAP".
 
-Info: Changing component path "C513:" to "/55DCE091/55DD360B".
+Info: Changing component path "C602:" to "/55E99912/55EA026A".
 
-Info: Checking netlist component footprint "C514:/55DCE091/55DD36D3:PIXHAWK2_0402-CAP".
+Info: Checking netlist component footprint "C603:/55E99912/55EA0332:PIXHAWK2_0603-CAP".
 
-Info: Changing component path "C514:" to "/55DCE091/55DD36D3".
+Info: Changing component path "C603:" to "/55E99912/55EA0332".
 
-Info: Checking netlist component footprint "C515:/55DCE091/55DD379B:PIXHAWK2_0603-CAP".
+Info: Checking netlist component footprint "C604:/55E99912/55EA03FA:PIXHAWK2_0805-CAP".
 
-Info: Changing component path "C515:" to "/55DCE091/55DD379B".
+Info: Changing component path "C604:" to "/55E99912/55EA03FA".
 
-Changing component "C515:/55DCE091/55DD379B" pin "P$1" net name from "N$51" to "/PX4FMUv2.4_SS_5/N$51".
+Info: Checking netlist component footprint "C605:/55E99912/55EA04C2:PIXHAWK2_0805-CAP".
 
-Info: Checking netlist component footprint "C601:/55DCE093/55DD48CC:PIXHAWK2_0805-CAP".
+Info: Changing component path "C605:" to "/55E99912/55EA04C2".
 
-Info: Changing component path "C601:" to "/55DCE093/55DD48CC".
+Info: Checking netlist component footprint "C606:/55E99912/55EA058A:PIXHAWK2_0402-CAP".
 
-Changing component "C601:/55DCE093/55DD48CC" pin "P$1" net name from "FMU-VDD_5V5" to "/PX4FMUv2.4_SS_6/FMU-VDD_5V5".
+Info: Changing component path "C606:" to "/55E99912/55EA058A".
 
-Info: Checking netlist component footprint "C602:/55DCE093/55DD4994:PIXHAWK2_0402-CAP".
+Info: Checking netlist component footprint "C607:/55E99912/55EA0652:PIXHAWK2_0402-CAP".
 
-Info: Changing component path "C602:" to "/55DCE093/55DD4994".
+Info: Changing component path "C607:" to "/55E99912/55EA0652".
 
-Changing component "C602:/55DCE093/55DD4994" pin "P$2" net name from "N$11" to "/PX4FMUv2.4_SS_6/N$11".
+Info: Checking netlist component footprint "C608:/55E99912/55EA071A:PIXHAWK2_0402-CAP".
 
-Info: Checking netlist component footprint "C603:/55DCE093/55DD4A5C:PIXHAWK2_0603-CAP".
+Info: Changing component path "C608:" to "/55E99912/55EA071A".
 
-Info: Changing component path "C603:" to "/55DCE093/55DD4A5C".
+Info: Checking netlist component footprint "C609:/55E99912/55EA07E2:PIXHAWK2_0402-CAP".
 
-Info: Checking netlist component footprint "C604:/55DCE093/55DD4B24:PIXHAWK2_0805-CAP".
+Info: Changing component path "C609:" to "/55E99912/55EA07E2".
 
-Info: Changing component path "C604:" to "/55DCE093/55DD4B24".
+Info: Checking netlist component footprint "C610:/55E99912/55EA08AA:PIXHAWK2_0402-CAP".
 
-Info: Checking netlist component footprint "C605:/55DCE093/55DD4BEC:PIXHAWK2_0805-CAP".
+Info: Changing component path "C610:" to "/55E99912/55EA08AA".
 
-Info: Changing component path "C605:" to "/55DCE093/55DD4BEC".
+Info: Checking netlist component footprint "C611:/55E99912/55EA0972:PIXHAWK2_0603-CAP".
 
-Info: Checking netlist component footprint "C606:/55DCE093/55DD4CB4:PIXHAWK2_0402-CAP".
+Info: Changing component path "C611:" to "/55E99912/55EA0972".
 
-Info: Changing component path "C606:" to "/55DCE093/55DD4CB4".
+Info: Checking netlist component footprint "C612:/55E99912/55EA0A3A:PIXHAWK2_0402-CAP".
 
-Info: Checking netlist component footprint "C607:/55DCE093/55DD4D7C:PIXHAWK2_0402-CAP".
+Info: Changing component path "C612:" to "/55E99912/55EA0A3A".
 
-Info: Changing component path "C607:" to "/55DCE093/55DD4D7C".
+Info: Checking netlist component footprint "C613:/55E99912/55EA0B02:PIXHAWK2_0603-CAP".
 
-Info: Checking netlist component footprint "C608:/55DCE093/55DD4E44:PIXHAWK2_0402-CAP".
+Info: Changing component path "C613:" to "/55E99912/55EA0B02".
 
-Info: Changing component path "C608:" to "/55DCE093/55DD4E44".
+Info: Checking netlist component footprint "C614:/55E99912/55EA0BCA:PIXHAWK2_1206-CAP".
 
-Info: Checking netlist component footprint "C609:/55DCE093/55DD4F0C:PIXHAWK2_0402-CAP".
+Info: Changing component path "C614:" to "/55E99912/55EA0BCA".
 
-Info: Changing component path "C609:" to "/55DCE093/55DD4F0C".
+Info: Checking netlist component footprint "C615:/55E99912/55EA0C92:PIXHAWK2_0402-CAP".
 
-Info: Checking netlist component footprint "C610:/55DCE093/55DD4FD4:PIXHAWK2_0402-CAP".
+Info: Changing component path "C615:" to "/55E99912/55EA0C92".
 
-Info: Changing component path "C610:" to "/55DCE093/55DD4FD4".
+Info: Checking netlist component footprint "C616:/55E99912/55EA0D5A:PIXHAWK2_0402-CAP".
 
-Info: Checking netlist component footprint "C611:/55DCE093/55DD509C:PIXHAWK2_0603-CAP".
+Info: Changing component path "C616:" to "/55E99912/55EA0D5A".
 
-Info: Changing component path "C611:" to "/55DCE093/55DD509C".
+Info: Checking netlist component footprint "C617:/55E99912/55EA0E22:PIXHAWK2_0402-CAP".
 
-Changing component "C611:/55DCE093/55DD509C" pin "P$1" net name from "N$12" to "/PX4FMUv2.4_SS_6/N$12".
+Info: Changing component path "C617:" to "/55E99912/55EA0E22".
 
-Info: Checking netlist component footprint "C612:/55DCE093/55DD5164:PIXHAWK2_0402-CAP".
+Info: Checking netlist component footprint "C618:/55E99912/55EA0EEA:PIXHAWK2_1206-CAP".
 
-Info: Changing component path "C612:" to "/55DCE093/55DD5164".
+Info: Changing component path "C618:" to "/55E99912/55EA0EEA".
 
-Info: Checking netlist component footprint "C613:/55DCE093/55DD522C:PIXHAWK2_0603-CAP".
+Info: Checking netlist component footprint "C701:/55E99914/55EA2BD2:PIXHAWK2_0402-CAP".
 
-Info: Changing component path "C613:" to "/55DCE093/55DD522C".
+Info: Changing component path "C701:" to "/55E99914/55EA2BD2".
 
-Changing component "C613:/55DCE093/55DD522C" pin "P$1" net name from "N$8" to "/PX4FMUv2.4_SS_6/N$8".
+Info: Checking netlist component footprint "C702:/55E99914/55EA2C9A:PIXHAWK2_0603-CAP".
 
-Info: Checking netlist component footprint "C614:/55DCE093/55DD52F4:PIXHAWK2_1206-CAP".
+Info: Changing component path "C702:" to "/55E99914/55EA2C9A".
 
-Info: Changing component path "C614:" to "/55DCE093/55DD52F4".
+Info: Checking netlist component footprint "C703:/55E99914/55EA2D62:PIXHAWK2_0402-CAP".
 
-Info: Checking netlist component footprint "C615:/55DCE093/55DD53BC:PIXHAWK2_0402-CAP".
+Info: Changing component path "C703:" to "/55E99914/55EA2D62".
 
-Info: Changing component path "C615:" to "/55DCE093/55DD53BC".
+Info: Checking netlist component footprint "C704:/55E99914/55EA2E2A:PIXHAWK2_0402-CAP".
 
-Changing component "C615:/55DCE093/55DD53BC" pin "P$1" net name from "FMU-VDD_5V5" to "/PX4FMUv2.4_SS_6/FMU-VDD_5V5".
+Info: Changing component path "C704:" to "/55E99914/55EA2E2A".
 
-Info: Checking netlist component footprint "C616:/55DCE093/55DD5484:PIXHAWK2_0402-CAP".
+Info: Checking netlist component footprint "C801:/55E99916/55EA49E6:PIXHAWK2_0402-CAP".
 
-Info: Changing component path "C616:" to "/55DCE093/55DD5484".
+Info: Changing component path "C801:" to "/55E99916/55EA49E6".
 
-Info: Checking netlist component footprint "C617:/55DCE093/55DD554C:PIXHAWK2_0402-CAP".
+Info: Checking netlist component footprint "C802:/55E99916/55EA4AAE:PIXHAWK2_0402-CAP".
 
-Info: Changing component path "C617:" to "/55DCE093/55DD554C".
+Info: Changing component path "C802:" to "/55E99916/55EA4AAE".
 
-Info: Checking netlist component footprint "C618:/55DCE093/55DD5614:PIXHAWK2_1206-CAP".
+Info: Checking netlist component footprint "C803:/55E99916/55EA4B76:PIXHAWK2_0402-CAP".
 
-Info: Changing component path "C618:" to "/55DCE093/55DD5614".
+Info: Changing component path "C803:" to "/55E99916/55EA4B76".
 
-Info: Checking netlist component footprint "C701:/55DCE095/55DD72FC:PIXHAWK2_0402-CAP".
+Info: Checking netlist component footprint "C804:/55E99916/55EA4C3E:PIXHAWK2_0402-CAP".
 
-Info: Changing component path "C701:" to "/55DCE095/55DD72FC".
+Info: Changing component path "C804:" to "/55E99916/55EA4C3E".
 
-Info: Checking netlist component footprint "C702:/55DCE095/55DD73C4:PIXHAWK2_0603-CAP".
+Info: Checking netlist component footprint "C805:/55E99916/55EA4D06:PIXHAWK2_0402-CAP".
 
-Info: Changing component path "C702:" to "/55DCE095/55DD73C4".
+Info: Changing component path "C805:" to "/55E99916/55EA4D06".
 
-Info: Checking netlist component footprint "C703:/55DCE095/55DD748C:PIXHAWK2_0402-CAP".
+Info: Checking netlist component footprint "C806:/55E99916/55EA4DCE:PIXHAWK2_0402-CAP".
 
-Info: Changing component path "C703:" to "/55DCE095/55DD748C".
+Info: Changing component path "C806:" to "/55E99916/55EA4DCE".
 
-Changing component "C703:/55DCE095/55DD748C" pin "P$1" net name from "N$27" to "/PX4FMUv2.4_SS_7/N$27".
+Info: Checking netlist component footprint "C901:/55E99918/55EA6412:PIXHAWK2_0402-CAP".
 
-Info: Checking netlist component footprint "C704:/55DCE095/55DD7554:PIXHAWK2_0402-CAP".
+Info: Changing component path "C901:" to "/55E99918/55EA6412".
 
-Info: Changing component path "C704:" to "/55DCE095/55DD7554".
+Info: Checking netlist component footprint "C902:/55E99918/55EA64DA:PIXHAWK2_0402-CAP".
 
-Changing component "C704:/55DCE095/55DD7554" pin "P$1" net name from "N$36" to "/PX4FMUv2.4_SS_7/N$36".
+Info: Changing component path "C902:" to "/55E99918/55EA64DA".
 
-Info: Checking netlist component footprint "C801:/55DCE097/55DD9110:PIXHAWK2_0402-CAP".
+Info: Checking netlist component footprint "C903:/55E99918/55EA65A2:PIXHAWK2_0402-CAP".
 
-Info: Changing component path "C801:" to "/55DCE097/55DD9110".
+Info: Changing component path "C903:" to "/55E99918/55EA65A2".
 
-Info: Checking netlist component footprint "C802:/55DCE097/55DD91D8:PIXHAWK2_0402-CAP".
+Info: Checking netlist component footprint "C1001:/55E9991A/55EA879E:PIXHAWK2_0805-CAP".
 
-Info: Changing component path "C802:" to "/55DCE097/55DD91D8".
+Info: Changing component path "C1001:" to "/55E9991A/55EA879E".
 
-Info: Checking netlist component footprint "C803:/55DCE097/55DD92A0:PIXHAWK2_0402-CAP".
+Info: Checking netlist component footprint "C1002:/55E9991A/55EA8866:PIXHAWK2_0402-CAP".
 
-Info: Changing component path "C803:" to "/55DCE097/55DD92A0".
+Info: Changing component path "C1002:" to "/55E9991A/55EA8866".
 
-Info: Checking netlist component footprint "C804:/55DCE097/55DD9368:PIXHAWK2_0402-CAP".
+Info: Checking netlist component footprint "C1003:/55E9991A/55EA892E:PIXHAWK2_0603-CAP".
 
-Info: Changing component path "C804:" to "/55DCE097/55DD9368".
+Info: Changing component path "C1003:" to "/55E9991A/55EA892E".
 
-Info: Checking netlist component footprint "C805:/55DCE097/55DD9430:PIXHAWK2_0402-CAP".
+Info: Checking netlist component footprint "C1004:/55E9991A/55EA89F6:PIXHAWK2_0603-CAP".
 
-Info: Changing component path "C805:" to "/55DCE097/55DD9430".
+Info: Changing component path "C1004:" to "/55E9991A/55EA89F6".
 
-Changing component "C805:/55DCE097/55DD9430" pin "P$1" net name from "N$22" to "/PX4FMUv2.4_SS_8/N$22".
+Info: Checking netlist component footprint "C1005:/55E9991A/55EA8ABE:PIXHAWK2_0402-CAP".
 
-Info: Checking netlist component footprint "C806:/55DCE097/55DD94F8:PIXHAWK2_0402-CAP".
+Info: Changing component path "C1005:" to "/55E9991A/55EA8ABE".
 
-Info: Changing component path "C806:" to "/55DCE097/55DD94F8".
+Info: Checking netlist component footprint "C1008:/55E9991A/55EA8B86:PIXHAWK2_0402-CAP".
 
-Changing component "C806:/55DCE097/55DD94F8" pin "P$2" net name from "N$18" to "/PX4FMUv2.4_SS_8/N$18".
+Info: Changing component path "C1008:" to "/55E9991A/55EA8B86".
 
-Info: Checking netlist component footprint "C901:/55DCE099/55DDAB3C:PIXHAWK2_0402-CAP".
+Info: Checking netlist component footprint "C1101:/55E9991C/55EA95AF:PIXHAWK2_0805-CAP".
 
-Info: Changing component path "C901:" to "/55DCE099/55DDAB3C".
+Info: Changing component path "C1101:" to "/55E9991C/55EA95AF".
 
-Info: Checking netlist component footprint "C902:/55DCE099/55DDAC04:PIXHAWK2_0402-CAP".
+Info: Checking netlist component footprint "C1102:/55E9991C/55EA9677:PIXHAWK2_0805-CAP".
 
-Info: Changing component path "C902:" to "/55DCE099/55DDAC04".
+Info: Changing component path "C1102:" to "/55E9991C/55EA9677".
 
-Info: Checking netlist component footprint "C903:/55DCE099/55DDACCC:PIXHAWK2_0402-CAP".
+Info: Checking netlist component footprint "C1103:/55E9991C/55EA973F:PIXHAWK2_0805-CAP".
 
-Info: Changing component path "C903:" to "/55DCE099/55DDACCC".
+Info: Changing component path "C1103:" to "/55E9991C/55EA973F".
 
-Info: Checking netlist component footprint "C1001:/55DCE09B/55DDCEC8:PIXHAWK2_0805-CAP".
+Info: Checking netlist component footprint "C1104:/55E9991C/55EA9807:PIXHAWK2_1206-CAP".
 
-Info: Changing component path "C1001:" to "/55DCE09B/55DDCEC8".
+Info: Changing component path "C1104:" to "/55E9991C/55EA9807".
 
-Info: Checking netlist component footprint "C1002:/55DCE09B/55DDCF90:PIXHAWK2_0402-CAP".
+Info: Checking netlist component footprint "C1105:/55E9991C/55EA98CF:PIXHAWK2_0402-CAP".
 
-Info: Changing component path "C1002:" to "/55DCE09B/55DDCF90".
+Info: Changing component path "C1105:" to "/55E9991C/55EA98CF".
 
-Changing component "C1002:/55DCE09B/55DDCF90" pin "P$1" net name from "N$104" to "/PX4FMUv2.4_SS_10/N$104".
+Info: Checking netlist component footprint "C1106:/55E9991C/55EA9997:PIXHAWK2_0402-CAP".
 
-Info: Checking netlist component footprint "C1003:/55DCE09B/55DDD058:PIXHAWK2_0603-CAP".
+Info: Changing component path "C1106:" to "/55E9991C/55EA9997".
 
-Info: Changing component path "C1003:" to "/55DCE09B/55DDD058".
+Info: Checking netlist component footprint "C1107:/55E9991C/55EA9A5F:PIXHAWK2_0402-CAP".
 
-Info: Checking netlist component footprint "C1004:/55DCE09B/55DDD120:PIXHAWK2_0603-CAP".
+Info: Changing component path "C1107:" to "/55E9991C/55EA9A5F".
 
-Info: Changing component path "C1004:" to "/55DCE09B/55DDD120".
+Info: Checking netlist component footprint "C1108:/55E9991C/55EA9B27:PIXHAWK2_0402-CAP".
 
-Info: Checking netlist component footprint "C1005:/55DCE09B/55DDD1E8:PIXHAWK2_0402-CAP".
+Info: Changing component path "C1108:" to "/55E9991C/55EA9B27".
 
-Info: Changing component path "C1005:" to "/55DCE09B/55DDD1E8".
+Info: Checking netlist component footprint "C1109:/55E9991C/55EA9BEF:PIXHAWK2_0402-CAP".
 
-Info: Checking netlist component footprint "C1008:/55DCE09B/55DDD2B0:PIXHAWK2_0402-CAP".
+Info: Changing component path "C1109:" to "/55E9991C/55EA9BEF".
 
-Info: Changing component path "C1008:" to "/55DCE09B/55DDD2B0".
+Info: Checking netlist component footprint "C1110:/55E9991C/55EA9CB7:PIXHAWK2_0402-CAP".
 
-Info: Checking netlist component footprint "C1101:/55DCE09D/55DDDCD9:PIXHAWK2_0805-CAP".
+Info: Changing component path "C1110:" to "/55E9991C/55EA9CB7".
 
-Info: Changing component path "C1101:" to "/55DCE09D/55DDDCD9".
+Info: Checking netlist component footprint "CAN_H1116:/55E9991E/55EAB8D7:PIXHAWK2_PAD.04X.04".
 
-Info: Checking netlist component footprint "C1102:/55DCE09D/55DDDDA1:PIXHAWK2_0805-CAP".
+Info: Changing component path "CAN_H1116:" to "/55E9991E/55EAB8D7".
 
-Info: Changing component path "C1102:" to "/55DCE09D/55DDDDA1".
+Info: Checking netlist component footprint "CAN_L1116:/55E9991E/55EAB99F:PIXHAWK2_PAD.04X.04".
 
-Info: Checking netlist component footprint "C1103:/55DCE09D/55DDDE69:PIXHAWK2_0805-CAP".
+Info: Changing component path "CAN_L1116:" to "/55E9991E/55EAB99F".
 
-Info: Changing component path "C1103:" to "/55DCE09D/55DDDE69".
+Info: Checking netlist component footprint "D1:/55E99918/55EA666A:PIXHAWK2_MICROSMP".
 
-Info: Checking netlist component footprint "C1104:/55DCE09D/55DDDF31:PIXHAWK2_1206-CAP".
+Info: Changing component path "D1:" to "/55E99918/55EA666A".
 
-Info: Changing component path "C1104:" to "/55DCE09D/55DDDF31".
+Changing component "D1:/55E99918/55EA666A" pin "CATH" net name from "" to "N$110".
 
-Info: Checking netlist component footprint "C1105:/55DCE09D/55DDDFF9:PIXHAWK2_0402-CAP".
+Changing component "D1:/55E99918/55EA666A" pin "ANOD" net name from "" to "VDD_SERVO".
 
-Info: Changing component path "C1105:" to "/55DCE09D/55DDDFF9".
+Info: Checking netlist component footprint "D2:/55E99912/55EA0FB2:PIXHAWK2_SOD323".
 
-Changing component "C1105:/55DCE09D/55DDDFF9" pin "P$1" net name from "N$97" to "/PX4FMUv2.4_SS_11/N$97".
+Info: Changing component path "D2:" to "/55E99912/55EA0FB2".
 
-Info: Checking netlist component footprint "C1106:/55DCE09D/55DDE0C1:PIXHAWK2_0402-CAP".
+Info: Checking netlist component footprint "D201:/55E9990A/55E9A7C9:PIXHAWK2_0402-TVS".
 
-Info: Changing component path "C1106:" to "/55DCE09D/55DDE0C1".
+Info: Changing component path "D201:" to "/55E9990A/55E9A7C9".
 
-Changing component "C1106:/55DCE09D/55DDE0C1" pin "P$1" net name from "N$106" to "/PX4FMUv2.4_SS_11/N$106".
+Info: Checking netlist component footprint "D202:/55E9990A/55E9A891:PIXHAWK2_0402-TVS".
 
-Info: Checking netlist component footprint "C1107:/55DCE09D/55DDE189:PIXHAWK2_0402-CAP".
+Info: Changing component path "D202:" to "/55E9990A/55E9A891".
 
-Info: Changing component path "C1107:" to "/55DCE09D/55DDE189".
+Info: Checking netlist component footprint "D203:/55E9990A/55E9A959:PIXHAWK2_0402-TVS".
 
-Changing component "C1107:/55DCE09D/55DDE189" pin "P$1" net name from "N$107" to "/PX4FMUv2.4_SS_11/N$107".
+Info: Changing component path "D203:" to "/55E9990A/55E9A959".
 
-Info: Checking netlist component footprint "C1108:/55DCE09D/55DDE251:PIXHAWK2_0402-CAP".
+Info: Checking netlist component footprint "D401:/55E9990E/55E9D069:PIXHAWK2_0402-TVS".
 
-Info: Changing component path "C1108:" to "/55DCE09D/55DDE251".
+Info: Changing component path "D401:" to "/55E9990E/55E9D069".
 
-Changing component "C1108:/55DCE09D/55DDE251" pin "P$1" net name from "N$47" to "/PX4FMUv2.4_SS_11/N$47".
+Info: Checking netlist component footprint "D402:/55E9990E/55E9D131:PIXHAWK2_0402-TVS".
 
-Info: Checking netlist component footprint "C1109:/55DCE09D/55DDE319:PIXHAWK2_0402-CAP".
+Info: Changing component path "D402:" to "/55E9990E/55E9D131".
 
-Info: Changing component path "C1109:" to "/55DCE09D/55DDE319".
+Info: Checking netlist component footprint "D403:/55E9990E/55E9D1F9:PIXHAWK2_0402-TVS".
 
-Changing component "C1109:/55DCE09D/55DDE319" pin "P$1" net name from "N$55" to "/PX4FMUv2.4_SS_11/N$55".
+Info: Changing component path "D403:" to "/55E9990E/55E9D1F9".
 
-Info: Checking netlist component footprint "C1110:/55DCE09D/55DDE3E1:PIXHAWK2_0402-CAP".
+Info: Checking netlist component footprint "D404:/55E9990E/55E9D2C1:PIXHAWK2_0402-TVS".
 
-Info: Changing component path "C1110:" to "/55DCE09D/55DDE3E1".
+Info: Changing component path "D404:" to "/55E9990E/55E9D2C1".
 
-Changing component "C1110:/55DCE09D/55DDE3E1" pin "P$1" net name from "N$69" to "/PX4FMUv2.4_SS_11/N$69".
+Info: Checking netlist component footprint "D701:/55E99914/55EA2EF2:PIXHAWK2_0402-TVS".
 
-Info: Checking netlist component footprint "CAN_H1116:/55DCE09F/55DE0001:PIXHAWK2_PAD.04X.04".
+Info: Changing component path "D701:" to "/55E99914/55EA2EF2".
 
-Info: Changing component path "CAN_H1116:" to "/55DCE09F/55DE0001".
+Info: Checking netlist component footprint "D801:/55E99916/55EA4E96:PIXHAWK2_0402-TVS".
 
-Info: Checking netlist component footprint "CAN_L1116:/55DCE09F/55DE00C9:PIXHAWK2_PAD.04X.04".
+Info: Changing component path "D801:" to "/55E99916/55EA4E96".
 
-Info: Changing component path "CAN_L1116:" to "/55DCE09F/55DE00C9".
+Info: Checking netlist component footprint "D901:/55E99918/55EA6732:PIXHAWK2_0402-TVS".
 
-Info: Checking netlist component footprint "D1:/55DCE099/55DDAD94:PIXHAWK2_MICROSMP".
+Info: Changing component path "D901:" to "/55E99918/55EA6732".
 
-Info: Changing component path "D1:" to "/55DCE099/55DDAD94".
+Info: Checking netlist component footprint "D902:/55E99918/55EA67FA:PIXHAWK2_0402-TVS".
 
-Changing component "D1:/55DCE099/55DDAD94" pin "CATH" net name from "" to "/PX4FMUv2.4_SS_9/N$110".
+Info: Changing component path "D902:" to "/55E99918/55EA67FA".
 
-Changing component "D1:/55DCE099/55DDAD94" pin "ANOD" net name from "" to "VDD_SERVO".
+Info: Checking netlist component footprint "D903:/55E99918/55EA68C2:PIXHAWK2_0402-TVS".
 
-Info: Checking netlist component footprint "D2:/55DCE093/55DD56DC:PIXHAWK2_SOD323".
+Info: Changing component path "D903:" to "/55E99918/55EA68C2".
 
-Info: Changing component path "D2:" to "/55DCE093/55DD56DC".
+Info: Checking netlist component footprint "D1001:/55E9991A/55EA8C4E:PIXHAWK2_SOT23-3".
 
-Changing component "D2:/55DCE093/55DD56DC" pin "C" net name from "N$21" to "/PX4FMUv2.4_SS_6/N$21".
+Info: Changing component path "D1001:" to "/55E9991A/55EA8C4E".
 
-Info: Checking netlist component footprint "D201:/55DCE08B/55DCEEF3:PIXHAWK2_0402-TVS".
+Info: Checking netlist component footprint "F1001:/55E9991A/55EA8D16:PIXHAWK2_PTC-1206".
 
-Info: Changing component path "D201:" to "/55DCE08B/55DCEEF3".
+Info: Changing component path "F1001:" to "/55E9991A/55EA8D16".
 
-Changing component "D201:/55DCE08B/55DCEEF3" pin "C" net name from "N$5" to "/PX4FMUv2.4_SS_2/N$5".
+Info: Checking netlist component footprint "FMU-BOOT1101:/55E9991E/55EABACB:PIXHAWK2_PAD.04X.04".
 
-Info: Checking netlist component footprint "D202:/55DCE08B/55DCEFBB:PIXHAWK2_0402-TVS".
+Info: Changing component path "FMU-BOOT1101:" to "/55E9991E/55EABACB".
 
-Info: Changing component path "D202:" to "/55DCE08B/55DCEFBB".
+Info: Checking netlist component footprint "GND.1116:/55E9991E/55EABB93:PIXHAWK2_PAD.04X.04".
 
-Changing component "D202:/55DCE08B/55DCEFBB" pin "C" net name from "N$101" to "/PX4FMUv2.4_SS_2/N$101".
+Info: Changing component path "GND.1116:" to "/55E9991E/55EABB93".
 
-Info: Checking netlist component footprint "D203:/55DCE08B/55DCF083:PIXHAWK2_0402-TVS".
+Info: Checking netlist component footprint "GND1116:/55E9991E/55EABC5B:PIXHAWK2_PAD.04X.04".
 
-Info: Changing component path "D203:" to "/55DCE08B/55DCF083".
+Info: Changing component path "GND1116:" to "/55E9991E/55EABC5B".
 
-Changing component "D203:/55DCE08B/55DCF083" pin "C" net name from "N$100" to "/PX4FMUv2.4_SS_2/N$100".
+Info: Checking netlist component footprint "IO-BOOT1101:/55E9991E/55EABD23:PIXHAWK2_PAD.04X.04".
 
-Info: Checking netlist component footprint "D401:/55DCE08F/55DD1793:PIXHAWK2_0402-TVS".
+Info: Changing component path "IO-BOOT1101:" to "/55E9991E/55EABD23".
 
-Info: Changing component path "D401:" to "/55DCE08F/55DD1793".
+Info: Checking netlist component footprint "J201:/55E9990A/55E9AC79:CON-HIROSE-DF13_DF13C-6P-1.25V".
 
-Changing component "D401:/55DCE08F/55DD1793" pin "C" net name from "N$42" to "/PX4FMUv2.4_SS_4/N$42".
+Info: Changing component path "J201:" to "/55E9990A/55E9AC79".
 
-Info: Checking netlist component footprint "D402:/55DCE08F/55DD185B:PIXHAWK2_0402-TVS".
+Info: Checking netlist component footprint "J202:/55E9990A/55E9AD41:CON-HIROSE-DF13_DF13C-6P-1.25V".
 
-Info: Changing component path "D402:" to "/55DCE08F/55DD185B".
+Info: Changing component path "J202:" to "/55E9990A/55E9AD41".
 
-Changing component "D402:/55DCE08F/55DD185B" pin "C" net name from "N$41" to "/PX4FMUv2.4_SS_4/N$41".
+Info: Checking netlist component footprint "J203:/55E9990A/55E9AE09:CON-HIROSE-DF13_DF13C-6P-1.25V".
 
-Info: Checking netlist component footprint "D403:/55DCE08F/55DD1923:PIXHAWK2_0402-TVS".
+Info: Changing component path "J203:" to "/55E9990A/55E9AE09".
 
-Info: Changing component path "D403:" to "/55DCE08F/55DD1923".
+Info: Checking netlist component footprint "J204:/55E9990A/55E9AED1:CON-HIROSE-DF13_DF13C-6P-1.25V".
 
-Changing component "D403:/55DCE08F/55DD1923" pin "C" net name from "N$98" to "/PX4FMUv2.4_SS_4/N$98".
+Info: Changing component path "J204:" to "/55E9990A/55E9AED1".
 
-Info: Checking netlist component footprint "D404:/55DCE08F/55DD19EB:PIXHAWK2_0402-TVS".
+Info: Checking netlist component footprint "J301:/55E9990C/55E9C1F5:PIXHAWK2_MOLEX-47346-0001".
 
-Info: Changing component path "D404:" to "/55DCE08F/55DD19EB".
+Info: Changing component path "J301:" to "/55E9990C/55E9C1F5".
 
-Changing component "D404:/55DCE08F/55DD19EB" pin "C" net name from "N$48" to "/PX4FMUv2.4_SS_4/N$48".
+Changing component "J301:/55E9990C/55E9C1F5" pin "ID" net name from "" to "Net-(J301-PadID)".
 
-Info: Checking netlist component footprint "D701:/55DCE095/55DD761C:PIXHAWK2_0402-TVS".
+Info: Checking netlist component footprint "J302:/55E9990C/55E9C2BD:CON-HIROSE-DF13_DF13C-4P-1.25V".
 
-Info: Changing component path "D701:" to "/55DCE095/55DD761C".
+Info: Changing component path "J302:" to "/55E9990C/55E9C2BD".
 
-Info: Checking netlist component footprint "D801:/55DCE097/55DD95C0:PIXHAWK2_0402-TVS".
+Info: Checking netlist component footprint "J401:/55E9990E/55E9D645:CON-HIROSE-DF13_DF13C-4P-1.25V".
 
-Info: Changing component path "D801:" to "/55DCE097/55DD95C0".
+Info: Changing component path "J401:" to "/55E9990E/55E9D645".
 
-Info: Checking netlist component footprint "D901:/55DCE099/55DDAE5C:PIXHAWK2_0402-TVS".
+Info: Checking netlist component footprint "J402:/55E9990E/55E9D70D:CON-HIROSE-DF13_DF13C-3P-1.25V".
 
-Info: Changing component path "D901:" to "/55DCE099/55DDAE5C".
+Info: Changing component path "J402:" to "/55E9990E/55E9D70D".
 
-Info: Checking netlist component footprint "D902:/55DCE099/55DDAF24:PIXHAWK2_0402-TVS".
+Info: Checking netlist component footprint "J403:/55E9990E/55E9D7D5:CON-HIROSE-DF13_DF13C-7P-1.25V".
 
-Info: Changing component path "D902:" to "/55DCE099/55DDAF24".
+Info: Changing component path "J403:" to "/55E9990E/55E9D7D5".
 
-Changing component "D902:/55DCE099/55DDAF24" pin "C" net name from "N$38" to "/PX4FMUv2.4_SS_9/N$38".
+Info: Checking netlist component footprint "J404:/55E9990E/55E9D89D:CON-HIROSE-DF13_DF13C-5P-1.25V".
 
-Info: Checking netlist component footprint "D903:/55DCE099/55DDAFEC:PIXHAWK2_0402-TVS".
+Info: Changing component path "J404:" to "/55E9990E/55E9D89D".
 
-Info: Changing component path "D903:" to "/55DCE099/55DDAFEC".
+Info: Checking netlist component footprint "J405:/55E9990E/55E9D965:CON-HIROSE-DF13_DF13C-4P-1.25V".
 
-Changing component "D903:/55DCE099/55DDAFEC" pin "C" net name from "N$110" to "/PX4FMUv2.4_SS_9/N$110".
+Info: Changing component path "J405:" to "/55E9990E/55E9D965".
 
-Info: Checking netlist component footprint "D1001:/55DCE09B/55DDD378:PIXHAWK2_SOT23-3".
+Info: Checking netlist component footprint "J601:/55E9991C/55EAA22F:CON-HIROSE-DF13_DF13C-6P-1.25V".
 
-Info: Changing component path "D1001:" to "/55DCE09B/55DDD378".
+Info: Changing component path "J601:" to "/55E9991C/55EAA22F".
 
-Changing component "D1001:/55DCE09B/55DDD378" pin "2" net name from "N$4" to "/PX4FMUv2.4_SS_10/N$4".
+Info: Checking netlist component footprint "J701:/55E99914/55EA346A:CON-HIROSE-DF13_DF13C-2P-1.25V".
 
-Changing component "D1001:/55DCE09B/55DDD378" pin "1" net name from "N$46" to "/PX4FMUv2.4_SS_10/N$46".
+Info: Changing component path "J701:" to "/55E99914/55EA346A".
 
-Info: Checking netlist component footprint "F1001:/55DCE09B/55DDD440:PIXHAWK2_PTC-1206".
+Info: Checking netlist component footprint "J702:/55E99914/55EA3532:CON-HIROSE-DF13_DF13C-3P-1.25V".
 
-Info: Changing component path "F1001:" to "/55DCE09B/55DDD440".
+Info: Changing component path "J702:" to "/55E99914/55EA3532".
 
-Changing component "F1001:/55DCE09B/55DDD440" pin "2" net name from "N$46" to "/PX4FMUv2.4_SS_10/N$46".
+Info: Checking netlist component footprint "J801:/55E99916/55EA559E:FOR-TRANSFERS_JST-ZH-SMT-VERTICAL".
 
-Info: Checking netlist component footprint "FMU-BOOT1101:/55DCE09F/55DE01F5:PIXHAWK2_PAD.04X.04".
+Info: Changing component path "J801:" to "/55E99916/55EA559E".
 
-Info: Changing component path "FMU-BOOT1101:" to "/55DCE09F/55DE01F5".
-
-Info: Checking netlist component footprint "GND.1116:/55DCE09F/55DE02BD:PIXHAWK2_PAD.04X.04".
-
-Info: Changing component path "GND.1116:" to "/55DCE09F/55DE02BD".
-
-Info: Checking netlist component footprint "GND1116:/55DCE09F/55DE0385:PIXHAWK2_PAD.04X.04".
-
-Info: Changing component path "GND1116:" to "/55DCE09F/55DE0385".
-
-Info: Checking netlist component footprint "IO-BOOT1101:/55DCE09F/55DE044D:PIXHAWK2_PAD.04X.04".
-
-Info: Changing component path "IO-BOOT1101:" to "/55DCE09F/55DE044D".
-
-Info: Checking netlist component footprint "J201:/55DCE08B/55DCF3A3:CON-HIROSE-DF13_DF13C-6P-1.25V".
-
-Info: Changing component path "J201:" to "/55DCE08B/55DCF3A3".
-
-Changing component "J201:/55DCE08B/55DCF3A3" pin "1" net name from "N$5" to "/PX4FMUv2.4_SS_2/N$5".
-
-Changing component "J201:/55DCE08B/55DCF3A3" pin "4" net name from "SERIAL1_CTS" to "/PX4FMUv2.4_SS_2/SERIAL1_CTS".
-
-Changing component "J201:/55DCE08B/55DCF3A3" pin "5" net name from "SERIAL1_RTS" to "/PX4FMUv2.4_SS_2/SERIAL1_RTS".
-
-Info: Checking netlist component footprint "J202:/55DCE08B/55DCF46B:CON-HIROSE-DF13_DF13C-6P-1.25V".
-
-Info: Changing component path "J202:" to "/55DCE08B/55DCF46B".
-
-Changing component "J202:/55DCE08B/55DCF46B" pin "1" net name from "N$101" to "/PX4FMUv2.4_SS_2/N$101".
-
-Changing component "J202:/55DCE08B/55DCF46B" pin "4" net name from "SERIAL2_CTS" to "/PX4FMUv2.4_SS_2/SERIAL2_CTS".
-
-Changing component "J202:/55DCE08B/55DCF46B" pin "5" net name from "SERIAL2_RTS" to "/PX4FMUv2.4_SS_2/SERIAL2_RTS".
-
-Info: Checking netlist component footprint "J203:/55DCE08B/55DCF533:CON-HIROSE-DF13_DF13C-6P-1.25V".
-
-Info: Changing component path "J203:" to "/55DCE08B/55DCF533".
-
-Changing component "J203:/55DCE08B/55DCF533" pin "1" net name from "N$100" to "/PX4FMUv2.4_SS_2/N$100".
-
-Changing component "J203:/55DCE08B/55DCF533" pin "4" net name from "N$14" to "/PX4FMUv2.4_SS_2/N$14".
-
-Changing component "J203:/55DCE08B/55DCF533" pin "5" net name from "N$19" to "/PX4FMUv2.4_SS_2/N$19".
-
-Info: Checking netlist component footprint "J204:/55DCE08B/55DCF5FB:CON-HIROSE-DF13_DF13C-6P-1.25V".
-
-Info: Changing component path "J204:" to "/55DCE08B/55DCF5FB".
-
-Changing component "J204:/55DCE08B/55DCF5FB" pin "1" net name from "N$100" to "/PX4FMUv2.4_SS_2/N$100".
-
-Info: Checking netlist component footprint "J301:/55DCE08D/55DD091F:PIXHAWK2_MOLEX-47346-0001".
-
-Info: Changing component path "J301:" to "/55DCE08D/55DD091F".
-
-Changing component "J301:/55DCE08D/55DD091F" pin "D+" net name from "OTG_DP1" to "/PX4FMUv2.4_SS_3/OTG_DP1".
-
-Changing component "J301:/55DCE08D/55DD091F" pin "D-" net name from "OTG_DM1" to "/PX4FMUv2.4_SS_3/OTG_DM1".
-
-Changing component "J301:/55DCE08D/55DD091F" pin "ID" net name from "" to "Net-(J301-PadID)".
-
-Info: Checking netlist component footprint "J302:/55DCE08D/55DD09E7:CON-HIROSE-DF13_DF13C-4P-1.25V".
-
-Info: Changing component path "J302:" to "/55DCE08D/55DD09E7".
-
-Changing component "J302:/55DCE08D/55DD09E7" pin "2" net name from "OTG_DP1" to "/PX4FMUv2.4_SS_3/OTG_DP1".
-
-Changing component "J302:/55DCE08D/55DD09E7" pin "3" net name from "OTG_DM1" to "/PX4FMUv2.4_SS_3/OTG_DM1".
-
-Info: Checking netlist component footprint "J401:/55DCE08F/55DD1D6F:CON-HIROSE-DF13_DF13C-4P-1.25V".
-
-Info: Changing component path "J401:" to "/55DCE08F/55DD1D6F".
-
-Changing component "J401:/55DCE08F/55DD1D6F" pin "1" net name from "N$42" to "/PX4FMUv2.4_SS_4/N$42".
-
-Changing component "J401:/55DCE08F/55DD1D6F" pin "2" net name from "N$33" to "/PX4FMUv2.4_SS_4/N$33".
-
-Changing component "J401:/55DCE08F/55DD1D6F" pin "3" net name from "N$37" to "/PX4FMUv2.4_SS_4/N$37".
-
-Info: Checking netlist component footprint "J402:/55DCE08F/55DD1E37:CON-HIROSE-DF13_DF13C-3P-1.25V".
-
-Info: Changing component path "J402:" to "/55DCE08F/55DD1E37".
-
-Changing component "J402:/55DCE08F/55DD1E37" pin "1" net name from "N$42" to "/PX4FMUv2.4_SS_4/N$42".
-
-Info: Checking netlist component footprint "J403:/55DCE08F/55DD1EFF:CON-HIROSE-DF13_DF13C-7P-1.25V".
-
-Info: Changing component path "J403:" to "/55DCE08F/55DD1EFF".
-
-Changing component "J403:/55DCE08F/55DD1EFF" pin "1" net name from "N$41" to "/PX4FMUv2.4_SS_4/N$41".
-
-Info: Checking netlist component footprint "J404:/55DCE08F/55DD1FC7:CON-HIROSE-DF13_DF13C-5P-1.25V".
-
-Info: Changing component path "J404:" to "/55DCE08F/55DD1FC7".
-
-Changing component "J404:/55DCE08F/55DD1FC7" pin "1" net name from "N$98" to "/PX4FMUv2.4_SS_4/N$98".
-
-Changing component "J404:/55DCE08F/55DD1FC7" pin "2" net name from "FMU_AUX_ADC2_PROT" to "/PX4FMUv2.4_SS_4/FMU_AUX_ADC2_PROT".
-
-Changing component "J404:/55DCE08F/55DD1FC7" pin "4" net name from "FMU_AUX_ADC1_PROT" to "/PX4FMUv2.4_SS_4/FMU_AUX_ADC1_PROT".
-
-Info: Checking netlist component footprint "J405:/55DCE08F/55DD208F:CON-HIROSE-DF13_DF13C-4P-1.25V".
-
-Info: Changing component path "J405:" to "/55DCE08F/55DD208F".
-
-Changing component "J405:/55DCE08F/55DD208F" pin "1" net name from "N$48" to "/PX4FMUv2.4_SS_4/N$48".
-
-Info: Checking netlist component footprint "J601:/55DCE09D/55DDE959:CON-HIROSE-DF13_DF13C-6P-1.25V".
-
-Info: Changing component path "J601:" to "/55DCE09D/55DDE959".
-
-Changing component "J601:/55DCE09D/55DDE959" pin "3" net name from "BATT_CURRENT_SENS_PROT" to "/PX4FMUv2.4_SS_11/BATT_CURRENT_SENS_PROT".
-
-Changing component "J601:/55DCE09D/55DDE959" pin "4" net name from "BATT_VOLTAGE_SENS_PROT" to "/PX4FMUv2.4_SS_11/BATT_VOLTAGE_SENS_PROT".
-
-Info: Checking netlist component footprint "J701:/55DCE095/55DD7B94:CON-HIROSE-DF13_DF13C-2P-1.25V".
-
-Info: Changing component path "J701:" to "/55DCE095/55DD7B94".
-
-Changing component "J701:/55DCE095/55DD7B94" pin "1" net name from "N$27" to "/PX4FMUv2.4_SS_7/N$27".
-
-Info: Checking netlist component footprint "J702:/55DCE095/55DD7C5C:CON-HIROSE-DF13_DF13C-3P-1.25V".
-
-Info: Changing component path "J702:" to "/55DCE095/55DD7C5C".
-
-Changing component "J702:/55DCE095/55DD7C5C" pin "2" net name from "N$57" to "/PX4FMUv2.4_SS_7/N$57".
-
-Info: Checking netlist component footprint "J801:/55DCE097/55DD9CC8:FOR-TRANSFERS_JST-ZH-SMT-VERTICAL".
-
-Info: Changing component path "J801:" to "/55DCE097/55DD9CC8".
-
-Changing component "J801:/55DCE097/55DD9CC8" pin "P$3" net name from "IO-USART1_RX" to "/PX4FMUv2.4_SS_8/IO-USART1_RX".
-
-Info: Checking netlist component footprint "J901:/55DCE099/55DDB3D4:PIXHAWK2_3X16RA".
+Info: Checking netlist component footprint "J901:/55E99918/55EA6CAA:PIXHAWK2_3X16RA".
 
 Changing component "J901:" value from "" to "~".
 
-Info: Changing component path "J901:" to "/55DCE099/55DDB3D4".
+Info: Changing component path "J901:" to "/55E99918/55EA6CAA".
 
-Changing component "J901:/55DCE099/55DDB3D4" pin "1" net name from "PPM-SBUS-PROT" to "/PX4FMUv2.4_SS_9/PPM-SBUS-PROT".
+Info: Checking netlist component footprint "JP1:/55E9991E/55EABDEB:PIXHAWK2_FIDUCIAL-1.5X3".
 
-Changing component "J901:/55DCE099/55DDB3D4" pin "4" net name from "N$99" to "/PX4FMUv2.4_SS_9/N$99".
+Info: Changing component path "JP1:" to "/55E9991E/55EABDEB".
 
-Changing component "J901:/55DCE099/55DDB3D4" pin "7" net name from "IO-CH8-PROT" to "/PX4FMUv2.4_SS_9/IO-CH8-PROT".
+Info: Checking netlist component footprint "JP2:/55E9991E/55EABEB3:PIXHAWK2_FIDUCIAL-1.5X3".
 
-Changing component "J901:/55DCE099/55DDB3D4" pin "10" net name from "N$31" to "/PX4FMUv2.4_SS_9/N$31".
+Info: Changing component path "JP2:" to "/55E9991E/55EABEB3".
 
-Changing component "J901:/55DCE099/55DDB3D4" pin "13" net name from "N$71" to "/PX4FMUv2.4_SS_9/N$71".
+Info: Checking netlist component footprint "JX301:/55E9990C/55E9C385:PIXHAWK2_FTSH-105-01-XXX-DV-K".
 
-Changing component "J901:/55DCE099/55DDB3D4" pin "16" net name from "N$72" to "/PX4FMUv2.4_SS_9/N$72".
+Info: Changing component path "JX301:" to "/55E9990C/55E9C385".
 
-Changing component "J901:/55DCE099/55DDB3D4" pin "19" net name from "N$73" to "/PX4FMUv2.4_SS_9/N$73".
+Changing component "JX301:/55E9990C/55E9C385" pin "8" net name from "" to "Net-(JX301-Pad8)".
 
-Changing component "J901:/55DCE099/55DDB3D4" pin "22" net name from "N$74" to "/PX4FMUv2.4_SS_9/N$74".
+Changing component "JX301:/55E9990C/55E9C385" pin "10" net name from "" to "Net-(JX301-Pad10)".
 
-Changing component "J901:/55DCE099/55DDB3D4" pin "25" net name from "N$75" to "/PX4FMUv2.4_SS_9/N$75".
+Info: Checking netlist component footprint "JX801:/55E99916/55EA5666:PIXHAWK2_HEADER_3X01_SMD_H_BOARD_EDGE_SHORT".
 
-Changing component "J901:/55DCE099/55DDB3D4" pin "28" net name from "IO-CH1-PROT" to "/PX4FMUv2.4_SS_9/IO-CH1-PROT".
+Info: Changing component path "JX801:" to "/55E99916/55EA5666".
 
-Changing component "J901:/55DCE099/55DDB3D4" pin "31" net name from "FMU-CH6-PROT" to "/PX4FMUv2.4_SS_9/FMU-CH6-PROT".
+Info: Checking netlist component footprint "JX802:/55E99916/55EA572E:PIXHAWK2_FTSH-105-01-XXX-DV-K".
 
-Changing component "J901:/55DCE099/55DDB3D4" pin "34" net name from "N$68" to "/PX4FMUv2.4_SS_9/N$68".
+Info: Changing component path "JX802:" to "/55E99916/55EA572E".
 
-Changing component "J901:/55DCE099/55DDB3D4" pin "37" net name from "N$77" to "/PX4FMUv2.4_SS_9/N$77".
+Changing component "JX802:/55E99916/55EA572E" pin "8" net name from "" to "Net-(JX802-Pad8)".
 
-Changing component "J901:/55DCE099/55DDB3D4" pin "40" net name from "N$78" to "/PX4FMUv2.4_SS_9/N$78".
+Changing component "JX802:/55E99916/55EA572E" pin "10" net name from "" to "Net-(JX802-Pad10)".
 
-Changing component "J901:/55DCE099/55DDB3D4" pin "43" net name from "N$79" to "/PX4FMUv2.4_SS_9/N$79".
+Info: Checking netlist component footprint "L201:/55E9990A/55E9AF99:PIXHAWK2_KYOCERA-KNH16-DA".
 
-Changing component "J901:/55DCE099/55DDB3D4" pin "46" net name from "FMU-CH1-PROT" to "/PX4FMUv2.4_SS_9/FMU-CH1-PROT".
+Info: Changing component path "L201:" to "/55E9990A/55E9AF99".
 
-Info: Checking netlist component footprint "JP1:/55DCE09F/55DE0515:PIXHAWK2_FIDUCIAL-1.5X3".
+Info: Checking netlist component footprint "L202:/55E9990A/55E9B061:PIXHAWK2_KYOCERA-KNH16-DA".
 
-Info: Changing component path "JP1:" to "/55DCE09F/55DE0515".
+Info: Changing component path "L202:" to "/55E9990A/55E9B061".
 
-Info: Checking netlist component footprint "JP2:/55DCE09F/55DE05DD:PIXHAWK2_FIDUCIAL-1.5X3".
+Info: Checking netlist component footprint "L203:/55E9990A/55E9B129:PIXHAWK2_KYOCERA-KNH16-DA".
 
-Info: Changing component path "JP2:" to "/55DCE09F/55DE05DD".
+Info: Changing component path "L203:" to "/55E9990A/55E9B129".
 
-Info: Checking netlist component footprint "JX301:/55DCE08D/55DD0AAF:PIXHAWK2_FTSH-105-01-XXX-DV-K".
+Info: Checking netlist component footprint "L401:/55E9990E/55E9DA2D:PIXHAWK2_KYOCERA-KNH16-DA".
 
-Info: Changing component path "JX301:" to "/55DCE08D/55DD0AAF".
+Info: Changing component path "L401:" to "/55E9990E/55E9DA2D".
 
-Changing component "JX301:/55DCE08D/55DD0AAF" pin "8" net name from "" to "Net-(JX301-Pad8)".
+Info: Checking netlist component footprint "L402:/55E9990E/55E9DAF5:PIXHAWK2_KYOCERA-KNH16-DA".
 
-Changing component "JX301:/55DCE08D/55DD0AAF" pin "10" net name from "" to "Net-(JX301-Pad10)".
+Info: Changing component path "L402:" to "/55E9990E/55E9DAF5".
 
-Info: Checking netlist component footprint "JX801:/55DCE097/55DD9D90:PIXHAWK2_HEADER_3X01_SMD_H_BOARD_EDGE_SHORT".
+Info: Checking netlist component footprint "L403:/55E9990E/55E9DBBD:PIXHAWK2_KYOCERA-KNH16-DA".
 
-Info: Changing component path "JX801:" to "/55DCE097/55DD9D90".
+Info: Changing component path "L403:" to "/55E9990E/55E9DBBD".
 
-Changing component "JX801:/55DCE097/55DD9D90" pin "2" net name from "IO-USART1_RX" to "/PX4FMUv2.4_SS_8/IO-USART1_RX".
+Info: Checking netlist component footprint "L404:/55E9990E/55E9DC85:PIXHAWK2_KYOCERA-KNH16-DA".
 
-Info: Checking netlist component footprint "JX802:/55DCE097/55DD9E58:PIXHAWK2_FTSH-105-01-XXX-DV-K".
+Info: Changing component path "L404:" to "/55E9990E/55E9DC85".
 
-Info: Changing component path "JX802:" to "/55DCE097/55DD9E58".
+Info: Checking netlist component footprint "L603:/55E99912/55EA1B06:PIXHAWK2_KYOCERA-KNH16-DA".
 
-Changing component "JX802:/55DCE097/55DD9E58" pin "2" net name from "IO-SWDIO" to "/PX4FMUv2.4_SS_8/IO-SWDIO".
+Info: Changing component path "L603:" to "/55E99912/55EA1B06".
 
-Changing component "JX802:/55DCE097/55DD9E58" pin "4" net name from "IO-SWCLK" to "/PX4FMUv2.4_SS_8/IO-SWCLK".
+Info: Checking netlist component footprint "L701:/55E99914/55EA35FA:PIXHAWK2_0805-IND".
 
-Changing component "JX802:/55DCE097/55DD9E58" pin "6" net name from "IO-SWO" to "/PX4FMUv2.4_SS_8/IO-SWO".
+Info: Changing component path "L701:" to "/55E99914/55EA35FA".
 
-Changing component "JX802:/55DCE097/55DD9E58" pin "8" net name from "" to "Net-(JX802-Pad8)".
+Info: Checking netlist component footprint "L901:/55E99918/55EA747A:PIXHAWK2_KYOCERA-KNH16-DA".
 
-Changing component "JX802:/55DCE097/55DD9E58" pin "10" net name from "" to "Net-(JX802-Pad10)".
+Info: Changing component path "L901:" to "/55E99918/55EA747A".
 
-Info: Checking netlist component footprint "L201:/55DCE08B/55DCF6C3:PIXHAWK2_KYOCERA-KNH16-DA".
+Info: Checking netlist component footprint "L1101:/55E9991C/55EAA2F7:PIXHAWK2_KYOCERA-KNH16-DA".
 
-Info: Changing component path "L201:" to "/55DCE08B/55DCF6C3".
+Info: Changing component path "L1101:" to "/55E9991C/55EAA2F7".
 
-Changing component "L201:/55DCE08B/55DCF6C3" pin "P$2" net name from "N$5" to "/PX4FMUv2.4_SS_2/N$5".
+Info: Checking netlist component footprint "L1102:/55E9991C/55EAA3BF:PIXHAWK2_KYOCERA-KNH16-DA".
 
-Info: Checking netlist component footprint "L202:/55DCE08B/55DCF78B:PIXHAWK2_KYOCERA-KNH16-DA".
+Info: Changing component path "L1102:" to "/55E9991C/55EAA3BF".
 
-Info: Changing component path "L202:" to "/55DCE08B/55DCF78B".
+Info: Checking netlist component footprint "LED701:/55E99914/55EA36C2:PIXHAWK2_0603-LED".
 
-Changing component "L202:/55DCE08B/55DCF78B" pin "P$2" net name from "N$101" to "/PX4FMUv2.4_SS_2/N$101".
+Info: Changing component path "LED701:" to "/55E99914/55EA36C2".
 
-Info: Checking netlist component footprint "L203:/55DCE08B/55DCF853:PIXHAWK2_KYOCERA-KNH16-DA".
+Info: Checking netlist component footprint "LED702:/55E99914/55EA378A:PIXHAWK2_0603-LED".
 
-Info: Changing component path "L203:" to "/55DCE08B/55DCF853".
+Info: Changing component path "LED702:" to "/55E99914/55EA378A".
 
-Changing component "L203:/55DCE08B/55DCF853" pin "P$2" net name from "N$100" to "/PX4FMUv2.4_SS_2/N$100".
+Info: Checking netlist component footprint "LED703:/55E99914/55EA3852:PIXHAWK2_0603-LED".
 
-Info: Checking netlist component footprint "L401:/55DCE08F/55DD2157:PIXHAWK2_KYOCERA-KNH16-DA".
+Info: Changing component path "LED703:" to "/55E99914/55EA3852".
 
-Info: Changing component path "L401:" to "/55DCE08F/55DD2157".
+Info: Checking netlist component footprint "LED704:/55E99914/55EA391A:PIXHAWK2_0603-LED".
 
-Changing component "L401:/55DCE08F/55DD2157" pin "P$2" net name from "N$42" to "/PX4FMUv2.4_SS_4/N$42".
+Info: Changing component path "LED704:" to "/55E99914/55EA391A".
 
-Info: Checking netlist component footprint "L402:/55DCE08F/55DD221F:PIXHAWK2_KYOCERA-KNH16-DA".
+Info: Checking netlist component footprint "LED705:/55E99914/55EA39E2:PIXHAWK2_0603-LED".
 
-Info: Changing component path "L402:" to "/55DCE08F/55DD221F".
+Info: Changing component path "LED705:" to "/55E99914/55EA39E2".
 
-Changing component "L402:/55DCE08F/55DD221F" pin "P$2" net name from "N$41" to "/PX4FMUv2.4_SS_4/N$41".
+Info: Checking netlist component footprint "M3_MOUNT1101:/55E9991E/55EABF7B:PIXHAWK2_MOUNT-HOLE3.1".
 
-Info: Checking netlist component footprint "L403:/55DCE08F/55DD22E7:PIXHAWK2_KYOCERA-KNH16-DA".
+Info: Changing component path "M3_MOUNT1101:" to "/55E9991E/55EABF7B".
 
-Info: Changing component path "L403:" to "/55DCE08F/55DD22E7".
+Info: Checking netlist component footprint "M3_MOUNT1102:/55E9991E/55EAC043:PIXHAWK2_MOUNT-HOLE3.1".
 
-Changing component "L403:/55DCE08F/55DD22E7" pin "P$2" net name from "N$48" to "/PX4FMUv2.4_SS_4/N$48".
+Info: Changing component path "M3_MOUNT1102:" to "/55E9991E/55EAC043".
 
-Info: Checking netlist component footprint "L404:/55DCE08F/55DD23AF:PIXHAWK2_KYOCERA-KNH16-DA".
+Info: Checking netlist component footprint "M3_MOUNT1103:/55E9991E/55EAC10B:PIXHAWK2_MOUNT-HOLE3.1".
 
-Info: Changing component path "L404:" to "/55DCE08F/55DD23AF".
+Info: Changing component path "M3_MOUNT1103:" to "/55E9991E/55EAC10B".
 
-Changing component "L404:/55DCE08F/55DD23AF" pin "P$2" net name from "N$98" to "/PX4FMUv2.4_SS_4/N$98".
+Info: Checking netlist component footprint "M3_MOUNT1104:/55E9991E/55EAC1D3:PIXHAWK2_MOUNT-HOLE3.1".
 
-Info: Checking netlist component footprint "L603:/55DCE093/55DD6230:PIXHAWK2_KYOCERA-KNH16-DA".
+Info: Changing component path "M3_MOUNT1104:" to "/55E9991E/55EAC1D3".
 
-Info: Changing component path "L603:" to "/55DCE093/55DD6230".
+Info: Checking netlist component footprint "OSHW_LOGO1116:/55E9991E/55EAC29B:PIXHAWK2_OSHW-LOGO-S".
 
-Changing component "L603:/55DCE093/55DD6230" pin "P$2" net name from "FMU-VDD_5V5" to "/PX4FMUv2.4_SS_6/FMU-VDD_5V5".
+Info: Changing component path "OSHW_LOGO1116:" to "/55E9991E/55EAC29B".
 
-Info: Checking netlist component footprint "L701:/55DCE095/55DD7D24:PIXHAWK2_0805-IND".
+Info: Checking netlist component footprint "Q601:/55E99912/55EA1BCE:TRANSISTOR-PNP_SOT23-BEC".
 
-Info: Changing component path "L701:" to "/55DCE095/55DD7D24".
+Info: Changing component path "Q601:" to "/55E99912/55EA1BCE".
 
-Changing component "L701:/55DCE095/55DD7D24" pin "P$2" net name from "N$32" to "/PX4FMUv2.4_SS_7/N$32".
+Info: Checking netlist component footprint "R3:/55E99914/55EA3AAA:PIXHAWK2_0402-RES".
 
-Info: Checking netlist component footprint "L901:/55DCE099/55DDBBA4:PIXHAWK2_KYOCERA-KNH16-DA".
+Info: Changing component path "R3:" to "/55E99914/55EA3AAA".
 
-Info: Changing component path "L901:" to "/55DCE099/55DDBBA4".
+Info: Checking netlist component footprint "R4:/55E99914/55EA3B72:PIXHAWK2_0402-RES".
 
-Changing component "L901:/55DCE099/55DDBBA4" pin "P$1" net name from "N$110" to "/PX4FMUv2.4_SS_9/N$110".
+Info: Changing component path "R4:" to "/55E99914/55EA3B72".
 
-Info: Checking netlist component footprint "L1101:/55DCE09D/55DDEA21:PIXHAWK2_KYOCERA-KNH16-DA".
+Info: Checking netlist component footprint "R101:/55E99908/55E99E05:PIXHAWK2_0402-RES".
 
-Info: Changing component path "L1101:" to "/55DCE09D/55DDEA21".
+Info: Changing component path "R101:" to "/55E99908/55E99E05".
 
-Changing component "L1101:/55DCE09D/55DDEA21" pin "P$1" net name from "BATT_CURRENT_SENS_PROT" to "/PX4FMUv2.4_SS_11/BATT_CURRENT_SENS_PROT".
+Info: Checking netlist component footprint "R102:/55E99908/55E99ECD:PIXHAWK2_0402-RES".
 
-Changing component "L1101:/55DCE09D/55DDEA21" pin "P$2" net name from "N$103" to "/PX4FMUv2.4_SS_11/N$103".
+Info: Changing component path "R102:" to "/55E99908/55E99ECD".
 
-Info: Checking netlist component footprint "L1102:/55DCE09D/55DDEAE9:PIXHAWK2_KYOCERA-KNH16-DA".
+Info: Checking netlist component footprint "R201:/55E9990A/55E9B1F1:PIXHAWK2_0402-RES".
 
-Info: Changing component path "L1102:" to "/55DCE09D/55DDEAE9".
+Info: Changing component path "R201:" to "/55E9990A/55E9B1F1".
 
-Changing component "L1102:/55DCE09D/55DDEAE9" pin "P$1" net name from "BATT_VOLTAGE_SENS_PROT" to "/PX4FMUv2.4_SS_11/BATT_VOLTAGE_SENS_PROT".
+Info: Checking netlist component footprint "R202:/55E9990A/55E9B2B9:PIXHAWK2_0402-RES".
 
-Changing component "L1102:/55DCE09D/55DDEAE9" pin "P$2" net name from "N$102" to "/PX4FMUv2.4_SS_11/N$102".
+Info: Changing component path "R202:" to "/55E9990A/55E9B2B9".
 
-Info: Checking netlist component footprint "LED701:/55DCE095/55DD7DEC:PIXHAWK2_0603-LED".
+Info: Checking netlist component footprint "R203:/55E9990A/55E9B381:PIXHAWK2_0402-RES".
 
-Info: Changing component path "LED701:" to "/55DCE095/55DD7DEC".
+Info: Changing component path "R203:" to "/55E9990A/55E9B381".
 
-Changing component "LED701:/55DCE095/55DD7DEC" pin "C" net name from "N$26" to "/PX4FMUv2.4_SS_7/N$26".
+Info: Checking netlist component footprint "R204:/55E9990A/55E9B449:PIXHAWK2_0402-RES".
 
-Info: Checking netlist component footprint "LED702:/55DCE095/55DD7EB4:PIXHAWK2_0603-LED".
+Info: Changing component path "R204:" to "/55E9990A/55E9B449".
 
-Info: Changing component path "LED702:" to "/55DCE095/55DD7EB4".
+Info: Checking netlist component footprint "R205:/55E9990A/55E9B511:PIXHAWK2_0402-RES".
 
-Changing component "LED702:/55DCE095/55DD7EB4" pin "C" net name from "N$29" to "/PX4FMUv2.4_SS_7/N$29".
+Info: Changing component path "R205:" to "/55E9990A/55E9B511".
 
-Info: Checking netlist component footprint "LED703:/55DCE095/55DD7F7C:PIXHAWK2_0603-LED".
+Info: Checking netlist component footprint "R206:/55E9990A/55E9B5D9:PIXHAWK2_0402-RES".
 
-Info: Changing component path "LED703:" to "/55DCE095/55DD7F7C".
+Info: Changing component path "R206:" to "/55E9990A/55E9B5D9".
 
-Changing component "LED703:/55DCE095/55DD7F7C" pin "C" net name from "N$40" to "/PX4FMUv2.4_SS_7/N$40".
+Info: Checking netlist component footprint "R207:/55E9990A/55E9B6A1:PIXHAWK2_0402-RES".
 
-Info: Checking netlist component footprint "LED704:/55DCE095/55DD8044:PIXHAWK2_0603-LED".
+Info: Changing component path "R207:" to "/55E9990A/55E9B6A1".
 
-Info: Changing component path "LED704:" to "/55DCE095/55DD8044".
+Info: Checking netlist component footprint "R208:/55E9990A/55E9B769:PIXHAWK2_0402-RES".
 
-Changing component "LED704:/55DCE095/55DD8044" pin "C" net name from "N$7" to "/PX4FMUv2.4_SS_7/N$7".
+Info: Changing component path "R208:" to "/55E9990A/55E9B769".
 
-Info: Checking netlist component footprint "LED705:/55DCE095/55DD810C:PIXHAWK2_0603-LED".
+Info: Checking netlist component footprint "R209:/55E9990A/55E9B831:PIXHAWK2_0402-RES".
 
-Info: Changing component path "LED705:" to "/55DCE095/55DD810C".
+Info: Changing component path "R209:" to "/55E9990A/55E9B831".
 
-Changing component "LED705:/55DCE095/55DD810C" pin "C" net name from "N$9" to "/PX4FMUv2.4_SS_7/N$9".
+Info: Checking netlist component footprint "R210:/55E9990A/55E9B8F9:PIXHAWK2_0402-RES".
 
-Info: Checking netlist component footprint "M3_MOUNT1101:/55DCE09F/55DE06A5:PIXHAWK2_MOUNT-HOLE3.1".
+Info: Changing component path "R210:" to "/55E9990A/55E9B8F9".
 
-Info: Changing component path "M3_MOUNT1101:" to "/55DCE09F/55DE06A5".
+Info: Checking netlist component footprint "R211:/55E9990A/55E9B9C1:PIXHAWK2_0402-RES".
 
-Info: Checking netlist component footprint "M3_MOUNT1102:/55DCE09F/55DE076D:PIXHAWK2_MOUNT-HOLE3.1".
+Info: Changing component path "R211:" to "/55E9990A/55E9B9C1".
 
-Info: Changing component path "M3_MOUNT1102:" to "/55DCE09F/55DE076D".
+Info: Checking netlist component footprint "R212:/55E9990A/55E9BA89:PIXHAWK2_0402-RES".
 
-Info: Checking netlist component footprint "M3_MOUNT1103:/55DCE09F/55DE0835:PIXHAWK2_MOUNT-HOLE3.1".
+Info: Changing component path "R212:" to "/55E9990A/55E9BA89".
 
-Info: Changing component path "M3_MOUNT1103:" to "/55DCE09F/55DE0835".
+Info: Checking netlist component footprint "R213:/55E9990A/55E9BB51:PIXHAWK2_0402-RES".
 
-Info: Checking netlist component footprint "M3_MOUNT1104:/55DCE09F/55DE08FD:PIXHAWK2_MOUNT-HOLE3.1".
+Info: Changing component path "R213:" to "/55E9990A/55E9BB51".
 
-Info: Changing component path "M3_MOUNT1104:" to "/55DCE09F/55DE08FD".
+Info: Checking netlist component footprint "R214:/55E9990A/55E9BC19:PIXHAWK2_0402-RES".
 
-Info: Checking netlist component footprint "OSHW_LOGO1116:/55DCE09F/55DE09C5:PIXHAWK2_OSHW-LOGO-S".
+Info: Changing component path "R214:" to "/55E9990A/55E9BC19".
 
-Info: Changing component path "OSHW_LOGO1116:" to "/55DCE09F/55DE09C5".
+Info: Checking netlist component footprint "R215:/55E9990A/55E9BCE1:PIXHAWK2_0402-RES".
 
-Info: Checking netlist component footprint "Q601:/55DCE093/55DD62F8:TRANSISTOR-PNP_SOT23-BEC".
+Info: Changing component path "R215:" to "/55E9990A/55E9BCE1".
 
-Info: Changing component path "Q601:" to "/55DCE093/55DD62F8".
+Info: Checking netlist component footprint "R216:/55E9990A/55E9BDA9:PIXHAWK2_0402-RES".
 
-Changing component "Q601:/55DCE093/55DD62F8" pin "C" net name from "N$80" to "/PX4FMUv2.4_SS_6/N$80".
+Info: Changing component path "R216:" to "/55E9990A/55E9BDA9".
 
-Changing component "Q601:/55DCE093/55DD62F8" pin "B" net name from "N$81" to "/PX4FMUv2.4_SS_6/N$81".
+Info: Checking netlist component footprint "R301:/55E9990C/55E9C76D:PIXHAWK2_0402-RES".
 
-Info: Checking netlist component footprint "R3:/55DCE095/55DD81D4:PIXHAWK2_0402-RES".
+Info: Changing component path "R301:" to "/55E9990C/55E9C76D".
 
-Info: Changing component path "R3:" to "/55DCE095/55DD81D4".
+Info: Checking netlist component footprint "R302:/55E9990C/55E9C835:PIXHAWK2_0402-RES".
 
-Changing component "R3:/55DCE095/55DD81D4" pin "P$1" net name from "N$13" to "/PX4FMUv2.4_SS_7/N$13".
+Info: Changing component path "R302:" to "/55E9990C/55E9C835".
 
-Changing component "R3:/55DCE095/55DD81D4" pin "P$2" net name from "N$26" to "/PX4FMUv2.4_SS_7/N$26".
+Info: Checking netlist component footprint "R303:/55E9990C/55E9C8FD:PIXHAWK2_0402-RES".
 
-Info: Checking netlist component footprint "R4:/55DCE095/55DD829C:PIXHAWK2_0402-RES".
+Info: Changing component path "R303:" to "/55E9990C/55E9C8FD".
 
-Info: Changing component path "R4:" to "/55DCE095/55DD829C".
+Info: Checking netlist component footprint "R304:/55E9990C/55E9C9C5:PIXHAWK2_0402-RES".
 
-Changing component "R4:/55DCE095/55DD829C" pin "P$1" net name from "N$39" to "/PX4FMUv2.4_SS_7/N$39".
+Info: Changing component path "R304:" to "/55E9990C/55E9C9C5".
 
-Changing component "R4:/55DCE095/55DD829C" pin "P$2" net name from "N$40" to "/PX4FMUv2.4_SS_7/N$40".
+Info: Checking netlist component footprint "R305:/55E9990C/55E9CA8D:PIXHAWK2_0402-RES".
 
-Info: Checking netlist component footprint "R101:/55DCE089/55DCE52F:PIXHAWK2_0402-RES".
+Info: Changing component path "R305:" to "/55E9990C/55E9CA8D".
 
-Info: Changing component path "R101:" to "/55DCE089/55DCE52F".
+Info: Checking netlist component footprint "R306:/55E9990C/55E9CB55:PIXHAWK2_0402-RES".
 
-Changing component "R101:/55DCE089/55DCE52F" pin "P$1" net name from "N$23" to "/PX4FMUv2.4_SS_1/N$23".
+Info: Changing component path "R306:" to "/55E9990C/55E9CB55".
 
-Info: Checking netlist component footprint "R102:/55DCE089/55DCE5F7:PIXHAWK2_0402-RES".
+Info: Checking netlist component footprint "R307:/55E9990C/55E9CC1D:PIXHAWK2_0402-RES".
 
-Info: Changing component path "R102:" to "/55DCE089/55DCE5F7".
+Info: Changing component path "R307:" to "/55E9990C/55E9CC1D".
 
-Changing component "R102:/55DCE089/55DCE5F7" pin "P$1" net name from "PB2-BOOT1" to "/PX4FMUv2.4_SS_1/PB2-BOOT1".
+Info: Checking netlist component footprint "R401:/55E9990E/55E9DD4D:PIXHAWK2_0402-RES".
 
-Info: Checking netlist component footprint "R201:/55DCE08B/55DCF91B:PIXHAWK2_0402-RES".
+Info: Changing component path "R401:" to "/55E9990E/55E9DD4D".
 
-Info: Changing component path "R201:" to "/55DCE08B/55DCF91B".
+Info: Checking netlist component footprint "R402:/55E9990E/55E9DE15:PIXHAWK2_0402-RES".
 
-Changing component "R201:/55DCE08B/55DCF91B" pin "P$1" net name from "N$70" to "/PX4FMUv2.4_SS_2/N$70".
+Info: Changing component path "R402:" to "/55E9990E/55E9DE15".
 
-Changing component "R201:/55DCE08B/55DCF91B" pin "P$2" net name from "SERIAL2_RTS" to "/PX4FMUv2.4_SS_2/SERIAL2_RTS".
+Info: Checking netlist component footprint "R403:/55E9990E/55E9DEDD:PIXHAWK2_0402-RES".
 
-Info: Checking netlist component footprint "R202:/55DCE08B/55DCF9E3:PIXHAWK2_0402-RES".
+Info: Changing component path "R403:" to "/55E9990E/55E9DEDD".
 
-Info: Changing component path "R202:" to "/55DCE08B/55DCF9E3".
+Info: Checking netlist component footprint "R404:/55E9990E/55E9DFA5:PIXHAWK2_0402-RES".
 
-Changing component "R202:/55DCE08B/55DCF9E3" pin "P$1" net name from "N$83" to "/PX4FMUv2.4_SS_2/N$83".
+Info: Changing component path "R404:" to "/55E9990E/55E9DFA5".
 
-Info: Checking netlist component footprint "R203:/55DCE08B/55DCFAAB:PIXHAWK2_0402-RES".
+Info: Checking netlist component footprint "R405:/55E9990E/55E9E06D:PIXHAWK2_0402-RES".
 
-Info: Changing component path "R203:" to "/55DCE08B/55DCFAAB".
+Info: Changing component path "R405:" to "/55E9990E/55E9E06D".
 
-Changing component "R203:/55DCE08B/55DCFAAB" pin "P$1" net name from "N$85" to "/PX4FMUv2.4_SS_2/N$85".
+Info: Checking netlist component footprint "R406:/55E9990E/55E9E135:PIXHAWK2_0402-RES".
 
-Info: Checking netlist component footprint "R204:/55DCE08B/55DCFB73:PIXHAWK2_0402-RES".
+Info: Changing component path "R406:" to "/55E9990E/55E9E135".
 
-Info: Changing component path "R204:" to "/55DCE08B/55DCFB73".
+Info: Checking netlist component footprint "R407:/55E9990E/55E9E1FD:PIXHAWK2_0402-RES".
 
-Changing component "R204:/55DCE08B/55DCFB73" pin "P$1" net name from "N$87" to "/PX4FMUv2.4_SS_2/N$87".
+Info: Changing component path "R407:" to "/55E9990E/55E9E1FD".
 
-Changing component "R204:/55DCE08B/55DCFB73" pin "P$2" net name from "SERIAL1_RTS" to "/PX4FMUv2.4_SS_2/SERIAL1_RTS".
+Info: Checking netlist component footprint "R408:/55E9990E/55E9E2C5:PIXHAWK2_0402-RES".
 
-Info: Checking netlist component footprint "R205:/55DCE08B/55DCFC3B:PIXHAWK2_0402-RES".
+Info: Changing component path "R408:" to "/55E9990E/55E9E2C5".
 
-Info: Changing component path "R205:" to "/55DCE08B/55DCFC3B".
+Info: Checking netlist component footprint "R409:/55E9990E/55E9E38D:PIXHAWK2_0402-RES".
 
-Changing component "R205:/55DCE08B/55DCFC3B" pin "P$1" net name from "N$91" to "/PX4FMUv2.4_SS_2/N$91".
+Info: Changing component path "R409:" to "/55E9990E/55E9E38D".
 
-Info: Checking netlist component footprint "R206:/55DCE08B/55DCFD03:PIXHAWK2_0402-RES".
+Info: Checking netlist component footprint "R602:/55E99912/55EA1C96:PIXHAWK2_0402-RES".
 
-Info: Changing component path "R206:" to "/55DCE08B/55DCFD03".
+Info: Changing component path "R602:" to "/55E99912/55EA1C96".
 
-Changing component "R206:/55DCE08B/55DCFD03" pin "P$1" net name from "N$93" to "/PX4FMUv2.4_SS_2/N$93".
+Info: Checking netlist component footprint "R603:/55E99912/55EA1D5E:PIXHAWK2_0402-RES".
 
-Info: Checking netlist component footprint "R207:/55DCE08B/55DCFDCB:PIXHAWK2_0402-RES".
+Info: Changing component path "R603:" to "/55E99912/55EA1D5E".
 
-Info: Changing component path "R207:" to "/55DCE08B/55DCFDCB".
+Info: Checking netlist component footprint "R604:/55E99912/55EA1E26:PIXHAWK2_0402-RES".
 
-Changing component "R207:/55DCE08B/55DCFDCB" pin "P$1" net name from "N$89" to "/PX4FMUv2.4_SS_2/N$89".
+Info: Changing component path "R604:" to "/55E99912/55EA1E26".
 
-Info: Checking netlist component footprint "R208:/55DCE08B/55DCFE93:PIXHAWK2_0402-RES".
+Info: Checking netlist component footprint "R608:/55E99912/55EA1EEE:PIXHAWK2_0402-RES".
 
-Info: Changing component path "R208:" to "/55DCE08B/55DCFE93".
+Info: Changing component path "R608:" to "/55E99912/55EA1EEE".
 
-Changing component "R208:/55DCE08B/55DCFE93" pin "P$1" net name from "N$82" to "/PX4FMUv2.4_SS_2/N$82".
+Info: Checking netlist component footprint "R609:/55E99912/55EA1FB6:PIXHAWK2_0402-RES".
 
-Changing component "R208:/55DCE08B/55DCFE93" pin "P$2" net name from "SERIAL2_CTS" to "/PX4FMUv2.4_SS_2/SERIAL2_CTS".
+Info: Changing component path "R609:" to "/55E99912/55EA1FB6".
 
-Info: Checking netlist component footprint "R209:/55DCE08B/55DCFF5B:PIXHAWK2_0402-RES".
+Info: Checking netlist component footprint "R610:/55E99912/55EA207E:PIXHAWK2_0402-RES".
 
-Info: Changing component path "R209:" to "/55DCE08B/55DCFF5B".
+Info: Changing component path "R610:" to "/55E99912/55EA207E".
 
-Changing component "R209:/55DCE08B/55DCFF5B" pin "P$1" net name from "N$84" to "/PX4FMUv2.4_SS_2/N$84".
+Info: Checking netlist component footprint "R611:/55E99912/55EA2146:PIXHAWK2_0402-RES".
 
-Info: Checking netlist component footprint "R210:/55DCE08B/55DD0023:PIXHAWK2_0402-RES".
+Info: Changing component path "R611:" to "/55E99912/55EA2146".
 
-Info: Changing component path "R210:" to "/55DCE08B/55DD0023".
+Info: Checking netlist component footprint "R615:/55E99912/55EA220E:PIXHAWK2_0402-RES".
 
-Changing component "R210:/55DCE08B/55DD0023" pin "P$1" net name from "N$86" to "/PX4FMUv2.4_SS_2/N$86".
+Info: Changing component path "R615:" to "/55E99912/55EA220E".
 
-Info: Checking netlist component footprint "R211:/55DCE08B/55DD00EB:PIXHAWK2_0402-RES".
+Info: Checking netlist component footprint "R616:/55E99912/55EA22D6:PIXHAWK2_0402-RES".
 
-Info: Changing component path "R211:" to "/55DCE08B/55DD00EB".
+Info: Changing component path "R616:" to "/55E99912/55EA22D6".
 
-Changing component "R211:/55DCE08B/55DD00EB" pin "P$1" net name from "N$88" to "/PX4FMUv2.4_SS_2/N$88".
+Info: Checking netlist component footprint "R617:/55E99912/55EA239E:PIXHAWK2_0402-RES".
 
-Changing component "R211:/55DCE08B/55DD00EB" pin "P$2" net name from "SERIAL1_CTS" to "/PX4FMUv2.4_SS_2/SERIAL1_CTS".
+Info: Changing component path "R617:" to "/55E99912/55EA239E".
 
-Info: Checking netlist component footprint "R212:/55DCE08B/55DD01B3:PIXHAWK2_0402-RES".
+Info: Checking netlist component footprint "R620:/55E99912/55EA2466:PIXHAWK2_0402-RES".
 
-Info: Changing component path "R212:" to "/55DCE08B/55DD01B3".
+Info: Changing component path "R620:" to "/55E99912/55EA2466".
 
-Changing component "R212:/55DCE08B/55DD01B3" pin "P$1" net name from "N$92" to "/PX4FMUv2.4_SS_2/N$92".
+Info: Checking netlist component footprint "R621:/55E99912/55EA252E:PIXHAWK2_0603-RES".
 
-Info: Checking netlist component footprint "R213:/55DCE08B/55DD027B:PIXHAWK2_0402-RES".
+Info: Changing component path "R621:" to "/55E99912/55EA252E".
 
-Info: Changing component path "R213:" to "/55DCE08B/55DD027B".
+Info: Checking netlist component footprint "R635:/55E99912/55EA25F6:PIXHAWK2_0402-RES".
 
-Changing component "R213:/55DCE08B/55DD027B" pin "P$1" net name from "N$94" to "/PX4FMUv2.4_SS_2/N$94".
+Info: Changing component path "R635:" to "/55E99912/55EA25F6".
 
-Info: Checking netlist component footprint "R214:/55DCE08B/55DD0343:PIXHAWK2_0402-RES".
+Info: Checking netlist component footprint "R701:/55E99914/55EA3C3A:PIXHAWK2_0402-RES".
 
-Info: Changing component path "R214:" to "/55DCE08B/55DD0343".
+Info: Changing component path "R701:" to "/55E99914/55EA3C3A".
 
-Changing component "R214:/55DCE08B/55DD0343" pin "P$1" net name from "N$90" to "/PX4FMUv2.4_SS_2/N$90".
+Info: Checking netlist component footprint "R702:/55E99914/55EA3D02:PIXHAWK2_0402-RES".
 
-Info: Checking netlist component footprint "R215:/55DCE08B/55DD040B:PIXHAWK2_0402-RES".
+Info: Changing component path "R702:" to "/55E99914/55EA3D02".
 
-Info: Changing component path "R215:" to "/55DCE08B/55DD040B".
+Info: Checking netlist component footprint "R703:/55E99914/55EA3DCA:PIXHAWK2_0402-RES".
 
-Changing component "R215:/55DCE08B/55DD040B" pin "P$2" net name from "N$14" to "/PX4FMUv2.4_SS_2/N$14".
+Info: Changing component path "R703:" to "/55E99914/55EA3DCA".
 
-Info: Checking netlist component footprint "R216:/55DCE08B/55DD04D3:PIXHAWK2_0402-RES".
+Info: Checking netlist component footprint "R704:/55E99914/55EA3E92:PIXHAWK2_0402-RES".
 
-Info: Changing component path "R216:" to "/55DCE08B/55DD04D3".
+Info: Changing component path "R704:" to "/55E99914/55EA3E92".
 
-Changing component "R216:/55DCE08B/55DD04D3" pin "P$2" net name from "N$19" to "/PX4FMUv2.4_SS_2/N$19".
+Info: Checking netlist component footprint "R705:/55E99914/55EA3F5A:PIXHAWK2_0402-RES".
 
-Info: Checking netlist component footprint "R301:/55DCE08D/55DD0E97:PIXHAWK2_0402-RES".
+Info: Changing component path "R705:" to "/55E99914/55EA3F5A".
 
-Info: Changing component path "R301:" to "/55DCE08D/55DD0E97".
+Info: Checking netlist component footprint "R706:/55E99914/55EA4022:PIXHAWK2_0402-RES".
 
-Info: Checking netlist component footprint "R302:/55DCE08D/55DD0F5F:PIXHAWK2_0402-RES".
+Info: Changing component path "R706:" to "/55E99914/55EA4022".
 
-Info: Changing component path "R302:" to "/55DCE08D/55DD0F5F".
+Info: Checking netlist component footprint "R707:/55E99914/55EA40EA:PIXHAWK2_0402-RES".
 
-Info: Checking netlist component footprint "R303:/55DCE08D/55DD1027:PIXHAWK2_0402-RES".
+Info: Changing component path "R707:" to "/55E99914/55EA40EA".
 
-Info: Changing component path "R303:" to "/55DCE08D/55DD1027".
+Info: Checking netlist component footprint "R708:/55E99914/55EA41B2:PIXHAWK2_0402-RES".
 
-Info: Checking netlist component footprint "R304:/55DCE08D/55DD10EF:PIXHAWK2_0402-RES".
+Info: Changing component path "R708:" to "/55E99914/55EA41B2".
 
-Info: Changing component path "R304:" to "/55DCE08D/55DD10EF".
+Info: Checking netlist component footprint "R709:/55E99914/55EA427A:PIXHAWK2_0402-RES".
 
-Info: Checking netlist component footprint "R305:/55DCE08D/55DD11B7:PIXHAWK2_0402-RES".
+Info: Changing component path "R709:" to "/55E99914/55EA427A".
 
-Info: Changing component path "R305:" to "/55DCE08D/55DD11B7".
+Info: Checking netlist component footprint "R710:/55E99914/55EA4342:PIXHAWK2_0402-RES".
 
-Info: Checking netlist component footprint "R306:/55DCE08D/55DD127F:PIXHAWK2_0402-RES".
+Info: Changing component path "R710:" to "/55E99914/55EA4342".
 
-Info: Changing component path "R306:" to "/55DCE08D/55DD127F".
+Info: Checking netlist component footprint "R711:/55E99914/55EA440A:PIXHAWK2_0402-RES".
 
-Info: Checking netlist component footprint "R307:/55DCE08D/55DD1347:PIXHAWK2_0402-RES".
+Info: Changing component path "R711:" to "/55E99914/55EA440A".
 
-Info: Changing component path "R307:" to "/55DCE08D/55DD1347".
+Info: Checking netlist component footprint "R712:/55E99914/55EA44D2:PIXHAWK2_0402-RES".
 
-Info: Checking netlist component footprint "R401:/55DCE08F/55DD2477:PIXHAWK2_0402-RES".
+Info: Changing component path "R712:" to "/55E99914/55EA44D2".
 
-Info: Changing component path "R401:" to "/55DCE08F/55DD2477".
+Info: Checking netlist component footprint "R713:/55E99914/55EA459A:PIXHAWK2_0402-RES".
 
-Info: Checking netlist component footprint "R402:/55DCE08F/55DD253F:PIXHAWK2_0402-RES".
+Info: Changing component path "R713:" to "/55E99914/55EA459A".
 
-Info: Changing component path "R402:" to "/55DCE08F/55DD253F".
+Info: Checking netlist component footprint "R801:/55E99916/55EA5B16:PIXHAWK2_0402-RES".
 
-Info: Checking netlist component footprint "R403:/55DCE08F/55DD2607:PIXHAWK2_0402-RES".
+Info: Changing component path "R801:" to "/55E99916/55EA5B16".
 
-Info: Changing component path "R403:" to "/55DCE08F/55DD2607".
+Info: Checking netlist component footprint "R802:/55E99916/55EA5BDE:PIXHAWK2_0402-RES".
 
-Info: Checking netlist component footprint "R404:/55DCE08F/55DD26CF:PIXHAWK2_0402-RES".
+Info: Changing component path "R802:" to "/55E99916/55EA5BDE".
 
-Info: Changing component path "R404:" to "/55DCE08F/55DD26CF".
+Info: Checking netlist component footprint "R803:/55E99916/55EA5CA6:PIXHAWK2_0402-RES".
 
-Changing component "R404:/55DCE08F/55DD26CF" pin "P$2" net name from "N$33" to "/PX4FMUv2.4_SS_4/N$33".
+Info: Changing component path "R803:" to "/55E99916/55EA5CA6".
 
-Info: Checking netlist component footprint "R405:/55DCE08F/55DD2797:PIXHAWK2_0402-RES".
+Info: Checking netlist component footprint "R804:/55E99916/55EA5D6E:PIXHAWK2_0402-RES".
 
-Info: Changing component path "R405:" to "/55DCE08F/55DD2797".
+Info: Changing component path "R804:" to "/55E99916/55EA5D6E".
 
-Changing component "R405:/55DCE08F/55DD2797" pin "P$2" net name from "N$37" to "/PX4FMUv2.4_SS_4/N$37".
+Info: Checking netlist component footprint "R901:/55E99918/55EA7542:PIXHAWK2_0402-RES".
 
-Info: Checking netlist component footprint "R406:/55DCE08F/55DD285F:PIXHAWK2_0402-RES".
+Info: Changing component path "R901:" to "/55E99918/55EA7542".
 
-Info: Changing component path "R406:" to "/55DCE08F/55DD285F".
+Info: Checking netlist component footprint "R902:/55E99918/55EA760A:PIXHAWK2_0402-RES".
 
-Info: Checking netlist component footprint "R407:/55DCE08F/55DD2927:PIXHAWK2_0402-RES".
+Info: Changing component path "R902:" to "/55E99918/55EA760A".
 
-Info: Changing component path "R407:" to "/55DCE08F/55DD2927".
+Info: Checking netlist component footprint "R903:/55E99918/55EA76D2:PIXHAWK2_0402-RES".
 
-Changing component "R407:/55DCE08F/55DD2927" pin "P$2" net name from "FMU_AUX_ADC2_PROT" to "/PX4FMUv2.4_SS_4/FMU_AUX_ADC2_PROT".
+Info: Changing component path "R903:" to "/55E99918/55EA76D2".
 
-Info: Checking netlist component footprint "R408:/55DCE08F/55DD29EF:PIXHAWK2_0402-RES".
+Info: Checking netlist component footprint "R904:/55E99918/55EA779A:PIXHAWK2_0402-RES".
 
-Info: Changing component path "R408:" to "/55DCE08F/55DD29EF".
+Info: Changing component path "R904:" to "/55E99918/55EA779A".
 
-Changing component "R408:/55DCE08F/55DD29EF" pin "P$2" net name from "FMU_AUX_ADC1_PROT" to "/PX4FMUv2.4_SS_4/FMU_AUX_ADC1_PROT".
+Info: Checking netlist component footprint "R905:/55E99918/55EA7862:PIXHAWK2_0402-RES".
 
-Info: Checking netlist component footprint "R409:/55DCE08F/55DD2AB7:PIXHAWK2_0402-RES".
+Info: Changing component path "R905:" to "/55E99918/55EA7862".
 
-Info: Changing component path "R409:" to "/55DCE08F/55DD2AB7".
+Info: Checking netlist component footprint "R906:/55E99918/55EA792A:PIXHAWK2_0402-RES".
 
-Info: Checking netlist component footprint "R602:/55DCE093/55DD63C0:PIXHAWK2_0402-RES".
+Info: Changing component path "R906:" to "/55E99918/55EA792A".
 
-Info: Changing component path "R602:" to "/55DCE093/55DD63C0".
+Info: Checking netlist component footprint "R907:/55E99918/55EA79F2:PIXHAWK2_0402-RES".
 
-Info: Checking netlist component footprint "R603:/55DCE093/55DD6488:PIXHAWK2_0402-RES".
+Info: Changing component path "R907:" to "/55E99918/55EA79F2".
 
-Info: Changing component path "R603:" to "/55DCE093/55DD6488".
+Info: Checking netlist component footprint "R908:/55E99918/55EA7ABA:PIXHAWK2_0402-RES".
 
-Changing component "R603:/55DCE093/55DD6488" pin "P$1" net name from "FMU-VDD_5V5" to "/PX4FMUv2.4_SS_6/FMU-VDD_5V5".
+Info: Changing component path "R908:" to "/55E99918/55EA7ABA".
 
-Info: Checking netlist component footprint "R604:/55DCE093/55DD6550:PIXHAWK2_0402-RES".
+Info: Checking netlist component footprint "R909:/55E99918/55EA7B82:PIXHAWK2_0402-RES".
 
-Info: Changing component path "R604:" to "/55DCE093/55DD6550".
+Info: Changing component path "R909:" to "/55E99918/55EA7B82".
 
-Info: Checking netlist component footprint "R608:/55DCE093/55DD6618:PIXHAWK2_0402-RES".
+Info: Checking netlist component footprint "R910:/55E99918/55EA7C4A:PIXHAWK2_0402-RES".
 
-Info: Changing component path "R608:" to "/55DCE093/55DD6618".
+Info: Changing component path "R910:" to "/55E99918/55EA7C4A".
 
-Changing component "R608:/55DCE093/55DD6618" pin "P$2" net name from "N$21" to "/PX4FMUv2.4_SS_6/N$21".
+Info: Checking netlist component footprint "R911:/55E99918/55EA7D12:PIXHAWK2_0402-RES".
 
-Info: Checking netlist component footprint "R609:/55DCE093/55DD66E0:PIXHAWK2_0402-RES".
+Info: Changing component path "R911:" to "/55E99918/55EA7D12".
 
-Info: Changing component path "R609:" to "/55DCE093/55DD66E0".
+Info: Checking netlist component footprint "R912:/55E99918/55EA7DDA:PIXHAWK2_0402-RES".
 
-Info: Checking netlist component footprint "R610:/55DCE093/55DD67A8:PIXHAWK2_0402-RES".
+Info: Changing component path "R912:" to "/55E99918/55EA7DDA".
 
-Info: Changing component path "R610:" to "/55DCE093/55DD67A8".
+Info: Checking netlist component footprint "R913:/55E99918/55EA7EA2:PIXHAWK2_0402-RES".
 
-Info: Checking netlist component footprint "R611:/55DCE093/55DD6870:PIXHAWK2_0402-RES".
+Info: Changing component path "R913:" to "/55E99918/55EA7EA2".
 
-Info: Changing component path "R611:" to "/55DCE093/55DD6870".
+Info: Checking netlist component footprint "R914:/55E99918/55EA7F6A:PIXHAWK2_0402-RES".
 
-Info: Checking netlist component footprint "R615:/55DCE093/55DD6938:PIXHAWK2_0402-RES".
+Info: Changing component path "R914:" to "/55E99918/55EA7F6A".
 
-Info: Changing component path "R615:" to "/55DCE093/55DD6938".
+Info: Checking netlist component footprint "R915:/55E99918/55EA8032:PIXHAWK2_0402-RES".
 
-Info: Checking netlist component footprint "R616:/55DCE093/55DD6A00:PIXHAWK2_0402-RES".
+Info: Changing component path "R915:" to "/55E99918/55EA8032".
 
-Info: Changing component path "R616:" to "/55DCE093/55DD6A00".
+Info: Checking netlist component footprint "R916:/55E99918/55EA80FA:PIXHAWK2_0402-RES".
 
-Changing component "R616:/55DCE093/55DD6A00" pin "P$1" net name from "N$34" to "/PX4FMUv2.4_SS_6/N$34".
+Info: Changing component path "R916:" to "/55E99918/55EA80FA".
 
-Info: Checking netlist component footprint "R617:/55DCE093/55DD6AC8:PIXHAWK2_0402-RES".
+Info: Checking netlist component footprint "R917:/55E99918/55EA81C2:PIXHAWK2_0402-RES".
 
-Info: Changing component path "R617:" to "/55DCE093/55DD6AC8".
+Info: Changing component path "R917:" to "/55E99918/55EA81C2".
 
-Changing component "R617:/55DCE093/55DD6AC8" pin "P$1" net name from "N$96" to "/PX4FMUv2.4_SS_6/N$96".
+Info: Checking netlist component footprint "R918:/55E99918/55EA828A:PIXHAWK2_0402-RES".
 
-Info: Checking netlist component footprint "R620:/55DCE093/55DD6B90:PIXHAWK2_0402-RES".
+Info: Changing component path "R918:" to "/55E99918/55EA828A".
 
-Info: Changing component path "R620:" to "/55DCE093/55DD6B90".
+Info: Checking netlist component footprint "R919:/55E99918/55EA8352:PIXHAWK2_0402-RES".
 
-Changing component "R620:/55DCE093/55DD6B90" pin "P$1" net name from "N$81" to "/PX4FMUv2.4_SS_6/N$81".
+Info: Changing component path "R919:" to "/55E99918/55EA8352".
 
-Info: Checking netlist component footprint "R621:/55DCE093/55DD6C58:PIXHAWK2_0603-RES".
+Info: Checking netlist component footprint "R922:/55E99918/55EA841A:PIXHAWK2_0402-RES".
 
-Info: Changing component path "R621:" to "/55DCE093/55DD6C58".
+Info: Changing component path "R922:" to "/55E99918/55EA841A".
 
-Changing component "R621:/55DCE093/55DD6C58" pin "2" net name from "N$80" to "/PX4FMUv2.4_SS_6/N$80".
+Info: Checking netlist component footprint "R1001:/55E9991A/55EA928E:PIXHAWK2_0402-RES".
 
-Info: Checking netlist component footprint "R635:/55DCE093/55DD6D20:PIXHAWK2_0402-RES".
+Info: Changing component path "R1001:" to "/55E9991A/55EA928E".
 
-Info: Changing component path "R635:" to "/55DCE093/55DD6D20".
+Info: Checking netlist component footprint "R1002:/55E9991A/55EA9356:PIXHAWK2_0402-RES".
 
-Info: Checking netlist component footprint "R701:/55DCE095/55DD8364:PIXHAWK2_0402-RES".
+Info: Changing component path "R1002:" to "/55E9991A/55EA9356".
 
-Info: Changing component path "R701:" to "/55DCE095/55DD8364".
+Info: Checking netlist component footprint "R1101:/55E9991C/55EAA487:PIXHAWK2_0402-RES".
 
-Changing component "R701:/55DCE095/55DD8364" pin "P$1" net name from "N$28" to "/PX4FMUv2.4_SS_7/N$28".
+Info: Changing component path "R1101:" to "/55E9991C/55EAA487".
 
-Info: Checking netlist component footprint "R702:/55DCE095/55DD842C:PIXHAWK2_0402-RES".
+Info: Checking netlist component footprint "R1102:/55E9991C/55EAA54F:PIXHAWK2_0402-RES".
 
-Info: Changing component path "R702:" to "/55DCE095/55DD842C".
+Info: Changing component path "R1102:" to "/55E9991C/55EAA54F".
 
-Changing component "R702:/55DCE095/55DD842C" pin "P$1" net name from "N$25" to "/PX4FMUv2.4_SS_7/N$25".
+Info: Checking netlist component footprint "R1103:/55E9991C/55EAA617:PIXHAWK2_0402-RES".
 
-Info: Checking netlist component footprint "R703:/55DCE095/55DD84F4:PIXHAWK2_0402-RES".
+Info: Changing component path "R1103:" to "/55E9991C/55EAA617".
 
-Info: Changing component path "R703:" to "/55DCE095/55DD84F4".
+Info: Checking netlist component footprint "R1104:/55E9991C/55EAA6DF:PIXHAWK2_0402-RES".
 
-Changing component "R703:/55DCE095/55DD84F4" pin "P$1" net name from "N$27" to "/PX4FMUv2.4_SS_7/N$27".
+Info: Changing component path "R1104:" to "/55E9991C/55EAA6DF".
 
-Changing component "R703:/55DCE095/55DD84F4" pin "P$2" net name from "N$25" to "/PX4FMUv2.4_SS_7/N$25".
+Info: Checking netlist component footprint "R1105:/55E9991C/55EAA7A7:PIXHAWK2_0402-RES".
 
-Info: Checking netlist component footprint "R704:/55DCE095/55DD85BC:PIXHAWK2_0402-RES".
+Info: Changing component path "R1105:" to "/55E9991C/55EAA7A7".
 
-Info: Changing component path "R704:" to "/55DCE095/55DD85BC".
+Info: Checking netlist component footprint "R1106:/55E9991C/55EAA86F:PIXHAWK2_0402-RES".
 
-Changing component "R704:/55DCE095/55DD85BC" pin "P$2" net name from "N$95" to "/PX4FMUv2.4_SS_7/N$95".
+Info: Changing component path "R1106:" to "/55E9991C/55EAA86F".
 
-Info: Checking netlist component footprint "R705:/55DCE095/55DD8684:PIXHAWK2_0402-RES".
+Info: Checking netlist component footprint "R1107:/55E9991C/55EAA937:PIXHAWK2_0402-RES".
 
-Info: Changing component path "R705:" to "/55DCE095/55DD8684".
+Info: Changing component path "R1107:" to "/55E9991C/55EAA937".
 
-Changing component "R705:/55DCE095/55DD8684" pin "P$1" net name from "N$36" to "/PX4FMUv2.4_SS_7/N$36".
+Info: Checking netlist component footprint "R1109:/55E9991C/55EAA9FF:PIXHAWK2_0402-RES".
 
-Changing component "R705:/55DCE095/55DD8684" pin "P$2" net name from "N$24" to "/PX4FMUv2.4_SS_7/N$24".
+Info: Changing component path "R1109:" to "/55E9991C/55EAA9FF".
 
-Info: Checking netlist component footprint "R706:/55DCE095/55DD874C:PIXHAWK2_0402-RES".
+Info: Checking netlist component footprint "R1110:/55E9991C/55EAAAC7:PIXHAWK2_0402-RES".
 
-Info: Changing component path "R706:" to "/55DCE095/55DD874C".
+Info: Changing component path "R1110:" to "/55E9991C/55EAAAC7".
 
-Changing component "R706:/55DCE095/55DD874C" pin "P$1" net name from "N$24" to "/PX4FMUv2.4_SS_7/N$24".
+Info: Checking netlist component footprint "R1111:/55E9991C/55EAAB8F:PIXHAWK2_0402-RES".
 
-Info: Checking netlist component footprint "R707:/55DCE095/55DD8814:PIXHAWK2_0402-RES".
+Info: Changing component path "R1111:" to "/55E9991C/55EAAB8F".
 
-Info: Changing component path "R707:" to "/55DCE095/55DD8814".
+Info: Checking netlist component footprint "R1112:/55E9991C/55EAAC57:PIXHAWK2_0402-RES".
 
-Changing component "R707:/55DCE095/55DD8814" pin "P$2" net name from "N$13" to "/PX4FMUv2.4_SS_7/N$13".
+Info: Changing component path "R1112:" to "/55E9991C/55EAAC57".
 
-Info: Checking netlist component footprint "R708:/55DCE095/55DD88DC:PIXHAWK2_0402-RES".
+Info: Checking netlist component footprint "R1113:/55E9991C/55EAAD1F:PIXHAWK2_0402-RES".
 
-Info: Changing component path "R708:" to "/55DCE095/55DD88DC".
+Info: Changing component path "R1113:" to "/55E9991C/55EAAD1F".
 
-Changing component "R708:/55DCE095/55DD88DC" pin "P$2" net name from "N$29" to "/PX4FMUv2.4_SS_7/N$29".
+Info: Checking netlist component footprint "R1114:/55E9991C/55EAADE7:PIXHAWK2_0402-RES".
 
-Info: Checking netlist component footprint "R709:/55DCE095/55DD89A4:PIXHAWK2_0402-RES".
+Info: Changing component path "R1114:" to "/55E9991C/55EAADE7".
 
-Info: Changing component path "R709:" to "/55DCE095/55DD89A4".
+Info: Checking netlist component footprint "R1115:/55E9991C/55EAAEAF:PIXHAWK2_0402-RES".
 
-Changing component "R709:/55DCE095/55DD89A4" pin "P$2" net name from "N$39" to "/PX4FMUv2.4_SS_7/N$39".
+Info: Changing component path "R1115:" to "/55E9991C/55EAAEAF".
 
-Info: Checking netlist component footprint "R710:/55DCE095/55DD8A6C:PIXHAWK2_0402-RES".
+Info: Checking netlist component footprint "RN1101:/55E9991C/55EAAF77:RESISTOR-DIL_EXB28V".
 
-Info: Changing component path "R710:" to "/55DCE095/55DD8A6C".
+Info: Changing component path "RN1101:" to "/55E9991C/55EAAF77".
 
-Changing component "R710:/55DCE095/55DD8A6C" pin "P$1" net name from "N$57" to "/PX4FMUv2.4_SS_7/N$57".
+Info: Checking netlist component footprint "S1RX1116:/55E9991E/55EAC363:PIXHAWK2_PAD.04X.04".
 
-Info: Checking netlist component footprint "R711:/55DCE095/55DD8B34:PIXHAWK2_0402-RES".
+Info: Changing component path "S1RX1116:" to "/55E9991E/55EAC363".
 
-Info: Changing component path "R711:" to "/55DCE095/55DD8B34".
+Info: Checking netlist component footprint "S1TX1116:/55E9991E/55EAC42B:PIXHAWK2_PAD.04X.04".
 
-Changing component "R711:/55DCE095/55DD8B34" pin "P$2" net name from "N$7" to "/PX4FMUv2.4_SS_7/N$7".
+Info: Changing component path "S1TX1116:" to "/55E9991E/55EAC42B".
 
-Info: Checking netlist component footprint "R712:/55DCE095/55DD8BFC:PIXHAWK2_0402-RES".
+Info: Checking netlist component footprint "S2RX1116:/55E9991E/55EAC4F3:PIXHAWK2_PAD.04X.04".
 
-Info: Changing component path "R712:" to "/55DCE095/55DD8BFC".
+Info: Changing component path "S2RX1116:" to "/55E9991E/55EAC4F3".
 
-Changing component "R712:/55DCE095/55DD8BFC" pin "P$2" net name from "N$9" to "/PX4FMUv2.4_SS_7/N$9".
+Info: Checking netlist component footprint "S2TX1116:/55E9991E/55EAC5BB:PIXHAWK2_PAD.04X.04".
 
-Info: Checking netlist component footprint "R713:/55DCE095/55DD8CC4:PIXHAWK2_0402-RES".
+Info: Changing component path "S2TX1116:" to "/55E9991E/55EAC5BB".
 
-Info: Changing component path "R713:" to "/55DCE095/55DD8CC4".
+Info: Checking netlist component footprint "S3RX1116:/55E9991E/55EAC683:PIXHAWK2_PAD.04X.04".
 
-Info: Checking netlist component footprint "R801:/55DCE097/55DDA240:PIXHAWK2_0402-RES".
+Info: Changing component path "S3RX1116:" to "/55E9991E/55EAC683".
 
-Info: Changing component path "R801:" to "/55DCE097/55DDA240".
+Info: Checking netlist component footprint "S3TX1116:/55E9991E/55EAC74B:PIXHAWK2_PAD.04X.04".
 
-Info: Checking netlist component footprint "R802:/55DCE097/55DDA308:PIXHAWK2_0402-RES".
+Info: Changing component path "S3TX1116:" to "/55E9991E/55EAC74B".
 
-Info: Changing component path "R802:" to "/55DCE097/55DDA308".
+Info: Checking netlist component footprint "S4RX1116:/55E9991E/55EAC813:PIXHAWK2_PAD.04X.04".
 
-Changing component "R802:/55DCE097/55DDA308" pin "P$1" net name from "IO-BOOT1" to "/PX4FMUv2.4_SS_8/IO-BOOT1".
+Info: Changing component path "S4RX1116:" to "/55E9991E/55EAC813".
 
-Info: Checking netlist component footprint "R803:/55DCE097/55DDA3D0:PIXHAWK2_0402-RES".
+Info: Checking netlist component footprint "S4TX1116:/55E9991E/55EAC8DB:PIXHAWK2_PAD.04X.04".
 
-Info: Changing component path "R803:" to "/55DCE097/55DDA3D0".
+Info: Changing component path "S4TX1116:" to "/55E9991E/55EAC8DB".
 
-Changing component "R803:/55DCE097/55DDA3D0" pin "P$1" net name from "N$15" to "/PX4FMUv2.4_SS_8/N$15".
+Info: Checking netlist component footprint "S5_RX1116:/55E9991E/55EAC9A3:PIXHAWK2_PAD.04X.04".
 
-Info: Checking netlist component footprint "R804:/55DCE097/55DDA498:PIXHAWK2_0402-RES".
+Info: Changing component path "S5_RX1116:" to "/55E9991E/55EAC9A3".
 
-Info: Changing component path "R804:" to "/55DCE097/55DDA498".
+Info: Checking netlist component footprint "S5_TX1116:/55E9991E/55EACA6B:PIXHAWK2_PAD.04X.04".
 
-Changing component "R804:/55DCE097/55DDA498" pin "P$1" net name from "N$16" to "/PX4FMUv2.4_SS_8/N$16".
+Info: Changing component path "S5_TX1116:" to "/55E9991E/55EACA6B".
 
-Info: Checking netlist component footprint "R901:/55DCE099/55DDBC6C:PIXHAWK2_0402-RES".
+Info: Checking netlist component footprint "S601:/55E99912/55EA26BE:PIXHAWK2_EVQP7J01K".
 
-Info: Changing component path "R901:" to "/55DCE099/55DDBC6C".
+Info: Changing component path "S601:" to "/55E99912/55EA26BE".
 
-Changing component "R901:/55DCE099/55DDBC6C" pin "P$2" net name from "N$38" to "/PX4FMUv2.4_SS_9/N$38".
+Info: Checking netlist component footprint "S801:/55E99916/55EA5E36:PIXHAWK2_EVQP7J01K".
 
-Info: Checking netlist component footprint "R902:/55DCE099/55DDBD34:PIXHAWK2_0402-RES".
+Info: Changing component path "S801:" to "/55E99916/55EA5E36".
 
-Info: Changing component path "R902:" to "/55DCE099/55DDBD34".
+Info: Checking netlist component footprint "U101:/55E99908/55E99F95:PIXHAWK2_TQFP100".
 
-Changing component "R902:/55DCE099/55DDBD34" pin "P$1" net name from "N$61" to "/PX4FMUv2.4_SS_9/N$61".
+Info: Changing component path "U101:" to "/55E99908/55E99F95".
 
-Changing component "R902:/55DCE099/55DDBD34" pin "P$2" net name from "FMU-CH6-PROT" to "/PX4FMUv2.4_SS_9/FMU-CH6-PROT".
+Changing component "U101:/55E99908/55E99F95" pin "16" net name from "" to "Net-(U101-Pad16)".
 
-Info: Checking netlist component footprint "R903:/55DCE099/55DDBDFC:PIXHAWK2_0402-RES".
+Info: Checking netlist component footprint "U102:/55E99908/55E9A445:PIXHAWK2_SO08".
 
-Info: Changing component path "R903:" to "/55DCE099/55DDBDFC".
+Info: Changing component path "U102:" to "/55E99908/55E9A445".
 
-Changing component "R903:/55DCE099/55DDBDFC" pin "P$1" net name from "N$63" to "/PX4FMUv2.4_SS_9/N$63".
+Info: Checking netlist component footprint "U201:/55E9990A/55E9BE71:PIXHAWK2_QFN20-RGY".
 
-Changing component "R903:/55DCE099/55DDBDFC" pin "P$2" net name from "N$77" to "/PX4FMUv2.4_SS_9/N$77".
+Info: Changing component path "U201:" to "/55E9990A/55E9BE71".
 
-Info: Checking netlist component footprint "R904:/55DCE099/55DDBEC4:PIXHAWK2_0402-RES".
+Info: Checking netlist component footprint "U202:/55E9990A/55E9BF39:PIXHAWK2_QFN20-RGY".
 
-Info: Changing component path "R904:" to "/55DCE099/55DDBEC4".
+Info: Changing component path "U202:" to "/55E9990A/55E9BF39".
 
-Changing component "R904:/55DCE099/55DDBEC4" pin "P$1" net name from "N$65" to "/PX4FMUv2.4_SS_9/N$65".
+Changing component "U202:/55E9990A/55E9BF39" pin "3" net name from "" to "Net-(U202-Pad3)".
 
-Changing component "R904:/55DCE099/55DDBEC4" pin "P$2" net name from "N$79" to "/PX4FMUv2.4_SS_9/N$79".
+Changing component "U202:/55E9990A/55E9BF39" pin "18" net name from "" to "Net-(U202-Pad18)".
 
-Info: Checking netlist component footprint "R905:/55DCE099/55DDBF8C:PIXHAWK2_0402-RES".
+Changing component "U202:/55E9990A/55E9BF39" pin "20" net name from "" to "Net-(U202-Pad20)".
 
-Info: Changing component path "R905:" to "/55DCE099/55DDBF8C".
+Changing component "U202:/55E9990A/55E9BF39" pin "1" net name from "" to "Net-(U202-Pad1)".
 
-Changing component "R905:/55DCE099/55DDBF8C" pin "P$1" net name from "N$43" to "/PX4FMUv2.4_SS_9/N$43".
+Info: Checking netlist component footprint "U301:/55E9990C/55E9CCE5:BASEBOARD_MICROSD".
 
-Changing component "R905:/55DCE099/55DDBF8C" pin "P$2" net name from "IO-CH8-PROT" to "/PX4FMUv2.4_SS_9/IO-CH8-PROT".
+Info: Changing component path "U301:" to "/55E9990C/55E9CCE5".
 
-Info: Checking netlist component footprint "R906:/55DCE099/55DDC054:PIXHAWK2_0402-RES".
+Info: Checking netlist component footprint "U302:/55E9990C/55E9CDAD:PIXHAWK2_SOT563-6".
 
-Info: Changing component path "R906:" to "/55DCE099/55DDC054".
+Info: Changing component path "U302:" to "/55E9990C/55E9CDAD".
 
-Changing component "R906:/55DCE099/55DDC054" pin "P$1" net name from "N$45" to "/PX4FMUv2.4_SS_9/N$45".
+Info: Checking netlist component footprint "U401:/55E9990E/55E9E455:PIXHAWK2_SOT23-8".
 
-Changing component "R906:/55DCE099/55DDC054" pin "P$2" net name from "N$71" to "/PX4FMUv2.4_SS_9/N$71".
+Info: Changing component path "U401:" to "/55E9990E/55E9E455".
 
-Info: Checking netlist component footprint "R907:/55DCE099/55DDC11C:PIXHAWK2_0402-RES".
+Info: Checking netlist component footprint "U501:/55E99910/55E9F8A5:PIXHAWK2_L3G4200DH-MAN".
 
-Info: Changing component path "R907:" to "/55DCE099/55DDC11C".
+Info: Changing component path "U501:" to "/55E99910/55E9F8A5".
 
-Changing component "R907:/55DCE099/55DDC11C" pin "P$1" net name from "N$53" to "/PX4FMUv2.4_SS_9/N$53".
+Changing component "U501:/55E99910/55E9F8A5" pin "7" net name from "" to "Net-(U501-Pad7)".
 
-Changing component "R907:/55DCE099/55DDC11C" pin "P$2" net name from "N$73" to "/PX4FMUv2.4_SS_9/N$73".
+Info: Checking netlist component footprint "U502:/55E99910/55E9F96D:PIXHAWK2_LGA-16L".
 
-Info: Checking netlist component footprint "R908:/55DCE099/55DDC1E4:PIXHAWK2_0402-RES".
+Info: Changing component path "U502:" to "/55E99910/55E9F96D".
 
-Info: Changing component path "R908:" to "/55DCE099/55DDC1E4".
+Changing component "U502:/55E99910/55E9F96D" pin "7" net name from "" to "Net-(U502-Pad7)".
 
-Changing component "R908:/55DCE099/55DDC1E4" pin "P$1" net name from "N$59" to "/PX4FMUv2.4_SS_9/N$59".
+Changing component "U502:/55E99910/55E9F96D" pin "8" net name from "" to "Net-(U502-Pad8)".
 
-Changing component "R908:/55DCE099/55DDC1E4" pin "P$2" net name from "N$75" to "/PX4FMUv2.4_SS_9/N$75".
+Info: Checking netlist component footprint "U504:/55E99910/55E9FA35:PIXHAWK2_LGA-16L".
 
-Info: Checking netlist component footprint "R909:/55DCE099/55DDC2AC:PIXHAWK2_0402-RES".
+Info: Changing component path "U504:" to "/55E99910/55E9FA35".
 
-Info: Changing component path "R909:" to "/55DCE099/55DDC2AC".
+Info: Checking netlist component footprint "U505:/55E99910/55E9FAFD:PIXHAWK2_QFN-24".
 
-Changing component "R909:/55DCE099/55DDC2AC" pin "P$2" net name from "PPM-SBUS-PROT" to "/PX4FMUv2.4_SS_9/PPM-SBUS-PROT".
+Info: Changing component path "U505:" to "/55E99910/55E9FAFD".
 
-Info: Checking netlist component footprint "R910:/55DCE099/55DDC374:PIXHAWK2_0402-RES".
+Changing component "U505:/55E99910/55E9FAFD" pin "2" net name from "" to "Net-(U505-Pad2)".
 
-Info: Changing component path "R910:" to "/55DCE099/55DDC374".
+Changing component "U505:/55E99910/55E9FAFD" pin "3" net name from "" to "Net-(U505-Pad3)".
 
-Changing component "R910:/55DCE099/55DDC374" pin "P$1" net name from "N$38" to "/PX4FMUv2.4_SS_9/N$38".
+Changing component "U505:/55E99910/55E9FAFD" pin "4" net name from "" to "Net-(U505-Pad4)".
 
-Changing component "R910:/55DCE099/55DDC374" pin "P$2" net name from "N$99" to "/PX4FMUv2.4_SS_9/N$99".
+Changing component "U505:/55E99910/55E9FAFD" pin "5" net name from "" to "Net-(U505-Pad5)".
 
-Info: Checking netlist component footprint "R911:/55DCE099/55DDC43C:PIXHAWK2_0402-RES".
+Changing component "U505:/55E99910/55E9FAFD" pin "6" net name from "" to "Net-(U505-Pad6)".
 
-Info: Changing component path "R911:" to "/55DCE099/55DDC43C".
+Changing component "U505:/55E99910/55E9FAFD" pin "7" net name from "" to "Net-(U505-Pad7)".
 
-Changing component "R911:/55DCE099/55DDC43C" pin "P$1" net name from "N$62" to "/PX4FMUv2.4_SS_9/N$62".
+Changing component "U505:/55E99910/55E9FAFD" pin "11" net name from "" to "Net-(U505-Pad11)".
 
-Changing component "R911:/55DCE099/55DDC43C" pin "P$2" net name from "N$68" to "/PX4FMUv2.4_SS_9/N$68".
+Changing component "U505:/55E99910/55E9FAFD" pin "14" net name from "" to "Net-(U505-Pad14)".
 
-Info: Checking netlist component footprint "R912:/55DCE099/55DDC504:PIXHAWK2_0402-RES".
+Changing component "U505:/55E99910/55E9FAFD" pin "15" net name from "" to "Net-(U505-Pad15)".
 
-Info: Changing component path "R912:" to "/55DCE099/55DDC504".
+Changing component "U505:/55E99910/55E9FAFD" pin "16" net name from "" to "Net-(U505-Pad16)".
 
-Changing component "R912:/55DCE099/55DDC504" pin "P$1" net name from "N$64" to "/PX4FMUv2.4_SS_9/N$64".
+Changing component "U505:/55E99910/55E9FAFD" pin "17" net name from "" to "Net-(U505-Pad17)".
 
-Changing component "R912:/55DCE099/55DDC504" pin "P$2" net name from "N$78" to "/PX4FMUv2.4_SS_9/N$78".
+Changing component "U505:/55E99910/55E9FAFD" pin "19" net name from "" to "Net-(U505-Pad19)".
 
-Info: Checking netlist component footprint "R913:/55DCE099/55DDC5CC:PIXHAWK2_0402-RES".
+Changing component "U505:/55E99910/55E9FAFD" pin "21" net name from "" to "Net-(U505-Pad21)".
 
-Info: Changing component path "R913:" to "/55DCE099/55DDC5CC".
+Changing component "U505:/55E99910/55E9FAFD" pin "22" net name from "" to "Net-(U505-Pad22)".
 
-Changing component "R913:/55DCE099/55DDC5CC" pin "P$1" net name from "N$66" to "/PX4FMUv2.4_SS_9/N$66".
+Info: Checking netlist component footprint "U506:/55E99910/55E9FBC5:PIXHAWK2_MS5611-01BA".
 
-Changing component "R913:/55DCE099/55DDC5CC" pin "P$2" net name from "FMU-CH1-PROT" to "/PX4FMUv2.4_SS_9/FMU-CH1-PROT".
+Info: Changing component path "U506:" to "/55E99910/55E9FBC5".
 
-Info: Checking netlist component footprint "R914:/55DCE099/55DDC694:PIXHAWK2_0402-RES".
+Changing component "U506:/55E99910/55E9FBC5" pin "4" net name from "" to "Net-(U506-Pad4)".
 
-Info: Changing component path "R914:" to "/55DCE099/55DDC694".
+Info: Checking netlist component footprint "U601:/55E99912/55EA2916:PIXHAWK2_QFN8-DSG".
 
-Changing component "R914:/55DCE099/55DDC694" pin "P$1" net name from "N$44" to "/PX4FMUv2.4_SS_9/N$44".
+Info: Changing component path "U601:" to "/55E99912/55EA2916".
 
-Changing component "R914:/55DCE099/55DDC694" pin "P$2" net name from "N$31" to "/PX4FMUv2.4_SS_9/N$31".
+Info: Checking netlist component footprint "U602:/55E99912/55EA29DE:PIXHAWK2_QFN8-DSG".
 
-Info: Checking netlist component footprint "R915:/55DCE099/55DDC75C:PIXHAWK2_0402-RES".
+Info: Changing component path "U602:" to "/55E99912/55EA29DE".
 
-Info: Changing component path "R915:" to "/55DCE099/55DDC75C".
+Info: Checking netlist component footprint "U603:/55E99912/55EA2AA6:PIXHAWK2_MLF-8-EPAD".
 
-Changing component "R915:/55DCE099/55DDC75C" pin "P$1" net name from "N$49" to "/PX4FMUv2.4_SS_9/N$49".
+Info: Changing component path "U603:" to "/55E99912/55EA2AA6".
 
-Changing component "R915:/55DCE099/55DDC75C" pin "P$2" net name from "N$72" to "/PX4FMUv2.4_SS_9/N$72".
+Info: Checking netlist component footprint "U701:/55E99914/55EA4662:PIXHAWK2_SON10".
 
-Info: Checking netlist component footprint "R916:/55DCE099/55DDC824:PIXHAWK2_0402-RES".
+Info: Changing component path "U701:" to "/55E99914/55EA4662".
 
-Info: Changing component path "R916:" to "/55DCE099/55DDC824".
+Info: Checking netlist component footprint "U702:/55E99914/55EA472A:PIXHAWK2_SOT23-8".
 
-Changing component "R916:/55DCE099/55DDC824" pin "P$1" net name from "N$58" to "/PX4FMUv2.4_SS_9/N$58".
+Info: Changing component path "U702:" to "/55E99914/55EA472A".
 
-Changing component "R916:/55DCE099/55DDC824" pin "P$2" net name from "N$74" to "/PX4FMUv2.4_SS_9/N$74".
+Info: Checking netlist component footprint "U703:/55E99914/55EA47F2:PIXHAWK2_6-PLCC".
 
-Info: Checking netlist component footprint "R917:/55DCE099/55DDC8EC:PIXHAWK2_0402-RES".
+Info: Changing component path "U703:" to "/55E99914/55EA47F2".
 
-Info: Changing component path "R917:" to "/55DCE099/55DDC8EC".
+Info: Checking netlist component footprint "U801:/55E99916/55EA5EFE:PIXHAWK2_TQFP48".
 
-Changing component "R917:/55DCE099/55DDC8EC" pin "P$1" net name from "N$60" to "/PX4FMUv2.4_SS_9/N$60".
+Info: Changing component path "U801:" to "/55E99916/55EA5EFE".
 
-Changing component "R917:/55DCE099/55DDC8EC" pin "P$2" net name from "IO-CH1-PROT" to "/PX4FMUv2.4_SS_9/IO-CH1-PROT".
+Changing component "U801:/55E99916/55EA5EFE" pin "3" net name from "" to "Net-(U801-Pad3)".
 
-Info: Checking netlist component footprint "R918:/55DCE099/55DDC9B4:PIXHAWK2_0402-RES".
+Changing component "U801:/55E99916/55EA5EFE" pin "4" net name from "" to "Net-(U801-Pad4)".
 
-Info: Changing component path "R918:" to "/55DCE099/55DDC9B4".
+Changing component "U801:/55E99916/55EA5EFE" pin "25" net name from "" to "Net-(U801-Pad25)".
 
-Changing component "R918:/55DCE099/55DDC9B4" pin "P$2" net name from "N$3" to "/PX4FMUv2.4_SS_9/N$3".
+Changing component "U801:/55E99916/55EA5EFE" pin "32" net name from "" to "Net-(U801-Pad32)".
 
-Info: Checking netlist component footprint "R919:/55DCE099/55DDCA7C:PIXHAWK2_0402-RES".
+Changing component "U801:/55E99916/55EA5EFE" pin "42" net name from "" to "Net-(U801-Pad42)".
 
-Info: Changing component path "R919:" to "/55DCE099/55DDCA7C".
+Changing component "U801:/55E99916/55EA5EFE" pin "43" net name from "" to "Net-(U801-Pad43)".
 
-Info: Checking netlist component footprint "R922:/55DCE099/55DDCB44:PIXHAWK2_0402-RES".
+Info: Checking netlist component footprint "U901:/55E99918/55EA84E2:PIXHAWK2_QFN20-RGY".
 
-Info: Changing component path "R922:" to "/55DCE099/55DDCB44".
+Info: Changing component path "U901:" to "/55E99918/55EA84E2".
 
-Changing component "R922:/55DCE099/55DDCB44" pin "P$1" net name from "N$3" to "/PX4FMUv2.4_SS_9/N$3".
+Changing component "U901:/55E99918/55EA84E2" pin "8" net name from "" to "Net-(U901-Pad8)".
 
-Info: Checking netlist component footprint "R1001:/55DCE09B/55DDD955:PIXHAWK2_0402-RES".
+Changing component "U901:/55E99918/55EA84E2" pin "9" net name from "" to "Net-(U901-Pad9)".
 
-Info: Changing component path "R1001:" to "/55DCE09B/55DDD955".
+Changing component "U901:/55E99918/55EA84E2" pin "12" net name from "" to "Net-(U901-Pad12)".
 
-Changing component "R1001:/55DCE09B/55DDD955" pin "P$2" net name from "N$20" to "/PX4FMUv2.4_SS_10/N$20".
+Changing component "U901:/55E99918/55EA84E2" pin "13" net name from "" to "Net-(U901-Pad13)".
 
-Info: Checking netlist component footprint "R1002:/55DCE09B/55DDDA1D:PIXHAWK2_0402-RES".
+Info: Checking netlist component footprint "U902:/55E99918/55EA85AA:PIXHAWK2_QFN20-RGY".
 
-Info: Changing component path "R1002:" to "/55DCE09B/55DDDA1D".
+Info: Changing component path "U902:" to "/55E99918/55EA85AA".
 
-Info: Checking netlist component footprint "R1101:/55DCE09D/55DDEBB1:PIXHAWK2_0402-RES".
+Info: Checking netlist component footprint "U903:/55E99918/55EA8672:PIXHAWK2_TSSOP8_SOT505-2".
 
-Info: Changing component path "R1101:" to "/55DCE09D/55DDEBB1".
+Info: Changing component path "U903:" to "/55E99918/55EA8672".
 
-Changing component "R1101:/55DCE09D/55DDEBB1" pin "P$2" net name from "N$103" to "/PX4FMUv2.4_SS_11/N$103".
+Info: Checking netlist component footprint "U1001:/55E9991A/55EA941E:PIXHAWK2_QFN8-DSG".
 
-Info: Checking netlist component footprint "R1102:/55DCE09D/55DDEC79:PIXHAWK2_0402-RES".
+Info: Changing component path "U1001:" to "/55E9991A/55EA941E".
 
-Info: Changing component path "R1102:" to "/55DCE09D/55DDEC79".
+Info: Checking netlist component footprint "U1002:/55E9991A/55EA94E6:PIXHAWK2_MLF-8-EPAD".
 
-Changing component "R1102:/55DCE09D/55DDEC79" pin "P$2" net name from "N$102" to "/PX4FMUv2.4_SS_11/N$102".
+Info: Changing component path "U1002:" to "/55E9991A/55EA94E6".
 
-Info: Checking netlist component footprint "R1103:/55DCE09D/55DDED41:PIXHAWK2_0402-RES".
+Info: Checking netlist component footprint "U1101:/55E9991C/55EAB107:PIXHAWK2_MO-220".
 
-Info: Changing component path "R1103:" to "/55DCE09D/55DDED41".
+Info: Changing component path "U1101:" to "/55E9991C/55EAB107".
 
-Changing component "R1103:/55DCE09D/55DDED41" pin "P$1" net name from "BATT_VOLTAGE_SENS_PROT" to "/PX4FMUv2.4_SS_11/BATT_VOLTAGE_SENS_PROT".
+Changing component "U1101:/55E9991C/55EAB107" pin "P$11" net name from "" to "Net-(U1101-PadP$11)".
 
-Info: Checking netlist component footprint "R1104:/55DCE09D/55DDEE09:PIXHAWK2_0402-RES".
+Changing component "U1101:/55E9991C/55EAB107" pin "P$22" net name from "" to "Net-(U1101-PadP$22)".
 
-Info: Changing component path "R1104:" to "/55DCE09D/55DDEE09".
+Changing component "U1101:/55E9991C/55EAB107" pin "P$23" net name from "" to "Net-(U1101-PadP$23)".
 
-Changing component "R1104:/55DCE09D/55DDEE09" pin "P$1" net name from "BATT_CURRENT_SENS_PROT" to "/PX4FMUv2.4_SS_11/BATT_CURRENT_SENS_PROT".
+Info: Checking netlist component footprint "U1102:/55E9991C/55EAB1CF:PIXHAWK2_1206-8".
 
-Info: Checking netlist component footprint "R1105:/55DCE09D/55DDEED1:PIXHAWK2_0402-RES".
+Info: Changing component path "U1102:" to "/55E9991C/55EAB1CF".
 
-Info: Changing component path "R1105:" to "/55DCE09D/55DDEED1".
+Info: Checking netlist component footprint "U1103:/55E9991C/55EAB2FB:PIXHAWK2_1206-8".
 
-Changing component "R1105:/55DCE09D/55DDEED1" pin "P$2" net name from "N$47" to "/PX4FMUv2.4_SS_11/N$47".
+Info: Changing component path "U1103:" to "/55E9991C/55EAB2FB".
 
-Info: Checking netlist component footprint "R1106:/55DCE09D/55DDEF99:PIXHAWK2_0402-RES".
+Info: Checking netlist component footprint "U1104:/55E9991C/55EAB427:PIXHAWK2_1206-8".
 
-Info: Changing component path "R1106:" to "/55DCE09D/55DDEF99".
+Info: Changing component path "U1104:" to "/55E9991C/55EAB427".
 
-Changing component "R1106:/55DCE09D/55DDEF99" pin "P$1" net name from "N$47" to "/PX4FMUv2.4_SS_11/N$47".
+Info: Checking netlist component footprint "VBUS1116:/55E9991E/55EACB33:PIXHAWK2_PAD.04X.04".
 
-Changing component "R1106:/55DCE09D/55DDEF99" pin "P$2" net name from "N$54" to "/PX4FMUv2.4_SS_11/N$54".
+Info: Changing component path "VBUS1116:" to "/55E9991E/55EACB33".
 
-Info: Checking netlist component footprint "R1107:/55DCE09D/55DDF061:PIXHAWK2_0402-RES".
+Info: Checking netlist component footprint "VDDA_3V1101:/55E9991E/55EACBFB:PIXHAWK2_PAD.04X.04".
 
-Info: Changing component path "R1107:" to "/55DCE09D/55DDF061".
+Info: Changing component path "VDDA_3V1101:" to "/55E9991E/55EACBFB".
 
-Changing component "R1107:/55DCE09D/55DDF061" pin "P$1" net name from "N$54" to "/PX4FMUv2.4_SS_11/N$54".
+Info: Checking netlist component footprint "VDD_3V1101:/55E9991E/55EACCC3:PIXHAWK2_PAD.04X.04".
 
-Info: Checking netlist component footprint "R1109:/55DCE09D/55DDF129:PIXHAWK2_0402-RES".
+Info: Changing component path "VDD_3V1101:" to "/55E9991E/55EACCC3".
 
-Info: Changing component path "R1109:" to "/55DCE09D/55DDF129".
+Info: Checking netlist component footprint "VDD_5V_BRICK1116:/55E9991E/55EACD8B:PIXHAWK2_PAD.04X.04".
 
-Changing component "R1109:/55DCE09D/55DDF129" pin "P$2" net name from "N$55" to "/PX4FMUv2.4_SS_11/N$55".
+Info: Changing component path "VDD_5V_BRICK1116:" to "/55E9991E/55EACD8B".
 
-Info: Checking netlist component footprint "R1110:/55DCE09D/55DDF1F1:PIXHAWK2_0402-RES".
+Info: Checking netlist component footprint "VDD_5V_IN1116:/55E9991E/55EACE53:PIXHAWK2_PAD.04X.04".
 
-Info: Changing component path "R1110:" to "/55DCE09D/55DDF1F1".
+Info: Changing component path "VDD_5V_IN1116:" to "/55E9991E/55EACE53".
 
-Changing component "R1110:/55DCE09D/55DDF1F1" pin "P$1" net name from "N$55" to "/PX4FMUv2.4_SS_11/N$55".
+Info: Checking netlist component footprint "VDD_SERVO1116:/55E9991E/55EACF1B:PIXHAWK2_PAD.04X.04".
 
-Changing component "R1110:/55DCE09D/55DDF1F1" pin "P$2" net name from "N$56" to "/PX4FMUv2.4_SS_11/N$56".
+Info: Changing component path "VDD_SERVO1116:" to "/55E9991E/55EACF1B".
 
-Info: Checking netlist component footprint "R1111:/55DCE09D/55DDF2B9:PIXHAWK2_0402-RES".
+Info: Checking netlist component footprint "VP_0:/55E9991E/55EACFE3:VPAD_VPAC0".
 
-Info: Changing component path "R1111:" to "/55DCE09D/55DDF2B9".
+Info: Changing component path "VP_0:" to "/55E9991E/55EACFE3".
 
-Changing component "R1111:/55DCE09D/55DDF2B9" pin "P$1" net name from "N$56" to "/PX4FMUv2.4_SS_11/N$56".
+Info: Checking netlist component footprint "VP_1:/55E9991E/55EAD0AB:VPAD_VPAC0".
 
-Info: Checking netlist component footprint "R1112:/55DCE09D/55DDF381:PIXHAWK2_0402-RES".
+Info: Changing component path "VP_1:" to "/55E9991E/55EAD0AB".
 
-Info: Changing component path "R1112:" to "/55DCE09D/55DDF381".
+Info: Checking netlist component footprint "VP_2:/55E9991E/55EAD173:VPAD_VPAC0".
 
-Changing component "R1112:/55DCE09D/55DDF381" pin "P$2" net name from "N$69" to "/PX4FMUv2.4_SS_11/N$69".
+Info: Changing component path "VP_2:" to "/55E9991E/55EAD173".
 
-Info: Checking netlist component footprint "R1113:/55DCE09D/55DDF449:PIXHAWK2_0402-RES".
+Info: Checking netlist component footprint "VP_3:/55E9991E/55EAD23B:VPAD_VPAC0".
 
-Info: Changing component path "R1113:" to "/55DCE09D/55DDF449".
+Info: Changing component path "VP_3:" to "/55E9991E/55EAD23B".
 
-Changing component "R1113:/55DCE09D/55DDF449" pin "P$1" net name from "N$69" to "/PX4FMUv2.4_SS_11/N$69".
+Info: Checking netlist component footprint "VP_4:/55E9991E/55EAD303:VPAD_VPAC1".
 
-Changing component "R1113:/55DCE09D/55DDF449" pin "P$2" net name from "N$67" to "/PX4FMUv2.4_SS_11/N$67".
+Info: Changing component path "VP_4:" to "/55E9991E/55EAD303".
 
-Info: Checking netlist component footprint "R1114:/55DCE09D/55DDF511:PIXHAWK2_0402-RES".
+Info: Checking netlist component footprint "VP_5:/55E9991E/55EAD3CB:VPAD_VPAC1".
 
-Info: Changing component path "R1114:" to "/55DCE09D/55DDF511".
+Info: Changing component path "VP_5:" to "/55E9991E/55EAD3CB".
 
-Changing component "R1114:/55DCE09D/55DDF511" pin "P$1" net name from "N$67" to "/PX4FMUv2.4_SS_11/N$67".
+Info: Checking netlist component footprint "VP_6:/55E9991E/55EAD493:VPAD_VPAC1".
 
-Info: Checking netlist component footprint "R1115:/55DCE09D/55DDF5D9:PIXHAWK2_0402-RES".
+Info: Changing component path "VP_6:" to "/55E9991E/55EAD493".
 
-Info: Changing component path "R1115:" to "/55DCE09D/55DDF5D9".
+Info: Checking netlist component footprint "VP_7:/55E9991E/55EAD55B:VPAD_VPAC1".
 
-Changing component "R1115:/55DCE09D/55DDF5D9" pin "P$2" net name from "N$105" to "/PX4FMUv2.4_SS_11/N$105".
+Info: Changing component path "VP_7:" to "/55E9991E/55EAD55B".
 
-Info: Checking netlist component footprint "RN1101:/55DCE09D/55DDF6A1:RESISTOR-DIL_EXB28V".
+Info: Checking netlist component footprint "VP_8:/55E9991E/55EAD623:VPAD_VPAC1".
 
-Info: Changing component path "RN1101:" to "/55DCE09D/55DDF6A1".
+Info: Changing component path "VP_8:" to "/55E9991E/55EAD623".
 
-Info: Checking netlist component footprint "S1RX1116:/55DCE09F/55DE0A8D:PIXHAWK2_PAD.04X.04".
+Info: Checking netlist component footprint "VP_9:/55E9991E/55EAD6EB:VPAD_VPAC1".
 
-Info: Changing component path "S1RX1116:" to "/55DCE09F/55DE0A8D".
+Info: Changing component path "VP_9:" to "/55E9991E/55EAD6EB".
 
-Info: Checking netlist component footprint "S1TX1116:/55DCE09F/55DE0B55:PIXHAWK2_PAD.04X.04".
+Info: Checking netlist component footprint "VP_10:/55E9991E/55EAD7B3:VPAD_VPAC1".
 
-Info: Changing component path "S1TX1116:" to "/55DCE09F/55DE0B55".
+Info: Changing component path "VP_10:" to "/55E9991E/55EAD7B3".
 
-Info: Checking netlist component footprint "S2RX1116:/55DCE09F/55DE0C1D:PIXHAWK2_PAD.04X.04".
+Info: Checking netlist component footprint "VP_11:/55E9991E/55EAD87B:VPAD_VPAC1".
 
-Info: Changing component path "S2RX1116:" to "/55DCE09F/55DE0C1D".
+Info: Changing component path "VP_11:" to "/55E9991E/55EAD87B".
 
-Info: Checking netlist component footprint "S2TX1116:/55DCE09F/55DE0CE5:PIXHAWK2_PAD.04X.04".
+Info: Checking netlist component footprint "VP_12:/55E9991E/55EAD943:VPAD_VPAC1".
 
-Info: Changing component path "S2TX1116:" to "/55DCE09F/55DE0CE5".
+Info: Changing component path "VP_12:" to "/55E9991E/55EAD943".
 
-Info: Checking netlist component footprint "S3RX1116:/55DCE09F/55DE0DAD:PIXHAWK2_PAD.04X.04".
+Info: Checking netlist component footprint "VP_13:/55E9991E/55EADA0B:VPAD_VPAC1".
 
-Info: Changing component path "S3RX1116:" to "/55DCE09F/55DE0DAD".
+Info: Changing component path "VP_13:" to "/55E9991E/55EADA0B".
 
-Info: Checking netlist component footprint "S3TX1116:/55DCE09F/55DE0E75:PIXHAWK2_PAD.04X.04".
+Info: Checking netlist component footprint "VP_14:/55E9991E/55EADAD3:VPAD_VPAC1".
 
-Info: Changing component path "S3TX1116:" to "/55DCE09F/55DE0E75".
+Info: Changing component path "VP_14:" to "/55E9991E/55EADAD3".
 
-Info: Checking netlist component footprint "S4RX1116:/55DCE09F/55DE0F3D:PIXHAWK2_PAD.04X.04".
+Info: Checking netlist component footprint "VP_15:/55E9991E/55EADB9B:VPAD_VPAC1".
 
-Info: Changing component path "S4RX1116:" to "/55DCE09F/55DE0F3D".
+Info: Changing component path "VP_15:" to "/55E9991E/55EADB9B".
 
-Info: Checking netlist component footprint "S4TX1116:/55DCE09F/55DE1005:PIXHAWK2_PAD.04X.04".
+Info: Checking netlist component footprint "VP_16:/55E9991E/55EADC63:VPAD_VPAC1".
 
-Info: Changing component path "S4TX1116:" to "/55DCE09F/55DE1005".
+Info: Changing component path "VP_16:" to "/55E9991E/55EADC63".
 
-Info: Checking netlist component footprint "S5_RX1116:/55DCE09F/55DE10CD:PIXHAWK2_PAD.04X.04".
+Info: Checking netlist component footprint "VP_17:/55E9991E/55EADD2B:VPAD_VPAC1".
 
-Info: Changing component path "S5_RX1116:" to "/55DCE09F/55DE10CD".
+Info: Changing component path "VP_17:" to "/55E9991E/55EADD2B".
 
-Info: Checking netlist component footprint "S5_TX1116:/55DCE09F/55DE1195:PIXHAWK2_PAD.04X.04".
+Info: Checking netlist component footprint "VP_18:/55E9991E/55EADDF3:VPAD_VPAC1".
 
-Info: Changing component path "S5_TX1116:" to "/55DCE09F/55DE1195".
+Info: Changing component path "VP_18:" to "/55E9991E/55EADDF3".
 
-Info: Checking netlist component footprint "S601:/55DCE093/55DD6DE8:PIXHAWK2_EVQP7J01K".
+Info: Checking netlist component footprint "VP_19:/55E9991E/55EADEBB:VPAD_VPAC1".
 
-Info: Changing component path "S601:" to "/55DCE093/55DD6DE8".
+Info: Changing component path "VP_19:" to "/55E9991E/55EADEBB".
 
-Info: Checking netlist component footprint "S801:/55DCE097/55DDA560:PIXHAWK2_EVQP7J01K".
+Info: Checking netlist component footprint "VP_20:/55E9991E/55EADF83:VPAD_VPAC1".
 
-Info: Changing component path "S801:" to "/55DCE097/55DDA560".
+Info: Changing component path "VP_20:" to "/55E9991E/55EADF83".
 
-Info: Checking netlist component footprint "U101:/55DCE089/55DCE6BF:PIXHAWK2_TQFP100".
+Info: Checking netlist component footprint "VP_21:/55E9991E/55EAE04B:VPAD_VPAC1".
 
-Info: Changing component path "U101:" to "/55DCE089/55DCE6BF".
+Info: Changing component path "VP_21:" to "/55E9991E/55EAE04B".
 
-Changing component "U101:/55DCE089/55DCE6BF" pin "12" net name from "N$2" to "/PX4FMUv2.4_SS_1/N$2".
+Info: Checking netlist component footprint "VP_22:/55E9991E/55EAE113:VPAD_VPAC1".
 
-Changing component "U101:/55DCE089/55DCE6BF" pin "13" net name from "N$1" to "/PX4FMUv2.4_SS_1/N$1".
+Info: Changing component path "VP_22:" to "/55E9991E/55EAE113".
 
-Changing component "U101:/55DCE089/55DCE6BF" pin "16" net name from "" to "Net-(U101-Pad16)".
+Info: Checking netlist component footprint "VP_23:/55E9991E/55EAE1DB:VPAD_VPAC1".
 
-Changing component "U101:/55DCE089/55DCE6BF" pin "37" net name from "PB2-BOOT1" to "/PX4FMUv2.4_SS_1/PB2-BOOT1".
+Info: Changing component path "VP_23:" to "/55E9991E/55EAE1DB".
 
-Changing component "U101:/55DCE089/55DCE6BF" pin "49" net name from "N$12" to "/PX4FMUv2.4_SS_6/N$12".
+Info: Checking netlist component footprint "VP_24:/55E9991E/55EAE2A3:VPAD_VPAC1".
 
-Changing component "U101:/55DCE089/55DCE6BF" pin "52" net name from "FRAM_SCK" to "/PX4FMUv2.4_SS_1/FRAM_SCK".
+Info: Changing component path "VP_24:" to "/55E9991E/55EAE2A3".
 
-Changing component "U101:/55DCE089/55DCE6BF" pin "53" net name from "FRAM_MISO" to "/PX4FMUv2.4_SS_1/FRAM_MISO".
+Info: Checking netlist component footprint "VP_25:/55E9991E/55EAE36B:VPAD_VPAC1".
 
-Changing component "U101:/55DCE089/55DCE6BF" pin "54" net name from "FRAM_MOSI" to "/PX4FMUv2.4_SS_1/FRAM_MOSI".
+Info: Changing component path "VP_25:" to "/55E9991E/55EAE36B".
 
-Changing component "U101:/55DCE089/55DCE6BF" pin "57" net name from "!FRAM_CS" to "/PX4FMUv2.4_SS_1/!FRAM_CS".
+Info: Checking netlist component footprint "VP_26:/55E9991E/55EAE433:VPAD_VPAC1".
 
-Changing component "U101:/55DCE089/55DCE6BF" pin "69" net name from "N$23" to "/PX4FMUv2.4_SS_1/N$23".
+Info: Changing component path "VP_26:" to "/55E9991E/55EAE433".
 
-Changing component "U101:/55DCE089/55DCE6BF" pin "73" net name from "N$8" to "/PX4FMUv2.4_SS_6/N$8".
+Info: Checking netlist component footprint "VP_27:/55E9991E/55EAE4FB:VPAD_VPAC1".
 
-Info: Checking netlist component footprint "U102:/55DCE089/55DCEB6F:PIXHAWK2_SO08".
+Info: Changing component path "VP_27:" to "/55E9991E/55EAE4FB".
 
-Info: Changing component path "U102:" to "/55DCE089/55DCEB6F".
+Info: Checking netlist component footprint "VP_28:/55E9991E/55EAE5C3:VPAD_VPAC1".
 
-Changing component "U102:/55DCE089/55DCEB6F" pin "1" net name from "!FRAM_CS" to "/PX4FMUv2.4_SS_1/!FRAM_CS".
+Info: Changing component path "VP_28:" to "/55E9991E/55EAE5C3".
 
-Changing component "U102:/55DCE089/55DCEB6F" pin "2" net name from "FRAM_MISO" to "/PX4FMUv2.4_SS_1/FRAM_MISO".
+Info: Checking netlist component footprint "VP_29:/55E9991E/55EAE68B:VPAD_VPAC1".
 
-Changing component "U102:/55DCE089/55DCEB6F" pin "5" net name from "FRAM_MOSI" to "/PX4FMUv2.4_SS_1/FRAM_MOSI".
+Info: Changing component path "VP_29:" to "/55E9991E/55EAE68B".
 
-Changing component "U102:/55DCE089/55DCEB6F" pin "6" net name from "FRAM_SCK" to "/PX4FMUv2.4_SS_1/FRAM_SCK".
+Info: Checking netlist component footprint "VP_30:/55E9991E/55EAE753:VPAD_VPAC1".
 
-Info: Checking netlist component footprint "U201:/55DCE08B/55DD059B:PIXHAWK2_QFN20-RGY".
+Info: Changing component path "VP_30:" to "/55E9991E/55EAE753".
 
-Info: Changing component path "U201:" to "/55DCE08B/55DD059B".
+Info: Checking netlist component footprint "VP_31:/55E9991E/55EAE81B:VPAD_VPAC1".
 
-Changing component "U201:/55DCE08B/55DD059B" pin "12" net name from "N$88" to "/PX4FMUv2.4_SS_2/N$88".
+Info: Changing component path "VP_31:" to "/55E9991E/55EAE81B".
 
-Changing component "U201:/55DCE08B/55DD059B" pin "13" net name from "N$87" to "/PX4FMUv2.4_SS_2/N$87".
+Info: Checking netlist component footprint "VP_32:/55E9991E/55EAE8E3:VPAD_VPAC1".
 
-Changing component "U201:/55DCE08B/55DD059B" pin "14" net name from "N$86" to "/PX4FMUv2.4_SS_2/N$86".
+Info: Changing component path "VP_32:" to "/55E9991E/55EAE8E3".
 
-Changing component "U201:/55DCE08B/55DD059B" pin "15" net name from "N$85" to "/PX4FMUv2.4_SS_2/N$85".
+Info: Checking netlist component footprint "VP_33:/55E9991E/55EAE9AB:VPAD_VPAC0".
 
-Changing component "U201:/55DCE08B/55DD059B" pin "16" net name from "N$84" to "/PX4FMUv2.4_SS_2/N$84".
+Info: Changing component path "VP_33:" to "/55E9991E/55EAE9AB".
 
-Changing component "U201:/55DCE08B/55DD059B" pin "17" net name from "N$83" to "/PX4FMUv2.4_SS_2/N$83".
+Info: Checking netlist component footprint "VP_34:/55E9991E/55EAEA73:VPAD_VPAC0".
 
-Changing component "U201:/55DCE08B/55DD059B" pin "18" net name from "N$82" to "/PX4FMUv2.4_SS_2/N$82".
+Info: Changing component path "VP_34:" to "/55E9991E/55EAEA73".
 
-Changing component "U201:/55DCE08B/55DD059B" pin "20" net name from "N$70" to "/PX4FMUv2.4_SS_2/N$70".
+Info: Checking netlist component footprint "VP_35:/55E9991E/55EAEB3B:VPAD_VPAC0".
 
-Info: Checking netlist component footprint "U202:/55DCE08B/55DD0663:PIXHAWK2_QFN20-RGY".
+Info: Changing component path "VP_35:" to "/55E9991E/55EAEB3B".
 
-Info: Changing component path "U202:" to "/55DCE08B/55DD0663".
+Info: Checking netlist component footprint "VP_36:/55E9991E/55EAEC03:VPAD_VPAC1".
 
-Changing component "U202:/55DCE08B/55DD0663" pin "3" net name from "" to "Net-(U202-Pad3)".
+Info: Changing component path "VP_36:" to "/55E9991E/55EAEC03".
 
-Changing component "U202:/55DCE08B/55DD0663" pin "12" net name from "N$90" to "/PX4FMUv2.4_SS_2/N$90".
+Info: Checking netlist component footprint "VP_37:/55E9991E/55EAECCB:VPAD_VPAC1".
 
-Changing component "U202:/55DCE08B/55DD0663" pin "13" net name from "N$89" to "/PX4FMUv2.4_SS_2/N$89".
+Info: Changing component path "VP_37:" to "/55E9991E/55EAECCB".
 
-Changing component "U202:/55DCE08B/55DD0663" pin "14" net name from "N$94" to "/PX4FMUv2.4_SS_2/N$94".
+Info: Checking netlist component footprint "VP_38:/55E9991E/55EAED93:VPAD_VPAC2".
 
-Changing component "U202:/55DCE08B/55DD0663" pin "15" net name from "N$93" to "/PX4FMUv2.4_SS_2/N$93".
+Info: Changing component path "VP_38:" to "/55E9991E/55EAED93".
 
-Changing component "U202:/55DCE08B/55DD0663" pin "16" net name from "N$92" to "/PX4FMUv2.4_SS_2/N$92".
+Info: Checking netlist component footprint "VP_39:/55E9991E/55EAEE5B:VPAD_VPAC1".
 
-Changing component "U202:/55DCE08B/55DD0663" pin "17" net name from "N$91" to "/PX4FMUv2.4_SS_2/N$91".
+Info: Changing component path "VP_39:" to "/55E9991E/55EAEE5B".
 
-Changing component "U202:/55DCE08B/55DD0663" pin "18" net name from "" to "Net-(U202-Pad18)".
+Info: Checking netlist component footprint "VP_40:/55E9991E/55EAEF23:VPAD_VPAC1".
 
-Changing component "U202:/55DCE08B/55DD0663" pin "20" net name from "" to "Net-(U202-Pad20)".
+Info: Changing component path "VP_40:" to "/55E9991E/55EAEF23".
 
-Changing component "U202:/55DCE08B/55DD0663" pin "1" net name from "" to "Net-(U202-Pad1)".
+Info: Checking netlist component footprint "VP_41:/55E9991E/55EAEFEB:VPAD_VPAC0".
 
-Info: Checking netlist component footprint "U301:/55DCE08D/55DD140F:BASEBOARD_MICROSD".
+Info: Changing component path "VP_41:" to "/55E9991E/55EAEFEB".
 
-Info: Changing component path "U301:" to "/55DCE08D/55DD140F".
+Info: Checking netlist component footprint "VP_42:/55E9991E/55EAF0B3:VPAD_VPAC0".
 
-Info: Checking netlist component footprint "U302:/55DCE08D/55DD14D7:PIXHAWK2_SOT563-6".
+Info: Changing component path "VP_42:" to "/55E9991E/55EAF0B3".
 
-Info: Changing component path "U302:" to "/55DCE08D/55DD14D7".
+Info: Checking netlist component footprint "VP_43:/55E9991E/55EAF17B:VPAD_VPAC0".
 
-Changing component "U302:/55DCE08D/55DD14D7" pin "1" net name from "OTG_DM1" to "/PX4FMUv2.4_SS_3/OTG_DM1".
+Info: Changing component path "VP_43:" to "/55E9991E/55EAF17B".
 
-Changing component "U302:/55DCE08D/55DD14D7" pin "3" net name from "OTG_DP1" to "/PX4FMUv2.4_SS_3/OTG_DP1".
+Info: Checking netlist component footprint "VP_44:/55E9991E/55EAF243:VPAD_VPAC1".
 
-Info: Checking netlist component footprint "U401:/55DCE08F/55DD2B7F:PIXHAWK2_SOT23-8".
+Info: Changing component path "VP_44:" to "/55E9991E/55EAF243".
 
-Info: Changing component path "U401:" to "/55DCE08F/55DD2B7F".
+Info: Checking netlist component footprint "VP_45:/55E9991E/55EAF30B:VPAD_VPAC1".
 
-Info: Checking netlist component footprint "U501:/55DCE091/55DD3FCF:PIXHAWK2_L3G4200DH-MAN".
+Info: Changing component path "VP_45:" to "/55E9991E/55EAF30B".
 
-Info: Changing component path "U501:" to "/55DCE091/55DD3FCF".
+Info: Checking netlist component footprint "VP_46:/55E9991E/55EAF3D3:VPAD_VPAC1".
 
-Changing component "U501:/55DCE091/55DD3FCF" pin "14" net name from "N$35" to "/PX4FMUv2.4_SS_5/N$35".
+Info: Changing component path "VP_46:" to "/55E9991E/55EAF3D3".
 
-Changing component "U501:/55DCE091/55DD3FCF" pin "7" net name from "" to "Net-(U501-Pad7)".
+Info: Checking netlist component footprint "VP_47:/55E9991E/55EAF49B:VPAD_VPAC1".
 
-Info: Checking netlist component footprint "U502:/55DCE091/55DD4097:PIXHAWK2_LGA-16L".
+Info: Changing component path "VP_47:" to "/55E9991E/55EAF49B".
 
-Info: Changing component path "U502:" to "/55DCE091/55DD4097".
+Info: Checking netlist component footprint "VP_48:/55E9991E/55EAF563:VPAD_VPAC1".
 
-Changing component "U502:/55DCE091/55DD4097" pin "7" net name from "" to "Net-(U502-Pad7)".
+Info: Changing component path "VP_48:" to "/55E9991E/55EAF563".
 
-Changing component "U502:/55DCE091/55DD4097" pin "8" net name from "" to "Net-(U502-Pad8)".
+Info: Checking netlist component footprint "VP_49:/55E9991E/55EAF62B:VPAD_VPAC1".
 
-Changing component "U502:/55DCE091/55DD4097" pin "14" net name from "N$30" to "/PX4FMUv2.4_SS_5/N$30".
+Info: Changing component path "VP_49:" to "/55E9991E/55EAF62B".
 
-Info: Checking netlist component footprint "U504:/55DCE091/55DD415F:PIXHAWK2_LGA-16L".
+Info: Checking netlist component footprint "VP_50:/55E9991E/55EAF6F3:VPAD_VPAC1".
 
-Info: Changing component path "U504:" to "/55DCE091/55DD415F".
+Info: Changing component path "VP_50:" to "/55E9991E/55EAF6F3".
 
-Changing component "U504:/55DCE091/55DD415F" pin "2" net name from "N$10" to "/PX4FMUv2.4_SS_5/N$10".
+Info: Checking netlist component footprint "VP_51:/55E9991E/55EAF7BB:VPAD_VPAC0".
 
-Changing component "U504:/55DCE091/55DD415F" pin "3" net name from "N$17" to "/PX4FMUv2.4_SS_5/N$17".
+Info: Changing component path "VP_51:" to "/55E9991E/55EAF7BB".
 
-Changing component "U504:/55DCE091/55DD415F" pin "15" net name from "N$6" to "/PX4FMUv2.4_SS_5/N$6".
+Info: Checking netlist component footprint "VP_52:/55E9991E/55EAF883:VPAD_VPAC0".
 
-Info: Checking netlist component footprint "U505:/55DCE091/55DD4227:PIXHAWK2_QFN-24".
+Info: Changing component path "VP_52:" to "/55E9991E/55EAF883".
 
-Info: Changing component path "U505:" to "/55DCE091/55DD4227".
+Info: Checking netlist component footprint "VP_53:/55E9991E/55EAF94B:VPAD_VPAC0".
 
-Changing component "U505:/55DCE091/55DD4227" pin "2" net name from "" to "Net-(U505-Pad2)".
+Info: Changing component path "VP_53:" to "/55E9991E/55EAF94B".
 
-Changing component "U505:/55DCE091/55DD4227" pin "3" net name from "" to "Net-(U505-Pad3)".
+Info: Checking netlist component footprint "VP_54:/55E9991E/55EAFA13:VPAD_VPAC0".
 
-Changing component "U505:/55DCE091/55DD4227" pin "4" net name from "" to "Net-(U505-Pad4)".
+Info: Changing component path "VP_54:" to "/55E9991E/55EAFA13".
 
-Changing component "U505:/55DCE091/55DD4227" pin "5" net name from "" to "Net-(U505-Pad5)".
+Info: Checking netlist component footprint "VP_55:/55E9991E/55EAFADB:VPAD_VPAC0".
 
-Changing component "U505:/55DCE091/55DD4227" pin "6" net name from "" to "Net-(U505-Pad6)".
+Info: Changing component path "VP_55:" to "/55E9991E/55EAFADB".
 
-Changing component "U505:/55DCE091/55DD4227" pin "7" net name from "" to "Net-(U505-Pad7)".
+Info: Checking netlist component footprint "VP_56:/55E9991E/55EAFBA3:VPAD_VPAC0".
 
-Changing component "U505:/55DCE091/55DD4227" pin "10" net name from "N$50" to "/PX4FMUv2.4_SS_5/N$50".
+Info: Changing component path "VP_56:" to "/55E9991E/55EAFBA3".
 
-Changing component "U505:/55DCE091/55DD4227" pin "11" net name from "" to "Net-(U505-Pad11)".
+Info: Checking netlist component footprint "VP_57:/55E9991E/55EAFC6B:VPAD_VPAC0".
 
-Changing component "U505:/55DCE091/55DD4227" pin "14" net name from "" to "Net-(U505-Pad14)".
+Info: Changing component path "VP_57:" to "/55E9991E/55EAFC6B".
 
-Changing component "U505:/55DCE091/55DD4227" pin "15" net name from "" to "Net-(U505-Pad15)".
+Info: Checking netlist component footprint "VP_58:/55E9991E/55EAFD33:VPAD_VPAC0".
 
-Changing component "U505:/55DCE091/55DD4227" pin "16" net name from "" to "Net-(U505-Pad16)".
+Info: Changing component path "VP_58:" to "/55E9991E/55EAFD33".
 
-Changing component "U505:/55DCE091/55DD4227" pin "17" net name from "" to "Net-(U505-Pad17)".
+Info: Checking netlist component footprint "VP_59:/55E9991E/55EAFDFB:VPAD_VPAC0".
 
-Changing component "U505:/55DCE091/55DD4227" pin "19" net name from "" to "Net-(U505-Pad19)".
+Info: Changing component path "VP_59:" to "/55E9991E/55EAFDFB".
 
-Changing component "U505:/55DCE091/55DD4227" pin "20" net name from "N$51" to "/PX4FMUv2.4_SS_5/N$51".
+Info: Checking netlist component footprint "VP_60:/55E9991E/55EAFEC3:VPAD_VPAC0".
 
-Changing component "U505:/55DCE091/55DD4227" pin "21" net name from "" to "Net-(U505-Pad21)".
+Info: Changing component path "VP_60:" to "/55E9991E/55EAFEC3".
 
-Changing component "U505:/55DCE091/55DD4227" pin "22" net name from "" to "Net-(U505-Pad22)".
+Info: Checking netlist component footprint "VP_61:/55E9991E/55EAFF8B:VPAD_VPAC0".
 
-Info: Checking netlist component footprint "U506:/55DCE091/55DD42EF:PIXHAWK2_MS5611-01BA".
+Info: Changing component path "VP_61:" to "/55E9991E/55EAFF8B".
 
-Info: Changing component path "U506:" to "/55DCE091/55DD42EF".
+Info: Checking netlist component footprint "X101:/55E99908/55E9A50D:PIXHAWK2_OSCILLATOR-3.2X2.5".
 
-Changing component "U506:/55DCE091/55DD42EF" pin "4" net name from "" to "Net-(U506-Pad4)".
+Info: Changing component path "X101:" to "/55E99908/55E9A50D".
 
-Info: Checking netlist component footprint "U601:/55DCE093/55DD7040:PIXHAWK2_QFN8-DSG".
+Info: Checking netlist component footprint "X503:/55E99910/55E9FC8D:PIXHAWK2_51281-1094".
 
-Info: Changing component path "U601:" to "/55DCE093/55DD7040".
+Info: Changing component path "X503:" to "/55E99910/55E9FC8D".
 
-Changing component "U601:/55DCE093/55DD7040" pin "7" net name from "N$96" to "/PX4FMUv2.4_SS_6/N$96".
+Info: Checking netlist component footprint "X801:/55E99916/55EA62E6:PIXHAWK2_OSCILLATOR-3.2X2.5".
 
-Info: Checking netlist component footprint "U602:/55DCE093/55DD7108:PIXHAWK2_QFN8-DSG".
+Info: Changing component path "X801:" to "/55E99916/55EA62E6".
 
-Info: Changing component path "U602:" to "/55DCE093/55DD7108".
-
-Changing component "U602:/55DCE093/55DD7108" pin "7" net name from "N$34" to "/PX4FMUv2.4_SS_6/N$34".
-
-Info: Checking netlist component footprint "U603:/55DCE093/55DD71D0:PIXHAWK2_MLF-8-EPAD".
-
-Info: Changing component path "U603:" to "/55DCE093/55DD71D0".
-
-Changing component "U603:/55DCE093/55DD71D0" pin "1" net name from "FMU-VDD_5V5" to "/PX4FMUv2.4_SS_6/FMU-VDD_5V5".
-
-Changing component "U603:/55DCE093/55DD71D0" pin "4" net name from "FMU-VDD_5V5" to "/PX4FMUv2.4_SS_6/FMU-VDD_5V5".
-
-Changing component "U603:/55DCE093/55DD71D0" pin "6" net name from "N$11" to "/PX4FMUv2.4_SS_6/N$11".
-
-Info: Checking netlist component footprint "U701:/55DCE095/55DD8D8C:PIXHAWK2_SON10".
-
-Info: Changing component path "U701:" to "/55DCE095/55DD8D8C".
-
-Changing component "U701:/55DCE095/55DD8D8C" pin "6" net name from "N$95" to "/PX4FMUv2.4_SS_7/N$95".
-
-Changing component "U701:/55DCE095/55DD8D8C" pin "7" net name from "RGB_LED_14" to "/PX4FMUv2.4_SS_7/RGB_LED_14".
-
-Changing component "U701:/55DCE095/55DD8D8C" pin "8" net name from "RGB_LED_4" to "/PX4FMUv2.4_SS_7/RGB_LED_4".
-
-Changing component "U701:/55DCE095/55DD8D8C" pin "9" net name from "RGB_LED_3" to "/PX4FMUv2.4_SS_7/RGB_LED_3".
-
-Info: Checking netlist component footprint "U702:/55DCE095/55DD8E54:PIXHAWK2_SOT23-8".
-
-Info: Changing component path "U702:" to "/55DCE095/55DD8E54".
-
-Changing component "U702:/55DCE095/55DD8E54" pin "1" net name from "N$27" to "/PX4FMUv2.4_SS_7/N$27".
-
-Changing component "U702:/55DCE095/55DD8E54" pin "2" net name from "N$24" to "/PX4FMUv2.4_SS_7/N$24".
-
-Changing component "U702:/55DCE095/55DD8E54" pin "5" net name from "N$32" to "/PX4FMUv2.4_SS_7/N$32".
-
-Changing component "U702:/55DCE095/55DD8E54" pin "6" net name from "N$36" to "/PX4FMUv2.4_SS_7/N$36".
-
-Changing component "U702:/55DCE095/55DD8E54" pin "7" net name from "N$28" to "/PX4FMUv2.4_SS_7/N$28".
-
-Changing component "U702:/55DCE095/55DD8E54" pin "8" net name from "N$25" to "/PX4FMUv2.4_SS_7/N$25".
-
-Info: Checking netlist component footprint "U703:/55DCE095/55DD8F1C:PIXHAWK2_6-PLCC".
-
-Info: Changing component path "U703:" to "/55DCE095/55DD8F1C".
-
-Changing component "U703:/55DCE095/55DD8F1C" pin "C1" net name from "RGB_LED_3" to "/PX4FMUv2.4_SS_7/RGB_LED_3".
-
-Changing component "U703:/55DCE095/55DD8F1C" pin "C2" net name from "RGB_LED_4" to "/PX4FMUv2.4_SS_7/RGB_LED_4".
-
-Changing component "U703:/55DCE095/55DD8F1C" pin "C3" net name from "RGB_LED_14" to "/PX4FMUv2.4_SS_7/RGB_LED_14".
-
-Info: Checking netlist component footprint "U801:/55DCE097/55DDA628:PIXHAWK2_TQFP48".
-
-Info: Changing component path "U801:" to "/55DCE097/55DDA628".
-
-Changing component "U801:/55DCE097/55DDA628" pin "3" net name from "" to "Net-(U801-Pad3)".
-
-Changing component "U801:/55DCE097/55DDA628" pin "4" net name from "" to "Net-(U801-Pad4)".
-
-Changing component "U801:/55DCE097/55DDA628" pin "5" net name from "N$22" to "/PX4FMUv2.4_SS_8/N$22".
-
-Changing component "U801:/55DCE097/55DDA628" pin "6" net name from "N$18" to "/PX4FMUv2.4_SS_8/N$18".
-
-Changing component "U801:/55DCE097/55DDA628" pin "12" net name from "N$15" to "/PX4FMUv2.4_SS_8/N$15".
-
-Changing component "U801:/55DCE097/55DDA628" pin "13" net name from "N$16" to "/PX4FMUv2.4_SS_8/N$16".
-
-Changing component "U801:/55DCE097/55DDA628" pin "20" net name from "IO-BOOT1" to "/PX4FMUv2.4_SS_8/IO-BOOT1".
-
-Changing component "U801:/55DCE097/55DDA628" pin "25" net name from "" to "Net-(U801-Pad25)".
-
-Changing component "U801:/55DCE097/55DDA628" pin "31" net name from "IO-USART1_RX" to "/PX4FMUv2.4_SS_8/IO-USART1_RX".
-
-Changing component "U801:/55DCE097/55DDA628" pin "32" net name from "" to "Net-(U801-Pad32)".
-
-Changing component "U801:/55DCE097/55DDA628" pin "34" net name from "IO-SWDIO" to "/PX4FMUv2.4_SS_8/IO-SWDIO".
-
-Changing component "U801:/55DCE097/55DDA628" pin "37" net name from "IO-SWCLK" to "/PX4FMUv2.4_SS_8/IO-SWCLK".
-
-Changing component "U801:/55DCE097/55DDA628" pin "39" net name from "IO-SWO" to "/PX4FMUv2.4_SS_8/IO-SWO".
-
-Changing component "U801:/55DCE097/55DDA628" pin "42" net name from "" to "Net-(U801-Pad42)".
-
-Changing component "U801:/55DCE097/55DDA628" pin "43" net name from "" to "Net-(U801-Pad43)".
-
-Info: Checking netlist component footprint "U901:/55DCE099/55DDCC0C:PIXHAWK2_QFN20-RGY".
-
-Info: Changing component path "U901:" to "/55DCE099/55DDCC0C".
-
-Changing component "U901:/55DCE099/55DDCC0C" pin "8" net name from "" to "Net-(U901-Pad8)".
-
-Changing component "U901:/55DCE099/55DDCC0C" pin "9" net name from "" to "Net-(U901-Pad9)".
-
-Changing component "U901:/55DCE099/55DDCC0C" pin "12" net name from "" to "Net-(U901-Pad12)".
-
-Changing component "U901:/55DCE099/55DDCC0C" pin "13" net name from "" to "Net-(U901-Pad13)".
-
-Changing component "U901:/55DCE099/55DDCC0C" pin "14" net name from "N$66" to "/PX4FMUv2.4_SS_9/N$66".
-
-Changing component "U901:/55DCE099/55DDCC0C" pin "15" net name from "N$65" to "/PX4FMUv2.4_SS_9/N$65".
-
-Changing component "U901:/55DCE099/55DDCC0C" pin "16" net name from "N$64" to "/PX4FMUv2.4_SS_9/N$64".
-
-Changing component "U901:/55DCE099/55DDCC0C" pin "17" net name from "N$63" to "/PX4FMUv2.4_SS_9/N$63".
-
-Changing component "U901:/55DCE099/55DDCC0C" pin "18" net name from "N$62" to "/PX4FMUv2.4_SS_9/N$62".
-
-Changing component "U901:/55DCE099/55DDCC0C" pin "20" net name from "N$61" to "/PX4FMUv2.4_SS_9/N$61".
-
-Info: Checking netlist component footprint "U902:/55DCE099/55DDCCD4:PIXHAWK2_QFN20-RGY".
-
-Info: Changing component path "U902:" to "/55DCE099/55DDCCD4".
-
-Changing component "U902:/55DCE099/55DDCCD4" pin "12" net name from "N$60" to "/PX4FMUv2.4_SS_9/N$60".
-
-Changing component "U902:/55DCE099/55DDCCD4" pin "13" net name from "N$59" to "/PX4FMUv2.4_SS_9/N$59".
-
-Changing component "U902:/55DCE099/55DDCCD4" pin "14" net name from "N$58" to "/PX4FMUv2.4_SS_9/N$58".
-
-Changing component "U902:/55DCE099/55DDCCD4" pin "15" net name from "N$53" to "/PX4FMUv2.4_SS_9/N$53".
-
-Changing component "U902:/55DCE099/55DDCCD4" pin "16" net name from "N$49" to "/PX4FMUv2.4_SS_9/N$49".
-
-Changing component "U902:/55DCE099/55DDCCD4" pin "17" net name from "N$45" to "/PX4FMUv2.4_SS_9/N$45".
-
-Changing component "U902:/55DCE099/55DDCCD4" pin "18" net name from "N$44" to "/PX4FMUv2.4_SS_9/N$44".
-
-Changing component "U902:/55DCE099/55DDCCD4" pin "20" net name from "N$43" to "/PX4FMUv2.4_SS_9/N$43".
-
-Info: Checking netlist component footprint "U903:/55DCE099/55DDCD9C:PIXHAWK2_TSSOP8_SOT505-2".
-
-Info: Changing component path "U903:" to "/55DCE099/55DDCD9C".
-
-Changing component "U903:/55DCE099/55DDCD9C" pin "3" net name from "N$38" to "/PX4FMUv2.4_SS_9/N$38".
-
-Info: Checking netlist component footprint "U1001:/55DCE09B/55DDDAE5:PIXHAWK2_QFN8-DSG".
-
-Info: Changing component path "U1001:" to "/55DCE09B/55DDDAE5".
-
-Changing component "U1001:/55DCE09B/55DDDAE5" pin "7" net name from "N$20" to "/PX4FMUv2.4_SS_10/N$20".
-
-Changing component "U1001:/55DCE09B/55DDDAE5" pin "8" net name from "N$4" to "/PX4FMUv2.4_SS_10/N$4".
-
-Info: Checking netlist component footprint "U1002:/55DCE09B/55DDDBAD:PIXHAWK2_MLF-8-EPAD".
-
-Info: Changing component path "U1002:" to "/55DCE09B/55DDDBAD".
-
-Changing component "U1002:/55DCE09B/55DDDBAD" pin "6" net name from "N$104" to "/PX4FMUv2.4_SS_10/N$104".
-
-Info: Checking netlist component footprint "U1101:/55DCE09D/55DDF831:PIXHAWK2_MO-220".
-
-Info: Changing component path "U1101:" to "/55DCE09D/55DDF831".
-
-Changing component "U1101:/55DCE09D/55DDF831" pin "P$1" net name from "N$47" to "/PX4FMUv2.4_SS_11/N$47".
-
-Changing component "U1101:/55DCE09D/55DDF831" pin "P$2" net name from "N$54" to "/PX4FMUv2.4_SS_11/N$54".
-
-Changing component "U1101:/55DCE09D/55DDF831" pin "P$3" net name from "N$55" to "/PX4FMUv2.4_SS_11/N$55".
-
-Changing component "U1101:/55DCE09D/55DDF831" pin "P$4" net name from "N$56" to "/PX4FMUv2.4_SS_11/N$56".
-
-Changing component "U1101:/55DCE09D/55DDF831" pin "P$5" net name from "N$69" to "/PX4FMUv2.4_SS_11/N$69".
-
-Changing component "U1101:/55DCE09D/55DDF831" pin "P$6" net name from "N$67" to "/PX4FMUv2.4_SS_11/N$67".
-
-Changing component "U1101:/55DCE09D/55DDF831" pin "P$11" net name from "" to "Net-(U1101-PadP$11)".
-
-Changing component "U1101:/55DCE09D/55DDF831" pin "P$13" net name from "N$109" to "/PX4FMUv2.4_SS_11/N$109".
-
-Changing component "U1101:/55DCE09D/55DDF831" pin "P$14" net name from "N$107" to "/PX4FMUv2.4_SS_11/N$107".
-
-Changing component "U1101:/55DCE09D/55DDF831" pin "P$15" net name from "N$113" to "/PX4FMUv2.4_SS_11/N$113".
-
-Changing component "U1101:/55DCE09D/55DDF831" pin "P$16" net name from "N$106" to "/PX4FMUv2.4_SS_11/N$106".
-
-Changing component "U1101:/55DCE09D/55DDF831" pin "P$17" net name from "N$115" to "/PX4FMUv2.4_SS_11/N$115".
-
-Changing component "U1101:/55DCE09D/55DDF831" pin "P$18" net name from "N$97" to "/PX4FMUv2.4_SS_11/N$97".
-
-Changing component "U1101:/55DCE09D/55DDF831" pin "P$22" net name from "" to "Net-(U1101-PadP$22)".
-
-Changing component "U1101:/55DCE09D/55DDF831" pin "P$23" net name from "" to "Net-(U1101-PadP$23)".
-
-Changing component "U1101:/55DCE09D/55DDF831" pin "P$24" net name from "N$105" to "/PX4FMUv2.4_SS_11/N$105".
-
-Info: Checking netlist component footprint "U1102:/55DCE09D/55DDF8F9:PIXHAWK2_1206-8".
-
-Info: Changing component path "U1102:" to "/55DCE09D/55DDF8F9".
-
-Changing component "U1102:/55DCE09D/55DDF8F9" pin "P$1" net name from "N$97" to "/PX4FMUv2.4_SS_11/N$97".
-
-Changing component "U1102:/55DCE09D/55DDF8F9" pin "P$2" net name from "N$115" to "/PX4FMUv2.4_SS_11/N$115".
-
-Changing component "U1102:/55DCE09D/55DDF8F9" pin "P$3" net name from "N$97" to "/PX4FMUv2.4_SS_11/N$97".
-
-Changing component "U1102:/55DCE09D/55DDF8F9" pin "P$4" net name from "N$115" to "/PX4FMUv2.4_SS_11/N$115".
-
-Info: Checking netlist component footprint "U1103:/55DCE09D/55DDFA25:PIXHAWK2_1206-8".
-
-Info: Changing component path "U1103:" to "/55DCE09D/55DDFA25".
-
-Changing component "U1103:/55DCE09D/55DDFA25" pin "P$1" net name from "N$106" to "/PX4FMUv2.4_SS_11/N$106".
-
-Changing component "U1103:/55DCE09D/55DDFA25" pin "P$2" net name from "N$113" to "/PX4FMUv2.4_SS_11/N$113".
-
-Changing component "U1103:/55DCE09D/55DDFA25" pin "P$3" net name from "N$106" to "/PX4FMUv2.4_SS_11/N$106".
-
-Changing component "U1103:/55DCE09D/55DDFA25" pin "P$4" net name from "N$113" to "/PX4FMUv2.4_SS_11/N$113".
-
-Info: Checking netlist component footprint "U1104:/55DCE09D/55DDFB51:PIXHAWK2_1206-8".
-
-Info: Changing component path "U1104:" to "/55DCE09D/55DDFB51".
-
-Changing component "U1104:/55DCE09D/55DDFB51" pin "P$1" net name from "N$107" to "/PX4FMUv2.4_SS_11/N$107".
-
-Changing component "U1104:/55DCE09D/55DDFB51" pin "P$2" net name from "N$109" to "/PX4FMUv2.4_SS_11/N$109".
-
-Changing component "U1104:/55DCE09D/55DDFB51" pin "P$3" net name from "N$107" to "/PX4FMUv2.4_SS_11/N$107".
-
-Changing component "U1104:/55DCE09D/55DDFB51" pin "P$4" net name from "N$109" to "/PX4FMUv2.4_SS_11/N$109".
-
-Info: Checking netlist component footprint "VBUS1116:/55DCE09F/55DE125D:PIXHAWK2_PAD.04X.04".
-
-Info: Changing component path "VBUS1116:" to "/55DCE09F/55DE125D".
-
-Info: Checking netlist component footprint "VDDA_3V1101:/55DCE09F/55DE1325:PIXHAWK2_PAD.04X.04".
-
-Info: Changing component path "VDDA_3V1101:" to "/55DCE09F/55DE1325".
-
-Info: Checking netlist component footprint "VDD_3V1101:/55DCE09F/55DE13ED:PIXHAWK2_PAD.04X.04".
-
-Info: Changing component path "VDD_3V1101:" to "/55DCE09F/55DE13ED".
-
-Info: Checking netlist component footprint "VDD_5V_BRICK1116:/55DCE09F/55DE14B5:PIXHAWK2_PAD.04X.04".
-
-Info: Changing component path "VDD_5V_BRICK1116:" to "/55DCE09F/55DE14B5".
-
-Info: Checking netlist component footprint "VDD_5V_IN1116:/55DCE09F/55DE157D:PIXHAWK2_PAD.04X.04".
-
-Info: Changing component path "VDD_5V_IN1116:" to "/55DCE09F/55DE157D".
-
-Info: Checking netlist component footprint "VDD_SERVO1116:/55DCE09F/55DE1645:PIXHAWK2_PAD.04X.04".
-
-Info: Changing component path "VDD_SERVO1116:" to "/55DCE09F/55DE1645".
-
-Info: Checking netlist component footprint "VP_0:/55DCE09F/55DE170D:VPAD_VPAC0".
-
-Info: Changing component path "VP_0:" to "/55DCE09F/55DE170D".
-
-Info: Checking netlist component footprint "VP_1:/55DCE09F/55DE17D5:VPAD_VPAC0".
-
-Info: Changing component path "VP_1:" to "/55DCE09F/55DE17D5".
-
-Info: Checking netlist component footprint "VP_2:/55DCE09F/55DE189D:VPAD_VPAC0".
-
-Info: Changing component path "VP_2:" to "/55DCE09F/55DE189D".
-
-Info: Checking netlist component footprint "VP_3:/55DCE09F/55DE1965:VPAD_VPAC0".
-
-Info: Changing component path "VP_3:" to "/55DCE09F/55DE1965".
-
-Info: Checking netlist component footprint "VP_4:/55DCE09F/55DE1A2D:VPAD_VPAC1".
-
-Info: Changing component path "VP_4:" to "/55DCE09F/55DE1A2D".
-
-Info: Checking netlist component footprint "VP_5:/55DCE09F/55DE1AF5:VPAD_VPAC1".
-
-Info: Changing component path "VP_5:" to "/55DCE09F/55DE1AF5".
-
-Info: Checking netlist component footprint "VP_6:/55DCE09F/55DE1BBD:VPAD_VPAC1".
-
-Info: Changing component path "VP_6:" to "/55DCE09F/55DE1BBD".
-
-Info: Checking netlist component footprint "VP_7:/55DCE09F/55DE1C85:VPAD_VPAC1".
-
-Info: Changing component path "VP_7:" to "/55DCE09F/55DE1C85".
-
-Info: Checking netlist component footprint "VP_8:/55DCE09F/55DE1D4D:VPAD_VPAC1".
-
-Info: Changing component path "VP_8:" to "/55DCE09F/55DE1D4D".
-
-Info: Checking netlist component footprint "VP_9:/55DCE09F/55DE1E15:VPAD_VPAC1".
-
-Info: Changing component path "VP_9:" to "/55DCE09F/55DE1E15".
-
-Info: Checking netlist component footprint "VP_10:/55DCE09F/55DE1EDD:VPAD_VPAC1".
-
-Info: Changing component path "VP_10:" to "/55DCE09F/55DE1EDD".
-
-Info: Checking netlist component footprint "VP_11:/55DCE09F/55DE1FA5:VPAD_VPAC1".
-
-Info: Changing component path "VP_11:" to "/55DCE09F/55DE1FA5".
-
-Info: Checking netlist component footprint "VP_12:/55DCE09F/55DE206D:VPAD_VPAC1".
-
-Info: Changing component path "VP_12:" to "/55DCE09F/55DE206D".
-
-Info: Checking netlist component footprint "VP_13:/55DCE09F/55DE2135:VPAD_VPAC1".
-
-Info: Changing component path "VP_13:" to "/55DCE09F/55DE2135".
-
-Info: Checking netlist component footprint "VP_14:/55DCE09F/55DE21FD:VPAD_VPAC1".
-
-Info: Changing component path "VP_14:" to "/55DCE09F/55DE21FD".
-
-Info: Checking netlist component footprint "VP_15:/55DCE09F/55DE22C5:VPAD_VPAC1".
-
-Info: Changing component path "VP_15:" to "/55DCE09F/55DE22C5".
-
-Info: Checking netlist component footprint "VP_16:/55DCE09F/55DE238D:VPAD_VPAC1".
-
-Info: Changing component path "VP_16:" to "/55DCE09F/55DE238D".
-
-Info: Checking netlist component footprint "VP_17:/55DCE09F/55DE2455:VPAD_VPAC1".
-
-Info: Changing component path "VP_17:" to "/55DCE09F/55DE2455".
-
-Info: Checking netlist component footprint "VP_18:/55DCE09F/55DE251D:VPAD_VPAC1".
-
-Info: Changing component path "VP_18:" to "/55DCE09F/55DE251D".
-
-Info: Checking netlist component footprint "VP_19:/55DCE09F/55DE25E5:VPAD_VPAC1".
-
-Info: Changing component path "VP_19:" to "/55DCE09F/55DE25E5".
-
-Info: Checking netlist component footprint "VP_20:/55DCE09F/55DE26AD:VPAD_VPAC1".
-
-Info: Changing component path "VP_20:" to "/55DCE09F/55DE26AD".
-
-Info: Checking netlist component footprint "VP_21:/55DCE09F/55DE2775:VPAD_VPAC1".
-
-Info: Changing component path "VP_21:" to "/55DCE09F/55DE2775".
-
-Info: Checking netlist component footprint "VP_22:/55DCE09F/55DE283D:VPAD_VPAC1".
-
-Info: Changing component path "VP_22:" to "/55DCE09F/55DE283D".
-
-Info: Checking netlist component footprint "VP_23:/55DCE09F/55DE2905:VPAD_VPAC1".
-
-Info: Changing component path "VP_23:" to "/55DCE09F/55DE2905".
-
-Info: Checking netlist component footprint "VP_24:/55DCE09F/55DE29CD:VPAD_VPAC1".
-
-Info: Changing component path "VP_24:" to "/55DCE09F/55DE29CD".
-
-Info: Checking netlist component footprint "VP_25:/55DCE09F/55DE2A95:VPAD_VPAC1".
-
-Info: Changing component path "VP_25:" to "/55DCE09F/55DE2A95".
-
-Info: Checking netlist component footprint "VP_26:/55DCE09F/55DE2B5D:VPAD_VPAC1".
-
-Info: Changing component path "VP_26:" to "/55DCE09F/55DE2B5D".
-
-Info: Checking netlist component footprint "VP_27:/55DCE09F/55DE2C25:VPAD_VPAC1".
-
-Info: Changing component path "VP_27:" to "/55DCE09F/55DE2C25".
-
-Info: Checking netlist component footprint "VP_28:/55DCE09F/55DE2CED:VPAD_VPAC1".
-
-Info: Changing component path "VP_28:" to "/55DCE09F/55DE2CED".
-
-Info: Checking netlist component footprint "VP_29:/55DCE09F/55DE2DB5:VPAD_VPAC1".
-
-Info: Changing component path "VP_29:" to "/55DCE09F/55DE2DB5".
-
-Info: Checking netlist component footprint "VP_30:/55DCE09F/55DE2E7D:VPAD_VPAC1".
-
-Info: Changing component path "VP_30:" to "/55DCE09F/55DE2E7D".
-
-Info: Checking netlist component footprint "VP_31:/55DCE09F/55DE2F45:VPAD_VPAC1".
-
-Info: Changing component path "VP_31:" to "/55DCE09F/55DE2F45".
-
-Info: Checking netlist component footprint "VP_32:/55DCE09F/55DE300D:VPAD_VPAC1".
-
-Info: Changing component path "VP_32:" to "/55DCE09F/55DE300D".
-
-Info: Checking netlist component footprint "VP_33:/55DCE09F/55DE30D5:VPAD_VPAC0".
-
-Info: Changing component path "VP_33:" to "/55DCE09F/55DE30D5".
-
-Info: Checking netlist component footprint "VP_34:/55DCE09F/55DE319D:VPAD_VPAC0".
-
-Info: Changing component path "VP_34:" to "/55DCE09F/55DE319D".
-
-Info: Checking netlist component footprint "VP_35:/55DCE09F/55DE3265:VPAD_VPAC0".
-
-Info: Changing component path "VP_35:" to "/55DCE09F/55DE3265".
-
-Info: Checking netlist component footprint "VP_36:/55DCE09F/55DE332D:VPAD_VPAC1".
-
-Info: Changing component path "VP_36:" to "/55DCE09F/55DE332D".
-
-Info: Checking netlist component footprint "VP_37:/55DCE09F/55DE33F5:VPAD_VPAC1".
-
-Info: Changing component path "VP_37:" to "/55DCE09F/55DE33F5".
-
-Info: Checking netlist component footprint "VP_38:/55DCE09F/55DE34BD:VPAD_VPAC2".
-
-Info: Changing component path "VP_38:" to "/55DCE09F/55DE34BD".
-
-Info: Checking netlist component footprint "VP_39:/55DCE09F/55DE3585:VPAD_VPAC1".
-
-Info: Changing component path "VP_39:" to "/55DCE09F/55DE3585".
-
-Info: Checking netlist component footprint "VP_40:/55DCE09F/55DE364D:VPAD_VPAC1".
-
-Info: Changing component path "VP_40:" to "/55DCE09F/55DE364D".
-
-Info: Checking netlist component footprint "VP_41:/55DCE09F/55DE3715:VPAD_VPAC0".
-
-Info: Changing component path "VP_41:" to "/55DCE09F/55DE3715".
-
-Info: Checking netlist component footprint "VP_42:/55DCE09F/55DE37DD:VPAD_VPAC0".
-
-Info: Changing component path "VP_42:" to "/55DCE09F/55DE37DD".
-
-Info: Checking netlist component footprint "VP_43:/55DCE09F/55DE38A5:VPAD_VPAC0".
-
-Info: Changing component path "VP_43:" to "/55DCE09F/55DE38A5".
-
-Info: Checking netlist component footprint "VP_44:/55DCE09F/55DE396D:VPAD_VPAC1".
-
-Info: Changing component path "VP_44:" to "/55DCE09F/55DE396D".
-
-Info: Checking netlist component footprint "VP_45:/55DCE09F/55DE3A35:VPAD_VPAC1".
-
-Info: Changing component path "VP_45:" to "/55DCE09F/55DE3A35".
-
-Info: Checking netlist component footprint "VP_46:/55DCE09F/55DE3AFD:VPAD_VPAC1".
-
-Info: Changing component path "VP_46:" to "/55DCE09F/55DE3AFD".
-
-Info: Checking netlist component footprint "VP_47:/55DCE09F/55DE3BC5:VPAD_VPAC1".
-
-Info: Changing component path "VP_47:" to "/55DCE09F/55DE3BC5".
-
-Info: Checking netlist component footprint "VP_48:/55DCE09F/55DE3C8D:VPAD_VPAC1".
-
-Info: Changing component path "VP_48:" to "/55DCE09F/55DE3C8D".
-
-Info: Checking netlist component footprint "VP_49:/55DCE09F/55DE3D55:VPAD_VPAC1".
-
-Info: Changing component path "VP_49:" to "/55DCE09F/55DE3D55".
-
-Info: Checking netlist component footprint "VP_50:/55DCE09F/55DE3E1D:VPAD_VPAC1".
-
-Info: Changing component path "VP_50:" to "/55DCE09F/55DE3E1D".
-
-Info: Checking netlist component footprint "VP_51:/55DCE09F/55DE3EE5:VPAD_VPAC0".
-
-Info: Changing component path "VP_51:" to "/55DCE09F/55DE3EE5".
-
-Info: Checking netlist component footprint "VP_52:/55DCE09F/55DE3FAD:VPAD_VPAC0".
-
-Info: Changing component path "VP_52:" to "/55DCE09F/55DE3FAD".
-
-Info: Checking netlist component footprint "VP_53:/55DCE09F/55DE4075:VPAD_VPAC0".
-
-Info: Changing component path "VP_53:" to "/55DCE09F/55DE4075".
-
-Info: Checking netlist component footprint "VP_54:/55DCE09F/55DE413D:VPAD_VPAC0".
-
-Info: Changing component path "VP_54:" to "/55DCE09F/55DE413D".
-
-Info: Checking netlist component footprint "VP_55:/55DCE09F/55DE4205:VPAD_VPAC0".
-
-Info: Changing component path "VP_55:" to "/55DCE09F/55DE4205".
-
-Info: Checking netlist component footprint "VP_56:/55DCE09F/55DE42CD:VPAD_VPAC0".
-
-Info: Changing component path "VP_56:" to "/55DCE09F/55DE42CD".
-
-Info: Checking netlist component footprint "VP_57:/55DCE09F/55DE4395:VPAD_VPAC0".
-
-Info: Changing component path "VP_57:" to "/55DCE09F/55DE4395".
-
-Info: Checking netlist component footprint "VP_58:/55DCE09F/55DE445D:VPAD_VPAC0".
-
-Info: Changing component path "VP_58:" to "/55DCE09F/55DE445D".
-
-Info: Checking netlist component footprint "VP_59:/55DCE09F/55DE4525:VPAD_VPAC0".
-
-Info: Changing component path "VP_59:" to "/55DCE09F/55DE4525".
-
-Info: Checking netlist component footprint "VP_60:/55DCE09F/55DE45ED:VPAD_VPAC0".
-
-Info: Changing component path "VP_60:" to "/55DCE09F/55DE45ED".
-
-Info: Checking netlist component footprint "VP_61:/55DCE09F/55DE46B5:VPAD_VPAC0".
-
-Info: Changing component path "VP_61:" to "/55DCE09F/55DE46B5".
-
-Info: Checking netlist component footprint "X101:/55DCE089/55DCEC37:PIXHAWK2_OSCILLATOR-3.2X2.5".
-
-Info: Changing component path "X101:" to "/55DCE089/55DCEC37".
-
-Changing component "X101:/55DCE089/55DCEC37" pin "3" net name from "N$2" to "/PX4FMUv2.4_SS_1/N$2".
-
-Changing component "X101:/55DCE089/55DCEC37" pin "1" net name from "N$1" to "/PX4FMUv2.4_SS_1/N$1".
-
-Info: Checking netlist component footprint "X503:/55DCE091/55DD43B7:PIXHAWK2_51281-1094".
-
-Info: Changing component path "X503:" to "/55DCE091/55DD43B7".
-
-Info: Checking netlist component footprint "X801:/55DCE097/55DDAA10:PIXHAWK2_OSCILLATOR-3.2X2.5".
-
-Info: Changing component path "X801:" to "/55DCE097/55DDAA10".
-
-Changing component "X801:/55DCE097/55DDAA10" pin "3" net name from "N$22" to "/PX4FMUv2.4_SS_8/N$22".
-
-Changing component "X801:/55DCE097/55DDAA10" pin "1" net name from "N$18" to "/PX4FMUv2.4_SS_8/N$18".
-
-Warning: Copper zone (net name 'RGB_LED_3'): net has no pads connected.
-Warning: Copper zone (net name 'RGB_LED_4'): net has no pads connected.
-Warning: Copper zone (net name 'RGB_LED_14'): net has no pads connected.
-Warning: Copper zone (net name 'FMU-VDD_5V5'): net has no pads connected.
-Warning: Copper zone (net name 'N$80'): net has no pads connected.

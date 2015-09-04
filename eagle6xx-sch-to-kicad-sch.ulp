@@ -2434,6 +2434,9 @@ void write_kicad_netNames( UL_SHEET SH, int current_sheet )
 
     if( array_find( N.name, globalNetListSize ))
       globalable++;
+
+    //****** Force globalable for quick fix to fill's net name problem. *******//
+    globalable++; 
     
     //    N.pinrefs(R)
     N.segments(S)
