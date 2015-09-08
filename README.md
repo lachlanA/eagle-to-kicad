@@ -11,9 +11,10 @@
 	* Make project director to store all the converted files.  
 	* And basic error checking.  
 	* Eagle 6.xx PCB files can be directly import to KiCad.  
-	* Ealge stand alone lbr's can be convered to KiCad lib/mod using eagle-lbr2kicad-1.0.ulp  
-	* Converts Via's to Pads to to help with KiCad's flood fill, not connecting to Free/unnconect Via's.  
-    * The **examples** director contain's a number of converted sch's/board's.  
+	* Eagle stand alone lbr's can be converted to KiCad lib/mod using eagle-lbr2kicad-1.0.ulp
+	  see *https://github.com/lachlanA/eagle-to-kicad-libs* for more details
+	* Converts Via's to Pads to to help with KiCad's flood fill, not connecting to Free/unconnected Via's.  
+    * The **examples** director contains a number of converted sch's/board's.  
 
 * By using the  the following **ulp's**  a consistent link from the SCH to PCB is maintained So forward and backwoods net-list annotation work's under KiCad!  
 
