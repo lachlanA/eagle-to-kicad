@@ -11,7 +11,7 @@
 	* Make project director to store all the converted files.  
 	* And basic error checking.  
 	* Eagle 6.xx PCB files can be directly import to KiCad.  
-	* Eagle stand alone lbr's can be converted to KiCad lib/mod using eagle-lbr2kicad-1.0.ulp
+	* Eagle stand alone lbr's can be converted to KiCad lib/mod using eagle-lbr2kicad-1.0.ulp  
 	  see *https://github.com/lachlanA/eagle-to-kicad-libs* for more details
 	* Converts Via's to Pads to to help with KiCad's flood fill, not connecting to Free/unconnected Via's.  
     * The **examples** director contains a number of converted sch's/board's.  
@@ -30,12 +30,12 @@
 * **WARNING:**  The ULP's file-name will conflict with Eagles ULP's file-name's so  
   ***DO NOT install them in Eagle's ULP directory***.  
 
-* There are 5 **ulp's** and one **ulp** include file have been hack together.
+* There are 5 **ulp's** and one **ulp** include file have been hack together.  
 ***renumber-sheet.ulp*** ......................   stage 1: Add missing number(s) to parts Prefix's.  
-***fix_via_hack.ulp*** ..............................   stage 2: Conver free's Via's to Pad's.  
+***fix_via_hack.ulp*** ..............................   stage 2: Converts unconnected Via's to Pad's.  
 ***eagle6xx-sch-to-kicad-sch.ulp*** .....    stage 3: Build sch and project files, etc  
-***exp-lbrs.ulp*** .......................................   stage 4: *automatically runs*  Extract libs from eagle SCH/PCB  
-***eagle-lbr2kicad-1.0.ulp***....................  stage 5: *automatically runs* Convert Eagle lbr to KiCad lib/mod  
+***exp-lbrs.ulp*** .......................................   stage 4: Extract libs from eagle SCH/PCB  
+***eagle-lbr2kicad-1.0.ulp***....................  stage 5: Converts Eagle lbr to KiCad lib/mod  
 ***eagle_to_kicad_include.inc*** ...........  Include file used by the other 4 ULP's  
 ####HOW TO RUN THE ULP'S 
  
