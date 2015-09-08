@@ -215,190 +215,190 @@ accessibility</text>
 <text x="34.6456" y="38.1" size="0.762" layer="22" font="vector" ratio="15" rot="MR90" align="top-left">TLM</text>
 <text x="25.7048" y="10.668" size="0.762" layer="22" font="vector" ratio="15" rot="MR270" align="bottom-right">DEBUG</text>
 <text x="32.7152" y="2.9464" size="0.762" layer="22" font="vector" ratio="15" rot="MR90" align="bottom-right">GPS</text>
-<text x="0.025396875" y="0.027534375" size="0.0001" layer="51" font="vector">GND</text>
+<text x="0.025396875" y="0.027534375" size="0.0001" layer="51" font="vector">GND:1</text>
 <wire x1="25.2984" y1="27.5336" x2="25.0234" y2="27.6711" width="0.1" layer="51"/>
 <wire x1="25.0234" y1="27.3961" x2="25.2984" y2="27.5336" width="0.1" layer="51"/>
-<text x="0.022859375" y="0.027534375" size="0.0001" layer="51" font="vector">GND</text>
+<text x="0.022859375" y="0.027534375" size="0.0001" layer="51" font="vector">GND:2</text>
 <wire x1="22.7584" y1="27.5336" x2="22.4834" y2="27.6711" width="0.1" layer="51"/>
 <wire x1="22.4834" y1="27.3961" x2="22.7584" y2="27.5336" width="0.1" layer="51"/>
-<text x="0.0628875" y="0.032409375" size="0.0001" layer="51" font="vector">GND</text>
+<text x="0.0628875" y="0.032409375" size="0.0001" layer="51" font="vector">GND:3</text>
 <wire x1="62.7888" y1="32.4104" x2="62.5138" y2="32.5479" width="0.1" layer="51"/>
 <wire x1="62.5138" y1="32.2729" x2="62.7888" y2="32.4104" width="0.1" layer="51"/>
-<text x="0.06166875" y="0.032409375" size="0.0001" layer="51" font="vector">GND</text>
+<text x="0.06166875" y="0.032409375" size="0.0001" layer="51" font="vector">GND:4</text>
 <wire x1="61.5696" y1="32.4104" x2="61.2946" y2="32.5479" width="0.1" layer="51"/>
 <wire x1="61.2946" y1="32.2729" x2="61.5696" y2="32.4104" width="0.1" layer="51"/>
-<text x="0.067053125" y="0.02661875" size="0.0001" layer="51" font="vector">GND</text>
+<text x="0.067053125" y="0.02661875" size="0.0001" layer="51" font="vector">GND:5</text>
 <wire x1="66.9544" y1="26.6192" x2="66.7294" y2="26.7317" width="0.1" layer="51"/>
 <wire x1="66.7294" y1="26.5067" x2="66.9544" y2="26.6192" width="0.1" layer="51"/>
-<text x="0.068884375" y="0.039521875" size="0.0001" layer="51" font="vector">GND</text>
+<text x="0.068884375" y="0.039521875" size="0.0001" layer="51" font="vector">GND:6</text>
 <wire x1="68.7832" y1="39.5224" x2="68.5582" y2="39.6349" width="0.1" layer="51"/>
 <wire x1="68.5582" y1="39.4099" x2="68.7832" y2="39.5224" width="0.1" layer="51"/>
-<text x="0.05689375" y="0.014528125" size="0.0001" layer="51" font="vector">GND</text>
+<text x="0.05689375" y="0.014528125" size="0.0001" layer="51" font="vector">GND:7</text>
 <wire x1="56.7944" y1="14.5288" x2="56.5694" y2="14.6413" width="0.1" layer="51"/>
 <wire x1="56.5694" y1="14.4163" x2="56.7944" y2="14.5288" width="0.1" layer="51"/>
-<text x="0.05689375" y="0.013715625" size="0.0001" layer="51" font="vector">GND</text>
+<text x="0.05689375" y="0.013715625" size="0.0001" layer="51" font="vector">GND:8</text>
 <wire x1="56.7944" y1="13.716" x2="56.5694" y2="13.8285" width="0.1" layer="51"/>
 <wire x1="56.5694" y1="13.6035" x2="56.7944" y2="13.716" width="0.1" layer="51"/>
-<text x="0.0580125" y="0.02265625" size="0.0001" layer="51" font="vector">GND</text>
+<text x="0.0580125" y="0.02265625" size="0.0001" layer="51" font="vector">GND:9</text>
 <wire x1="57.912" y1="22.6568" x2="57.687" y2="22.7693" width="0.1" layer="51"/>
 <wire x1="57.687" y1="22.5443" x2="57.912" y2="22.6568" width="0.1" layer="51"/>
-<text x="0.05689375" y="0.023775" size="0.0001" layer="51" font="vector">GND</text>
+<text x="0.05689375" y="0.023775" size="0.0001" layer="51" font="vector">GND:10</text>
 <wire x1="56.7944" y1="23.7744" x2="56.5694" y2="23.8869" width="0.1" layer="51"/>
 <wire x1="56.5694" y1="23.6619" x2="56.7944" y2="23.7744" width="0.1" layer="51"/>
-<text x="0.06949375" y="0.0308875" size="0.0001" layer="51" font="vector">GND</text>
+<text x="0.06949375" y="0.0308875" size="0.0001" layer="51" font="vector">GND:11</text>
 <wire x1="69.3928" y1="30.8864" x2="69.1678" y2="30.9989" width="0.1" layer="51"/>
 <wire x1="69.1678" y1="30.7739" x2="69.3928" y2="30.8864" width="0.1" layer="51"/>
-<text x="0.068984375" y="0.0308875" size="0.0001" layer="51" font="vector">GND</text>
+<text x="0.068984375" y="0.0308875" size="0.0001" layer="51" font="vector">GND:12</text>
 <wire x1="68.8848" y1="30.8864" x2="68.6598" y2="30.9989" width="0.1" layer="51"/>
 <wire x1="68.6598" y1="30.7739" x2="68.8848" y2="30.8864" width="0.1" layer="51"/>
-<text x="0.069290625" y="0.02346875" size="0.0001" layer="51" font="vector">GND</text>
+<text x="0.069290625" y="0.02346875" size="0.0001" layer="51" font="vector">GND:13</text>
 <wire x1="69.1896" y1="23.4696" x2="68.9646" y2="23.5821" width="0.1" layer="51"/>
 <wire x1="68.9646" y1="23.3571" x2="69.1896" y2="23.4696" width="0.1" layer="51"/>
-<text x="0.06878125" y="0.02346875" size="0.0001" layer="51" font="vector">GND</text>
+<text x="0.06878125" y="0.02346875" size="0.0001" layer="51" font="vector">GND:14</text>
 <wire x1="68.6816" y1="23.4696" x2="68.4566" y2="23.5821" width="0.1" layer="51"/>
 <wire x1="68.4566" y1="23.3571" x2="68.6816" y2="23.4696" width="0.1" layer="51"/>
-<text x="0.0676625" y="0.023875" size="0.0001" layer="51" font="vector">GND</text>
+<text x="0.0676625" y="0.023875" size="0.0001" layer="51" font="vector">GND:15</text>
 <wire x1="67.564" y1="23.876" x2="67.339" y2="23.9885" width="0.1" layer="51"/>
 <wire x1="67.339" y1="23.7635" x2="67.564" y2="23.876" width="0.1" layer="51"/>
-<text x="0.068275" y="0.02346875" size="0.0001" layer="51" font="vector">GND</text>
+<text x="0.068275" y="0.02346875" size="0.0001" layer="51" font="vector">GND:16</text>
 <wire x1="68.1736" y1="23.4696" x2="67.9486" y2="23.5821" width="0.1" layer="51"/>
 <wire x1="67.9486" y1="23.3571" x2="68.1736" y2="23.4696" width="0.1" layer="51"/>
-<text x="0.0676625" y="0.02336875" size="0.0001" layer="51" font="vector">GND</text>
+<text x="0.0676625" y="0.02336875" size="0.0001" layer="51" font="vector">GND:17</text>
 <wire x1="67.564" y1="23.368" x2="67.339" y2="23.4805" width="0.1" layer="51"/>
 <wire x1="67.339" y1="23.2555" x2="67.564" y2="23.368" width="0.1" layer="51"/>
-<text x="0.06156875" y="0.01544375" size="0.0001" layer="51" font="vector">GND</text>
+<text x="0.06156875" y="0.01544375" size="0.0001" layer="51" font="vector">GND:18</text>
 <wire x1="61.468" y1="15.4432" x2="61.243" y2="15.5557" width="0.1" layer="51"/>
 <wire x1="61.243" y1="15.3307" x2="61.468" y2="15.4432" width="0.1" layer="51"/>
-<text x="0.061059375" y="0.01544375" size="0.0001" layer="51" font="vector">GND</text>
+<text x="0.061059375" y="0.01544375" size="0.0001" layer="51" font="vector">GND:19</text>
 <wire x1="60.96" y1="15.4432" x2="60.735" y2="15.5557" width="0.1" layer="51"/>
 <wire x1="60.735" y1="15.3307" x2="60.96" y2="15.4432" width="0.1" layer="51"/>
-<text x="0.060653125" y="0.019609375" size="0.0001" layer="51" font="vector">GND</text>
+<text x="0.060653125" y="0.019609375" size="0.0001" layer="51" font="vector">GND:20</text>
 <wire x1="60.5536" y1="19.6088" x2="60.3286" y2="19.7213" width="0.1" layer="51"/>
 <wire x1="60.3286" y1="19.4963" x2="60.5536" y2="19.6088" width="0.1" layer="51"/>
-<text x="0.0611625" y="0.019609375" size="0.0001" layer="51" font="vector">GND</text>
+<text x="0.0611625" y="0.019609375" size="0.0001" layer="51" font="vector">GND:21</text>
 <wire x1="61.0616" y1="19.6088" x2="60.8366" y2="19.7213" width="0.1" layer="51"/>
 <wire x1="60.8366" y1="19.4963" x2="61.0616" y2="19.6088" width="0.1" layer="51"/>
-<text x="0.052425" y="0.029565625" size="0.0001" layer="51" font="vector">GND</text>
+<text x="0.052425" y="0.029565625" size="0.0001" layer="51" font="vector">GND:22</text>
 <wire x1="52.324" y1="29.5656" x2="52.099" y2="29.6781" width="0.1" layer="51"/>
 <wire x1="52.099" y1="29.4531" x2="52.324" y2="29.5656" width="0.1" layer="51"/>
-<text x="0.052425" y="0.03301875" size="0.0001" layer="51" font="vector">GND</text>
+<text x="0.052425" y="0.03301875" size="0.0001" layer="51" font="vector">GND:23</text>
 <wire x1="52.324" y1="33.02" x2="52.099" y2="33.1325" width="0.1" layer="51"/>
 <wire x1="52.099" y1="32.9075" x2="52.324" y2="33.02" width="0.1" layer="51"/>
-<text x="0.030784375" y="0.039928125" size="0.0001" layer="51" font="vector">GND</text>
+<text x="0.030784375" y="0.039928125" size="0.0001" layer="51" font="vector">GND:24</text>
 <wire x1="30.6832" y1="39.9288" x2="30.4582" y2="40.0413" width="0.1" layer="51"/>
 <wire x1="30.4582" y1="39.8163" x2="30.6832" y2="39.9288" width="0.1" layer="51"/>
-<text x="0.032509375" y="0.039928125" size="0.0001" layer="51" font="vector">GND</text>
+<text x="0.032509375" y="0.039928125" size="0.0001" layer="51" font="vector">GND:25</text>
 <wire x1="32.4104" y1="39.9288" x2="32.1854" y2="40.0413" width="0.1" layer="51"/>
 <wire x1="32.1854" y1="39.8163" x2="32.4104" y2="39.9288" width="0.1" layer="51"/>
-<text x="0.053540625" y="0.01595" size="0.0001" layer="51" font="vector">GND</text>
+<text x="0.053540625" y="0.01595" size="0.0001" layer="51" font="vector">GND:26</text>
 <wire x1="53.4416" y1="15.9512" x2="53.2166" y2="16.0637" width="0.1" layer="51"/>
 <wire x1="53.2166" y1="15.8387" x2="53.4416" y2="15.9512" width="0.1" layer="51"/>
-<text x="0.05405" y="0.01595" size="0.0001" layer="51" font="vector">GND</text>
+<text x="0.05405" y="0.01595" size="0.0001" layer="51" font="vector">GND:27</text>
 <wire x1="53.9496" y1="15.9512" x2="53.7246" y2="16.0637" width="0.1" layer="51"/>
 <wire x1="53.7246" y1="15.8387" x2="53.9496" y2="15.9512" width="0.1" layer="51"/>
-<text x="0.05405" y="0.016459375" size="0.0001" layer="51" font="vector">GND</text>
+<text x="0.05405" y="0.016459375" size="0.0001" layer="51" font="vector">GND:28</text>
 <wire x1="53.9496" y1="16.4592" x2="53.7246" y2="16.5717" width="0.1" layer="51"/>
 <wire x1="53.7246" y1="16.3467" x2="53.9496" y2="16.4592" width="0.1" layer="51"/>
-<text x="0.053540625" y="0.016459375" size="0.0001" layer="51" font="vector">GND</text>
+<text x="0.053540625" y="0.016459375" size="0.0001" layer="51" font="vector">GND:29</text>
 <wire x1="53.4416" y1="16.4592" x2="53.2166" y2="16.5717" width="0.1" layer="51"/>
 <wire x1="53.2166" y1="16.3467" x2="53.4416" y2="16.4592" width="0.1" layer="51"/>
-<text x="0.069390625" y="0.017475" size="0.0001" layer="51" font="vector">GND</text>
+<text x="0.069390625" y="0.017475" size="0.0001" layer="51" font="vector">GND:30</text>
 <wire x1="69.2912" y1="17.4752" x2="69.0662" y2="17.5877" width="0.1" layer="51"/>
 <wire x1="69.0662" y1="17.3627" x2="69.2912" y2="17.4752" width="0.1" layer="51"/>
-<text x="0.06878125" y="0.017475" size="0.0001" layer="51" font="vector">GND</text>
+<text x="0.06878125" y="0.017475" size="0.0001" layer="51" font="vector">GND:31</text>
 <wire x1="68.6816" y1="17.4752" x2="68.4566" y2="17.5877" width="0.1" layer="51"/>
 <wire x1="68.4566" y1="17.3627" x2="68.6816" y2="17.4752" width="0.1" layer="51"/>
-<text x="0.011175" y="0.0103625" size="0.0001" layer="51" font="vector">IO-VDD_3V3</text>
+<text x="0.011175" y="0.0103625" size="0.0001" layer="51" font="vector">IO-VDD_3V3:32</text>
 <wire x1="11.0744" y1="10.3632" x2="10.8494" y2="10.4757" width="0.1" layer="51"/>
 <wire x1="10.8494" y1="10.2507" x2="11.0744" y2="10.3632" width="0.1" layer="51"/>
-<text x="0.01168125" y="0.0103625" size="0.0001" layer="51" font="vector">IO-VDD_3V3</text>
+<text x="0.01168125" y="0.0103625" size="0.0001" layer="51" font="vector">IO-VDD_3V3:33</text>
 <wire x1="11.5824" y1="10.3632" x2="11.3574" y2="10.4757" width="0.1" layer="51"/>
 <wire x1="11.3574" y1="10.2507" x2="11.5824" y2="10.3632" width="0.1" layer="51"/>
-<text x="0.066953125" y="0.029871875" size="0.0001" layer="51" font="vector">VBUS</text>
+<text x="0.066953125" y="0.029871875" size="0.0001" layer="51" font="vector">VBUS:34</text>
 <wire x1="66.8528" y1="29.8704" x2="66.5778" y2="30.0079" width="0.1" layer="51"/>
 <wire x1="66.5778" y1="29.7329" x2="66.8528" y2="29.8704" width="0.1" layer="51"/>
-<text x="0.066953125" y="0.029259375" size="0.0001" layer="51" font="vector">VBUS</text>
+<text x="0.066953125" y="0.029259375" size="0.0001" layer="51" font="vector">VBUS:35</text>
 <wire x1="66.8528" y1="29.2608" x2="66.5778" y2="29.3983" width="0.1" layer="51"/>
 <wire x1="66.5778" y1="29.1233" x2="66.8528" y2="29.2608" width="0.1" layer="51"/>
-<text x="0.066953125" y="0.03048125" size="0.0001" layer="51" font="vector">VBUS</text>
+<text x="0.066953125" y="0.03048125" size="0.0001" layer="51" font="vector">VBUS:36</text>
 <wire x1="66.8528" y1="30.48" x2="66.5778" y2="30.6175" width="0.1" layer="51"/>
 <wire x1="66.5778" y1="30.3425" x2="66.8528" y2="30.48" width="0.1" layer="51"/>
-<text x="0.068478125" y="0.014428125" size="0.0001" layer="51" font="vector">VDD_3V3_SENSORS</text>
+<text x="0.068478125" y="0.014428125" size="0.0001" layer="51" font="vector">VDD_3V3_SENSORS:37</text>
 <wire x1="68.3768" y1="14.4272" x2="68.1518" y2="14.5397" width="0.1" layer="51"/>
 <wire x1="68.1518" y1="14.3147" x2="68.3768" y2="14.4272" width="0.1" layer="51"/>
-<text x="0.06796875" y="0.014428125" size="0.0001" layer="51" font="vector">VDD_3V3_SENSORS</text>
+<text x="0.06796875" y="0.014428125" size="0.0001" layer="51" font="vector">VDD_3V3_SENSORS:38</text>
 <wire x1="67.8688" y1="14.4272" x2="67.6438" y2="14.5397" width="0.1" layer="51"/>
 <wire x1="67.6438" y1="14.3147" x2="67.8688" y2="14.4272" width="0.1" layer="51"/>
-<text x="0.06685" y="0.03698125" size="0.0001" layer="51" font="vector">VDD_5V_BRICK</text>
+<text x="0.06685" y="0.03698125" size="0.0001" layer="51" font="vector">VDD_5V_BRICK:39</text>
 <wire x1="66.7512" y1="36.9824" x2="66.5012" y2="37.1074" width="0.1" layer="51"/>
 <wire x1="66.5012" y1="36.8574" x2="66.7512" y2="36.9824" width="0.1" layer="51"/>
-<text x="0.068171875" y="0.037896875" size="0.0001" layer="51" font="vector">VDD_5V_BRICK</text>
+<text x="0.068171875" y="0.037896875" size="0.0001" layer="51" font="vector">VDD_5V_BRICK:40</text>
 <wire x1="68.072" y1="37.8968" x2="67.847" y2="38.0093" width="0.1" layer="51"/>
 <wire x1="67.847" y1="37.7843" x2="68.072" y2="37.8968" width="0.1" layer="51"/>
-<text x="0.068275" y="0.0373875" size="0.0001" layer="51" font="vector">VDD_5V_BRICK</text>
+<text x="0.068275" y="0.0373875" size="0.0001" layer="51" font="vector">VDD_5V_BRICK:41</text>
 <wire x1="68.1736" y1="37.3888" x2="67.9486" y2="37.5013" width="0.1" layer="51"/>
 <wire x1="67.9486" y1="37.2763" x2="68.1736" y2="37.3888" width="0.1" layer="51"/>
-<text x="0.036471875" y="0.036475" size="0.0001" layer="51" font="vector">VDD_5V_IN</text>
+<text x="0.036471875" y="0.036475" size="0.0001" layer="51" font="vector">VDD_5V_IN:42</text>
 <wire x1="36.3728" y1="36.4744" x2="36.0978" y2="36.6119" width="0.1" layer="51"/>
 <wire x1="36.0978" y1="36.3369" x2="36.3728" y2="36.4744" width="0.1" layer="51"/>
-<text x="0.06878125" y="0.03606875" size="0.0001" layer="51" font="vector">VDD_5V_IN</text>
+<text x="0.06878125" y="0.03606875" size="0.0001" layer="51" font="vector">VDD_5V_IN:43</text>
 <wire x1="68.6816" y1="36.068" x2="68.4066" y2="36.2055" width="0.1" layer="51"/>
 <wire x1="68.4066" y1="35.9305" x2="68.6816" y2="36.068" width="0.1" layer="51"/>
-<text x="0.06878125" y="0.03535625" size="0.0001" layer="51" font="vector">VDD_5V_IN</text>
+<text x="0.06878125" y="0.03535625" size="0.0001" layer="51" font="vector">VDD_5V_IN:44</text>
 <wire x1="68.6816" y1="35.3568" x2="68.4066" y2="35.4943" width="0.1" layer="51"/>
 <wire x1="68.4066" y1="35.2193" x2="68.6816" y2="35.3568" width="0.1" layer="51"/>
-<text x="0.06949375" y="0.032409375" size="0.0001" layer="51" font="vector">VDD_5V_IN</text>
+<text x="0.06949375" y="0.032409375" size="0.0001" layer="51" font="vector">VDD_5V_IN:45</text>
 <wire x1="69.3928" y1="32.4104" x2="69.1678" y2="32.5229" width="0.1" layer="51"/>
 <wire x1="69.1678" y1="32.2979" x2="69.3928" y2="32.4104" width="0.1" layer="51"/>
-<text x="0.068478125" y="0.032409375" size="0.0001" layer="51" font="vector">VDD_5V_IN</text>
+<text x="0.068478125" y="0.032409375" size="0.0001" layer="51" font="vector">VDD_5V_IN:46</text>
 <wire x1="68.3768" y1="32.4104" x2="68.1518" y2="32.5229" width="0.1" layer="51"/>
 <wire x1="68.1518" y1="32.2979" x2="68.3768" y2="32.4104" width="0.1" layer="51"/>
-<text x="0.068984375" y="0.032409375" size="0.0001" layer="51" font="vector">VDD_5V_IN</text>
+<text x="0.068984375" y="0.032409375" size="0.0001" layer="51" font="vector">VDD_5V_IN:47</text>
 <wire x1="68.8848" y1="32.4104" x2="68.6598" y2="32.5229" width="0.1" layer="51"/>
 <wire x1="68.6598" y1="32.2979" x2="68.8848" y2="32.4104" width="0.1" layer="51"/>
-<text x="0.0691875" y="0.027128125" size="0.0001" layer="51" font="vector">VDD_5V_IN</text>
+<text x="0.0691875" y="0.027128125" size="0.0001" layer="51" font="vector">VDD_5V_IN:48</text>
 <wire x1="69.088" y1="27.1272" x2="68.863" y2="27.2397" width="0.1" layer="51"/>
 <wire x1="68.863" y1="27.0147" x2="69.088" y2="27.1272" width="0.1" layer="51"/>
-<text x="0.068884375" y="0.027534375" size="0.0001" layer="51" font="vector">VDD_5V_IN</text>
+<text x="0.068884375" y="0.027534375" size="0.0001" layer="51" font="vector">VDD_5V_IN:49</text>
 <wire x1="68.7832" y1="27.5336" x2="68.5582" y2="27.6461" width="0.1" layer="51"/>
 <wire x1="68.5582" y1="27.4211" x2="68.7832" y2="27.5336" width="0.1" layer="51"/>
-<text x="0.06949375" y="0.027534375" size="0.0001" layer="51" font="vector">VDD_5V_IN</text>
+<text x="0.06949375" y="0.027534375" size="0.0001" layer="51" font="vector">VDD_5V_IN:50</text>
 <wire x1="69.3928" y1="27.5336" x2="69.1678" y2="27.6461" width="0.1" layer="51"/>
 <wire x1="69.1678" y1="27.4211" x2="69.3928" y2="27.5336" width="0.1" layer="51"/>
-<text x="0.06400625" y="0.025296875" size="0.0001" layer="51" font="vector">VDD_5V_IN</text>
+<text x="0.06400625" y="0.025296875" size="0.0001" layer="51" font="vector">VDD_5V_IN:51</text>
 <wire x1="63.9064" y1="25.2984" x2="63.6814" y2="25.4109" width="0.1" layer="51"/>
 <wire x1="63.6814" y1="25.1859" x2="63.9064" y2="25.2984" width="0.1" layer="51"/>
-<text x="0.06949375" y="0.03606875" size="0.0001" layer="51" font="vector">VDD_5V_IN</text>
+<text x="0.06949375" y="0.03606875" size="0.0001" layer="51" font="vector">VDD_5V_IN:52</text>
 <wire x1="69.3928" y1="36.068" x2="69.1178" y2="36.2055" width="0.1" layer="51"/>
 <wire x1="69.1178" y1="35.9305" x2="69.3928" y2="36.068" width="0.1" layer="51"/>
-<text x="0.06949375" y="0.03535625" size="0.0001" layer="51" font="vector">VDD_5V_IN</text>
+<text x="0.06949375" y="0.03535625" size="0.0001" layer="51" font="vector">VDD_5V_IN:53</text>
 <wire x1="69.3928" y1="35.3568" x2="69.1178" y2="35.4943" width="0.1" layer="51"/>
 <wire x1="69.1178" y1="35.2193" x2="69.3928" y2="35.3568" width="0.1" layer="51"/>
-<text x="0.053440625" y="0.02184375" size="0.0001" layer="51" font="vector">VDD_5V_IN</text>
+<text x="0.053440625" y="0.02184375" size="0.0001" layer="51" font="vector">VDD_5V_IN:54</text>
 <wire x1="53.34" y1="21.844" x2="53.065" y2="21.9815" width="0.1" layer="51"/>
 <wire x1="53.065" y1="21.7065" x2="53.34" y2="21.844" width="0.1" layer="51"/>
-<text x="0.061465625" y="0.02509375" size="0.0001" layer="51" font="vector">VDD_5V_PERIPH</text>
+<text x="0.061465625" y="0.02509375" size="0.0001" layer="51" font="vector">VDD_5V_PERIPH:55</text>
 <wire x1="61.3664" y1="25.0952" x2="61.0914" y2="25.2327" width="0.1" layer="51"/>
 <wire x1="61.0914" y1="24.9577" x2="61.3664" y2="25.0952" width="0.1" layer="51"/>
-<text x="0.06085625" y="0.02509375" size="0.0001" layer="51" font="vector">VDD_5V_PERIPH</text>
+<text x="0.06085625" y="0.02509375" size="0.0001" layer="51" font="vector">VDD_5V_PERIPH:56</text>
 <wire x1="60.7568" y1="25.0952" x2="60.4818" y2="25.2327" width="0.1" layer="51"/>
 <wire x1="60.4818" y1="24.9577" x2="60.7568" y2="25.0952" width="0.1" layer="51"/>
-<text x="0.0612625" y="0.0230625" size="0.0001" layer="51" font="vector">VDD_5V_PERIPH</text>
+<text x="0.0612625" y="0.0230625" size="0.0001" layer="51" font="vector">VDD_5V_PERIPH:57</text>
 <wire x1="61.1632" y1="23.0632" x2="60.8882" y2="23.2007" width="0.1" layer="51"/>
 <wire x1="60.8882" y1="22.9257" x2="61.1632" y2="23.0632" width="0.1" layer="51"/>
-<text x="0.061871875" y="0.0230625" size="0.0001" layer="51" font="vector">VDD_5V_PERIPH</text>
+<text x="0.061871875" y="0.0230625" size="0.0001" layer="51" font="vector">VDD_5V_PERIPH:58</text>
 <wire x1="61.7728" y1="23.0632" x2="61.4978" y2="23.2007" width="0.1" layer="51"/>
 <wire x1="61.4978" y1="22.9257" x2="61.7728" y2="23.0632" width="0.1" layer="51"/>
-<text x="0.06156875" y="0.02255625" size="0.0001" layer="51" font="vector">VDD_5V_PERIPH</text>
+<text x="0.06156875" y="0.02255625" size="0.0001" layer="51" font="vector">VDD_5V_PERIPH:59</text>
 <wire x1="61.468" y1="22.5552" x2="61.193" y2="22.6927" width="0.1" layer="51"/>
 <wire x1="61.193" y1="22.4177" x2="61.468" y2="22.5552" width="0.1" layer="51"/>
-<text x="0.066953125" y="0.033628125" size="0.0001" layer="51" font="vector">VDD_SERVO</text>
+<text x="0.066953125" y="0.033628125" size="0.0001" layer="51" font="vector">VDD_SERVO:60</text>
 <wire x1="66.8528" y1="33.6296" x2="66.5778" y2="33.7671" width="0.1" layer="51"/>
 <wire x1="66.5778" y1="33.4921" x2="66.8528" y2="33.6296" width="0.1" layer="51"/>
-<text x="0.066953125" y="0.034240625" size="0.0001" layer="51" font="vector">VDD_SERVO</text>
+<text x="0.066953125" y="0.034240625" size="0.0001" layer="51" font="vector">VDD_SERVO:61</text>
 <wire x1="66.8528" y1="34.2392" x2="66.5778" y2="34.3767" width="0.1" layer="51"/>
 <wire x1="66.5778" y1="34.1017" x2="66.8528" y2="34.2392" width="0.1" layer="51"/>
-<text x="0.066953125" y="0.03485" size="0.0001" layer="51" font="vector">VDD_SERVO</text>
+<text x="0.066953125" y="0.03485" size="0.0001" layer="51" font="vector">VDD_SERVO:62</text>
 <wire x1="66.8528" y1="34.8488" x2="66.5778" y2="34.9863" width="0.1" layer="51"/>
 <wire x1="66.5778" y1="34.7113" x2="66.8528" y2="34.8488" width="0.1" layer="51"/>
 </plain>

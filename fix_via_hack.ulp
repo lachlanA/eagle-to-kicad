@@ -17,7 +17,7 @@
 
 // THIS PROGRAM IS PROVIDED AS IS AND WITHOUT WARRANTY OF ANY KIND, EXPRESSED OR IMPLIED
 
-string Version = "ULP Version 4.4.4";
+string Version = "ULP Version 4.4.5";
 
 /*
  * CHANGELOG================================================
@@ -150,8 +150,10 @@ string infoDocomentUnconnectVias  =  "<b>This Option add's a \">\" to the via or
     "Making it easy to find the changed via's/pad's on the PCB<br>"+
     "Note this will show up as layer 51 (tDocu) on Eagle's PCB, and Dwgs.User on KiCad pcbnew.<br>";
 
-
 string infoULPdir           = "<b>Eagle ULP conversion script location</b>";
+
+int  hiddencount = 0;
+string via_polygon_netname = "";  // holds the report on matching polygon and net names, so can aplie gobale lable when the via and polygon match and wire
 
 string ULP_Path;
 char bkslash = '/';
@@ -838,12 +840,12 @@ int main()
   }  // board(B) {
 
 
-    if( noconnect_via_count > 0 )
-      menue();
+  if( noconnect_via_count > 0 )
+    menue();
     
 
-    noconnect_via_count = 0;
-    wireCount= 0;
+  noconnect_via_count = 0;
+  wireCount= 0;
 
   
 
@@ -863,20 +865,30 @@ int main()
       string netname = S.name;
       int viaX;
       int viaY;
-      
-      S.wires(W) {
+      char hidden = 0;  // Mark via as hitten and can't convert to PAD
+      int polygonCount = 0;
+      int viacount = 0;        
+
+      S.wires(W)
+      {
         wire_Sx[ wireCount ] = W.x1;
         wire_Sy[ wireCount ] = W.y1;        
         wire_Ex[ wireCount ] = W.x2;
         wire_Ey[ wireCount ] = W.y2;        
         wireCount++;
       }
-      S.vias(V) {
+      S.vias(V)
+      {
         // Is there a wire connected to this via ?
         if( findViaWire( V.x, V.y, wireCount ) == 0 ) 
         { // No, so docment and build scripts to add to sch and pcb and temporty lbr
           noconnect_via_count++;
 
+          if(( V.start != 1) ||  ( V.end != 16 )) // Blind or hitten via ?
+          {
+            hidden = 1;  
+            hiddencount++;
+          }
 
           viaX = V.x;
           viaY = V.y;
@@ -887,19 +899,42 @@ int main()
             pcb_cmd += c;
             sprintf(c, "CHANGE FONT VECTOR;\n"); // select Font
             pcb_cmd += c;
-            sprintf(c, "CHANGE SIZE 0.1;\n");
+            sprintf(c, "CHANGE SIZE 100.0;\n");
             pcb_cmd += c;
-            sprintf( c, "TEXT '%s' R0 (%f %f);\n", S.name, u2mm(V.x) + 0.1, u2mm(V.y));
-            pcb_cmd += c;          
-            sprintf(c, "SET WIRE_BEND 7;\n");
-            pcb_cmd += c;
-            sprintf( c, "wire '%s' %f (%f %f) (%f %f );\n", S.name,  100.0,  u2mic(V.x), u2mic(V.y), u2mic(V.x - ( V.diameter[V.start] /2)), u2mic(V.y + ( V.diameter[V.start] /4 )));
-            pcb_cmd += c;
-            sprintf( c, "wire '%s' %f (%f %f) (%f %f );\n", S.name,  100.0, u2mic(V.x - ( V.diameter[V.start] /2)), u2mic(V.y - ( V.diameter[V.start] /4 )), u2mic(V.x), u2mic(V.y));
-            pcb_cmd += c;
+
+            if( hidden == 0 ) // Blind or hidden via ?
+            { // No, so normal mark will be >
+              sprintf( c, "TEXT '%s:%d' R0 (%f %f);\n", S.name, noconnect_via_count, u2mic(V.x) + 0.1, u2mic(V.y));
+              pcb_cmd += c;          
+              sprintf(c, "SET WIRE_BEND 7;\n");
+              pcb_cmd += c;
+              sprintf( c, "wire '%s' %f (%f %f) (%f %f );\n", S.name,  100.0,  u2mic(V.x), u2mic(V.y), u2mic(V.x - ( V.diameter[V.start] /2)), u2mic(V.y + ( V.diameter[V.start] /4 )));
+              pcb_cmd += c;
+              sprintf( c, "wire '%s' %f (%f %f) (%f %f );\n", S.name,  100.0, u2mic(V.x - ( V.diameter[V.start] /2)), u2mic(V.y - ( V.diameter[V.start] /4 )), u2mic(V.x), u2mic(V.y));
+              pcb_cmd += c;
+            }
+            else
+            { // Ok blind via, so user will have to do manual convertion so Mark with a X!
+              sprintf( c, "TEXT '%s:BLIND:%d' R0 (%f %f);\n", S.name, noconnect_via_count, u2mic(V.x) + 0.1, u2mic(V.y));
+              pcb_cmd += c;          
+              sprintf(c, "SET WIRE_BEND 7;\n");
+              pcb_cmd += c;
+              // Print >
+              sprintf( c, "wire '%s' %f (%f %f) (%f %f );\n", S.name,  100.0,  u2mic(V.x), u2mic(V.y), u2mic(V.x - ( V.diameter[V.start] /2)), u2mic(V.y + ( V.diameter[V.start] /4 )));
+              pcb_cmd += c;
+              sprintf( c, "wire '%s' %f (%f %f) (%f %f );\n", S.name,  100.0, u2mic(V.x - ( V.diameter[V.start] /2)), u2mic(V.y - ( V.diameter[V.start] /4 )), u2mic(V.x), u2mic(V.y));
+              pcb_cmd += c;
+              // Print <
+              sprintf( c, "wire '%s' %f (%f %f) (%f %f );\n", S.name,  100.0,  u2mic(V.x), u2mic(V.y), u2mic(V.x + ( V.diameter[V.start] /2)), u2mic(V.y + ( V.diameter[V.start] /4 )));
+              pcb_cmd += c;
+              sprintf( c, "wire '%s' %f (%f %f) (%f %f );\n", S.name,  100.0,  u2mic(V.x), u2mic(V.y), u2mic(V.x + ( V.diameter[V.start] /2)), u2mic(V.y - ( V.diameter[V.start] /4 )));
+              pcb_cmd += c;
+
+            }
           }
           
-          if( enable_via_to_pad )
+          // If convertale from via to pad and it's not blind/hidden via, then do the conversion.
+          if(( enable_via_to_pad == 1) && ( hidden == 0 ))
           {
             int idx;
             string t;
@@ -938,7 +973,17 @@ int main()
             pad_count++;
           }
         }  // if( findViaWire( V.x, V.y, wireCount ) == 0 ) 
-      }  // vias(V) {
+        hidden = 0; // clear flag for next time around.
+        viacount++;
+      }  // vias(V)
+
+      // Do we have any polygons on this net ?
+      S.polygons(P)
+      {
+        polygonCount++;
+      }
+
+      // vias(V) {
       if( via_replace ) // Did we replace any via's wit pad's on the signal ?
       {
         via_replace = 0;
@@ -949,11 +994,25 @@ int main()
 
         sch_net_count++; // add new offset
       }
+
+      if( polygonCount ) // Do we have any nets on polygons, so we may need to mark any track/via as globle in sch so it will connect to it.
+        if( pad_count || wireCount || viacount )
+        {
+          string x;
+          if( pad_count )
+            sprintf( x,"P '%s' %d\n", S.name, pad_count );
+          if( wireCount )
+            sprintf( x,"W '%s' %d\n", S.name, wireCount );
+          if( viacount )
+            sprintf( x,"V '%s' %d\n", S.name, viacount );
+          
+          via_polygon_netname += x;
+        }
     }  // signals(S) {
   }  // board(B) { 
 
 
- //  sprintf( c, "wire %s %f (%f %f) (%f %f ) 'fred'  0.05 ( 0.1 0.1 ) ( 0.1 2 )
+  //  sprintf( c, "wire %s %f (%f %f) (%f %f ) 'fred'  0.05 ( 0.1 0.1 ) ( 0.1 2 )
 
 
   // write save command

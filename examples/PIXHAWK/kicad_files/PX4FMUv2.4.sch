@@ -6,7 +6,7 @@ $Descr A0 46811 33110
 encoding utf-8
 Sheet 1 13
 Title "PX4FMUv2.4.sch"
-Date "4 SEP 2015"
+Date "7 SEP 2015"
 Rev ""
 Comp ""
 Comment1 ""
