@@ -18,8 +18,9 @@
 
 * By using the  the following **ulp's**  a consistent link from the SCH to PCB is maintained So forward and backwoods net-list annotation work's under KiCad!  
 
- **WARNING KiCad via's don't retain NET information from Eagle,  so KiCad flood fill's will not connect to them !!!**
- **The option to convert free(unnconect Via's) to Pads can help with the problem.**  
+**WARNING KiCad via's and tracks don't retain NET information from Eagle when they are not connect to a PAD!,**  
+**So KiCad flood fill's will not connect to them !!!**  
+**There is option to convert free(unnconect Via's) to Pads can help with the problem.**  
 
 
 ###Installing.
