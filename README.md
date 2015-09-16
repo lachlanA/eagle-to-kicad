@@ -1,7 +1,7 @@
 ###**Converting from Eagle to KiCad.**
 
 
-* The following 5 **ulp** (eagle user script file) and one **ulp** include file, work together or stand alone to convert **Eagle**  *sch/lbr's* version 6.xx file(s) to **KiCad** *sch* and *lib/mod* files.  
+* The following 5 **ulp** (eagle user script file) and one **ulp** include file, work together or stand alone to convert **Eagle**  *sch/pcb* version 6.xx file(s) and any version of Eagle lib(*lbr*) to **KiCad** *sch/pcb* and *lib/mod* files.  
 
 * The Programs will do
 	* Eagle multi sheet sch to KiCad  multi sheets.  
@@ -11,8 +11,8 @@
 	* Make project director to store all the converted files.  
 	* And basic error checking.  
 	* Eagle 6.xx PCB files can be directly import to KiCad.  
-	* Eagle *LBR's*(any version of Eagel libs or size ) can be converted to KiCad lib/mod using eagle-lbr2kicad-1.0.ulp  
-	  see *https://github.com/lachlanA/eagle-to-kicad-libs* for more details
+	* Eagle *LBR's*(any version of Eagel libs or size ) can be converted to KiCad lib/mod using eagle-lbr2kicad-1.0.ulp see  
+	  https://github.com/lachlanA/eagle-to-kicad-libs* for more details
 	* Converts Via's to Pads to to help with KiCad's flood fill, not connecting to Free/unconnected Via's.  
     * The **examples** director contains a number of converted sch's/board's.  
 
@@ -46,7 +46,7 @@
 
 * **2:** Open the eagle SCH/PCB  file you wish to convert. Make sure the eagle SCH and PCB file's are both, Correct and pass all ERC/DRC checks in Eagle.  
 
-* **3:** Next Open  the top left hand  **File menu** and select  **Run ULP**  
+* **3:** Next Open the top left hand  **File menu** and select  **Run ULP**  
 
 * **4:** A file requester window will open.  Using this, to select find or type the location of the ***renumber-sheet.ulp*** ULP you download from this website. We use this script to make sure all part prefix's are ending in a number  IE:   R0,  X1   etc. As KiCad will ask to renumber any prefix which dose not end in a number. *(It may do this any way, but don't worry it wont change any Prefix's which have already been numbered unless you tell it too!)*  Keeping prefix's consistent from SCH to PCB will allow net-list forward and back annotation to work in KiCad. Select **OK** *(this will run the scrip)*.  When this completes all references with out a number, should have a number appended to them. Note: This number will start from the largest reference number on the SCH/PCB.
 
