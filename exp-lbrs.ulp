@@ -127,7 +127,7 @@ UnitName[GRID_UNIT_INCH] = "INCH";
 
 string x[] = { " " };
 string CurrentLbrName   = "";
-string EditName;
+string EditName = "";
 string h, cmd = "";
 string ScriptName, PureScriptName;
 string WorkPath;
@@ -186,9 +186,8 @@ int overLappingPinErrorCount = 0;
 int waring_count = 0;
 int error_count = 0;
 
-string logfile;     // Name of the log file
-string logbuffer;   // Buffer for the log warnings/messages
-string logbufferError;   // Buffer for the log messages
+string logfile;     // log file
+string logfileName;
 
 string checkFor_bad = "";
 string checkFor_badPostion = "";
@@ -693,11 +692,11 @@ int DrawPin(UL_PIN P, int printhead, int error, string symbol_name )
     
     if( !printhead )
     {
-      sprintf(xt, "WARNING: Over lapping Pin(s) on SYMBOL:%s\n", symbol_name );
-      logbuffer += xt;    
+      sprintf(xt, "\nWARNING: Over lapping Pin(s) on SYMBOL:%s", symbol_name );
+      logfile += xt;    
     }
-    sprintf(xt, "   Pin =%s\n", addApostroph( P.name ));
-    logbuffer += xt;
+    sprintf(xt, "\n   Pin =%s", addApostroph( P.name ));
+    logfile += xt;
     printhead = 1;
     return 1;
     //    outputStringToFile( logfile, "\nWORNING OVER LAPPING PIN:    " + xt, 1, 't');
@@ -814,14 +813,14 @@ void DrawDevice(UL_DEVICESET D, UL_LIBRARY LBR) {
     if( result = checkForBadCharstr( "()", DV.name ))
     {
       error_count++;
-      sprintf( tmpS, "%s%s%s", "ERROR: package name:", pacname,"  Has Bad/illegal charter in it's package Alisa name!\n");
-      logbufferError += tmpS;
-      sprintf( tmpS, "%s%s\n", "   Package Alaise  Name:", DV.name);
-      logbufferError += tmpS;
-      sprintf( tmpS, "%s%s\n", "   Error Postion & Char:", checkFor_badPostion );
-      logbufferError += tmpS;
-      sprintf( tmpS, "%s", "   Bad charter(s) have been replaced with  '_'  This MAY FIX OR, CAUSE MORE ERROR'S! Plese fix the Alias!\n");
-      logbufferError += tmpS;
+      sprintf( tmpS, "\n%s%s%s", "ERROR: package name:", pacname,"  Has Bad/illegal charter in it's package Alisa name!\n");
+      logfile += tmpS;
+      sprintf( tmpS, "\n%s%s", "   Package Alaise  Name:", DV.name);
+      logfile += tmpS;
+      sprintf( tmpS, "\n%s%s", "   Error Postion & Char:", checkFor_badPostion );
+      logfile += tmpS;
+      sprintf( tmpS, "\n%s", "   Bad charter(s) have been replaced with  '_'  This MAY FIX OR, CAUSE MORE ERROR'S! Plese fix the Alias!\n");
+      logfile += tmpS;
       cmd += ("PACKAGE '" + addApostroph(pacname) + "' " + charstr_replace("()", "_", DV.name ) + ";\n"); // addApostroph here problematic !
     }
     else
@@ -1058,9 +1057,9 @@ void make_one_lbr(void) {
 //
 void wright_log_to_disk( string logdata )
 {
-  logfile = filesetext(EditName, "");
-  logfile = WorkPath +  logfile +  "_EALGE_LIB_EXPORT.LOG";
-  output( logfile, "wtD")
+  //  logfile = filesetext(EditName, "");
+  logfileName = WorkPath + filesetext( EditName, "_conversion_log.txt");  
+  output( logfileName, "at")
       printf("%s", logdata );
 }
 
@@ -1075,6 +1074,10 @@ void show_save_script_file(string cm) {
 //-----------------------------------------------
 //  main.
 //-----------------------------------------------
+string myname = filename( argv[0]);
+string datetime = t2string(time(), "dd-MM-yyyy :hh:mm:ss");
+sprintf(logfile, "#********** START OF %s %s %s LOG **********#", myname, Version, datetime);
+
 if (library) {
   dlgMessageBox(TR("Please start from schematic or board editor!"));
   exit(1);
@@ -1107,9 +1110,6 @@ if( strlen( tmpSX = cfgget( cfg_conflictPartsLibsListsize )) > 0 )
     // add prefix ?    
 if( strlen( tmpSX = cfgget( cfg_addLibPrefix )) > 0 )
     AddLibPrefix = strtol( tmpSX );
-
-logbuffer = "\n#**** LOG Warning Start ****#\n";
-logbufferError = "\n#**** LOG Errors Start ****#\n";
 
 int Result = dlgDialog(TR("Export EAGLE libraries from drawing")) {
     dlgHBoxLayout {
@@ -1179,25 +1179,45 @@ int Result = dlgDialog(TR("Export EAGLE libraries from drawing")) {
         show_save_script_file(cmd);
 
 
+        logfileName = WorkPath + filesetext( EditName, "_conversion_log.txt");          
+
         if( overLappingPinErrorCount || error_count )
         {
-          wright_log_to_disk( logbufferError + logbuffer );
+          //          wright_log_to_disk( );
 
           if( overLappingPinErrorCount )
-            dlgMessageBox( "<font color=\"purple\">There were OverLappingPinPad warnings during the export please read the report file:<br>" + logfile  );
+            dlgMessageBox( "<font color=\"purple\">There were OverLappingPinPad warnings<br>"+
+                           "during the export please read the log for more information<br><b>File:<i>" + logfileName  );
 
           if( error_count )
-            dlgMessageBox( "<font color=\"red\">There were Errors during the export please read the report file:<br>" + logfile  );
+            dlgMessageBox( "<font color=\"red\">There were Errors during the export please read the log for more information<br><b>File:<i>" + logfileName  );
         }
         else
         {
-          logbuffer += "OK: Eagle lib export from SCH/PCB OK\n";
-          wright_log_to_disk( logbuffer );
+          logfile += "\nOK: Eagle lib export from SCH/PCB OK";
+          //          wright_log_to_disk( logfile );
         }
         
         tmpS1 = cfgget( cfg_SCRIP_ULP );
         if( strlen( tmpS1 ) > 1 )
           myULP_HOME = tmpS1;
+
+        int spos = 0;
+        int iC = 0;
+        string c;  
+        while( (spos = strrchr( logfile, 0x0a, spos )) != -1 )
+        {
+          if( ++iC > 2 )
+            break;
+          spos++;
+        }
+        if( iC < 3 )
+          logfile += "\n    Conversion completed with no Messages";
+        sprintf(c, "\n#********** END OF %s %s %s LOG **********#\n\n", myname, Version, datetime);
+        logfile += c;
+        output(logfileName, "at") printf("%s", logfile);
+
+
         
         sprintf(tmpS1, "SCRIPT '%s'\n;run '%s'\n", ScriptName, myULP_HOME + "eagle-lbr2kicad-1.0.ulp" );
         exit( tmpS1 );

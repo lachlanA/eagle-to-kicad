@@ -19,6 +19,8 @@ string Version = "ULP Version 4.4.3";
 
 /*
  * CHANGELOG================================================
+ * 01.10.2015: Add logfile
+ *             Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
  * 18.08.2015: Add save command, so sch and pcb are update, save user having to rember
  *             to save the change's
  *             Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
@@ -105,10 +107,9 @@ string ULP_Path;
 char bkslash = '/';
 int pos = strrchr(argv[0], bkslash);
 
-
-
-
-
+string logfile;
+string logfileName;
+//
 //--------------------------------------------------------------------------------
 //Returns 1, if EAGLE is running under Windows (0 for Linux/Mac)
 //
@@ -381,6 +382,8 @@ void GenerateScript(void)
       cmd += c;
     }
     Rename(x[Index[n]],y[Index[n]], NewNames[Index[n]]); // output script for renumber part
+    sprintf( c, "\n%s", NewNames[Index[n]] );
+    logfileName += c;
   }
   return;
 }
@@ -586,14 +589,18 @@ void menue(void)
 if (pos >= 0) 
 { 
   string tmpSX = ""; 
-  ULP_Path = strsub(argv[0], 0, pos + 1);
 
+  ULP_Path = strsub(argv[0], 0, pos + 1);
   tmpSX = cfgget( cfg_SCRIP_ULP, myULP_HOME );
   if( strlen(tmpSX ) )
     myULP_HOME = tmpSX;
   else
     myULP_HOME = ULP_Path; 
 }
+
+string myname = filename( argv[0]);
+string datetime = t2string(time(), "dd-MM-yyyy :hh:mm:ss");
+sprintf(logfile, "#********** START OF %s %s %s LOG **********#", myname, Version, datetime);
 
 //dlgMessageBox(  "ULP_Path=" + ULP_Path);
 
@@ -792,7 +799,22 @@ if (schematic) {
     sprintf(c, "run fix_via_hack.ulp;\n");    
     cmd += c;
 
+    logfileName = filesetext( outputPath + filename(S.name), "_conversion_log.txt");
 
+    int spos = 0;
+    int iC = 0;
+    while( ( spos = strrchr( logfile, 0x0a, spos )) != -1 )
+    {
+      if( ++iC > 2 )
+        break;
+      spos++;
+    }
+    if( iC < 3 )
+      logfile += "\n    Conversion completed with no Messages";
+    sprintf(c, "\n#********** END OF %s %s %s LOG **********#\n\n", myname, Version, datetime);
+    logfile += c;
+    output(logfileName, "wt") printf("%s", logfile);
+    
     string fname = filesetext(S.name, "~renumsch.scr");
     output(fname, "wtD") printf("%s", cmd);
     exit ("SCRIPT '" + fname + "';");

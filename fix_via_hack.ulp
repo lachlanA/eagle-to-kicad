@@ -17,10 +17,16 @@
 
 // THIS PROGRAM IS PROVIDED AS IS AND WITHOUT WARRANTY OF ANY KIND, EXPRESSED OR IMPLIED
 
-string Version = "ULP Version 4.4.5";
+string Version = "ULP Version 4.4.7";
 
 /*
  * CHANGELOG================================================
+ * 14.09.2015: Star adding reporting code for unnected tracks, and multi blind via's
+ *              Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
+ *
+ * 09.09.2015: Add better plot of via pad change, Doc marker
+ *             Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
+ *
  * 18.08.2015: Add save command, so sch and pcb are update, save user having to rember
  *             to save the change's
  *             Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
@@ -37,6 +43,13 @@ string Version = "ULP Version 4.4.5";
  * alf@cadsoft.de
  */
 
+int ViaEagleReportLayerTxt = 150;     // which eagle layer reporting text should to too. ( 51 is tDocu)
+int ViaEagleReportLayerDrawing = 152;     // which eagle layer reporting Graphics should to too ( 51 is tDocu)
+int WireEagleReportLayerTxt = 153;     // which eagle layer reporting text should to too. ( 51 is tDocu)
+int WireEagleReportLayerDrawing = 154;     // which eagle layer reporting Graphics should to too ( 51 is tDocu)
+
+int display_error_layers = 1;	// Display error layers only
+
 string Info = "ATTENTION<p>" +
        "Please verify that the corresponding pcb layout (if it existing) " +
        "has been loaded, and is consistant with the PCB.<p>" +
@@ -46,9 +59,11 @@ string Infoplus =
        " You can change the following sorting parameters:<p>" +
        " descx = 0 (X ascending [left >> right])<br>" +
        " descx = 1 (X descending [right >> left])<br>" +
-       " descy = 0 (Y ascending [bottom >> top])<br>" +
+       " Descy = 0 (Y ascending [bottom >> top])<br>" +
        " descy = 1 (Y descending [top >> bottom])<br>";
 
+string debugBuf[];
+int debugIdex = 0;
 
 int    descy = 1;               // set to 0 sorting ascending
 int    descx = 0;               // set to 1 sorting descending
@@ -95,13 +110,89 @@ string lbr[], dev[], sym[];
 int maxRefNumber = 0;   // Hold the maxium refance number on this schmatic
 // this will be the start of the number parts which dont have a refance
 
-int wire_Sx[];
-int wire_Sy[];
-int wire_Ex[];
-int wire_Ey[];
-int wireCount;
-int noconnect_via_count;
 
+// gobal table
+int aX[];
+int aY[];
+int aIndex[];     // 
+char aType[];     // type is 0=PAD, 1=VIA, 2=wire_start, 3=wire_end.
+string aNet[];
+int aSl[];	// Start layer of pad/via or track, 
+int aFl[];	// End layer of pad/vai if tack it is the same as start layer
+int aDiameter[];// Hold Via/Pad Diamiter for start layer
+int aDrill[];
+int aShape[];
+
+int aViaP[];	// Point's to Via index from track
+int aPadP[];	// Point's to Pad index
+char aStatus[];	// the connection status,  0=NoConnected, 1=PadConnection.
+int wirenumber[];	// holds the wire number
+int aindex[];	// order storted index of pad/tracks/via's
+int index_size; // Holds the table size
+int table_error = 0; // Counter's any error's in the connection table,  should not heppen !
+
+char overLappingPads = 0; // flag for over over lapping pads
+
+string unnconnected_vias[];
+int unnconnected_vias_Ct = 0;
+string unnconnected_wires[];
+int unnconnected_wires_Ct = 0;
+int unc_vaX[];
+int unc_vaY[];
+int unc_vaSl[];
+int unc_vaFl[]; 
+string unc_vaNet[];
+int unc_vaDiameter[];
+int unc_vaDrill[];
+int unc_vaShape[];
+
+string unc_vNet[];
+
+int unc_wXs[];
+int unc_wYs[];
+int unc_wXf[];
+int unc_wYf[];
+int unc_wLayer[];
+string unc_wNet[];
+
+char docment_unnconeted_wires = 1;
+
+// Hold table of wire's used when check for free wire's.
+// Note this looks bit old, as we dont have a end X,Y
+// but old/end is the marker..  IE index 10 is start, index of 11 is end of same track.
+// layer start finish are,  always the same vale,
+// so that same rutine can check for connection's for pad's
+// via's,  wire's  
+int wire_X[];
+int wire_Y[];
+char wire_Sl[];  // layer start
+char wire_Fl[];  // layer finish
+string wire_netname[];  // net name
+char wire_pad_connectFlag[];  // Marks the track as having connection to PAD, even if via a wire
+int wire_counter;
+int wire_index[];
+int wire_indexS[];
+int wire_indexF[];
+
+// Holds table of vire's pad's smd pad's
+// with pad's Sl and Fl 
+int via_X[];
+int via_Y[];
+char via_Sl[];
+char via_Fl[];
+string via_netname[];
+char via_pad_connectFlag[];   // Marks the pad as having connection to PAD, even if via a wire or direct,  via in pad.
+int via_counter;
+int via_index[];
+// Holds table of PAD's
+// for Pad's pad_Sl = 1  pad_Fl=16  ie all layers
+int pad_X[];
+int pad_Y[];
+char pad_Sl[];
+char pad_Fl[];
+string pad_netname[];
+int pad_counter;
+int pad_index[];
 
 // Pad buffer
 int pad_size[];  // hold list of pads size
@@ -118,9 +209,26 @@ int sch_pad_X = 0;
 int sch_pad_Y = 0;
 int sch_net_count = 0;
 
+// stack for tracking connections
+char stack_p_connection_status[];
+int  stack_p_index[];
+int  stack_p;
+
 int enable_via_to_pad = 1;
 int docment_via_to_pad = 1;
 int libsetup = 0;
+
+int total_vias = 0;
+int total_wires = 0;
+int wire_to_pad_connections = 0;
+int via_to_padconnections = 0;
+int wire_to_via_connections = 0;
+
+int kk = 0;
+int kp = 0;
+
+int unc_wiresDispLayerList[];
+int unc_wiresDispLayerListCt = 0;
 
 string WorkPath;
 string CurrentLbrName = "vpad";
@@ -137,8 +245,8 @@ string infoTargetDirectory  =  "<b>Set the target directory for the KiCad/Eagle 
                              "With out any other file's, as the contents-<br><center><font color=\"red\">WILL BE OVER WRITTEN WITHOUT WARNING!</b></center>";
 
 string infoConvertViaToPad  =  "<b>Eagle use's via's for connections to fill's and power plane's, this works well for Eagle<br>"+
-    "<b>But will not work for KiCad, because KiCad does not retain Net list information for unconnected via's<br>"+
-    "<b>It only retains net information when the via is connected to a PAD,  using a track<br>"+
+    "<b>But will not work for KiCad, because KiCad does not retain Net list information for unconnected via's and tracks<br>"+
+    "<b>It only retains net information when the via is connected to a PAD, using a track<br>"+
     "<b>By converting the unconnected via's to Pad's KiCad will keep the net information and allow fill's and power plane's to work like<br>"+
     "<b>they do on Eagle. But there  are some problems with this fix-<br><br>"+
     "1: Blind via's wont work, as Pads will go thou all layers,  while blind vie's only go thou the configured layers.<br>"+
@@ -148,7 +256,7 @@ string infoConvertViaToPad  =  "<b>Eagle use's via's for connections to fill's a
 
 string infoDocomentUnconnectVias  =  "<b>This Option add's a \">\" to the via or converted pad,<br>"+
     "Making it easy to find the changed via's/pad's on the PCB<br>"+
-    "Note this will show up as layer 51 (tDocu) on Eagle's PCB, and Dwgs.User on KiCad pcbnew.<br>";
+    "Note this will show up as layer eagleReportLayerTxt (tDocu) on Eagle's PCB, and Dwgs.User on KiCad pcbnew.<br>";
 
 string infoULPdir           = "<b>Eagle ULP conversion script location</b>";
 
@@ -158,7 +266,151 @@ string via_polygon_netname = "";  // holds the report on matching polygon and ne
 string ULP_Path;
 char bkslash = '/';
 int pos = strrchr(argv[0], bkslash);
+int passcount = 0;
 
+string logfile = "#********** START OF fix_via_hack.ulp LOG **********#";
+string logfileName;
+
+string polygon_messagex;
+int polygons_linesCt = 0;
+string polygons_message_FileName;
+
+//logfile = filesetext(S.name, "_conversion_log.txt");
+// *******************************************
+//
+// Output a string to a file.
+// openOverWriteCrateAppendMode set's optin's
+// openOverWriteCrateAppendMode = 0,   Append to a existining file only, return's -2 if the file is not found.
+// openOverWriteCrateAppendMode = 1,   Append to a existining file or crate a new file if it dose exist.
+// openOverWriteCrateAppendMode = 2,   Over write a existining file or crate a new file if it dose exist.
+// binaryText ='B' or 'b' for output binary mode
+//   binaryText ='T' or 't' for output binary text mode
+// return's -1 if input errror
+// or -2 if no file found
+// or output of fileerror,   which I have no idea what it will be,  just if 0,  then write was ok.
+//
+int outputStringToFile( string fileName, string outputString, char openOverWriteCrateAppendMode, char binaryText )
+{
+  string fa[];
+  int n;
+  string  mode = "Ft";
+  
+  fileerror();
+
+  switch( binaryText )
+  {
+    case 't':
+    case 'T':
+      mode = "Ft";
+      break;
+
+    case 'b':
+    case 'B':
+      mode = "Fb";
+      break;
+    default:
+      return -1;
+  }
+
+  switch( openOverWriteCrateAppendMode )
+  {
+    case 0:
+      if( fileglob( fa, fileName ) == 0 )
+        return -2;
+      mode += "a";
+      break;
+    case 1:
+      mode += "a";
+      break;
+    case 2:
+      mode += "w";
+      break;
+    default:
+      return -1;
+
+  }
+
+  // Out put the data to fileName  
+  output( fileName, mode )
+  {
+    
+    printf("%s", outputString );
+    n = fileerror();
+  }
+
+  return n;
+}
+//
+// Find and add if not in array
+// return zero if not found,   or array+1 if found
+// Note you need to ajust return value to use..  IE sub one
+int findIntInArray( int start, int value )
+{ int i;
+  
+  for( i = start; i < unc_wiresDispLayerListCt; i++ )
+  {
+    if( unc_wiresDispLayerList[i] == value )
+      return ++i;
+    else
+      continue;
+  }
+
+  unc_wiresDispLayerList[i] = value;
+  unc_wiresDispLayerListCt++;
+  return 0;
+}
+//--------------------------------------------------------------------------------
+// debug buffer print
+//
+void debugprint()
+{
+  int i;
+  for( i = 0; i < via_counter; i++ )
+  {
+    sprintf( debugBuf[ debugIdex++ ], "%d\t%d\t%d\t%d\t%s\t%c\t%c\t%d\t%d\t%f\t%f\t%d\t%d",
+             debugIdex, i, passcount, wirenumber[ i ], aNet[ i ], 48+(aType[ i ]), 48+(aStatus[ i ]), aSl[ i ], aFl[ i ], u2mic(aX[ i ]), u2mic(aY[ i ]), aViaP[i], aPadP[i]);
+  }
+}
+
+// put up window with buffer
+void displayDebug()
+{
+    int result;
+    int Selected = 0;
+    string x;
+
+    result = dlgDialog("Debug")
+        {
+          string c;
+              
+          dlgListView("debugIdex\tPadWireViaIdex\tPassCount\twirenumber\taNet\taType\taStatus\taSl\taFl\tX\tY\taVia\taPad", debugBuf, Selected) dlgMessageBox("More info ");
+
+          int space = 10;
+          dlgVBoxLayout 
+          {
+            dlgStretch(10);
+            dlgHBoxLayout 
+            {
+              dlgStretch(1);
+              dlgPushButton("+OK")
+              {
+                dlgAccept();
+              };
+
+              dlgSpacing(space);
+              dlgPushButton("-Exit Program") dlgReject();
+              dlgStretch(0);
+              dlgSpacing(space);
+            }
+            dlgStretch(10);
+          }
+        };
+
+    if( !result )
+      exit(-1);
+
+    return;
+}
 
 //--------------------------------------------------------------------------------
 //Returns 1, if EAGLE is running under Windows (0 for Linux/Mac)
@@ -486,8 +738,9 @@ void menue(void)
   result = dlgDialog("Vis to Pad hack:" + "  BUILD DATE:" + BUILD_DATE )
       {
         dlgLabel("<b><font color=\"red\">This ULP will change unconnected VIA's to PADS with Same Net name as the VIA's<br>" + 
-                 "<font color=\"blue\">This is needed because KiCad does not support Net Names on VIA'S.!<br>"+
-                 "If unconnected VIA's (<i>By that I mean VIA'S which have no track's connected to a PAD</i>)<br>"+
+                 "<font color=\"blue\">It will also Docment (on layer 51/???? unconected Via's/Tracks and blind Via's<br>" +
+                 "This is needed because KiCad does not support Net Names on unconected Via's/Tracks and blind Vias which have no Pad conecsion.!<br>"+
+                 "while unconected via's can be automatic coveted to Pad's blind via's and unconnected tracks need manual conversion</i>)<br>"+
                  "will lose net names, and will not connect to fill's or power plane's!<br>"+
                  "This hack will help out by converting all those unconnected VIA'S to Pads<br>"+
                  "<i>Click on Info for more, information and problem's which is could fix/make!</i><br>"+
@@ -559,8 +812,8 @@ void menue(void)
         {
           dlgStretch(10);
           dlgSpacing(space);
-          dlgLabel("Convert Via to PAD's");
-          dlgCheckBox("YES", enable_via_to_pad );
+          dlgLabel("Convert unconnecte Via to PAD's");
+          dlgCheckBox("", enable_via_to_pad );
           dlgPushButton("Info") { if (dlgMessageBox( infoConvertViaToPad, "Ok") == 0); };
           dlgStretch(0);
         }
@@ -570,7 +823,25 @@ void menue(void)
           dlgStretch(10);
           dlgSpacing(space);
           dlgLabel("Docment unconnect VIA's");
-          dlgCheckBox("YES", docment_via_to_pad );
+          dlgCheckBox("", docment_via_to_pad );
+          dlgLabel("Text Layer");
+          dlgIntEdit(ViaEagleReportLayerTxt, 1, 255);
+          dlgLabel("Arrow Layer");
+          dlgIntEdit(ViaEagleReportLayerDrawing, 1, 255);
+          dlgPushButton("Info") { if (dlgMessageBox( infoDocomentUnconnectVias, "Ok") == 0); };
+          dlgStretch(0);
+        }
+
+        dlgHBoxLayout
+        {
+          dlgStretch(10);
+          dlgSpacing(space);
+          dlgLabel("Docment unconnect WIRES's");
+          dlgCheckBox("", docment_via_to_pad );
+          dlgLabel("Text Layer");
+          dlgIntEdit(WireEagleReportLayerTxt, 1, 255);
+          dlgLabel("Arrow Layer");
+          dlgIntEdit(WireEagleReportLayerDrawing, 1, 255);
           dlgPushButton("Info") { if (dlgMessageBox( infoDocomentUnconnectVias, "Ok") == 0); };
           dlgStretch(0);
         }
@@ -617,19 +888,388 @@ void menue(void)
 // return 0 if not found, else return 1 if found.
 //
 //
-int findViaWire( int X, int Y, int tablesize )
+int findViaWire( int X, int Y, int base, int tablend )
 {
   int i;
-  for( i = 0; i < tablesize; i++ )
+  for( i = base; i < tablend; i++ )
   {
-    if(( X == wire_Sx[ i ]) && ( Y == wire_Sy[ i ]))
-      return 1;
+    if(( X == aX[ i ]) && ( Y == aY[ i ]))
+      return i;
 
-    if(( X == wire_Ex[ i ]) && ( Y == wire_Ey[ i ]))
-      return 1;
+    //    if(( X == aX[ i+1 ]) && ( Y == aY[ i+1 ]))
+    //      return 1;
   }
   return 0;  // not found !  
 }
+
+//--------------------------------------------------------------------------------
+// Find connected via/pad/wire conntion in table.
+// if layer_check is none zero,  check that layers,
+// IE: if same layer and same X,Y return index
+//	if find_Sl_layer => table_Sl_layer && find_Fl_layer <= table_Fl_layer
+//      or sum up if table layers is conntained in find layer, mark as connected.
+// return 0 if not found, else return index+1 for table if found,  SO FIX index before using !
+//
+//
+int findTableViaWire( int table, int tablend, int find,  char layer_check )
+{
+  int i;
+  for( i = table; i < tablend; i++ )
+  {
+    //    if(layer_check )
+    if( layer_check )      
+    {
+      if( ( aX[ find ] == aX[ i ]) && ( aY[ find ] == aY[ i ]) )
+        if( ( aViaP[ i ] != 0 ) || (aViaP[ find ] != 0 ) || (aPadP[ i ] != 0 ) || (aPadP[ find ] != 0 ) ) // Do we have a via  or pad to test for ?
+        {
+          if( aViaP[ i ] != 0 ) // table side via check first
+            if( (aSl[ find ] >= aSl[ aViaP[ i ]]) && (aFl[ find ] <= aFl[ aViaP[ i ]] )) // which layer is this track on (cond) ? 
+              return ++i;  // Ok found
+
+          if( aViaP[ find ] != 0 ) // seach side via check next
+            if( (aSl[ i ] >= aSl[ aViaP[ find ]]) && (aFl[ i ] <= aFl[ aViaP[ find ]] )) // which layer is this track on (cond) ? 
+              return ++i;  // Ok found
+
+          if( aPadP[ find ] != 0 ) // table side pad ?
+            if( (aSl[ find ] >= aSl[ aPadP[ i ]]) && (aFl[ find ] <= aFl[ aPadP[ i ]] )) // which layer is this track on (cond) ? 
+              return ++i;  // Ok found
+            
+          if( aViaP[ find ] != 0 ) // seach side Pad check next
+            if( (aSl[ i ] >= aSl[ aPadP[ find ]]) && (aFl[ i ] <= aFl[ aPadP[ find ]] )) // which layer is this track on (cond) ? 
+              return ++i;  // Ok found
+
+            continue;  // keep looking then.
+        }
+        else
+        {
+          if( (aSl[ find ] >= aSl[ i ]) && (aFl[ find ] <= aFl[ i ] )) // which layer is this track on (cond) ? 
+            return ++i;  // Ok found 
+          else
+            continue;  // keep looking then.
+        }
+      else
+        continue;  // keep looking then.
+    }
+    else
+    {
+      if(( aX[ find ] == aX[ i ]) && ( aY[ find ] == aY[ i ]))
+        return ++i; //Ok found
+    }
+  }
+  return 0;  // not found !  
+}
+
+
+//--------------------------------------------------------------------------------
+// Mark any Via with connection to PAD
+// return 0 if none found, else count of number connected.
+//
+/* int markViaPadConntion( ) */
+/* { */
+/*   int i; */
+/*   int j; */
+/*   int connectionC = 0; */
+
+/*   for( i = 0; i < via_counter; i++ ) */
+/*   { */
+/*     for( j = 0; j <  pad_counter; j++ )     */
+/*     { */
+/*       if( via_X[ i ] ==  pad_X[ j ] ) */
+/*         { */
+/*           via_pad_connectionFlag[ i ] = 1; // Mark as connected */
+/*           connectionC++; */
+/*           break; */
+/*         } */
+/*     } */
+/*   } */
+/*   retrun connectionC; */
+/* } */
+
+
+//--------------------------------------------------------------------------------
+// Find start of group,
+// called with start postion,  start pos is the sorted index into pad/via/track table
+// return with group start index.
+//
+int findGroupStart(int index )
+{
+  do
+  {
+    if( index == 0 ) // start of table ?
+      return 0;      // Yes so return start.
+
+    if(( aX[ aindex[ index-1 ]] == aX[ aindex[ index ]]) && ( aY[ aindex[ index-1 ]] == aY[ aindex[ index ]] ))
+      index--;
+    else
+      return index;
+  }while( index > 0 );
+
+  return index;
+}
+//--------------------------------------------------------------------------------
+// Push index onto stack and P status
+//
+int push_index( int index, char connection_status )
+{
+  stack_p_index[ index ] = index;
+  stack_p_connection_status[ index ] = connection_status;  
+  return stack_p++;
+}
+// Pop index of stack.
+int pop_index( int index)
+{
+  return stack_p_index[ index ];
+}
+
+// Pop index of stack.
+char pop_connection_status( int index)
+{
+  return stack_p_connection_status[ index ];
+}
+
+
+//--------------------------------------------------------------------------------
+// Build connection table
+//
+int buildconnectintable()
+{
+  /* int i; */
+  /* int j; */
+  /* int p; */
+  /* int connectionC = 0; */
+
+  /* stack_p = 0; */
+  /* p = 0;   */
+
+  /* for( i = 0; i < index_size; i++ ) */
+  /* { */
+  /*   while( ( aindex[ p ] != 1 ) && ( aIndex[ aindex[ p ]] > p ) ) // no connection to pad or target index grater than current index */
+  /*   { // No */
+  /*     if( ( aType[ aindex[ i ]]  == 0 ) || ( aType[ aindex[ i ]]  == 1 )) // PAD ? or via ? */
+  /*       break;  // Ok  have Pad or via,   so unwind stack */
+  /*     else */
+  /*     { */
+  /*       push_index( aindex[ i ], aStatus[ aindex[ i ]] ); // Ok save our lowcation */
+  /*       stack_p++;  // Inc */
+  /*     } */
+  /*   } */
+
+
+    
+  /*   //    aStatus[aindex[i]] */
+
+  /*   for( j = 0; j < via_counter; j++) */
+  /*   { */
+
+  /*     if( ( aIndex[ i ] ==  aindex[ j ] ) // pointing to our self's ? */
+
+  
+  
+/*   // scan for pad to via conection, and mark. */
+/*   for( i = 0; i < pad_counter; i++ ) */
+/*   { */
+/*     for( j = 0; j < via_counter; j++) */
+/*     { */
+
+/*       if( ( aIndex[ i ] ==  aindex[ j ] ) // pointing to our self's ? */
+/*         {  // Ok  step over then as pad's should not connect to pads.. I think !!! */
+/*           j++; */
+/*           continue; */
+/*         } */
+/*         else */
+/*         {  // Ok not pointing to our sleft's, so is it a pad connection ? */
+/*           if(( aX[ i ] == aX[ aindex[ j ]] ) && ( aY[ i ] == aY[ aindex[ j ]]) ) */
+/*           { */
+/*             if( aSl[ aindex[ j ]] == aFl[ aindex[ j ]] ) // only one layer,  IE track, or smd Pad ? */
+/*             {  // Yes  */
+/*               if( aSl[ i ] == aFl[ i ] ) // Pad on one layer only ?  IE smd pad */
+/*               { */
+/*                 if( aSl[ i ] == aSl[ aindex[j]] ) // Ok smd pad, and track on same layer ? */
+/*                   aStatus[ aindex[j]] = 1;  // Mark as pad connection then. */
+/*                 continue; */
+/*               } */
+/*             } */
+
+/*             ??????? */
+                
+/*             aStatus[ aindex[ j ]] = 1; // Mark as padd connection. */
+
+            
+/*           } */
+
+
+/*         } */
+
+/* ???? */
+
+      
+/*       if( aX[ i ]] ==  aX[ aindex[j]] ) && ( aY[ i] ==  aY[ aindex[j]] ) )) */
+/*       { */
+
+/*         if( pad_Sl == pad_Fl ) // Smd pad ? */
+/*         {// yes ! */
+/*           if( via_Sl <= pad_Sl && via_Fl >= pad_Fl ) // do we have birrred via to this pad or a full via ? */
+/*             via_pad_connectFlag[ via_index[i]] = 1;  //Mark has having pad connection then. */
+
+/*         } */
+/*         else */
+/*         {// No so pad go's thou all layers, so we aways have to connect then. */
+/*           via_pad_connectFlag[ via_index[i]] = 1;  //Mark has having pad connection */
+/*         } */
+/*       } */
+/*     } */
+/*   } */
+
+/*   // Ok scan wire table for connection for pads */
+/*   for( i = 0; i < pad_counter; i++ ) */
+/*   { */
+/*     for( j = 0; j < ( wire_counter * 2); j++ )  // check wire pad connection     */
+/*     { */
+/*       if( ( pad_X[ pad_index[ i ]] ==  wire_X[ wire_index[ j ]] ) && ( pad_Y[ pad_index[ i ]] ==  wire_Y[ wire_index[ j ]] )) */
+/*       { */
+/*         if( pad_Sl[ pad_index[ i ]] == pad_Fl[ pad_index[ i ]] ) // Smd pad ? */
+/*         {// yes ! */
+/*           if( wire_Sl[ wire_index[ j ]] <= pad_Sl[ pad_index[ i ]]  && wire_Fl[ wire_index[ j ]] >= pad_Fl[ pad_index[ i ]]  ) // which layer is this track on ? */
+/*             wire_pad_connectFlag[ wire_index[i]] = 1;  //Mark has having pad connection then,  (only one end) */
+/*         } */
+/*         else */
+/*         {// No so pad go's thou all layers, so we aways have to connect then. */
+/*           wire_pad_connectFlag[ wire_index[i]] = 1;  //Mark has having pad connection, (only one end) */
+/*         } */
+/*       } */
+/*     } */
+/*   } */
+
+  
+/*   // Now scan via/wires for conntions secondary conntion to pads */
+/*   for( i = 0; i < wire_counter; i++ ) */
+/*   { */
+/*     for( j = 0; j < ( via_counter ); j++ )  // check wire for via connection     */
+/*     { */
+/*       if( via_pad_connectFlag[ via_index[j]] == 1)  //Is there a pad conntion to the via ? */
+/*       { */
+/*         for( p = 0; p < ( wire_counter*2); p++ ) */
+/*         { */
+/*           if( ( wire_X[ wire_index[ p ]] ==  via_X[ wia_index[j]] ) && ( wire_Y[ wire_index[ p ]] ==  via_Y[ via_index[ j ]] ))           */
+/*           { */
+/*             if( wire_Sl[ wire_index[ p ]] <= via_Sl[ via_index[ j ]] && wire_Fl[wire_index[ p ]] >= via_Fl[ via_index[ j  ]] ) // which layer is this track on ? */
+/*               wire_pad_connectFlag[ wire_index[ p ]] = 1;  //Mark has having pad connection then,  (only one end) */
+/*           } */
+/*         } */
+/*         else */
+/*           continue; //  Ok   no conntion so continue next to next via. */
+/*       } */
+/*     } */
+/*   } */
+
+/*   ????? */
+      
+/*       if( ( pad_X[ pad_index[ j ]] ==  wire_X[ wire_index[i]] ) && ( pad_Y[ pad_index[ j ]] ==  wire_Y[ wire_index[i]] )) */
+/*       { */
+/*         if( pad_Sl == pad_Fl ) // Smd pad ? */
+/*         {// yes ! */
+/*           if( wire_Sl <= pad_Sl && wire_Fl >= pad_Fl ) // which layer is this track on ? */
+/*             wire_pad_connectFlag[ wire_index[i]] = 1;  //Mark has having pad connection then,  (only one end) */
+
+/*         } */
+/*         else */
+/*         {// No so pad go's thou all layers, so we aways have to connect then. */
+/*           wire_pad_connectFlag[ wire_index[i]] = 1;  //Mark has having pad connection, (only one end) */
+/*         } */
+/*       } */
+/*     } */
+/*   } */
+  
+
+  
+/* ???? */
+        
+/*           { */
+/*             wire_pad_connectionFlag[ i ] = 1; // Mark as connected */
+/*             connectionC++; */
+/*             break; */
+/*           } */
+/*     } */
+
+
+
+
+
+
+
+
+  
+
+/*   for( i = 0; i < pad_counter; i++ ) */
+/*   { */
+/*     for( j = 0; j <  wire_counter; j++ )  // check wire pad connection     */
+/*     { */
+/*       if( ( wire_Sx[ j ] ==  pad_X[ i ] ) || ( wire_Ex[ j ] == pad_X[ i ] )) */
+/*           if( ( wire_Sy[ j ] ==  pad_Y[ i ] ) || ( wire_Ey[ i ] == pad_Y[ i ] ))           */
+/*           { */
+/*             wire_pad_connectionFlag[ i ] = 1; // Mark as connected */
+/*             connectionC++; */
+/*             break; */
+/*           } */
+/*     } */
+
+/*     char found = 0; */
+/*     while( connectionC > 0 )  // looping around untill no more connections found */
+/*     { */
+/*       for( i = 0; i <  via_counter; i++ )  // check wire pad connection     */
+/*       { */
+/*         if( via_pad_connectionFlag[ i ] == 1 ) // aready connection ? */
+/*         { // Yes */
+/*           for( p = 0; p <  wire_counter; p++ )  // Now find any wire conntions to it */
+/*           { */
+/*             if( via_pad_connectionFlag[ p ] == 1 ) // Aready marked ? */
+/*               continue; */
+/*             else */
+/*             { */
+/*               if( ( wire_Sx[ p ] ==  via_X[ i ] ) || ( wire_Ex[ p ] == via_X[ i ] )) */
+/*                 if( ( wire_Sy[ p ] ==  via_Y[ i ] ) || ( wire_Ey[ p ] == via_Y[ i ] ))           */
+/*                 { */
+/*                   via_pad_connectionFlag[ p ] = 1; // Mark as connected */
+/*                   connectionC++; */
+/*                   found = 1;  // Found */
+/*                   break; */
+/*                 } */
+/*             }   // continue; */
+/*           }  // for( p = 0; p <  wire_counter; p++ )  // Now find any wire conntions to it */
+/*         }  // if( via_pad_connectionFlag[ i ] == 1 ) // aready connection ? */
+        
+/*       }  // for( i = 0; i <  via_counter; i++ )  // check wire pad connection */
+
+
+/*       if( !found ) */
+/*         connectioC--; */
+      
+/*     } */
+
+    
+
+/*     if( wire_pad_connectionFlag[ i ] == 0) // Any connection ? */
+
+/*     for( j = 0; j < via_counter; j++ )  // check via wire connection     */
+/*     { */
+/*       if( wire_pad_connectionFlag[ i ] == 1) // Any connection ? */
+/*         if( ( wire_Sx[ i ] ==  via_X[ j ] ) || ( wire_Ex[ i ] == via_X[ j ] )) */
+/*           if( ( wire_Sy[ i ] ==  via_Y[ j ] ) || ( wire_Ey[ i ] == via_Y[ j ] ))           */
+/*           { */
+/*             wire_pad_connectionFlag[ i ] = 1; // Mark as connected */
+/*             connectionC++; */
+/*             break; */
+/*           } */
+/*     } */
+
+
+
+
+/*   } */
+  /*  retrun connectionC; */
+  return 0;
+}
+
 
 
 //--------------------------------------------------------------------------------
@@ -668,10 +1308,11 @@ void CreateOneLibHeader( UL_LIBRARY LBR )
   sprintf(c, "OPEN '~dummy~.lbr';\nCLOSE;\nOPEN '%s.lbr';\n", WorkPath+CurrentLbrName); 
   lib_cmd += c;
 
-  LBR.layers(L)
-  {
-    sprintf(c, "Layer %d %s;\n", L.number, L.name); lib_cmd += c;
-  }
+
+  /* LBR.layers(L) */
+  /* { */
+  /*   sprintf(c, "Layer %d %s;\n", L.number, L.name); lib_cmd += c; */
+  /* } */
   
   sprintf(c, "Set Wire_bend 2;\nSet Select_factor 0;\nSet Undo_log off;\n");
   lib_cmd += c;
@@ -687,13 +1328,13 @@ void CreateOneLibHeader( UL_LIBRARY LBR )
 //--------------------------------------------------------------------------------
 // Add new pad the same size, and type to tempory lib.
 //
-int add_new_pad( UL_VIA V, UL_LIBRARY LBR )
+int add_new_pad( int i, UL_LIBRARY LBR )
 {
   string c;
 
-  pad_size[ pad_buffer_size ] = V.diameter[ V.start ]; //size of first part
-  pad_drill[ pad_buffer_size ] = V.drill;
-  pad_shape[ pad_buffer_size ] = V.shape[ V.start ];
+  pad_size[ pad_buffer_size ] = unc_vaDiameter[ i ]; //size of first part
+  pad_drill[ pad_buffer_size ] = unc_vaDrill[ i ];
+  pad_shape[ pad_buffer_size ] = unc_vaShape[ i ];
   sprintf( pac_name[ pad_buffer_size ], "%s%d", pac_prefix, pad_buffer_size );
   sprintf( dev_name[ pad_buffer_size ], "%s%d", dev_prefix, pad_buffer_size );    
 
@@ -765,7 +1406,13 @@ int main()
 {
   string fname;
   string tmpSX;
+  char hidden = 0;  // Mark via as hitten and can't convert to PAD
 
+  string myname = filename( argv[0]);
+  string datetime = t2string(time(), "dd-MM-yyyy :hh:mm:ss");
+  sprintf(logfile, "#********** START OF %s %s %s LOG **********#", myname, Version, datetime);
+
+  
   if (pos >= 0) 
   { 
     string tmpSX = ""; 
@@ -795,253 +1442,809 @@ int main()
     WorkPath = get_project_path();  // No so use the default
 
 
+  board(B){
 
-
-
-  board(B) {
-    //    schname = filesetext(B.name,".sch");
+    //    logfileName = filesetext( outputPath + filename(B.name), "_conversion_log.txt");
     //    pcbname = filesetext(B.name,".brd");    
 
-    noconnect_via_count = 0;
     pad_buffer_size = 0;
-    
-    B.signals(S) {
-      wireCount = 0;
-      int via_replace = 0;
-      string netname = S.name;
-      int viaX;
-      int viaY;
-      
-      S.wires(W) {
-        wire_Sx[ wireCount ] = W.x1;
-        wire_Sy[ wireCount ] = W.y1;        
-        wire_Ex[ wireCount ] = W.x2;
-        wire_Ey[ wireCount ] = W.y2;        
-        wireCount++;
+    pad_counter = 0;
+
+    B.elements(EL) // build pad table.
+    {
+      if( EL.package )  //dose it have a package ?
+      {
+        EL.package.contacts(C)
+        {
+          if( C.pad )
+          {
+            aX[ pad_counter ] = C.pad.x;
+            aY[ pad_counter ] = C.pad.y;
+            aSl[ pad_counter ] = 1;    // thou hole pad's allways go's from top to Bottome
+            aFl[ pad_counter ] = 16;
+            aNet[ pad_counter ] = C.pad.name;  // set the name up for now. 
+            aType[ pad_counter ] = 0;   // PAD type
+            aStatus[  pad_counter ] = 1;  // Mark as connected to Pad
+            aViaP[ pad_counter ] = 0;
+            aPadP[ pad_counter ] = 0;
+            aDiameter[ pad_counter ] = 0; // get the diameter for start layer for reporting
+            pad_counter++;
+          }
+          if( C.smd )
+          {
+            aX[ pad_counter ] = C.smd.x;
+            aY[ pad_counter ] = C.smd.y;           
+            aSl[ pad_counter ] = C.smd.layer;    // Start and end are always the sme for Smd pads
+            aFl[ pad_counter ] = C.smd.layer;
+            aNet[ pad_counter ] = C.smd.name;  // set the name up for now. 
+            aType[ pad_counter ] = 0;   // PAD type
+            aStatus[ pad_counter ] = 1;  // Mark as connected to Pad
+            aViaP[ pad_counter ] = 0;
+            aPadP[ pad_counter ] = 0;
+            aDiameter[ pad_counter ] = 0; // get the via diametmer for start layer for reporting
+            pad_counter++;
+          }
+        }
       }
-      S.vias(V) {
-        // Is there a wire connected to this via ?
-        if( findViaWire( V.x, V.y, wireCount ) == 0 ) 
-        { // No, so docment and build scripts to add to sch and pcb and temporty lbr
-          noconnect_via_count++;
+    }  // elements(EL) // build pad table.
+  }  // board(B)
 
-          if( docment_via_to_pad )
-          {
+  int viacount = 0;  
 
-          }
-          
-          if( enable_via_to_pad )
-          {
-
-          }
-        }  // if( findViaWire( V.x, V.y, wireCount ) == 0 ) 
-      }  // vias(V) {
-    }  // signals(S) {
-  }  // board(B) {
-
-
-  if( noconnect_via_count > 0 )
-    menue();
-    
-
-  noconnect_via_count = 0;
-  wireCount= 0;
-
-  
-
-  board(B) {
+  board(B){
     schname = filesetext(B.name,".sch");
     //    pcbname = filesetext(B.name,".brd");    
     fname = filesetext(B.name, "~fix_via_hack.scr");
     //    fname = "'"+filesetext(B.name, "~fix_via_hack.scr")+"'";      
     sprintf(c, "grid mic;\n");
     cmd += c;
-    noconnect_via_count = 0;
     pad_buffer_size = 0;
+
     
-    B.signals(S) {
-      wireCount = 0;
-      int via_replace = 0;
+
+    B.signals(S)
+    {
+      wire_counter = pad_counter;
+      via_counter = 0;
+      //      int via_replace = 0;
       string netname = S.name;
-      int viaX;
-      int viaY;
-      char hidden = 0;  // Mark via as hitten and can't convert to PAD
+      hidden = 0;  // Mark via as hitten and can't convert to PAD
       int polygonCount = 0;
-      int viacount = 0;        
+      viacount = 0;
+      int i;
 
-      S.wires(W)
+      S.polygons(P)
       {
-        wire_Sx[ wireCount ] = W.x1;
-        wire_Sy[ wireCount ] = W.y1;        
-        wire_Ex[ wireCount ] = W.x2;
-        wire_Ey[ wireCount ] = W.y2;        
-        wireCount++;
+        polygonCount++;
       }
-      S.vias(V)
+
+      S.wires(W) // build wire table
       {
-        // Is there a wire connected to this via ?
-        if( findViaWire( V.x, V.y, wireCount ) == 0 ) 
-        { // No, so docment and build scripts to add to sch and pcb and temporty lbr
-          noconnect_via_count++;
+        aX[ wire_counter ] = W.x1;
+        aY[ wire_counter ] = W.y1;        
+        aType[ wire_counter ] = 2;   // wire start
+        aX[ wire_counter+1 ] = W.x2;
+        aY[ wire_counter+1 ] = W.y2;        
+        aType[ wire_counter+1 ] = 3;   // wire end
+        aSl[ wire_counter ] = W.layer;
+        aFl[ wire_counter ] = W.layer;
+        aSl[ wire_counter+1 ] = W.layer;
+        aFl[ wire_counter+1 ] = W.layer;                
+        aNet[ wire_counter ] = S.name;
+        aNet[ wire_counter+1 ] = S.name;  //
+        aStatus[ wire_counter ] = 0;  // Mark as not connected to Pad
+        aStatus[ wire_counter+1 ] = 0;  // Mark as not connected to Pad
+        aDiameter[ wire_counter ] = 0; // get the via diametmer for start layer for reporting
+        aDiameter[ wire_counter+1 ] = 0;// get the via diametmer for start layer for reporting
+        aViaP[ wire_counter ] = 0;
+        aPadP[ wire_counter ] = 0;
+        aShape[ wire_counter ] = 0;
+        aViaP[ wire_counter + 1 ] = 0;
+        aPadP[ wire_counter + 1 ] = 0;
+        aShape[ wire_counter + 1 ] = 0;
+        wirenumber[ wire_counter ] = wire_counter;
+        wirenumber[ wire_counter + 1 ] = wire_counter;            
 
-          if(( V.start != 1) ||  ( V.end != 16 )) // Blind or hitten via ?
+        wire_counter += 2;   		// allways even inc, start/end.
+        total_wires++;
+      }
+
+      // print out tables
+
+
+
+      
+      via_counter = wire_counter;
+      S.vias(V) // build via table.
+      {
+        aX[ via_counter ] = V.x;
+        aY[ via_counter ] = V.y;           
+        aSl[ via_counter ] = V.start;
+        aFl[ via_counter ] = V.end;        
+        aType[ via_counter ] = 1;   // type via
+        aNet[ via_counter ] = S.name;  //
+        aStatus[ via_counter ] = 0;  // Mark as not connected to Pad
+        aDiameter[ via_counter ] = V.diameter[ V.start ]; // get the via diaamer for start layer for reporting
+        aDrill[ via_counter ] = V.drill;
+        aShape[ via_counter ] = V.shape[ V.start ];
+        aViaP[ via_counter ] = 0;
+        aPadP[ via_counter ] = 0;
+        via_counter++;
+        total_vias++;
+      }  // vias(V) // build via table.
+
+      // Sort the table
+      // sort(via_counter, aindex,  aX, aY );
+      // Now store the index in the table elerment
+      /* for( i = 0; i < via_counter; i++ ) */
+      /* { */
+      /*   aIndex[ aindex[i]] = i;  // index counter into the table   */
+      /* } */
+
+      //      buildconnectintable();
+      // Mark via's with pad conntion.
+      int p = 0; // Point to start PAD table
+      for( i = wire_counter; i < via_counter; i++)
+      {
+        int t;
+        if( overLappingPads )
+        {
+          for( p = 0; p < pad_counter; p++)  // this looks strange but there may be a case when  the are two pad's at the same lowcation !
           {
-            hidden = 1;  
-            hiddencount++;
+            t = findTableViaWire( i, via_counter, p,  1 ); // find first match and layers check
+            if( t != 0 )
+            {
+              t--;
+              aStatus[ t ] = 1; // mark via as connected to pad.. fix for smd/birred via's
+              aNet[ p ] = S.name;  // Set net name of PAD
+              aPadP[ i ] = t;	// Point via to pad
+              via_to_padconnections++;
+            }
           }
-
-          viaX = V.x;
-          viaY = V.y;
-          
-          if( docment_via_to_pad )
+        }
+        else // No over lap so only do the seach once.
+        {
+          t = findTableViaWire( wire_counter, via_counter, p, 1 ); // find and layer check 
+          if( t != 0 )
           {
-            sprintf(c, "layer %d;\n", 51 ); // select Doc layer
+            t--;
+            aStatus[ t ] = 1; // mark via as connected 
+            aNet[ p ] = S.name;  // Set net name of PAD
+            aPadP[ t ] = p;	// Point via to pad
+            p++;
+            via_to_padconnections++;
+          }
+        }
+      }  // for( i =  wire_counter; i < via_counter; i++)
+
+     
+      // Mark wire with pad connection
+      for( i = pad_counter; i < wire_counter; i++)
+      {
+        int t;
+        
+        t = findTableViaWire( 0, pad_counter, i, 1 );
+        if( t != 0 )
+        {
+          t--;
+          aNet[ i ] = S.name;  // Set net name on wire
+          aPadP[ i ] = t;       // Point wire at Pad index 
+          aStatus[ i ] = 1; // Mark wire
+
+          if( aType[ i ] == 2 ) // Start of track ?
+          {
+            aStatus[ i+1 ] = 1; // Mark wire end too
+          }
+          else
+          {
+            aStatus[ i-1 ] = 1; // Mark wire beginning too.
+          }
+          wire_to_pad_connections++;
+        }
+      }
+
+      // Mark wire with via connection
+      int ni;
+      for( ni = 0; ni < 1; ni++ )
+      {
+        for( i = pad_counter; i < wire_counter; i++)
+        {
+          int t;
+        
+          t = findTableViaWire( wire_counter, via_counter, i, 1 );
+          if( t != 0 )
+          {
+            t--;
+            if( ( aStatus[ t ] != 0) || ( aStatus[ i ] != 0 )) // is via or wire connect to a pad ?
+            {
+              aStatus[ t ] = 1;	// also mark via.
+              aStatus[ i ] = 1; // Mark wire start
+
+              if( aType[ i ] == 2 ) // Start of track ?
+              { // Yes
+                aStatus[ i+1 ] = 1; // Mark wire end too
+                if( aViaP[ i+1 ] != 0 ) // We have via at end ?
+                  aStatus[ aViaP[ i+1 ]] = 1; // Mark that too.
+              }
+              else  
+              {  // end of track then
+                aStatus[ i-1 ] = 1; // And wire beginning too.
+                if( aViaP[ i-1 ] != 0 ) // We have via at beginning ?
+                  aStatus[ aViaP[ i-1 ]] = 1; // Mark that too.
+              }
+            }
+            wire_to_via_connections++;
+            aViaP[ i ] = t;     // Point to via 
+            aNet[ i ] = S.name;  // Set net name wire
+            aNet[ t ] = S.name;  // Set net name on via
+          }
+        }
+      }
+
+
+      /* passcount++; */
+      /* debugprint(); */
+      /* displayDebug(); */
+
+      
+      // Ok search for connections ------------------------------------------------------------
+      int n, xk;
+      char pad_con_flag;
+      char wire_status_change;
+      int found_wire;
+      table_error = 0;
+      //      xk = via_counter;
+      xk = 10;      
+      do
+      {
+        pad_con_flag = 0;
+        wire_status_change = 0;
+        
+        for(n = pad_counter; n < wire_counter; n++) //  loop around looking for wire/wire conntions
+        {
+          found_wire = pad_counter;
+          //          found_wire = pad_counter+2;          
+
+          // check table entry
+          /* if( aViaP[ n ] != 0 ) // is there a via at this end ? */
+          /*   if((aStatus[ aViaP[ n ]] || aStatus[ n ] ) != ( aStatus[ aViaP[ n ]] && aStatus[ n ] )) */
+          /*   { */
+          /*     table_error++; */
+          /*     sprintf( unnconnected_wires[ unnconnected_wires_Ct++ ], "E_%s\t%c\t%c\t%d\t%d\t%f\t%f\t%f\t%f\t%d\t%d\t%c\t%c\t%d", */
+          /*              aNet[ n ], 48+(aType[ n ]), 48+(aStatus[ n ]), aSl[ n ], aFl[ n ], u2mic(aX[ n ]), u2mic(aY[ n ]), */
+          /*              u2mic(aX[ aViaP[ n ]]), u2mic(aY[ aViaP[ n ]]), aSl[ aViaP[ n ]], aFl[ aViaP[ n ]], 48+(aStatus[ aViaP[ n ]]), 48+(aType[ aViaP[ n ]]), n ); */
+          /*   } */
+
+
+          pad_con_flag = aStatus[ n ] || aStatus[ n ] ;
+          if(( aViaP[ n ] != 0))
+            pad_con_flag |= aStatus[ aViaP[ n ]];
+          
+          if( aType[ n ] == 2 )
+          {
+            pad_con_flag |= aStatus[ n+1 ];
+            if(( aViaP[ n+1 ] != 0))
+              pad_con_flag |= aStatus[ aViaP[ n+1 ]];
+          }
+          else
+          {
+            pad_con_flag |= aStatus[ n-1 ];
+            if(( aViaP[ n-1 ] != 0))
+              pad_con_flag |= aStatus[ aViaP[ n-1 ]];
+          }
+          
+          /* if(( aViaP[ n ] != 0) && ( aType[ n ] == 2)) // is there a via at this end ? */
+          /*   pad_con_flag = aStatus[ aViaP[ n ]] || aStatus[ n ] || aStatus[ n+1 ]; */
+          /* else */
+          /* { */
+          /*   if(( aViaP[ n ] != 0) && ( aType[ n ] == 3)) // is there a via at this end (cond) ? then : else; */
+          /*     pad_con_flag = aStatus[ aViaP[ n ]] || aStatus[ n ] || aStatus[ n-1 ]; */
+          /* } */
+
+          /* if( aViaP[ n ] != 0 ) // is there a via at this end ? */
+          /*   pad_con_flag = aStatus[ aViaP[ n ]] | aStatus[ n ]; */
+          /* else */
+          /*   pad_con_flag = aStatus[ n ]; */
+
+              // check for wire to wire conection
+          for( i = pad_counter; i <  wire_counter; i++)
+          {
+            if( found_wire == n ) // Don't seach  for you slef
+            {
+              found_wire++;
+              if( found_wire >= wire_counter )
+                break;
+            }
+
+            found_wire = findTableViaWire( found_wire, wire_counter, n, 1 ); // look for wire to wire conntion
+            if( found_wire != 0 )
+            { // Ok found the wire to wire connection.
+              found_wire--;
+              if( aViaP[ found_wire ] != 0 ) // is there a via at this end ?
+                if((aStatus[ aViaP[ found_wire ]] || aStatus[ found_wire ] ) != ( aStatus[ aViaP[ found_wire ]] && aStatus[ found_wire ] ))
+                {
+                  table_error++;
+                  aStatus[ aViaP[ found_wire ]] = 1; // fix it
+                  aStatus[ found_wire ] = 1;
+                  /* int k = aViaP[ found_wire ]; */
+                  /* sprintf( unnconnected_wires[ unnconnected_wires_Ct++ ], "EX_%s\t%c\t%c\t%d\t%d\t%f\t%f\t%f\t%f\t%d\t%d\t%c\t%c\t%d", */
+                  /*          aNet[ found_wire ], 48+(aType[ found_wire ]), 48+(aStatus[ found_wire ]), aSl[ found_wire ], aFl[ found_wire ], u2mic(aX[ found_wire ]), u2mic(aY[ found_wire ]), */
+                  /*          u2mic(aX[ k ]), u2mic(aY[ k ]), aSl[ k ], aFl[ k ], 48+(aStatus[ k ]), 48+(aType[ k ]), found_wire); */
+                }
+
+              if( aViaP[ found_wire ] != 0 ) // is there a via at this end ?
+              {
+                if( pad_con_flag != (( aStatus[ found_wire ] == 1 ) || ( aStatus[ aViaP[ found_wire ]] == 1 ))) // Same as before ?
+                  wire_status_change |= 1;                   
+              }
+              else
+                if( pad_con_flag != ( aStatus[ found_wire ] == 1 ))
+                  wire_status_change |= 1;                                       
+              
+              if(( aStatus[ n ] != 0 ) || ( aStatus[ found_wire ] != 0  )) // connected to a pad ?
+              { // yes
+
+                aStatus[ n ] = 1; // Mark it
+                aStatus[ found_wire ] = 1; // Mark it
+                
+                if( aViaP[ n ] != 0 ) // is there a via at this end ?
+                    aStatus[ aViaP[ n ]] = 1; // Mark wire has having connected to pad
+                if( aViaP[ found_wire ] != 0 ) // is there a via at this end ?
+                    aStatus[ aViaP[ found_wire ]] = 1; // Mark wire has having connected to pad
+
+                if( aType[ n ] == 2 )
+                {
+                  aStatus[ n + 1 ] = 1; // and next one up
+                  if( aViaP[ n + 1 ] != 0 ) // is there a via at this end ?
+                    aStatus[ aViaP[ n + 1 ]] = 1; // Mark wire has having connected to pad
+                }
+                else
+                {
+                  aStatus[ n - 1 ] = 1; // and next one down
+                  if( aViaP[ n - 1 ] != 0 ) // is there a via at this end ?
+                    aStatus[ aViaP[ n + 1 ]] = 1; // Mark wire has having connected to pad
+                }
+
+                if( aType[ found_wire ] == 2 )
+                {
+                  aStatus[ found_wire + 1 ] = 1; // and next one up
+                  if( aViaP[ found_wire + 1 ] != 0 ) // is there a via at this end ?
+                    aStatus[ aViaP[ found_wire + 1 ]] = 1; // Mark via as having connected to pad
+                }
+                else
+                {
+                  aStatus[ found_wire - 1 ] = 1; // Mark next one down                
+                  if( aViaP[ found_wire - 1 ] != 0 ) // is there a via at this end ?
+                    aStatus[ aViaP[ found_wire - 1 ]] = 1; // Mark via as having connected to pad
+                }
+              }
+            }
+            else
+              break;
+
+            found_wire++;
+            if( found_wire >= wire_counter )
+              break;
+          }  // for( i = pad_counter; i < ( wire_counter - 2 ); i++)
+          
+        }   // for(n = pad_counter; n < wire_counter; n++) //  loop around looking for wire/wire conntions
+          if(  wire_status_change == 0 )
+            break;
+        
+      }while ( xk-- );
+      
+      /* passcount++; */
+      /* debugprint(); */
+      /* displayDebug(); */
+
+      
+      // Build unnconnected wires list
+      string c;
+
+      for( i = pad_counter; i < wire_counter; i += 2 )
+      {
+        if( aStatus[i] != 0 )
+          continue;
+        else
+        {
+          unc_wXs[ kk ] = aX[ i ];
+          unc_wYs[ kk ] = aY[ i ];
+          unc_wXf[ kk ] = aX[ i+1 ];
+          unc_wYf[ kk ] = aY[ i+1 ];
+          unc_wLayer[ kk ] = aSl[ i ];
+          unc_wNet[ kk ] = aNet[ i ];
+          
+          if( aViaP[ i ] != 0 ) // is there a via at this end ?
+          {
+            int k = aViaP[ i ];
+            sprintf( unnconnected_wires[ unnconnected_wires_Ct ], "%s\t%c\t%c\t%d\t%d\t%f\t%f\t%f\t%f\t%d\t%d\t%c\t%c\t%d",
+                     aNet[ i ], 48+(aType[ i ]), 48+(aStatus[ i ]), aSl[ i ], aFl[ i ], u2mic(aX[ i ]), u2mic(aY[ i ]),
+                     u2mic(aX[ k ]), u2mic(aY[ k ]), aSl[ k ], aFl[ k ], 48+(aStatus[ k ]), 48+(aType[ k ]), i);
+          }
+          else
+          {
+            sprintf( unnconnected_wires[ unnconnected_wires_Ct ], "%s\t%c\t%c\t%d\t%d\t%f\t%f\t%f\t%f\t%d\t%d\t%c\t%c\t%d",
+                     aNet[ i ], 48+(aType[ i ]), 48+(aStatus[ i ]), aSl[ i ], aFl[ i ], u2mic(aX[ i ]), u2mic(aY[ i ]),
+                     u2mic(0), u2mic(0), 0, 0, '0', '0', i);
+
+          }
+          unnconnected_wires_Ct++;
+          kk++;
+        }
+      }
+
+      
+      // Build unnconnected via list
+      for( i = wire_counter; i < via_counter; i++ )
+      {
+        if( aStatus[i] != 0 )
+          continue;
+        else
+        {
+          unc_vaX[ kp ] = aX[ i ];
+          unc_vaY[ kp ] = aY[ i ];
+          unc_vaSl[ kp ] = aSl[ i ];
+          unc_vaFl[ kp ] = aFl[ i ]; 
+          unc_vaNet[ kp ] = aNet[ i ];
+          unc_vaDiameter[ kp ] = aDiameter[ i ];
+          unc_vaDrill[ kp ] = aDrill[ i ];
+          unc_vaShape[ kp ] = aShape[ i ];
+          sprintf( unnconnected_vias[ unnconnected_vias_Ct++ ], "%s\t%c\t%c\t%d\t%d\t%f\t%f", aNet[i], 48+(aType[i]), 48+(aStatus[i]), aSl[i], aFl[i], u2mic(aX[i]), u2mic(aY[i]));
+          kp++;
+        }
+      }
+        
+      if( enable_via_to_pad )
+      {
+
+      }
+
+      // Do we have any matching polygon's matching this net ?
+        if( polygonCount ) // Do we have any nets on polygons, so we may need to mark any track/via as globle in sch so it will connect to it. */
+          if( pad_counter || ( wire_counter - pad_counter) || ( via_counter - wire_counter ))
+          {
+            string cs;
+            sprintf( cs,"%s %d %d %d %d\n", S.name, polygonCount, pad_counter, ( wire_counter - pad_counter), ( via_counter - wire_counter ));
+            polygon_messagex += cs;
+            polygons_linesCt++;
+          }
+      
+    } // signals(S) //--------------------
+
+
+    menue();
+    
+    int i;
+
+    for( i = 0; i < unnconnected_wires_Ct; i++) // scan table for unconnect track's
+    {
+      if( docment_unnconeted_wires )
+      {
+        sprintf(c, "layer %d 'FIX_VIA_WireText';\n", WireEagleReportLayerTxt ); // select Doc layer
+        pcb_cmd += c;
+        sprintf(c, "CHANGE FONT VECTOR;\n"); // select Font
+        pcb_cmd += c;
+        sprintf(c, "CHANGE SIZE 100.0;\n");
+        pcb_cmd += c;
+        sprintf( c, "TEXT 'TS:%s:%d:%d::L%d' R20 (%f %f);\n", unc_wNet[ i ], i + 1, unnconnected_wires_Ct, unc_wLayer[i], u2mic(unc_wXs[i]) + 0.1, u2mic(unc_wYs[i]));
+        pcb_cmd += c;
+        sprintf( c, "TEXT 'TE:%s:%d:%d::L%d' R-20 (%f %f);\n", unc_wNet[ i ], i + 1, unnconnected_wires_Ct, unc_wLayer[i], u2mic(unc_wXf[i]) + 0.1, u2mic(unc_wYf[i]));
+        pcb_cmd += c;
+        sprintf(c, "SET WIRE_BEND 2;\n");
+        pcb_cmd += c;
+        sprintf(c, "layer %d 'FIX_VIA_WireDraw';\n", WireEagleReportLayerDrawing ); // select Doc layer
+        pcb_cmd += c;
+        sprintf( c, "wire  %f (%f %f) (%f %f );\n", 10.0,  u2mic( unc_wXs[i]), u2mic( unc_wYs[i]), u2mic( unc_wXf[ i ]), u2mic( unc_wYf[ i ]));
+        //        sprintf( c, "wire '%s' %f (%f %f) (%f %f );\n", unc_vaNet[i],  10.0,  u2mic( unc_wXs[i]), u2mic( unc_wYs[i]), u2mic( unc_wXf[ i ]), u2mic( unc_wYf[ i ]));        
+        pcb_cmd += c;
+      }
+      sprintf( c, "\nTRACK\tWireCount=%d\tNet=%s\tstart(X=%f Y=%f)\tend(X=%f Y=%f )", i+1, unc_wNet[ i ], u2mic( unc_wXs[i]), u2mic( unc_wYs[i]), u2mic( unc_wXf[ i ]), u2mic( unc_wYf[ i ]));
+      logfile += c;
+    }
+    
+    for( i = 0; i < unnconnected_vias_Ct; i++) // scan table for unconnect via's
+    {
+      // No, so docment and build scripts to add to sch and pcb and temporty lbr
+
+        if(( unc_vaSl[i] != 1) ||  ( unc_vaFl[i] != 16 )) // Blind or hitten via ?
+        {
+          hidden = 1;
+          hiddencount++;
+        }
+        else
+          hidden = 0;          
+          
+        if( docment_via_to_pad )
+        {
+          sprintf(c, "layer 'FIX_VIA_ViaText' %d;\n", ViaEagleReportLayerTxt ); // select Doc layer
+          pcb_cmd += c;
+          sprintf(c, "CHANGE FONT VECTOR;\n"); // select Font
+          pcb_cmd += c;
+          sprintf(c, "CHANGE SIZE 100.0;\n");
+          pcb_cmd += c;
+
+          if( hidden == 0 ) // Blind or hidden via ?
+          { // No, so normal mark will be >
+            sprintf( c, "TEXT 'V:%s:%d:%d' R35 (%f %f);\n", unc_vaNet[i], i + 1, unnconnected_vias_Ct, u2mic(unc_vaX[i]) + 0.1, u2mic(unc_vaY[i]));
+            pcb_cmd += c;
+
+            sprintf(c, "layer 'FIX_VIA_ViaDraw' %d;\n", ViaEagleReportLayerDrawing ); // select Doc layer
+            pcb_cmd += c;
+
+            sprintf(c, "SET WIRE_BEND 2;\n");
+            pcb_cmd += c;
+            sprintf( c, "wire %f (%f %f) (%f %f );\n", 25.0,  u2mic(unc_vaX[i]), u2mic(unc_vaY[i]), u2mic( unc_vaX[i] - ( unc_vaDiameter[i] /2)), u2mic(unc_vaY[i] + ( unc_vaDiameter[i] /4 )));
+            pcb_cmd += c;
+            sprintf( c, "wire %f (%f %f) (%f %f );\n", 25.0, u2mic(unc_vaX[i] - ( unc_vaDiameter[i] /2)), u2mic(unc_vaY[i] - ( unc_vaDiameter[i] /4 )), u2mic(unc_vaX[i]), u2mic(unc_vaY[i]));
+            pcb_cmd += c;
+
+            sprintf( c, "\nVIA\tViaCount%d\tNet=%s\t(X=%f Y=%f)\tLayerStart=%d\tLayerEnd=%d", i+1, unc_vaNet[ i ], u2mic( unc_vaX[i]), u2mic( unc_vaY[i]), unc_vaSl[ i ],  unc_vaFl[ i ]);
+            logfile += c;
+          }
+          else
+          { // Ok blind via, so user will have to do manual convertion so Mark with a X!
+            sprintf(c, "layer 'BlindVia' %d;\n", ViaEagleReportLayerTxt ); // select Doc layer
             pcb_cmd += c;
             sprintf(c, "CHANGE FONT VECTOR;\n"); // select Font
             pcb_cmd += c;
             sprintf(c, "CHANGE SIZE 100.0;\n");
             pcb_cmd += c;
 
-            if( hidden == 0 ) // Blind or hidden via ?
-            { // No, so normal mark will be >
-              sprintf( c, "TEXT '%s:%d' R0 (%f %f);\n", S.name, noconnect_via_count, u2mic(V.x) + 0.1, u2mic(V.y));
-              pcb_cmd += c;          
-              sprintf(c, "SET WIRE_BEND 7;\n");
-              pcb_cmd += c;
-              sprintf( c, "wire '%s' %f (%f %f) (%f %f );\n", S.name,  100.0,  u2mic(V.x), u2mic(V.y), u2mic(V.x - ( V.diameter[V.start] /2)), u2mic(V.y + ( V.diameter[V.start] /4 )));
-              pcb_cmd += c;
-              sprintf( c, "wire '%s' %f (%f %f) (%f %f );\n", S.name,  100.0, u2mic(V.x - ( V.diameter[V.start] /2)), u2mic(V.y - ( V.diameter[V.start] /4 )), u2mic(V.x), u2mic(V.y));
-              pcb_cmd += c;
-            }
-            else
-            { // Ok blind via, so user will have to do manual convertion so Mark with a X!
-              sprintf( c, "TEXT '%s:BLIND:%d' R0 (%f %f);\n", S.name, noconnect_via_count, u2mic(V.x) + 0.1, u2mic(V.y));
-              pcb_cmd += c;          
-              sprintf(c, "SET WIRE_BEND 7;\n");
-              pcb_cmd += c;
-              // Print >
-              sprintf( c, "wire '%s' %f (%f %f) (%f %f );\n", S.name,  100.0,  u2mic(V.x), u2mic(V.y), u2mic(V.x - ( V.diameter[V.start] /2)), u2mic(V.y + ( V.diameter[V.start] /4 )));
-              pcb_cmd += c;
-              sprintf( c, "wire '%s' %f (%f %f) (%f %f );\n", S.name,  100.0, u2mic(V.x - ( V.diameter[V.start] /2)), u2mic(V.y - ( V.diameter[V.start] /4 )), u2mic(V.x), u2mic(V.y));
-              pcb_cmd += c;
-              // Print <
-              sprintf( c, "wire '%s' %f (%f %f) (%f %f );\n", S.name,  100.0,  u2mic(V.x), u2mic(V.y), u2mic(V.x + ( V.diameter[V.start] /2)), u2mic(V.y + ( V.diameter[V.start] /4 )));
-              pcb_cmd += c;
-              sprintf( c, "wire '%s' %f (%f %f) (%f %f );\n", S.name,  100.0,  u2mic(V.x), u2mic(V.y), u2mic(V.x + ( V.diameter[V.start] /2)), u2mic(V.y - ( V.diameter[V.start] /4 )));
-              pcb_cmd += c;
+            sprintf( c, "TEXT 'BV:%s:%d:%d::%d::%d' R0 (%f %f);\n", unc_vaNet[ i ], i + 1, unc_vaSl[ i ], unc_vaFl[ i ], unnconnected_vias_Ct, u2mic(unc_vaX[i]) + 0.1, u2mic(unc_vaY[i]));
+            pcb_cmd += c;
+            sprintf(c, "SET WIRE_BEND 2;\n");
+            pcb_cmd += c;
 
-            }
-          }
+            // Print >
+            sprintf( c, "wire %f (%f %f) (%f %f );\n", 25.0,  u2mic(unc_vaX[i]), u2mic(unc_vaY[i]), u2mic(unc_vaX[i] - ( unc_vaDiameter[ i ] /2)), u2mic(unc_vaY[i] + ( unc_vaDiameter[i] /4 )));
+            pcb_cmd += c;
+            sprintf( c, "wire %f (%f %f) (%f %f );\n", 25.0, u2mic(unc_vaX[i] - ( unc_vaDiameter[ i ] /2)), u2mic(unc_vaY[i] - ( unc_vaDiameter[i] /4 )), u2mic(unc_vaX[i]), u2mic(unc_vaY[i]));
+            pcb_cmd += c;
+            // Print <
+            sprintf( c, "wire %f (%f %f) (%f %f );\n", 25.0,  u2mic(unc_vaX[i]), u2mic(unc_vaY[i]), u2mic(unc_vaX[i] + ( unc_vaDiameter[i] /2)), u2mic(unc_vaY[ i ] + ( unc_vaDiameter[ i ] /4 )));
+            pcb_cmd += c;
+            sprintf( c, "wire %f (%f %f) (%f %f );\n", 25.0,  u2mic(unc_vaX[i]), u2mic(unc_vaY[i]), u2mic(unc_vaX[i] + ( unc_vaDiameter[i] /2)), u2mic(unc_vaY[ i ] - ( unc_vaDiameter[ i ] /4 )));
+            pcb_cmd += c;
+
+            sprintf( c, "\nBLIND-VIA\tViaCount%d\tNet=%s\t(X=%f Y=%f)\tLayerStart=%d\tLayerEnd=%d", i+1, unc_vaNet[ i ], u2mic( unc_vaX[i]), u2mic( unc_vaY[i]), unc_vaSl[ i ],  unc_vaFl[ i ]);
+            logfile += c;
           
-          // If convertale from via to pad and it's not blind/hidden via, then do the conversion.
-          if(( enable_via_to_pad == 1) && ( hidden == 0 ))
-          {
-            int idx;
-            string t;
             
-            via_replace++;  // Mark for clean up
-
-            idx = findViaPad( V.diameter[V.start], V.drill, V.shape[V.start], pad_buffer_size );
-            if( idx == 0 )
-            {
-              UL_LIBRARY L;              
-              B.libraries(LBR){
-                L = LBR;
-              }
-              idx = add_new_pad(V, L);
-            }
-            idx--; // ajust to base zero
-
-            //            idx = 0; // ??? ajust to base zero            
-
-            sprintf(c, "DISPLAY NONE;\n");  // dispaly only via layer for delete
-            pcb_cmd += c;
-            sprintf(c, "DISPLAY 18;\n");  // show via layer
-            pcb_cmd += c;
-            sprintf(c, "RIPUP (%f %f);\n", u2mic(V.x), u2mic(V.y));  // remove the via
-            pcb_cmd += c;
-            sprintf(c, "DISPLAY ALL;\n");  // show via layer
-            pcb_cmd += c;
-            
-            sprintf(c, "grid mic;\n");
-            sch_cmd += c;
-            sprintf(c, "add '%s@%s' '%s%d' (%f %f);\n", dev_name[idx], WorkPath+CurrentLbrName, "VP_", pad_count, u2mic(sch_pad_X), u2mic(sch_pad_Y ) - ( sch_net_count * 2540.0 ));  // add the pad sch
-            sch_cmd += c;
-            sprintf(c, "move '%s%d' (%f %f);\n", "VP_", pad_count, u2mic(V.x), u2mic(V.y));  // move the Pad into where the via was
-            pcb_cmd += c;
-
-            pad_count++;
-          }
-        }  // if( findViaWire( V.x, V.y, wireCount ) == 0 ) 
-        hidden = 0; // clear flag for next time around.
-        viacount++;
-      }  // vias(V)
-
-      // Do we have any polygons on this net ?
-      S.polygons(P)
-      {
-        polygonCount++;
-      }
-
-      // vias(V) {
-      if( via_replace ) // Did we replace any via's wit pad's on the signal ?
-      {
-        via_replace = 0;
-        sprintf(c, "NET %s (%f %f )( %f %f );\n", S.name, u2mic(sch_pad_X ), u2mic(sch_pad_Y ) - ( sch_net_count * 2540.0 ), u2mic(sch_pad_X) - 2540.0, u2mic( sch_pad_Y ) - ( sch_net_count * 2540.0 ) );
-        sch_cmd += c;
-        sprintf(c, "LABEL (%f %f)(%f %f );\n", u2mic(sch_pad_X ), u2mic(sch_pad_Y ) - ( sch_net_count * 2540.0 ), u2mic(sch_pad_X) - 2540.0, u2mic(sch_pad_Y ) - ( sch_net_count * 2540.0 ));
-        sch_cmd += c;
-
-        sch_net_count++; // add new offset
-      }
-
-      if( polygonCount ) // Do we have any nets on polygons, so we may need to mark any track/via as globle in sch so it will connect to it.
-        if( pad_count || wireCount || viacount )
+            //            logfile += ( "\nVIA "+ unnconnected_vias[ unnconnected_vias_Ct++ ]);
+          }   // { // No, so normal mark will be >
+        }  // if( docment_via_to_pad )
+          
+        // If convertale from via to pad and it's not blind/hidden via, then do the conversion.
+        if(( enable_via_to_pad == 1) && ( hidden == 0 ))
         {
-          string x;
-          if( pad_count )
-            sprintf( x,"P '%s' %d\n", S.name, pad_count );
-          if( wireCount )
-            sprintf( x,"W '%s' %d\n", S.name, wireCount );
-          if( viacount )
-            sprintf( x,"V '%s' %d\n", S.name, viacount );
+          int idx;
+          string t;
+            
+          //        via_replace++;  // Mark for clean up
+
+          idx = findViaPad( unc_vaDiameter[ i ], unc_vaDrill[ i ], unc_vaShape[ i ], pad_buffer_size ); // find existing pad
+          if( idx == 0 )
+          {
+            UL_LIBRARY L;
+            B.libraries(LBR){
+              L = LBR;
+            }
+            idx = add_new_pad( i, L);
+          }
           
-          via_polygon_netname += x;
+          idx--; // ajust to base zero
+
+          //            idx = 0; // ??? ajust to base zero
+
+          sprintf(c, "DISPLAY NONE;\n");  // dispaly only via layer for delete
+          pcb_cmd += c;
+          sprintf(c, "DISPLAY 18;\n");  // show via layer
+          pcb_cmd += c;
+          sprintf(c, "RIPUP (%f %f);\n", u2mic(unc_vaX[i]), u2mic(unc_vaY[i]));  // remove the via
+          pcb_cmd += c;
+          sprintf(c, "DISPLAY ALL;\n");  // show via layer
+          pcb_cmd += c;
+            
+          sprintf(c, "grid mic;\n");
+          sch_cmd += c;
+          sprintf(c, "add '%s@%s' '%s%d' (%f %f);\n", dev_name[idx], WorkPath+CurrentLbrName, "VP_", pad_count, u2mic(sch_pad_X), u2mic(sch_pad_Y ) - ( sch_net_count * 2540.0 ));  // add the pad sch
+          sch_cmd += c;
+          sprintf(c, "move '%s%d' (%f %f);\n", "VP_", pad_count, u2mic(unc_vaX[i]), u2mic(unc_vaY[i]));  // move the Pad into where the via was
+          pcb_cmd += c;
+
+          sprintf(c, "NET %s (%f %f )( %f %f );\n", unc_vaNet[i], u2mic(sch_pad_X ), u2mic(sch_pad_Y ) - ( sch_net_count * 2540.0 ), u2mic(sch_pad_X) - 2540.0, u2mic( sch_pad_Y ) - ( sch_net_count * 2540.0 ) );
+          sch_cmd += c;
+          sprintf(c, "LABEL (%f %f)(%f %f );\n", u2mic(sch_pad_X ), u2mic(sch_pad_Y ) - ( sch_net_count * 2540.0 ), u2mic(sch_pad_X) - 2540.0, u2mic(sch_pad_Y ) - ( sch_net_count * 2540.0 ));
+          sch_cmd += c;
+          sch_net_count++; // add new offset
+
+          //          logfile += ( "\nVIA "+ unnconnected_vias[ unnconnected_vias_Ct++ ]);
+
+
+          pad_count++;
+        }  // if(( enable_via_to_pad == 1) && ( hidden == 0 ))
+      }  // if( aStatus[i] == 0 )
+
+
+    if( display_error_layers && ( unnconnected_wires_Ct || unnconnected_vias_Ct ))
+    {
+      sprintf(c, "DISPLAY %s;\n", "NONE" );    
+      pcb_cmd += c;
+      sprintf(c, "DISPLAY %d %d %d %d %d %d %d %d;\n", ViaEagleReportLayerTxt, ViaEagleReportLayerDrawing, WireEagleReportLayerTxt, WireEagleReportLayerDrawing, 17, 18, 23, 24  ); // dispaly via's pad's, and top/bottom orgiine
+      pcb_cmd += c;
+      sprintf(c, "SET FILL_LAYER %d 0;\n", 17);
+      pcb_cmd += c;
+      sprintf(c, "SET FILL_LAYER %d 0;\n", 18);
+      pcb_cmd += c;
+
+      // only display layers which have wire's unnconects
+      int np = 0;
+      for( i = 0; i < unnconnected_wires_Ct; i++) // scan table for unconnect track's
+      {
+        np = findIntInArray( np, unc_wLayer[ i ] );
+        if( np == 0 )
+        {  // Not found so, we did not display before, so display it now!
+          sprintf(c, "DISPLAY %d;\n", unc_wLayer[ i ]); // dispaly via's pad's, and top/bottom orgiine
+          pcb_cmd += c;
+          sprintf(c, "SET FILL_LAYER %d 0;\n", unc_wLayer[ i ]);
+          pcb_cmd += c;
+          
         }
-    }  // signals(S) {
-  }  // board(B) { 
+        else
+          continue;
+      }
+    }  // if( display_error_layers && ( unnconnected_wires_Ct || unnconnected_vias_Ct ))
 
-
-  //  sprintf( c, "wire %s %f (%f %f) (%f %f ) 'fred'  0.05 ( 0.1 0.1 ) ( 0.1 2 )
-
-
-  // write save command
-  cmd += lib_cmd;
-  sprintf(c, "write;\n");
-  cmd += c;
-  sprintf(c, "edit '%s';\n", schname );    
-  cmd += c;
-  cmd += sch_cmd;  
-  sprintf(c, "write;\n");
-  cmd += c;
-  sprintf(c, "edit .brd;\n");    
-  cmd += c;
-  cmd += pcb_cmd;
-  sprintf(c, "edit '%s';\n", schname );    
-  cmd += c;
-  sprintf(c, "write;\n");
-  cmd += c;
-
-  sprintf(c, "run eagle6xx-sch-to-kicad-sch.ulp;\n");
-  cmd += c;
-  
+      hidden = 0; // clear flag for next time around.
+      viacount++;
     
-  output(fname, "wtD")
-      printf("%s", cmd);
 
+    //}  // for() // scan table for unconnect track/via's
+    //  Do we have any polygons on this net ?
+
+
+
+    //  sprintf( c, "wire %s %f (%f %f) (%f %f ) 'fred'  0.05 ( 0.1 0.1 ) ( 0.1 2 )
+
+    // write save command
+    cmd += lib_cmd;
+    sprintf(c, "write;\n");
+    cmd += c;
+    sprintf(c, "edit '%s';\n", schname );    
+    cmd += c;
+    cmd += sch_cmd;  
+    sprintf(c, "write;\n");
+    cmd += c;
+    sprintf(c, "edit .brd;\n");    
+    cmd += c;
+    cmd += pcb_cmd;
+    sprintf(c, "edit '%s';\n", schname );    
+    cmd += c;
+    sprintf(c, "write;\n");
+    cmd += c;
+
+    sprintf(c, "run eagle6xx-sch-to-kicad-sch.ulp ;\n");
+    cmd += c;
+
+    logfileName = filesetext( outputPath + filename(B.name), "_conversion_log.txt");
+    
+    int spos = 0;
+    int iC = 0;
+    while( (spos = strrchr( logfile, 0x0a, spos )) != 0 )
+    {
+      if( ++iC > 2 )
+        break;
+      spos++;
+    }
+    if( iC < 3 )
+      logfile += "\n    Conversion completed with no Messages";
+    sprintf(c, "\n#********** END OF %s %s %s LOG **********#\n", myname, Version, datetime);
+    logfile += c;
+    output(logfileName, "at") printf("%s", logfile);
+
+    // Write out the list of polygon's which have pad's via's for track's having the same net name.
+    if( polygons_linesCt )
+    {
+      polygons_message_FileName = filesetext( outputPath + filename(B.name), "_polygon_messagex.txt");
+      output( polygons_message_FileName, "wt") printf("%s", polygon_messagex);
+    }
+    else
+    { // if no polygon's mach or no polygons..  just out put one space
+      polygons_message_FileName = filesetext( outputPath + filename(B.name), "_polygon_messagex.txt");
+      polygon_messagex = " ";
+      output( polygons_message_FileName, "wt") printf("%s", polygon_messagex);
+    }
+    
+    output(fname, "wtD")
+        printf("%s", cmd);
+
+
+    int result;
+    int Selected = 0;
+    /* string unnectedViaList[]; */
+    /* for( i = 0; i < via_counter; i++) */
+    /* { */
+    /*   sprintf( unnectedViaList[ i ], "%s\t%c\t%c\t%d\t%d\t%f\t%f", unc_vaNet[i], 48+(aType[i]), 48+(aStatus[i]), unc_vaSl[i], unc_vaFl[i], u2mic(unc_vaX[i]), u2mic(unc_vaY[i])); */
+    /* } */
+
+    string x;
+    sprintf(x, "<b>UNCONNECTED VIA=%d<br>UNCONNECTED WIRES=%d<br></b>PAD COUNT=%d<br>VIA COUNT=%d<br>WIRE COUNT=%d<br>", unnconnected_vias_Ct, unnconnected_wires_Ct, pad_counter, total_vias, total_wires);
+
+    if( unnconnected_wires_Ct || unnconnected_vias_Ct  )
+    {
+      result = dlgDialog("Unnconnected via's and wire list")
+          {
+            if( unnconnected_wires_Ct )
+            {
+              string c;
+              dlgLabel( "This and other messages will be added to the report log file at <b><i>" + logfileName +
+                        "</b></i><br> to help with fixing any warning's or errors");
+              dlgLabel( x );
+              sprintf(c, "There are %d unnconnected wire(s)", unnconnected_wires_Ct );
+              dlgLabel( c );
+              
+              dlgListView("net-name\taType\taStatus\taSl\taFl\tX\tY\tvX\tvY\tvSl\tvFl\tvaStatus\taType\tIndex", unnconnected_wires, Selected) dlgMessageBox("More info "); 
+            }
+            if( unnconnected_vias_Ct  )
+            {
+              string c;
+              sprintf(c, "There are %d unnconnected via(s)", unnconnected_vias_Ct );
+              dlgLabel( c);
+              dlgListView("net-name\tType\taStatus\taSl\taFl\tX\tY", unnconnected_vias, Selected) dlgMessageBox("More info "); 
+            }
+
+            int space = 10;
+            
+            dlgVBoxLayout 
+            {
+              dlgStretch(10);
+              dlgHBoxLayout 
+              {
+                dlgStretch(1);
+                dlgPushButton("+OK")
+                {
+                  /* if( saveAsDefault ) */
+                  /*   cfgset( cfg_TARGET_DIR, outputPath ); */
+                  /* /\* else *\/ */
+                  /* /\*   cfgset( cfg_TARGET_DIR, "" ); *\/ */
+
+                  /* if( saveAsDefaultULP_Path ) */
+                  /*   cfgset( cfg_SCRIP_ULP, myULP_HOME ); */
+                  /* /\* else *\/ */
+                  /* /\*   cfgset(cfg_TARGET_DIR, "" ); *\/ */
+
+                  dlgAccept();
+                };
+
+                dlgSpacing(space);
+                dlgPushButton("-Cancel") dlgReject();
+                dlgStretch(0);
+                dlgSpacing(space);
+              }
+              dlgStretch(10);
+            }
+          };
+
+      if( !result )
+        exit(-1);
+
+    }  // if( unnconnected_wires_Ct || unnconnected_vias_Ct  )
+
+    /* if( unnconnected_vias_Ct ) */
+    /* { */
+    /*   result = dlgDialog("Unnconnected vias list") */
+    /*       { */
+    /*         dlgListView("net-name\tType\taStatus\taSl\taFl\tX\tY", unnconnected_vias, Selected) dlgMessageBox("More info ");  */
+    /*       }; */
+    /* } */
+
+  }  // board(B){
+
+  
   exit ("SCRIPT '" + fname + "';");
 
   return 0;
-}
+}  // main()
+
 
 

@@ -1,4 +1,4 @@
-#usage "<b>Eagle schematic exporting tool  version 1.2 </b>\n"
+#usage "<b>Eagle schematic exporting tool  version 1.4 </b>\n"
        "<p>"
        "This ULP can convert an Eagle CAD schematic into KiCAD schematic."
        "<p>"
@@ -78,6 +78,9 @@
 
 int debug = 0;       
 real VERSION   = 1.4;
+string Version = "1.4";
+string myname;
+int datetime;
 real fontSize_PartPreFix_Ajust = 1.0;
 string libNamePartNameSeperator = "_";      // This is part Name  so   libName "_" partName  is is DEF, and F0 filed in KiCad
 string libNamePartLibNameSeperator = "_";   // This is part Lib to foot print name  IE:   libName ":" footprintName  this is F2 fild in KiCad
@@ -137,6 +140,117 @@ string infoExportLibsFromEagle = "Extract lib's from Eagle SCH/PCB for KiCad <i>
                                  "<b><i>NOTE:</b></i> If you <b><i><u>don't</b></i></u> use this option, you will need to find<br>"+
                                  "the Eagle <i>.lbr(s)</i> library's files and convert those across<br>"+
                                  " one by one using the Eagle-lbr2kicad-1.0.ulp";
+
+string dummyKiCadPcb = "(kicad_pcb (version 4) (host pcbnew \"(2015-10-05 BZR 6247)-product\")\n"+
+    "\n"+
+    "  (general\n"+
+    "    (links 0)\n"+
+    "    (no_connects 0)\n"+
+    "    (area 0 0 0 0)\n"+
+    "    (thickness 1.6)\n"+
+    "    (drawings 1)\n"+
+    "    (tracks 0)\n"+
+    "    (zones 0)\n"+
+    "    (modules 0)\n"+
+    "    (nets 1)\n"+
+    "  )\n"+
+    "\n"+
+    "  (page A4)\n"+
+    "  (layers\n"+
+    "    (0 F.Cu signal)\n"+
+    "    (31 B.Cu signal)\n"+
+    "    (32 B.Adhes user)\n"+
+    "    (33 F.Adhes user)\n"+
+    "    (34 B.Paste user)\n"+
+    "    (35 F.Paste user)\n"+
+    "    (36 B.SilkS user)\n"+
+    "    (37 F.SilkS user)\n"+
+    "    (38 B.Mask user)\n"+
+    "    (39 F.Mask user)\n"+
+    "    (40 Dwgs.User user)\n"+
+    "    (41 Cmts.User user)\n"+
+    "    (42 Eco1.User user)\n"+
+    "    (43 Eco2.User user)\n"+
+    "    (44 Edge.Cuts user)\n"+
+    "    (45 Margin user)\n"+
+    "    (46 B.CrtYd user)\n"+
+    "    (47 F.CrtYd user)\n"+
+    "    (48 B.Fab user)\n"+
+    "    (49 F.Fab user)\n"+
+    "  )\n"+
+    "\n"+
+    "  (setup\n"+
+    "    (last_trace_width 0.25)\n"+
+    "    (trace_clearance 0.2)\n"+
+    "    (zone_clearance 0.508)\n"+
+    "    (zone_45_only no)\n"+
+    "    (trace_min 0.2)\n"+
+    "    (segment_width 0.2)\n"+
+    "    (edge_width 0.15)\n"+
+    "    (via_size 0.6)\n"+
+    "    (via_drill 0.4)\n"+
+    "    (via_min_size 0.4)\n"+
+    "    (via_min_drill 0.3)\n"+
+    "    (uvia_size 0.3)\n"+
+    "    (uvia_drill 0.1)\n"+
+    "    (uvias_allowed no)\n"+
+    "    (uvia_min_size 0.2)\n"+
+    "    (uvia_min_drill 0.1)\n"+
+    "    (pcb_text_width 0.3)\n"+
+    "    (pcb_text_size 1.5 1.5)\n"+
+    "    (mod_edge_width 0.15)\n"+
+    "    (mod_text_size 1 1)\n"+
+    "    (mod_text_width 0.15)\n"+
+    "    (pad_size 1.524 1.524)\n"+
+    "    (pad_drill 0.762)\n"+
+    "    (pad_to_mask_clearance 0.2)\n"+
+    "    (aux_axis_origin 0 0)\n"+
+    "    (visible_elements FFFFFF7F)\n"+
+    "    (pcbplotparams\n"+
+    "      (layerselection 0x00030_80000001)\n"+
+    "      (usegerberextensions false)\n"+
+    "      (excludeedgelayer true)\n"+
+    "      (linewidth 0.100000)\n"+
+    "      (plotframeref false)\n"+
+    "      (viasonmask false)\n"+
+    "      (mode 1)\n"+
+    "      (useauxorigin false)\n"+
+    "      (hpglpennumber 1)\n"+
+    "      (hpglpenspeed 20)\n"+
+    "      (hpglpendiameter 15)\n"+
+    "      (hpglpenoverlay 2)\n"+
+    "      (psnegative false)\n"+
+    "      (psa4output false)\n"+
+    "      (plotreference true)\n"+
+    "      (plotvalue true)\n"+
+    "      (plotinvisibletext false)\n"+
+    "      (padsonsilk false)\n"+
+    "      (subtractmaskfromsilk false)\n"+
+    "      (outputformat 1)\n"+
+    "      (mirror false)\n"+
+    "      (drillshape 1)\n"+
+    "      (scaleselection 1)\n"+
+    "      (outputdirectory \"\"))\n"+
+    "  )\n"+
+    "\n"+
+    "  (net 0 \"\")\n"+
+    "\n"+
+    "  (net_class Default \"This is the default net class.\"\n"+
+    "    (clearance 0.2)\n"+
+    "    (trace_width 0.25)\n"+
+    "    (via_dia 0.6)\n"+
+    "    (via_drill 0.4)\n"+
+    "    (uvia_dia 0.3)\n"+
+    "    (uvia_drill 0.1)\n"+
+    "  )\n"+
+    "\n"+
+    "  (gr_text \"*** THIS IS THE DUMMY SAVE FILE ***\\nIF YOUR ARE READING THIS MESSAGE,\\nYOU HAVE NOT DONE A SAVE-AS IN PCBNEW\\nTO THIS FILE NAME,  WHEN IMPORTING A EAGLE PCB FILE TO A KICAD PCB FILE!!\\n\" (at 145.5166 92.7608) (layer F.SilkS)\n"+
+    "    (effects (font (size 7 4) (thickness 0.6)))\n"+
+    "  )\n"+
+    "\n"+
+    ")\n";
+
+
 
 
 
@@ -236,6 +350,14 @@ string project_liblist[];
 string netlistfile;
 
 int exportLibsFromEagle = 1;
+
+string logfileName;
+string logfile;
+
+string polygon_messagex[];
+int polygons_linesCt = 0;
+string polygons_message_FileName;
+string rootschname;
 
 //------------------------------------------------------
 //Return's the path of a path-filename.
@@ -425,15 +547,36 @@ string charstr_replace(string search, string replace, string subject)
 }
 
 //------------------------------------------------------
+// find size of word
+// returns size of word in bytes
+//------------------------------------------------------
+int strlenWord( string search, int offset )
+{
+  int i = offset;
+  int ct = 0;
+  
+  while( isspace( search[i] ) == 0  )
+  {
+    i++;
+    ct++;
+  }
+  return ct;
+}
+
+//------------------------------------------------------
 //Find string in the globalNetList string arrray
 //------------------------------------------------------
 int array_find(string search, int arraySize )
 {
     int ct1 = 0;
-    
+    int ln = strlen( search );
+
     // Check if there is any thing to replace
     while( arraySize )
     {
+      if( ln != strlenWord( globalNetList[ ct1 ], 0 )) // check the size of netname,  first element
+        return 0; 
+
       if( strstr( globalNetList[ ct1 ], search ) != -1)
     	return 1;  // return found
       arraySize--;
@@ -441,6 +584,29 @@ int array_find(string search, int arraySize )
     }
     return 0;
 }
+
+//------------------------------------------------------
+//Find string in the globalNetList string arrray
+//------------------------------------------------------
+int array_find_poly_messagex( string search, int arraySize )
+{
+    int ct1 = 0;
+    int ln = strlen( search );
+
+    // Check if there is any thing to replace
+    while( arraySize )
+    {
+      if( ln != strlenWord( polygon_messagex[ ct1 ], 0 ))// check the size of netname,  first element
+        return 0; 
+
+      if( strstr( polygon_messagex[ ct1 ], search ) != -1)
+    	return 1;  // return found
+      arraySize--;
+      ct1++;
+    }
+    return 0; // return not found
+}
+
 
 //--------------------
 // check for existing file
@@ -2435,8 +2601,11 @@ void write_kicad_netNames( UL_SHEET SH, int current_sheet )
     if( array_find( N.name, globalNetListSize ))
       globalable++;
 
-    //****** Force globalable for quick fix to fill's net name problem. *******//
-    globalable++; 
+    // check to see if there was a polygon with the same net name
+    if( array_find_poly_messagex( N.name, polygons_linesCt ))
+      globalable++; 
+        //****** Force globalable for quick fix to fill's net name problem. *******//
+
     
     //    N.pinrefs(R)
     N.segments(S)
@@ -3085,8 +3254,10 @@ int mainDialog( string titleString, int sheetcount, string schName )
 //
 int main()
 {
-
   totalSheets = 0;
+  string myname = filename( argv[0]);
+  string datetime = t2string(time(), "dd-MM-yyyy :hh:mm:ss");
+  sprintf(logfile, "#********** START OF %s %s %s LOG **********#", myname, Version, datetime);
 
   sprintf(titleStr, "Export Eagle schematic to KiCAD, Version:%.1f\n Build Date:%s  USE THIS PROGRAM AT YOUR OWN RISK!", VERSION, BUILD_DATE);
 
@@ -3095,7 +3266,8 @@ int main()
       schematic(S) 
       {
         //	sch_name = strsub(S.name, 0, strlen(S.name) - 4) + "_.sch";
-
+        rootschname = filename(S.name);
+        
         makeDevLibRefList( S ); // Build Lib list and check for conflicts.
           
         schematic(SCH) 
@@ -3130,7 +3302,7 @@ int main()
 	{
           int i = 0;
 
-
+          
           makeLibeList( SCH );
           
 
@@ -3175,6 +3347,7 @@ int main()
 
           result = mainDialog( titleStr, totalSheets, filesetext( filename(SCH.name), "") );
 
+          logfileName = filesetext( outputPath + rootschname, "_conversion_log.txt");
           
           if( combineLibs ) // Set combineLibsName option ?
             cfgset( cfg_CombinedLrbFileName, combineLibsName );  // yes and save for the next programe
@@ -3190,6 +3363,21 @@ int main()
     exit(EXIT_FAILURE);
   }
 
+
+  polygons_message_FileName = filesetext( outputPath + rootschname, "_polygon_messagex.txt");
+  /* string tmps; */
+  /* sprintf(tmps, "%s", polygons_message_FileName ); */
+  /* dlgMessageBox(tmps );                      */
+        
+  if( check_for_exist_file( polygons_message_FileName ))
+  {
+    int i;
+    polygons_linesCt = fileread( polygon_messagex, polygons_message_FileName); // Read the message
+    /* string tmps; */
+    /* sprintf(tmps, "polygons_linesCt=%d polygon_messagex[0]=%s",polygons_linesCt, polygon_messagex[0]); */
+    /* dlgMessageBox(tmps ); */
+  }
+        
   if(result)
   {
     if( totalSheets == 1 )  // Only one sheet ?
@@ -3281,22 +3469,48 @@ int main()
                     cfgget( cfg_conflictPartsLibsListsize ) + " " +
                     cfgget( cfg_addLibPrefix ));
     */
+
+
+    int spos = 0;
+    int iC = 0;
+    string c;  
+    while( (spos = strrchr( logfile, 0x0a, spos )) != -1 )
+    {
+      if( ++iC > 2 )
+        break;
+      spos++;
+    }
+    if( iC < 3 )
+      logfile += "\n    Conversion completed with no Messages";
+    sprintf(c, "\n#********** END OF %s %s %s LOG **********#\n", myname, Version, datetime);
+    logfile += c;
+    output(logfileName, "at") printf("%s", logfile);
+
+    // check to see if we have a pcb ready,
+    // if we dont make up,  for the save as from pcbnew, just make's things bit simpler
+    // 
+    string pcbfilename;
+    pcbfilename = filesetext( outputPath + rootschname, ".kicad_pcb");
+    if( check_for_exist_file( pcbfilename ) == 0 )
+        output( pcbfilename, "wt")
+        {
+          printf(dummyKiCadPcb); // ok Make a place holder then, for later save by pcbnew
+        }
+    
     string tmpS1;    
+
+
     if( exportLibsFromEagle ) // export libs from sch/pcb ?
     { // yes
       sprintf(tmpS1, "run '%s';\n", myULP_HOME + "exp-lbrs.ulp" );
+      exit( tmpS1 );
     }
     else
-    { // 
       exit(EXIT_SUCCESS);
-      //      sprintf(tmpS1, "run %s;\n", myULP_HOME + "eagle-lbr2kicad-1.0.ulp" );
-    }
-    exit( tmpS1 );
           
   }  // if(result)
   else 
     exit(EXIT_FAILURE);
 
-  exit(EXIT_SUCCESS);
   return 0;
 }  // main()
