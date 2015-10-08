@@ -15,6 +15,8 @@
 
 /*
  * CHANGELOG=(dd.mm.yyyy)===============================================
+ * 09.10.2015:  Add missing prefix report Dilog
+ * *
  * 27.08.2015:  Fix Power systembal to correct for KiCad Power fills, change power supllie to opersit of Eagle.
  *              Change pin to hide when power. supply system.
  *
@@ -141,7 +143,12 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-real VERSION   = 1.5;
+real VERSION   = 1.6;
+string Version = "1.6";
+
+
+
+
 int add_libnamePrefixToPartName = 0;
 
 int rect_conv  = 1; // many QFP-like packages use rectangles as a pin contour (too much segments in the ki-format)
@@ -205,6 +212,9 @@ int partlistSize = 0;
 string conflictPartsLibsList[];
 int conflictPartsLibsListsize = 0;
 
+string logfileName;
+string logfile;
+string outputPath;
 
 string infoDeviceConversion = "<pre>Allows combining of device's into one KiCad lib part if the pin name/number match exactly.<br>"+
                               "Note pin number/name not package type or the number of pins on the package is the deciding factor.<br>"+
@@ -1119,6 +1129,7 @@ void write_kikad_mod(string name)
 string g_mod_name ;
 string g_lib_name ;
 real   g_Fact = 254 * 32;      // global uMeter to uInch conversion factor
+string missingPrefixLog[];
 int    g_missingPrefix = 0; // global Indicator if an eagle devices hasn't got an prefix
 int warnings_count = 0;
 int errors_count = 0;
@@ -1997,6 +2008,11 @@ void write_kikad_lib( string fileName )
             // check for missing prefix
             if ( DEV.prefix == "" )
             {
+              string c;
+              sprintf(c, "\nMissing Prefix Part =%s\t\t%s\t\t%s\t\t%s", DEV.name, DEV.package.name, DEV.library, undefinedPartPreFix );
+              logfile += c;
+              
+              missingPrefixLog[ g_missingPrefix ] += c;
               g_missingPrefix++;
               sprintf( prefixString, "%s", undefinedPartPreFix);
             }
@@ -2329,7 +2345,7 @@ int mainDialog( string titleString )
       dlgHBoxLayout
       {
 	dlgStringEdit(g_mod_name);
-	dlgPushButton("...") openModPath("C:\\");
+	dlgPushButton("Edit") openModPath("C:\\");
       }
       dlgHBoxLayout
       {
@@ -2342,7 +2358,7 @@ int mainDialog( string titleString )
       dlgHBoxLayout
       {
 	dlgStringEdit(g_lib_name);
-	dlgPushButton("...") openLibPath("C:\\");
+	dlgPushButton("Edit") openLibPath("C:\\");
       }
       dlgVBoxLayout
       {
@@ -2489,6 +2505,10 @@ int mainDialog( string titleString )
 //
 int main()
 {
+  string myname = filename( argv[0]);
+  string datetime = t2string(time(), "dd-MM-yyyy :hh:mm:ss");
+  sprintf(logfile, "#********** START OF %s %s %s LOG **********#", myname, Version, datetime);
+
   sprintf( titleString, "Eagle To KiCAD lib/mod, Version:%.2f\nBuild Date:%s USE THIS PROGRAM AT YOUR OWN RISK!", VERSION, BUILD_DATE );
 
   if (library)
@@ -2500,7 +2520,6 @@ int main()
 	    g_lib_prefix = DEV.library;
 	    footPrintPreFix = DEV.library;
 	  }
-
 	g_mod_name = strsub(L.name, 0, strlen(L.name) - 3) + "mod";
 	g_lib_name = strsub(L.name, 0, strlen(L.name) - 3) + "lib";
       }
@@ -2526,7 +2545,22 @@ int main()
       add_libnamePrefixToPartName = 0; // Dont add lib name to part name as it has aready been added.
       outPutFootPrint = 0; // Don't add lib name to foot print name as it has aready been added.
     }
-      
+
+  // we are aready where the target dir is.
+  tmpXX = cfgget( cfg_TARGET_DIR );
+  if( strlen( tmpXX ))
+    outputPath = tmpXX;
+  else
+    outputPath = filedir( g_mod_name );
+
+  tmpXX = cfgget( cfg_ConversionLogFileName );
+  if( strlen( tmpXX ) )
+    logfileName = tmpXX;
+  else
+  {
+    logfileName = filesetext( filedir(g_mod_name), "_conversion_log.txt");
+  }
+    
   
   result = mainDialog( titleString );
 
@@ -2539,6 +2573,20 @@ int main()
   else
     exit(-1);
 
+  int spos = 0;
+  int iC = 0;
+  string c;  
+  while( (spos = strchr( logfile, 0x0a, spos )) != -1 )
+  {
+    if( ++iC > 2 )
+      break;
+    spos++;
+  }
+  if( iC < 3 )
+    logfile += "\n    Conversion completed with no Messages";
+  sprintf(c, "\n#********** END OF %s %s %s LOG **********#\n\n", myname, Version, datetime);
+  logfile += c;
+  output(logfileName, "at") printf("%s", logfile);
 
   if ( g_missingPrefix || warnings_count || errors_count )
     {
@@ -2563,6 +2611,8 @@ int main()
   else
     dlgMessageBox("Conversion finished");
 
+  cfgset( cfg_ConversionLogFileName, "" ); // Set to Null for next time so we dont get confused if the conversion programe has not been run first.
+  
   exit(EXIT_SUCCESS);
 
   return EXIT_SUCCESS;
