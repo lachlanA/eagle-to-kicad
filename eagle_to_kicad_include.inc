@@ -12,3 +12,4 @@ string cfg_F1 = "Eagle.To.KiCad.Libs.SCHf1.VALUE.SCALING";
 string cfg_F2 = "Eagle.To.KiCad.Libs.SCHf2.NAME.SCALING";
 string cfg_EnableNetLableFix = "Eagle.To.KiCad.Libs.SCH.NET.LABLE.FIX";
 string cfg_CombinedLrbFileName = "Eagle.To.KiCad.Libs.CombinedLrbFileName";
+string cfg_ConversionLogFileName ="Eagle.To.KiCad.Libs.ConversionLogFileName";
