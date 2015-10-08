@@ -2985,7 +2985,13 @@ int mainDialog( string titleString, int sheetcount, string schName )
                 
                 dlgStringEdit(  myULP_HOME );
                 dlgCheckBox("Save as default", saveAsDefaultULP_Path );
-                dlgPushButton("Edit") { tmpS10 = myULP_HOME = dlgDirectory("Select Targget directory", "C:\\") + '/'; rs = 1; dlgAccept(); };
+                dlgPushButton("Edit") {
+                  string xs;int it;
+                  xs = dlgDirectory("Select directory containing conversion ULP's", "C:\\");
+                  if( strlen(xs) )
+                    tmpS10 = myULP_HOME = ( xs + '/');
+                }
+                    //                { tmpS10 = myULP_HOME = dlgDirectory("Select Targget directory", "C:\\") + '/'; rs = 1; dlgAccept(); };
                 dlgPushButton("Info") { if (dlgMessageBox( infoULPdir, "Ok") == 0); };
                 dlgStretch(0);
 
@@ -3009,7 +3015,14 @@ int mainDialog( string titleString, int sheetcount, string schName )
 
                 dlgStringEdit( outputPath );
                 dlgCheckBox("Save as default", saveAsDefault );
-                dlgPushButton("Edit") ( outputPath = dlgDirectory("Select Targget directory", "C:\\") + '/' );
+                dlgPushButton("Edit"){
+                  string xs;int it;
+                  xs = dlgDirectory("Select Targget directory", "C:\\");
+                  if( strlen(xs) )
+                    outputPath = xs + '/';
+                }
+
+                //                ( outputPath = dlgDirectory("Select Targget directory", "C:\\") + '/' );
                 dlgPushButton("Info") { if (dlgMessageBox( infoTargetDirectory, "Ok") == 0); };
                 dlgStretch(0);
               }
@@ -3474,7 +3487,7 @@ int main()
     int spos = 0;
     int iC = 0;
     string c;  
-    while( (spos = strrchr( logfile, 0x0a, spos )) != -1 )
+    while( (spos = strchr( logfile, 0x0a, spos )) != -1 )
     {
       if( ++iC > 2 )
         break;
@@ -3482,7 +3495,7 @@ int main()
     }
     if( iC < 3 )
       logfile += "\n    Conversion completed with no Messages";
-    sprintf(c, "\n#********** END OF %s %s %s LOG **********#\n", myname, Version, datetime);
+    sprintf(c, "\n#********** END OF %s %s %s LOG **********#\n\n", myname, Version, datetime);
     logfile += c;
     output(logfileName, "at") printf("%s", logfile);
 
