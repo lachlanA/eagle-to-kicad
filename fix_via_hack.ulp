@@ -17,7 +17,7 @@
 
 // THIS PROGRAM IS PROVIDED AS IS AND WITHOUT WARRANTY OF ANY KIND, EXPRESSED OR IMPLIED
 
-string Version = "ULP Version 4.4.7";
+string Version = "ULP Version 4.4.8";
 
 /*
  * CHANGELOG================================================
@@ -125,6 +125,7 @@ int aShape[];
 
 int aViaP[];	// Point's to Via index from track
 int aPadP[];	// Point's to Pad index
+int aWireConnectionCt[]; // Holds the number of connections from wire to wire for each node
 char aStatus[];	// the connection status,  0=NoConnected, 1=PadConnection.
 int wirenumber[];	// holds the wire number
 int aindex[];	// order storted index of pad/tracks/via's
@@ -242,7 +243,7 @@ string myULP_HOME = EAGLE_HOME + '/';
 
 string infoTargetDirectory  =  "<b>Set the target directory for the KiCad/Eagle files.<br>"+
                              "<b>Note this directory should be a clean directory<br>"+
-                             "With out any other file's, as the contents-<br><center><font color=\"red\">WILL BE OVER WRITTEN WITHOUT WARNING!</b></center>";
+                             "With out any other file's, as the contents-<br><center><font color=\"red\"><font color=\"red\">WILL BE OVER WRITTEN WITHOUT WARNING!</b></center>";
 
 string infoConvertViaToPad  =  "<b>Eagle use's via's for connections to fill's and power plane's, this works well for Eagle<br>"+
     "<b>But will not work for KiCad, because KiCad does not retain Net list information for unconnected via's and tracks<br>"+
@@ -260,7 +261,7 @@ string infoDocomentUnconnectVias  =  "<b>This Option add's a \">\" to the via or
 
 string infoULPdir           = "<b>Eagle ULP conversion script location</b>";
 
-int  hiddencount = 0;
+int  blindviaCt = 0;
 string via_polygon_netname = "";  // holds the report on matching polygon and net names, so can aplie gobale lable when the via and polygon match and wire
 
 string ULP_Path;
@@ -737,15 +738,21 @@ void menue(void)
   
   result = dlgDialog("Vis to Pad hack:" + "  BUILD DATE:" + BUILD_DATE )
       {
-        dlgLabel("<b><font color=\"red\">This ULP will change unconnected VIA's to PADS with Same Net name as the VIA's<br>" + 
-                 "<font color=\"blue\">It will also Docment (on layer 51/???? unconected Via's/Tracks and blind Via's<br>" +
-                 "This is needed because KiCad does not support Net Names on unconected Via's/Tracks and blind Vias which have no Pad conecsion.!<br>"+
-                 "while unconected via's can be automatic coveted to Pad's blind via's and unconnected tracks need manual conversion</i>)<br>"+
-                 "will lose net names, and will not connect to fill's or power plane's!<br>"+
-                 "This hack will help out by converting all those unconnected VIA'S to Pads<br>"+
-                 "<i>Click on Info for more, information and problem's which is could fix/make!</i><br>"+
-                 "<b>NOTE:<i> This hack modifies both the eagle sch and PCB file,  which are saved in the TARGET-DIRECTORY/modified_eagle_files/</i>");
- 
+        dlgLabel("<b><font color=\"red\">This ULP will change unconnected VIA's to PADS with Same Net name<br>" + 
+                 "<font color=\"blue\">It will also Documents on user defined PCB layers unconnected Via's and Tracks<br>" +
+                 "<i>Click on <i>Info</> for importand Note's!</i><br>"+
+                 "<b>NOTE:<i> This hack modifies both the Eagle SCH and PCB file,<br>"+
+                 "which are saved in the <i>TARGET-DIRECTORY</i>/modified_eagle_files/");
+
+        /* "This is needed because KiCad does not support Net Names on unconected Via's/Tracks and blind Vias which have no Pad conecsion.!<br>"+ */
+        /* "while unconected via's can be automatic coveted to Pad's blind via's and unconnected tracks need manual conversion</i>)<br>"+ */
+        /* "will lose net names, and will not connect to fill's or power plane's!<br>"+ */
+        /* "This hack will help out by converting all those unconnected VIA'S to Pads<br>"+ */
+        /* "<i>Click on Info for more, information and problem's which is could fix/make!</i><br>"+ */
+        /* "<b>NOTE:<i> This hack modifies both the eagle sch and PCB file,  which are saved in the TARGET-DIRECTORY/modified_eagle_files/</i>"); */
+
+
+        
         dlgHBoxLayout dlgSpacing(900);
         dlgHBoxLayout
         {
@@ -775,10 +782,14 @@ void menue(void)
             rs = 0;
             tmpS10 = "";                  
           }
-                
           dlgStringEdit(  myULP_HOME );
           dlgCheckBox("Save as default", saveAsDefaultULP_Path );
-          dlgPushButton("Edit") { tmpS10 = myULP_HOME = dlgDirectory("Select Targget directory", "C:\\") + '/'; rs = 1; dlgAccept(); };
+          dlgPushButton("Edit") {
+            string xs;int it;
+            xs = dlgDirectory("Select directory containing conversion ULP's", "C:\\");
+            if( strlen(xs) )
+              tmpS10 = myULP_HOME = ( xs + '/');
+          }
           dlgPushButton("Info") { if (dlgMessageBox( infoULPdir, "Ok") == 0); };
           dlgStretch(0);
 
@@ -802,7 +813,12 @@ void menue(void)
 
           dlgStringEdit( outputPath );
           dlgCheckBox("Save as default", saveAsDefault );
-          dlgPushButton("Edit") ( outputPath = dlgDirectory("Select Targget directory", "C:\\") + '/' );
+          dlgPushButton("Edit") {
+            string xs;int it;
+            xs = dlgDirectory("Select Targget directory", "C:\\");
+            if( strlen(xs) )
+              outputPath = xs + '/';
+          }
           dlgPushButton("Info") { if (dlgMessageBox( infoTargetDirectory, "Ok") == 0); };
           dlgStretch(0);
         }
@@ -1468,6 +1484,7 @@ int main()
             aViaP[ pad_counter ] = 0;
             aPadP[ pad_counter ] = 0;
             aDiameter[ pad_counter ] = 0; // get the diameter for start layer for reporting
+            aWireConnectionCt[ pad_counter ] = 0;
             pad_counter++;
           }
           if( C.smd )
@@ -1482,6 +1499,7 @@ int main()
             aViaP[ pad_counter ] = 0;
             aPadP[ pad_counter ] = 0;
             aDiameter[ pad_counter ] = 0; // get the via diametmer for start layer for reporting
+            aWireConnectionCt[ pad_counter ] = 0;
             pad_counter++;
           }
         }
@@ -1544,7 +1562,8 @@ int main()
         aShape[ wire_counter + 1 ] = 0;
         wirenumber[ wire_counter ] = wire_counter;
         wirenumber[ wire_counter + 1 ] = wire_counter;            
-
+        aWireConnectionCt[ wire_counter ] = 0;
+        aWireConnectionCt[ wire_counter + 1  ] = 0;        
         wire_counter += 2;   		// allways even inc, start/end.
         total_wires++;
       }
@@ -1569,6 +1588,7 @@ int main()
         aShape[ via_counter ] = V.shape[ V.start ];
         aViaP[ via_counter ] = 0;
         aPadP[ via_counter ] = 0;
+        aWireConnectionCt[ via_counter ] = 0;
         via_counter++;
         total_vias++;
       }  // vias(V) // build via table.
@@ -1760,6 +1780,8 @@ int main()
             if( found_wire != 0 )
             { // Ok found the wire to wire connection.
               found_wire--;
+              aWireConnectionCt[ found_wire ]++; // Inc wire to wire connection count
+              
               if( aViaP[ found_wire ] != 0 ) // is there a via at this end ?
                 if((aStatus[ aViaP[ found_wire ]] || aStatus[ found_wire ] ) != ( aStatus[ aViaP[ found_wire ]] && aStatus[ found_wire ] ))
                 {
@@ -1949,7 +1971,7 @@ int main()
         if(( unc_vaSl[i] != 1) ||  ( unc_vaFl[i] != 16 )) // Blind or hitten via ?
         {
           hidden = 1;
-          hiddencount++;
+          blindviaCt++;
         }
         else
           hidden = 0;          
@@ -2130,7 +2152,7 @@ int main()
     
     int spos = 0;
     int iC = 0;
-    while( (spos = strrchr( logfile, 0x0a, spos )) != 0 )
+    while( (spos = strchr( logfile, 0x0a, spos )) != 0 )
     {
       if( ++iC > 2 )
         break;
@@ -2138,7 +2160,7 @@ int main()
     }
     if( iC < 3 )
       logfile += "\n    Conversion completed with no Messages";
-    sprintf(c, "\n#********** END OF %s %s %s LOG **********#\n", myname, Version, datetime);
+    sprintf(c, "\n#********** END OF %s %s %s LOG **********#\n\n", myname, Version, datetime);
     logfile += c;
     output(logfileName, "at") printf("%s", logfile);
 
@@ -2168,8 +2190,43 @@ int main()
     /* } */
 
     string x;
+    string viamessage;
+    string blindviamessage;    
+    string wiremessage1;
+    string wiremessage2;    
+    
+    /* if( unnconnected_vias_Ct ) */
+    /* { */
+    /*   if( enable_via_to_pad ) */
+    /*     sprintf( viamessage, "%s", "<font color=\"orange\"><b>UNCONNECTED VIA(s)=%d converted to pad(s)<br><font color=\"black\">" ); */
+    /*   else */
+    /*     sprintf( viamessage, "%s","<font color=\"red\"><b>UNCONNECTED VIA(s)=%d Remember to connect to pad with track(s) or converted to pad(s)!<br><font color=\"black\">" ); */
+    /* } */
+    /* else */
+    /*   sprintf( viamessage, "%s","<font color=\"green\"><b>UNCONNECTED VIA(s)=%d<br><font color=\"black\">" ); */
+
+    /* if( blindviaCt ) */
+    /* { */
+    /*     sprintf( blindviamessage, "%s","\t\t<font color=\"red\"><b>UNCONNECTED BLIND VIA(s)&nbsp;=%d\t<i>Remember to connect blind/birred via's to pad of the same netname with a track!<br><font color=\"black\">" ); */
+    /* } */
+    /* else */
+    /*   sprintf( blindviamessage, "%s","\t\t<font color=\"green\"><b>UNCONNECTED BLIND VIA(s)\t\t=%d<br>" ); */
+
+    /* if( unnconnected_wires_Ct ) */
+    /* { */
+    /*     sprintf( wiremessage1, "%s","<font color=\"red\"><b>UNCONNECTED TRACKS(s)=%d Remember to check those tracks, and connect to pad(s) of the same net name!<br><font color=\"black\">" ); */
+    /* } */
+    /* else */
+    /*   sprintf( wiremessage1, "%s","<font color=\"green\"><b>UNCONNECTED BLIND VIA(s)=%d<br>" ); */
+
+
+    //  dlgMessageBox( viamessage+blindviamessage+wiremessage1+"PAD COUNT=%dVIA COUNT=%d&nbsp:&nbsp:&nbsp:WIRE COUNT=%d"); 
+            
+    
+    //   sprintf(x, viamessage+blindviamessage+wiremessage1+"PAD COUNT=%dVIA COUNT=%d<br>WIRE COUNT=%d<br>" , unnconnected_vias_Ct, blindviaCt, unnconnected_wires_Ct, pad_counter, total_vias, total_wires);
     sprintf(x, "<b>UNCONNECTED VIA=%d<br>UNCONNECTED WIRES=%d<br></b>PAD COUNT=%d<br>VIA COUNT=%d<br>WIRE COUNT=%d<br>", unnconnected_vias_Ct, unnconnected_wires_Ct, pad_counter, total_vias, total_wires);
 
+    
     if( unnconnected_wires_Ct || unnconnected_vias_Ct  )
     {
       result = dlgDialog("Unnconnected via's and wire list")
@@ -2177,10 +2234,10 @@ int main()
             if( unnconnected_wires_Ct )
             {
               string c;
-              dlgLabel( "This and other messages will be added to the report log file at <b><i>" + logfileName +
-                        "</b></i><br> to help with fixing any warning's or errors");
+              dlgLabel( "Consult the log file for a list of unnconted vais and tracks<br><b><i>" + logfileName +
+                        "</b></i><br> to help with fixing any warning's and errors");
               dlgLabel( x );
-              sprintf(c, "There are %d unnconnected wire(s)", unnconnected_wires_Ct );
+              sprintf(c, "<b><font color=\"red\">There are %d unnconnected Track(s)", unnconnected_wires_Ct );
               dlgLabel( c );
               
               dlgListView("net-name\taType\taStatus\taSl\taFl\tX\tY\tvX\tvY\tvSl\tvFl\tvaStatus\taType\tIndex", unnconnected_wires, Selected) dlgMessageBox("More info "); 
@@ -2188,7 +2245,10 @@ int main()
             if( unnconnected_vias_Ct  )
             {
               string c;
-              sprintf(c, "There are %d unnconnected via(s)", unnconnected_vias_Ct );
+              if( enable_via_to_pad )
+                sprintf(c, "<b><font color=\"red\">There are <b>%d</b> unnconnected via(s), <i>which has been converted to pad(s)", unnconnected_vias_Ct );
+              else
+                sprintf(c, "<b><font color=\"red\">There are <b>%d</b> unnconnected via(s), <i>which need to connected to pads of the same net", unnconnected_vias_Ct );
               dlgLabel( c);
               dlgListView("net-name\tType\taStatus\taSl\taFl\tX\tY", unnconnected_vias, Selected) dlgMessageBox("More info "); 
             }
