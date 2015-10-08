@@ -109,6 +109,7 @@ int pos = strrchr(argv[0], bkslash);
 
 string logfile;
 string logfileName;
+int renamedCt = 0;
 //
 //--------------------------------------------------------------------------------
 //Returns 1, if EAGLE is running under Windows (0 for Linux/Mac)
@@ -382,8 +383,15 @@ void GenerateScript(void)
       cmd += c;
     }
     Rename(x[Index[n]],y[Index[n]], NewNames[Index[n]]); // output script for renumber part
-    sprintf( c, "\n%s", NewNames[Index[n]] );
-    logfileName += c;
+    if( (renamedCt & 0x1f) == 0 )
+    {
+      sprintf( c, "%s","\n#OldRef\tSheetNumber\tNewRef" );
+      logfile += c;
+    }
+    sprintf( c, "\n%s\t%d\t\t%s", OldNames[Index[n]], Sheet[Index[n]], NewNames[Index[n]] );
+    logfile += c;
+    renamedCt++;
+
   }
   return;
 }
@@ -516,7 +524,16 @@ void menue(void)
                 
                 dlgStringEdit(  myULP_HOME );
                 dlgCheckBox("Save as default", saveAsDefaultULP_Path );
-                dlgPushButton("Edit") { tmpS10 = myULP_HOME = dlgDirectory("Select Targget directory", "C:\\") + '/'; rs = 1; dlgAccept(); };
+                dlgPushButton("Edit") {
+                  string xs;int it;
+                  xs = dlgDirectory("Select directory containing conversion ULP's", "C:\\");
+                  if( strlen(xs) )
+                    tmpS10 = myULP_HOME = xs + '/';
+                }
+
+                //                { tmpS10 = myULP_HOME = dlgDirectory("Select Targget directory", "C:\\") + '/' ; rs = 1; dlgAccept(); };
+
+                
                 dlgPushButton("Info") { if (dlgMessageBox( infoULPdir, "Ok") == 0); };
                 dlgStretch(0);
 
@@ -540,7 +557,12 @@ void menue(void)
 
           dlgStringEdit( outputPath );
           dlgCheckBox("Save as default", saveAsDefault );
-          dlgPushButton("Edit") ( outputPath = dlgDirectory("Select Targget directory", "C:\\") + '/' );
+          dlgPushButton("Edit") {
+            string xs;int it;
+            xs = dlgDirectory("Select Targget directory", "C:\\");
+            if( strlen(xs) )
+              outputPath = xs + '/';
+          }// ( outputPath = dlgDirectory("Select Targget directory", "C:\\") + '/' );
           dlgPushButton("Info") { if (dlgMessageBox( infoTargetDirectory, "Ok") == 0); };
           dlgStretch(0);
         }
@@ -801,15 +823,10 @@ if (schematic) {
 
     logfileName = filesetext( outputPath + filename(S.name), "_conversion_log.txt");
 
-    int spos = 0;
-    int iC = 0;
-    while( ( spos = strrchr( logfile, 0x0a, spos )) != -1 )
-    {
-      if( ++iC > 2 )
-        break;
-      spos++;
-    }
-    if( iC < 3 )
+    cfgset( cfg_ConversionLogFileName, logfileName ); // Set log file name
+
+    
+    if( renamedCt == 0 )
       logfile += "\n    Conversion completed with no Messages";
     sprintf(c, "\n#********** END OF %s %s %s LOG **********#\n\n", myname, Version, datetime);
     logfile += c;
