@@ -448,10 +448,12 @@ void CreateLBRdescription(string project_name) {
 }
 
 void CreateHeader(UL_LIBRARY LBR) {
-  LBR.layers(L) {
-    sprintf(h, "Layer %d %s;\n", L.number, L.name); cmd += h;
-  }
-  sprintf(h, "Set Wire_bend 2;\nSet Select_factor 0;\nSet Undo_log off;\n"); cmd += h;
+
+/* LBR.layers(L) { */
+/*     sprintf(h, "Layer %d %s;\n", L.number, L.name); cmd += h; */
+/*   } */
+
+sprintf(h, "Set Wire_bend 2;\nSet Select_factor 0;\nSet Undo_log off;\n"); cmd += h;
   sprintf(h, "Grid mic 1;\n"); cmd += h;
   sprintf(h, "Display All;\n"); cmd += h;
   cmd  += "DESCRIPTION '" + addApostroph(replacenewline(LBR.description)) + "';\n";

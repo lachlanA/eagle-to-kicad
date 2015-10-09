@@ -1028,7 +1028,7 @@ int output_fp_lib_table( string fileName, string schName )
   output( fileName, mode )
   {
     printf("(fp_lib_table\n");
-    printf("  (lib (name %s)(type Legacy)(uri %s)(options \"\")(descr \"\"))\n", filesetext( combineLibsName, "" ), outputPath + filesetext( filename( schName), ".mod") );
+    printf("  (lib (name %s)(type Legacy)(uri \"%s\")(options \"\")(descr \"\"))\n", filesetext( combineLibsName, "" ), outputPath + filesetext( filename( schName), ".mod") );
     printf(")\n");
   }
   return 0;
