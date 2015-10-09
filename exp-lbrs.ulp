@@ -15,6 +15,7 @@
 //-------------------------------------------------------------------------------- 
 // Change log.
 // Date:    Note:
+// 09-Oct-2015  Fix layer's for limted version of Eagle L. A.
 // 25-Aug-2015  Fix space in Path problem, for windows by adding ' ' L. A.
 // 31-Jul-2015  Fix some spelling mistakes.  L. A.
 // 28-Jul-2015  Fix a number of problems where,  Pin and Pad's over lap, and add error reporting log file.
@@ -24,7 +25,7 @@
 #require 6.0301
 #include "eagle_to_kicad_include.inc"
 //
-string Version = "6.5";
+string Version = "6.6";
 
 int TEMP_HOLD_FOR_OVER_LAPPING_PIN = 19180;  //  Tempory of the sysmbole editor when we have over lapping pin's to deal with
 int TEMP_HOLD_FOR_OVER_LAPPING_SMD_PAD = 19180;  //  Tempory of the sysmbole editor when we have over lapping hole/smd pad's to deal with
@@ -452,8 +453,11 @@ void CreateHeader(UL_LIBRARY LBR) {
   int layerCt = 1;
 
   LBR.layers(L) {
-    if( (layerCt < 2) && (layerCt > 15 ) ) // ok funny biz for limited free version of eagle
-      sprintf(h, "Layer %d %s;\n", L.number, L.name); cmd += h;
+    if( (layerCt < 2) || (layerCt > 15 ) ) // ok funny biz for limited free version of eagle
+    {
+      sprintf(h, "Layer %d %s;\n", L.number, L.name);
+      cmd += h;
+    }
     layerCt++;
   }
 
@@ -958,10 +962,19 @@ void CreateLbr(UL_LIBRARY LBR) {
 void make_lbr(void) {
   if (board) board(B)
     {
+      int first = 1;
       B.libraries(LBR)
       {
         CurrentLbrName = LBR.name;
-        CreateLbr(LBR);
+
+        if( (Merge == 1 ) && first) // Only output lib once if merged lib
+        {
+          CreateLbr(LBR);
+          first = 0;
+        }
+        if( Merge == 0 ) // output many libs ?
+          CreateLbr(LBR);
+        
         LBR.packages(PAC)
         {
           OutputPackages(LBR);
@@ -973,10 +986,20 @@ void make_lbr(void) {
 
   if (schematic) schematic(SCH)
     {
+      int first = 1;
       SCH.libraries(LBR)
       {
         CurrentLbrName = LBR.name;
-        CreateLbr(LBR);
+
+        //        CreateLbr(LBR);
+        if( (Merge == 1 ) && first) // Only output lib once if merged lib
+        {
+          CreateLbr(LBR);
+          first = 0;
+        }
+        if( Merge == 0 ) // output many libs ?
+          CreateLbr(LBR);
+
         LBR.devices(DEV)
         {
           OutputPackages( LBR );
