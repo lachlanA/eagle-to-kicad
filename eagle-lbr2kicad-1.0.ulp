@@ -2009,7 +2009,7 @@ void write_kikad_lib( string fileName )
             if ( DEV.prefix == "" )
             {
               string c;
-              sprintf(c, "\nMissing Prefix Part =%s\t\t%s\t\t%s\t\t%s", DEV.name, DEV.package.name, DEV.library, undefinedPartPreFix );
+              sprintf(c, "\nMissing Prefix Part =%s\t\t\t\t%s\t\t\t\t\t%s\t\t%s", DEV.name, DEV.package.name, DEV.library, undefinedPartPreFix );
               logfile += c;
               
               missingPrefixLog[ g_missingPrefix ] += c;
@@ -2507,7 +2507,7 @@ int main()
 {
   string myname = filename( argv[0]);
   string datetime = t2string(time(), "dd-MM-yyyy :hh:mm:ss");
-  sprintf(logfile, "#********** START OF %s %s %s LOG **********#", myname, Version, datetime);
+  sprintf(logfile, "\n#********** START OF %s %s %s LOG **********#", myname, Version, datetime);
 
   sprintf( titleString, "Eagle To KiCAD lib/mod, Version:%.2f\nBuild Date:%s USE THIS PROGRAM AT YOUR OWN RISK!", VERSION, BUILD_DATE );
 
@@ -2588,29 +2588,50 @@ int main()
   logfile += c;
   output(logfileName, "at") printf("%s", logfile);
 
-  if ( g_missingPrefix || warnings_count || errors_count )
-    {
-      string msgString, msgString1,  msgString2;
+  int messagersult;
+  
+  /* if ( g_missingPrefix || warnings_count || errors_count ) */
+  /*   { */
+  /*     string msgString, msgString1,  msgString2; */
 
-      //string conflictPartsLibsList[];
+  /*     //string conflictPartsLibsList[]; */
 
-      if( conflictPartsLibsListsize )
-	sprintf( msgString, ":\n<h2><font color=\"red\">There are duplict part names, which have been rename to XXXXX--CONFLICKING-PART-errrorCount: number of duplcate partnames =%d</font></h3>\n", conflictPartsLibsListsize );
+  /*     if( conflictPartsLibsListsize ) */
+  /*       sprintf( msgString, ":\n<h2><font color=\"red\">There are duplict part names, which have been rename to XXXXX--CONFLICKING-PART-errrorCount: number of duplcate partnames =%d</font></h3>\n", conflictPartsLibsListsize ); */
       
-      if( errors_count )
-	sprintf( msgString, ":\n<h2><font color=\"red\">There are: %d   ERRORS.</font></h3>\n",  errors_count);
+  /*     if( errors_count ) */
+  /*       sprintf( msgString, ":\n<h2><font color=\"red\">There are: %d   ERRORS.</font></h3>\n",  errors_count); */
 
-      if( warnings_count )
-	sprintf( msgString1, "!\n<h3><font color=\"brown\">!There are: %d   Warnings.</font></h2>\n", warnings_count);
+  /*     if( warnings_count ) */
+  /*       sprintf( msgString1, "!\n<h3><font color=\"brown\">!There are: %d   Warnings.</font></h2>\n", warnings_count); */
 
-      if( g_missingPrefix )
-	sprintf( msgString2, ";\nThere are: %d  missing part prefix(s)\n", g_missingPrefix);
+  /*     if( g_missingPrefix ) */
+  /*       sprintf( msgString2, ";\nThere are: %d  missing part prefix(s)\n", g_missingPrefix); */
 
-      dlgMessageBox(msgString + msgString1 + msgString2  );
-    }
-  else
+  /*     dlgMessageBox(msgString + msgString1 + msgString2  ); */
+  /*   } */
+  /* else */
+  /*   dlgMessageBox("Conversion finished"+messagersult); */
+
+  if ( g_missingPrefix || warnings_count || errors_count )
+  {
+          dlgMessageBox("There were <b>warnings/error's</b> during the conversion, so please read the <b><i>"+ filename(logfileName) +
+                        "  </i></b>File located at-"+
+                        "<br><b>:<i>"+logfileName);
+          string logmessags;
+          int result;
+          fileread( logmessags, logfileName); // Read the message
+          result = dlgDialog( filename(logfileName) )
+              {
+                dlgVBoxLayout
+                {
+                  dlgTextView( logmessags );
+                  dlgPushButton("OK") dlgAccept();
+                }
+              };
+  }else
     dlgMessageBox("Conversion finished");
-
+  
   cfgset( cfg_ConversionLogFileName, "" ); // Set to Null for next time so we dont get confused if the conversion programe has not been run first.
   
   exit(EXIT_SUCCESS);

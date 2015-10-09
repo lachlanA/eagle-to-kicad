@@ -1,15 +1,15 @@
 #usage "<b>Renumber the parts of a schematic</b><p>"
-       "This version renumbers only devices with packages (no supply) "
-       "sorted by sheets and coordinates (vertical/descending, horizontal/ascending).<br>"
-       "Optional: The starting point for the numeration of parts on the first sheet "
-       "defines an offset value for the following pages.<br>"
-       "Example:<br>"
-       " - 0 = R1 ... Rn<br>"
-       " - 100 sheet 1: R101..R199 sheet 2: R201..R299 ...<br>"
-       " - 500 sheet 1: R501..R999 sheet 2: R1001..R1499 ...<br>"
-       " - 1000 sheet 1: R1001..R1999 sheet 2: R2001..R2999 ...<br>"
-       "<p>"
-       "<author>Author: support@cadsoft.de</author>"
+"This version renumbers only devices with packages (no supply) "
+"sorted by sheets and coordinates (vertical/descending, horizontal/ascending).<br>"
+"Optional: The starting point for the numeration of parts on the first sheet "
+"defines an offset value for the following pages.<br>"
+"Example:<br>"
+" - 0 = R1 ... Rn<br>"
+" - 100 sheet 1: R101..R199 sheet 2: R201..R299 ...<br>"
+" - 500 sheet 1: R501..R999 sheet 2: R1001..R1499 ...<br>"
+" - 1000 sheet 1: R1001..R1999 sheet 2: R2001..R2999 ...<br>"
+"<p>"
+"<author>Author: support@cadsoft.de</author>"
 
 
 // THIS PROGRAM IS PROVIDED AS IS AND WITHOUT WARRANTY OF ANY KIND, EXPRESSED OR IMPLIED
@@ -38,16 +38,16 @@ string Version = "ULP Version 4.4.3";
  */
 
 string Info = "ATTENTION<p>" +
-       "Please verify that the corresponding pcb layout (if it existing) " +
-       "has been loaded, and is consistant with the PCB.<p>" +
-       "Otheriwse renumbering of parts wont work, KiCad sch part to pcb part match wont work !";
+    "Please verify that the corresponding pcb layout (if it existing) " +
+    "has been loaded, and is consistant with the PCB.<p>" +
+    "Otheriwse renumbering of parts wont work, KiCad sch part to pcb part match wont work !";
 
 string Infoplus =
-       " You can change the following sorting parameters:<p>" +
-       " descx = 0 (X ascending [left >> right])<br>" +
-       " descx = 1 (X descending [right >> left])<br>" +
-       " descy = 0 (Y ascending [bottom >> top])<br>" +
-       " descy = 1 (Y descending [top >> bottom])<br>";
+    " You can change the following sorting parameters:<p>" +
+    " descx = 0 (X ascending [left >> right])<br>" +
+    " descx = 1 (X descending [right >> left])<br>" +
+    " descy = 0 (Y ascending [bottom >> top])<br>" +
+    " descy = 1 (Y descending [top >> bottom])<br>";
 
 
 int    descy = 1;               // set to 0 sorting ascending
@@ -98,8 +98,8 @@ string schname = "";
 string pcbname = "";
 
 string infoTargetDirectory  = "<b>Set the target directory for the KiCad/Eagle files.<br>"+
-                             "<b>Note this directory should be a clean directory<br>"+
-                             "With out any other file's, as the contents-<br><center><font color=\"red\">WILL BE OVER WRITTEN WITHOUT WARNING!</b></center>";
+    "<b>Note this directory should be a clean directory<br>"+
+    "With out any other file's, as the contents-<br><center><font color=\"red\">WILL BE OVER WRITTEN WITHOUT WARNING!</b></center>";
 
 string infoULPdir           = "<b>Eagle ULP conversion script location</b>";
 
@@ -161,24 +161,24 @@ string charstr_replace(string search, string replace, string subject)
 //------------------------------------------------------
 string str_replace(string search, string replace, string subject)
 {
-    int lastpos = 0;
-    int pos;
-    string before;
-    string after;
+  int lastpos = 0;
+  int pos;
+  string before;
+  string after;
 
-    // Check if there is any thing to replace
-    if( strstr(subject, search, lastpos) == -1)
-    	return subject;  // No so just return input string
+  // Check if there is any thing to replace
+  if( strstr(subject, search, lastpos) == -1)
+    return subject;  // No so just return input string
     
-    while (strstr(subject, search, lastpos) >= 0)
-    {
-        pos = strstr(subject, search, lastpos);
-        before = strsub(subject, 0, pos);
-        after = strsub(subject, pos + strlen(search), strlen(subject) - ( pos + strlen(search)) );
-        subject = before + replace + after;
-        lastpos = pos + strlen(replace);
-    }
-    return subject;
+  while (strstr(subject, search, lastpos) >= 0)
+  {
+    pos = strstr(subject, search, lastpos);
+    before = strsub(subject, 0, pos);
+    after = strsub(subject, pos + strlen(search), strlen(subject) - ( pos + strlen(search)) );
+    subject = before + replace + after;
+    lastpos = pos + strlen(replace);
+  }
+  return subject;
 }
 
 
@@ -202,9 +202,9 @@ int GetNumberIndex(string Name)
 {
   int l = strlen(Name) - 1;
   for (int Index = l; Index >= 0; --Index) {
-      if (!isdigit(Name[Index]))
-         return Index < l ? Index + 1 : -1;
-      }
+    if (!isdigit(Name[Index]))
+      return Index < l ? Index + 1 : -1;
+  }
   return 0;
 }
 
@@ -266,17 +266,17 @@ void SortElements(void) {
 
 
 void CheckSameOrigin(int chk) {  // eagle can not rename an element
-                                 // if another element is on the same coordinate
+  // if another element is on the same coordinate
   int index[];
   string checklist, h;
   sort(chk, index, cksh, ckx, cky);
   for (int n = 0; n < nrNames; n++) {
     if(ckx[index[n]] == ckx[index[n+1]] && cky[index[n]] == cky[index[n+1]] && cksh[index[n]] == cksh[index[n+1]]) {
       sprintf(h, "%s & %s on same coordinate (%d %d) mil in sheet %d\n",
-                  ckname[index[n]], ckname[index[n+1]],
-                  ckx[index[n]],
-                  cky[index[n]],
-                  cksh[index[n]]);
+              ckname[index[n]], ckname[index[n+1]],
+              ckx[index[n]],
+              cky[index[n]],
+              cksh[index[n]]);
       checklist += h;
     }
   }
@@ -310,9 +310,9 @@ void GenerateNames(void) {
     {
       if (memprefix != NewNames[Index[n]])   // Start of new Refance prefix name ?
       {
-         memprefix = NewNames[Index[n]];
-         //         k = 0;                             // Reset to zero
-         k = maxRefNumber;
+        memprefix = NewNames[Index[n]];
+        //         k = 0;                             // Reset to zero
+        k = maxRefNumber;
       }
       sprintf(NewNames[Index[n]], "%s%d", NewNames[Index[n]], ++k);
     }
@@ -323,8 +323,8 @@ void GenerateNames(void) {
     for(int n = 0; n < nrNames  ; ++n) {
       if (memprefix != NewNames[Index[n]])
       {
-         memprefix = NewNames[Index[n]];
-         newdevnr = numerical_order * Sheet[Index[n]] +1;
+        memprefix = NewNames[Index[n]];
+        newdevnr = numerical_order * Sheet[Index[n]] +1;
       }
       if (mem_sh != Sheet[Index[n]])
       {  // a new Sheet is starting by old prefix *** 2006.08.23 alf@cadsoft.de
@@ -385,10 +385,10 @@ void GenerateScript(void)
     Rename(x[Index[n]],y[Index[n]], NewNames[Index[n]]); // output script for renumber part
     if( (renamedCt & 0x1f) == 0 )
     {
-      sprintf( c, "%s","\n#OldRef\tSheetNumber\tNewRef" );
+      sprintf( c, "%s","\n#OldRef\t\t\t\tSheetNumber\tNewRef" );
       logfile += c;
     }
-    sprintf( c, "\n%s\t%d\t\t%s", OldNames[Index[n]], Sheet[Index[n]], NewNames[Index[n]] );
+    sprintf( c, "\n%s\t\t\t\t%d\t%s", OldNames[Index[n]], Sheet[Index[n]], NewNames[Index[n]] );
     logfile += c;
     renamedCt++;
 
@@ -407,12 +407,12 @@ string CheckNames(void) {
     for (int Sn = 0; Sn < Snr; Sn++) {
       if (DevPrefix[Dn] == SymPrefix[Sn]) {
         sprintf(h, "# Do not use Prefix %s on Device with Package (%s) and Device without Package (%s)\n",
-                            SymPrefix[Sn], DevName[Dn], SymDevName[Sn]);
+                SymPrefix[Sn], DevName[Dn], SymDevName[Sn]);
         Error += h;
         break;
-        }
       }
     }
+  }
   for (int n = 0; n < nrNames - 1; ++n) {     // make a long string
     new_name += NewNames[n] + ";";
   }
@@ -422,7 +422,7 @@ string CheckNames(void) {
     if(sd[0] == '$') {                       // if first character is a $ on Symbolname
       Error +=  "# Do not use $ character at first position in device names\n";
       sprintf(h, "# RENAME %s at (%.4f %.4f) - sheet %d before running this ULP again' (%.4f %.4f)\n",
-                              SymNames[xx], SymX[xx] / 1000.0, SymY[xx] / 1000.0, symsh[xx], SymX[xx] / 1000.0, SymY[xx] / 1000.0);
+              SymNames[xx], SymX[xx] / 1000.0, SymY[xx] / 1000.0, symsh[xx], SymX[xx] / 1000.0, SymY[xx] / 1000.0);
       Error += h;
     }
     int s;
@@ -437,8 +437,8 @@ string CheckNames(void) {
       }
       Error +=  "# Collision of symbol name and device name (eg. Frames, Supply ...)\n";
       sprintf(h, "# Rename PREFIX of Device %s at (%.4f %.4f) - sheet %d before renaming %s at (%.4f %.4f) - sheet %d';\n",
-                              SymNames[xx], SymX[xx] / 1000.0, SymY[xx] / 1000.0, symsh[xx],
-                              OldNames[s], x[s] / 1000.0, y[s] / 1000.0, Sheet[s] );
+              SymNames[xx], SymX[xx] / 1000.0, SymY[xx] / 1000.0, symsh[xx],
+              OldNames[s], x[s] / 1000.0, y[s] / 1000.0, Sheet[s] );
       Error += h;
     }
   }
@@ -492,58 +492,58 @@ void menue(void)
                  "<font color=\"blue\">Note 1:<i> Any parts which do have a numeric post-fix will not be chance.</i><br>"+
                  "Note 2:<i> This will modify the Eagle SCH/PCB files and save the results in TARGET-DIRECTORY/modified_eagle_files/</i>");
 
-              dlgHBoxLayout dlgSpacing(900);
-              dlgHBoxLayout
-              {
-                dlgStretch(0);
-                dlgSpacing(space);
+        dlgHBoxLayout dlgSpacing(900);
+        dlgHBoxLayout
+        {
+          dlgStretch(0);
+          dlgSpacing(space);
 
-                if( strlen( tmpS10 ))
-                {
-                  myULP_HOME = tmpS10;
-                }
-                else
-                {
-                  tmpSX = cfgget( cfg_SCRIP_ULP, myULP_HOME );
-                  if( strlen(tmpSX ) )
-                    myULP_HOME = tmpSX;
-                }
-                //                dlgMessageBox( myULP_HOME + "/exp-lbrs.ulp");
-                if( !(check_for_exist_file( myULP_HOME + "exp-lbrs.ulp" ) &&  check_for_exist_file( myULP_HOME + "eagle-lbr2kicad-1.0.ulp") && check_for_exist_file( myULP_HOME + "renumber-sheet.ulp" )) )
-                {
-                  dlgLabel("<b><font color=\"red\">ULP conversion script files Location Not correct!");
-                  tmpS10 = myULP_HOME;
-                  rs = 1;
-                }
-                else
-                {
-                  dlgLabel("<font color=\"green\">ULP conversion script files Location");
-                  rs = 0;
-                  tmpS10 = "";                  
-                }
+          if( strlen( tmpS10 ))
+          {
+            myULP_HOME = tmpS10;
+          }
+          else
+          {
+            tmpSX = cfgget( cfg_SCRIP_ULP, myULP_HOME );
+            if( strlen(tmpSX ) )
+              myULP_HOME = tmpSX;
+          }
+          //                dlgMessageBox( myULP_HOME + "/exp-lbrs.ulp");
+          if( !(check_for_exist_file( myULP_HOME + "exp-lbrs.ulp" ) &&  check_for_exist_file( myULP_HOME + "eagle-lbr2kicad-1.0.ulp") && check_for_exist_file( myULP_HOME + "renumber-sheet.ulp" )) )
+          {
+            dlgLabel("<b><font color=\"red\">ULP conversion script files Location Not correct!");
+            tmpS10 = myULP_HOME;
+            rs = 1;
+          }
+          else
+          {
+            dlgLabel("<font color=\"green\">ULP conversion script files Location");
+            rs = 0;
+            tmpS10 = "";                  
+          }
                 
-                dlgStringEdit(  myULP_HOME );
-                dlgCheckBox("Save as default", saveAsDefaultULP_Path );
-                dlgPushButton("Edit") {
-                  string xs;int it;
-                  xs = dlgDirectory("Select directory containing conversion ULP's", "C:\\");
-                  if( strlen(xs) )
-                    tmpS10 = myULP_HOME = xs + '/';
-                }
+          dlgStringEdit(  myULP_HOME );
+          dlgCheckBox("Save as default", saveAsDefaultULP_Path );
+          dlgPushButton("Edit") {
+            string xs;int it;
+            xs = dlgDirectory("Select directory containing conversion ULP's", "C:\\");
+            if( strlen(xs) )
+              tmpS10 = myULP_HOME = xs + '/';
+          }
 
-                //                { tmpS10 = myULP_HOME = dlgDirectory("Select Targget directory", "C:\\") + '/' ; rs = 1; dlgAccept(); };
+          //                { tmpS10 = myULP_HOME = dlgDirectory("Select Targget directory", "C:\\") + '/' ; rs = 1; dlgAccept(); };
 
                 
-                dlgPushButton("Info") { if (dlgMessageBox( infoULPdir, "Ok") == 0); };
-                dlgStretch(0);
+          dlgPushButton("Info") { if (dlgMessageBox( infoULPdir, "Ok") == 0); };
+          dlgStretch(0);
 
-                /* if( !(check_for_exist_file( myULP_HOME + "exp-lbrs.ulp" ) &&  check_for_exist_file( myULP_HOME + "eagle-lbr2kicad-1.0.ulp") && check_for_exist_file( myULP_HOME + "renum.ulp" ) )) */
-                /*   { */
+          /* if( !(check_for_exist_file( myULP_HOME + "exp-lbrs.ulp" ) &&  check_for_exist_file( myULP_HOME + "eagle-lbr2kicad-1.0.ulp") && check_for_exist_file( myULP_HOME + "renum.ulp" ) )) */
+          /*   { */
                 
-                /*   } */
+          /*   } */
 
 
-              }
+        }
         
         dlgHBoxLayout
         {
@@ -694,8 +694,8 @@ if (schematic) {
                   for (int fn = 0; fn < nrNames; fn++) {
                     if (OldNames[fn] == P.name)
                     {
-                       found = fn;
-                       break;
+                      found = fn;
+                      break;
                     }
                   }
                   if (found < 0) {
@@ -714,9 +714,9 @@ if (schematic) {
                     {
                       if ( u2mil(I.x) < x[fn] || u2mil(I.y) > y[fn] )
                       {
-                         // tausche wenn x kleiner oder y groesser
-                         x[fn] > u2mil(I.x);
-                         y[fn] > u2mil(I.y);
+                        // tausche wenn x kleiner oder y groesser
+                        x[fn] > u2mil(I.x);
+                        y[fn] > u2mil(I.y);
                       }
                     }
                   }
@@ -794,8 +794,8 @@ if (schematic) {
     else
     { // Windows
       string t = "'" + str_replace("/", "\\\\", outputPath + "modified_eagle_files"  )+"'";
-//      dlgMessageBox(  "cmd.exe /c mkdir " + t );
-//      dlgMessageBox(  "cmd.exe /c mkdir " +"'" + str_replace("/", "\\\\", outputPath + "modified_eagle_files"  )+"'");
+      //      dlgMessageBox(  "cmd.exe /c mkdir " + t );
+      //      dlgMessageBox(  "cmd.exe /c mkdir " +"'" + str_replace("/", "\\\\", outputPath + "modified_eagle_files"  )+"'");
       system( "cmd.exe /c mkdir \"" + str_replace("/", "\\\\", outputPath + "modified_eagle_files"  )+"\"");
     }
       
@@ -836,9 +836,9 @@ if (schematic) {
     output(fname, "wtD") printf("%s", cmd);
     exit ("SCRIPT '" + fname + "';");
   }
-}
-
-else {
-   dlgMessageBox("\n    Start this ULP in a Schematic    \n");
-   exit (0);
+}  // if (schematic) {
+else
+{
+  dlgMessageBox("\n    Start this ULP in a Schematic    \n");
+  exit (0);
 }

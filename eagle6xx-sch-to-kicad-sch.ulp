@@ -564,6 +564,7 @@ int strlenWord( string search, int offset )
       sl--;
       continue;
     }
+    return ct;
   }
   return ct;
 }

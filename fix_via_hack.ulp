@@ -1960,7 +1960,7 @@ int main()
         //        sprintf( c, "wire '%s' %f (%f %f) (%f %f );\n", unc_vaNet[i],  10.0,  u2mic( unc_wXs[i]), u2mic( unc_wYs[i]), u2mic( unc_wXf[ i ]), u2mic( unc_wYf[ i ]));        
         pcb_cmd += c;
       }
-      sprintf( c, "\nTRACK\tWireCount=%d\tNet=%s\tstart(X=%f Y=%f)\tend(X=%f Y=%f )", i+1, unc_wNet[ i ], u2mic( unc_wXs[i]), u2mic( unc_wYs[i]), u2mic( unc_wXf[ i ]), u2mic( unc_wYf[ i ]));
+      sprintf( c, "\nTRACK\tWireCount=%d\t\tNet=%s\t\t\t\tstart(X=%f Y=%f)\tend(X=%f Y=%f )", i+1, unc_wNet[ i ], u2mic( unc_wXs[i]), u2mic( unc_wYs[i]), u2mic( unc_wXf[ i ]), u2mic( unc_wYf[ i ]));
       logfile += c;
     }
     
@@ -2000,7 +2000,7 @@ int main()
             sprintf( c, "wire %f (%f %f) (%f %f );\n", 25.0, u2mic(unc_vaX[i] - ( unc_vaDiameter[i] /2)), u2mic(unc_vaY[i] - ( unc_vaDiameter[i] /4 )), u2mic(unc_vaX[i]), u2mic(unc_vaY[i]));
             pcb_cmd += c;
 
-            sprintf( c, "\nVIA\tViaCount%d\tNet=%s\t(X=%f Y=%f)\tLayerStart=%d\tLayerEnd=%d", i+1, unc_vaNet[ i ], u2mic( unc_vaX[i]), u2mic( unc_vaY[i]), unc_vaSl[ i ],  unc_vaFl[ i ]);
+            sprintf( c, "\nVIA\tViaCount=%d\t\tNet=%s\t\t\t\t(X=%f Y=%f)\tLayerStart=%d\tLayerEnd=%d", i+1, unc_vaNet[ i ], u2mic( unc_vaX[i]), u2mic( unc_vaY[i]), unc_vaSl[ i ],  unc_vaFl[ i ]);
             logfile += c;
           }
           else
@@ -2028,7 +2028,7 @@ int main()
             sprintf( c, "wire %f (%f %f) (%f %f );\n", 25.0,  u2mic(unc_vaX[i]), u2mic(unc_vaY[i]), u2mic(unc_vaX[i] + ( unc_vaDiameter[i] /2)), u2mic(unc_vaY[ i ] - ( unc_vaDiameter[ i ] /4 )));
             pcb_cmd += c;
 
-            sprintf( c, "\nBLIND-VIA\tViaCount%d\tNet=%s\t(X=%f Y=%f)\tLayerStart=%d\tLayerEnd=%d", i+1, unc_vaNet[ i ], u2mic( unc_vaX[i]), u2mic( unc_vaY[i]), unc_vaSl[ i ],  unc_vaFl[ i ]);
+            sprintf( c, "\nBLIND-VIA\tViaCount=%d\t\tNet=%s\t\t\t\t(X=%f Y=%f)\tLayerStart=%d\tLayerEnd=%d", i+1, unc_vaNet[ i ], u2mic( unc_vaX[i]), u2mic( unc_vaY[i]), unc_vaSl[ i ],  unc_vaFl[ i ]);
             logfile += c;
           
             
