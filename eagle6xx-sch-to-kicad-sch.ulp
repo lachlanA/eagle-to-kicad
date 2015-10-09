@@ -548,17 +548,22 @@ string charstr_replace(string search, string replace, string subject)
 
 //------------------------------------------------------
 // find size of word
-// returns size of word in bytes
+// returns size of seach text in bytes
 //------------------------------------------------------
 int strlenWord( string search, int offset )
 {
-  int i = offset;
   int ct = 0;
-  
-  while( isspace( search[i] ) == 0  )
+  int sl = strlen( search );
+
+  while( sl )
   {
-    i++;
-    ct++;
+    if( isspace( search[ offset] ) == 0  )
+    { // Ok not space,cr,null,tab  then
+      ct++;
+      offset++;      
+      sl--;
+      continue;
+    }
   }
   return ct;
 }
@@ -574,8 +579,8 @@ int array_find(string search, int arraySize )
     // Check if there is any thing to replace
     while( arraySize )
     {
-      if( ln != strlenWord( globalNetList[ ct1 ], 0 )) // check the size of netname,  first element
-        return 0; 
+      /* if( ln != strlenWord( globalNetList[ ct1 ], 0 )) // check the size of netname,  first element */
+      /*   return 0; */
 
       if( strstr( globalNetList[ ct1 ], search ) != -1)
     	return 1;  // return found
@@ -596,8 +601,8 @@ int array_find_poly_messagex( string search, int arraySize )
     // Check if there is any thing to replace
     while( arraySize )
     {
-      if( ln != strlenWord( polygon_messagex[ ct1 ], 0 ))// check the size of netname,  first element
-        return 0; 
+      /* if( ln != strlenWord( polygon_messagex[ ct1 ], 0 )) */
+      /*   return 0; */
 
       if( strstr( polygon_messagex[ ct1 ], search ) != -1)
     	return 1;  // return found
@@ -2477,7 +2482,7 @@ void write_kicad_components( UL_SHEET S )
 	      //              printf( "\n#t\tAngle:%d,    Mirror:%d\n", partAngle, partMirror );	      
 
 	      printf( "\t%s\n", angleToKiCadMatrix(partAngle, partMirror ));
-	      //	      printf( "\t%-4d %-4d %-4d %-4d\n", 1, 0, 0, -1 );
+	      //      printf( "\t%-4d %-4d %-4d %-4d\n", 1, 0, 0, -1 );
 
 	      printf( "$EndComp\n" );
 	    }
@@ -2599,11 +2604,10 @@ void write_kicad_netNames( UL_SHEET SH, int current_sheet )
     globalable = 0;
 
     if( array_find( N.name, globalNetListSize ))
-      globalable++;
-
-    // check to see if there was a polygon with the same net name
-    if( array_find_poly_messagex( N.name, polygons_linesCt ))
-      globalable++; 
+      globalable = 1;
+    else     // check to see if there was a polygon with the same net name
+      if( array_find_poly_messagex( N.name, polygons_linesCt ))
+        globalable = 1; 
         //****** Force globalable for quick fix to fill's net name problem. *******//
 
     
@@ -2649,8 +2653,7 @@ void write_kicad_netNames( UL_SHEET SH, int current_sheet )
 //------------------------------------------------------
 void write_kicad_schematics( string fileName, int current_sheet, int number_of_sheets )
 {
-   output(fileName, "Fwt" ) 
-   {
+   output(fileName, "Fwt" ){
 
      /* printf("# EAGLE_VERSION =%d\n", EAGLE_VERSION );   */
      /* printf("# EAGLE_RELEASE =%d\n", EAGLE_RELEASE ); */
@@ -2723,6 +2726,7 @@ void write_kicad_schematics( string fileName, int current_sheet, int number_of_s
         }
         //        printf("\n");
 
+        
         libsUsed = "";
         
         schematic(SCH) 
@@ -2763,7 +2767,6 @@ void write_kicad_schematics( string fileName, int current_sheet, int number_of_s
 		  }	
 	      }
             // Make globle netlist names table
-
             SCH.nets(N)
             {
               int tmp = 0;
@@ -2835,10 +2838,10 @@ void write_kicad_schematics( string fileName, int current_sheet, int number_of_s
                 } 
               }
             } // End of debug
+
             int ct3 = 1;
             SCH.sheets(SH)
             {
-
               calculateTranslations( SH.area, g_selected );
 
               if( current_sheet == 0 && number_of_sheets > 1 )
@@ -2866,10 +2869,10 @@ void write_kicad_schematics( string fileName, int current_sheet, int number_of_s
               }
               ct3++;
 	    }
-        }
-      }
-   }
-}
+        }  // schematic(SCH) 
+      }  // if(schematic)
+   }  // output(fileName, "Fwt" ){
+}  // write_kicad_schematics( string fileName, int current_sheet, int number_of_sheets )
 
 
 
@@ -3275,113 +3278,87 @@ int main()
   sprintf(titleStr, "Export Eagle schematic to KiCAD, Version:%.1f\n Build Date:%s  USE THIS PROGRAM AT YOUR OWN RISK!", VERSION, BUILD_DATE);
 
   if (schematic)  
+  {
+    schematic(S)
     {
-      schematic(S) 
-      {
-        //	sch_name = strsub(S.name, 0, strlen(S.name) - 4) + "_.sch";
-        rootschname = filename(S.name);
-        
-        makeDevLibRefList( S ); // Build Lib list and check for conflicts.
+      logfileName = filesetext( outputPath + rootschname, "_conversion_log.txt");
+      rootschname = filename(S.name);
+      makeDevLibRefList( S ); // Build Lib list and check for conflicts.
           
-        schematic(SCH) 
-	{
-	  SCH.sheets(SX)
-	    {
-              sheetsizes[ totalSheets ] = g_selected;
-              totalSheets++;
-	    } 
-
-          if( totalSheets > 1 )
-              sheetsizes[ totalSheets + 1 ] = g_selected;
-        }
-
-        //        int nx = 0;
-        //        for( nx = 0; nx < devLibsRefListSize; nx++ )
-          //        {
-          //          outputStringToFile( "./tXXX.txt", devLibsRefList[ nx ] + "\n", 1, 't');
-          //        }
-
+      schematic(S) // 2
+      {
+        S.sheets(SX)
+        {
+          sheetsizes[ totalSheets ] = g_selected;
+          totalSheets++;
+        } 
 
         if( totalSheets > 1 )
-        {
-          //          ????
-        }
-        else
-        {  //  only one sheet,  so just use master sheet name with add on "_KICAD.sch"
-          //          sch_name[ i ] = SCH.name + "_KICAD.sch"; 
-        }
-        
-	schematic(SCH) 
-	{
-          int i = 0;
-
-          
-          makeLibeList( SCH );
-          
-
-	  SCH.sheets(SX)
-	    {
-              if( totalSheets == 1 )
-              {
-                sch_name[ i ] = strsub( filename( SCH.name ), 0, strlen( filename( SCH.name )) - 4) + ".sch";                
-                //                sch_name[ i ] = strsub( filename( SCH.name ), 0, strlen( filename( SCH.name )) - 4) + "_KICAD.sch";                
-                sheetsizes[ i ] = calculateTranslations( SX.area, g_selected ); //  work out sheet size
-
-                //                sch_name[ i ] = strsub( SCH.name , 0, strlen( SCH.name) - 4) + "_KICAD.sch";                
-                //                sch_name[ i ] = SCH.name;
-                //                str_replace(".sch", "X", sch_name[ i ] );
-                //                sch_name[ i ] = sch_name[ i ] + "_KICAD.sch";                     
-                continue;                  
-              }
-
-              if(( totalSheets > 1 )  && ( i == 0))
-              {
-                //                sch_name[ i ] = SCH.name + "_MASTER_KICAD.sch"; 
-                sch_name[ i ] = strsub( filename( SCH.name ), 0, strlen( filename( SCH.name )) - 4) + ".sch";
-                //                sch_name[ i ] = strsub( filename( SCH.name ), 0, strlen( filename( SCH.name )) - 4) + "_MASTER_KICAD.sch";                
-                //                sch_name[ i ] = strsub( SCH.name , 0, strlen( SCH.name) - 4) + "_MASTER_KICAD.sch";                
-                i++;
-                sprintf( sch_name[ i ], "%s%s%d%s", strsub( filename( SCH.name ), 0, strlen( filename( SCH.name )) - 4), "_SS_",  i, ".sch");
-                //                sprintf( sch_name[ i ], "%s%s%d%s", strsub( filename( SCH.name ), 0, strlen( filename( SCH.name )) - 4), "_SUB_SHEET_",  i, "_KICAD.sch");                
-                sheetsizes[ i ] = calculateTranslations( SX.area, g_selected ); //  work out sheet size
-
-                //                sprintf( sch_name[ i ], "%s%s%d%s", strsub( SCH.name , 0, strlen( SCH.name) - 4), "_SUB_SHEET_",  i, "_KICAD.sch");
-                i++;
-                continue;
-              }
-              sprintf( sch_name[ i ], "%s%s%d%s", strsub( filename( SCH.name ), 0, strlen( filename( SCH.name )) - 4), "_SS_", i, ".sch");
-              //sprintf( sch_name[ i ], "%s%s%d%s", strsub( filename( SCH.name ), 0, strlen( filename( SCH.name )) - 4), "_SUB_SHEET_", i, "_KICAD.sch");
-              sheetsizes[ i ] = calculateTranslations( SX.area, g_selected ); //  work out sheet size
-              //              sprintf( sch_name[ i ], "%s%s%d%s", strsub( SCH.name , 0, strlen( SCH.name) - 4), "_SUB_SHEET_", i, "_KICAD.sch");
-              i++;
-            }
-
-          combineLibsName = filesetext( filename(SCH.name), ".lbr");            
-
-          result = mainDialog( titleStr, totalSheets, filesetext( filename(SCH.name), "") );
-
-          logfileName = filesetext( outputPath + rootschname, "_conversion_log.txt");
-          
-          if( combineLibs ) // Set combineLibsName option ?
-            cfgset( cfg_CombinedLrbFileName, combineLibsName );  // yes and save for the next programe
-          else
-            cfgset( cfg_CombinedLrbFileName, "" );   // No so just set a null string
-
-        }
+          sheetsizes[ totalSheets + 1 ] = g_selected;
       }
     }
+      
+    schematic(SCH) 
+    {
+      int i = 0;
+      makeLibeList( SCH );
+
+      SCH.sheets(SX)
+      {
+        if( totalSheets == 1 )
+        {
+          sch_name[ i ] = strsub( filename( SCH.name ), 0, strlen( filename( SCH.name )) - 4) + ".sch";                
+          //                sch_name[ i ] = strsub( filename( SCH.name ), 0, strlen( filename( SCH.name )) - 4) + "_KICAD.sch";                
+          sheetsizes[ i ] = calculateTranslations( SX.area, g_selected ); //  work out sheet size
+
+          //                sch_name[ i ] = strsub( SCH.name , 0, strlen( SCH.name) - 4) + "_KICAD.sch";                
+          //                sch_name[ i ] = SCH.name;
+          //                str_replace(".sch", "X", sch_name[ i ] );
+          //                sch_name[ i ] = sch_name[ i ] + "_KICAD.sch";                     
+          continue;                  
+        }
+
+        if(( totalSheets > 1 )  && ( i == 0))
+        {
+          //                sch_name[ i ] = SCH.name + "_MASTER_KICAD.sch"; 
+          sch_name[ i ] = strsub( filename( SCH.name ), 0, strlen( filename( SCH.name )) - 4) + ".sch";
+          //                sch_name[ i ] = strsub( filename( SCH.name ), 0, strlen( filename( SCH.name )) - 4) + "_MASTER_KICAD.sch";                
+          //                sch_name[ i ] = strsub( SCH.name , 0, strlen( SCH.name) - 4) + "_MASTER_KICAD.sch";                
+          i++;
+          sprintf( sch_name[ i ], "%s%s%d%s", strsub( filename( SCH.name ), 0, strlen( filename( SCH.name )) - 4), "_SS_",  i, ".sch");
+          //                sprintf( sch_name[ i ], "%s%s%d%s", strsub( filename( SCH.name ), 0, strlen( filename( SCH.name )) - 4), "_SUB_SHEET_",  i, "_KICAD.sch");                
+          sheetsizes[ i ] = calculateTranslations( SX.area, g_selected ); //  work out sheet size
+
+          //                sprintf( sch_name[ i ], "%s%s%d%s", strsub( SCH.name , 0, strlen( SCH.name) - 4), "_SUB_SHEET_",  i, "_KICAD.sch");
+          i++;
+          continue;
+        }
+        sprintf( sch_name[ i ], "%s%s%d%s", strsub( filename( SCH.name ), 0, strlen( filename( SCH.name )) - 4), "_SS_", i, ".sch");
+        //sprintf( sch_name[ i ], "%s%s%d%s", strsub( filename( SCH.name ), 0, strlen( filename( SCH.name )) - 4), "_SUB_SHEET_", i, "_KICAD.sch");
+        sheetsizes[ i ] = calculateTranslations( SX.area, g_selected ); //  work out sheet size
+        //              sprintf( sch_name[ i ], "%s%s%d%s", strsub( SCH.name , 0, strlen( SCH.name) - 4), "_SUB_SHEET_", i, "_KICAD.sch");
+        i++;
+      }
+      combineLibsName = filesetext( filename(SCH.name), ".lbr");            
+      result = mainDialog( titleStr, totalSheets, filesetext( filename(SCH.name), "") );
+          
+      if( combineLibs ) // Set combineLibsName option ?
+        cfgset( cfg_CombinedLrbFileName, combineLibsName );  // yes and save for the next programe
+      else
+        cfgset( cfg_CombinedLrbFileName, "" );   // No so just set a null string
+    }  // schematic(SCH) 
+  }  // if (schematic)  
   else 
   {
     dlgMessageBox("Please run from schematic editor." ); 
     exit(EXIT_FAILURE);
   }
 
-
   polygons_message_FileName = filesetext( outputPath + rootschname, "_polygon_messagex.txt");
   /* string tmps; */
   /* sprintf(tmps, "%s", polygons_message_FileName ); */
   /* dlgMessageBox(tmps );                      */
-        
+
   if( check_for_exist_file( polygons_message_FileName ))
   {
     int i;
@@ -3390,24 +3367,27 @@ int main()
     /* sprintf(tmps, "polygons_linesCt=%d polygon_messagex[0]=%s",polygons_linesCt, polygon_messagex[0]); */
     /* dlgMessageBox(tmps ); */
   }
-        
+
   if(result)
   {
     if( totalSheets == 1 )  // Only one sheet ?
       {
-	write_kicad_schematics( outputPath + "/" + sch_name[0], totalSheets, totalSheets );
+	write_kicad_schematics( outputPath + sch_name[0], totalSheets, totalSheets );
       }
     else
     {  // more than one sheet then.
       int current_sheet_number;
 
+      string x;
+      
       for( current_sheet_number = 0; current_sheet_number <= totalSheets; )
       {
-        write_kicad_schematics( outputPath + "/" + sch_name[ current_sheet_number ], current_sheet_number, totalSheets );
+        write_kicad_schematics( outputPath + sch_name[ current_sheet_number ], current_sheet_number, totalSheets );
         current_sheet_number++;
       }
 
 
+      
       //      string MyParam = cfgget("mytool.MyParam", "SomeDefault");
       //      MyParam = "OtherValue";
       string tmpS[];
@@ -3423,7 +3403,7 @@ int main()
         //	  }
     }
 
-    
+
       
     // Output .cmp file
     schematic(SCH)
@@ -3483,7 +3463,7 @@ int main()
                     cfgget( cfg_addLibPrefix ));
     */
 
-
+    
     int spos = 0;
     int iC = 0;
     string c;  
