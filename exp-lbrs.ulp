@@ -447,11 +447,15 @@ void CreateLBRdescription(string project_name) {
   return;
 }
 
+//******
 void CreateHeader(UL_LIBRARY LBR) {
+  int layerCt = 1;
 
-/* LBR.layers(L) { */
-/*     sprintf(h, "Layer %d %s;\n", L.number, L.name); cmd += h; */
-/*   } */
+  LBR.layers(L) {
+    if( (layerCt < 2) && (layerCt > 15 ) ) // ok funny biz for limited free version of eagle
+      sprintf(h, "Layer %d %s;\n", L.number, L.name); cmd += h;
+    layerCt++;
+  }
 
 sprintf(h, "Set Wire_bend 2;\nSet Select_factor 0;\nSet Undo_log off;\n"); cmd += h;
   sprintf(h, "Grid mic 1;\n"); cmd += h;
