@@ -2615,9 +2615,6 @@ int main()
 
   if ( g_missingPrefix || warnings_count || errors_count )
   {
-          dlgMessageBox("There were <b>warnings/error's</b> during the conversion, so please read the <b><i>"+ filename(logfileName) +
-                        "  </i></b>File located at-"+
-                        "<br><b>:<i>"+logfileName);
           string logmessags;
           int result;
           fileread( logmessags, logfileName); // Read the message
@@ -2625,6 +2622,9 @@ int main()
               {
                 dlgVBoxLayout
                 {
+                  dlgLabel( "There were <b>warnings/error's</b> during the conversion, Here is the contents of <b><i>"+ filename(logfileName) +
+                        "  </i></b>File located at-"+
+                        "<br><b>:<i>"+logfileName);
                   dlgTextView( logmessags );
                   dlgPushButton("OK") dlgAccept();
                 }
