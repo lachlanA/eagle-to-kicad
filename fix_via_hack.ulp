@@ -1937,12 +1937,21 @@ int main()
     menue();
     
     int i;
+    // setup report layers
+    sprintf(c, "layer %d 'FIX_VIA_Text';\n", ViaEagleReportLayerTxt ); // setup report layers
+    pcb_cmd += c;
+    sprintf(c, "layer %d 'FIX_VIA_Draw';\n", ViaEagleReportLayerDrawing );
+    pcb_cmd += c;
+    sprintf(c, "layer %d 'FIX_WireText';\n", WireEagleReportLayerTxt );
+    pcb_cmd += c;
+    sprintf(c, "layer %d 'FIX_WireDraw';\n", WireEagleReportLayerDrawing );
+    pcb_cmd += c;
 
     for( i = 0; i < unnconnected_wires_Ct; i++) // scan table for unconnect track's
     {
       if( docment_unnconeted_wires )
       {
-        sprintf(c, "layer %d 'FIX_VIA_WireText';\n", WireEagleReportLayerTxt ); // select Doc layer
+        sprintf(c, "layer %d 'FIX_WireText';\n", WireEagleReportLayerTxt ); // select Doc layer
         pcb_cmd += c;
         sprintf(c, "CHANGE FONT VECTOR;\n"); // select Font
         pcb_cmd += c;
@@ -1954,7 +1963,7 @@ int main()
         pcb_cmd += c;
         sprintf(c, "SET WIRE_BEND 2;\n");
         pcb_cmd += c;
-        sprintf(c, "layer %d 'FIX_VIA_WireDraw';\n", WireEagleReportLayerDrawing ); // select Doc layer
+        sprintf(c, "layer %d 'FIX_WireDraw';\n", WireEagleReportLayerDrawing ); // select Doc layer
         pcb_cmd += c;
         sprintf( c, "wire  %f (%f %f) (%f %f );\n", 10.0,  u2mic( unc_wXs[i]), u2mic( unc_wYs[i]), u2mic( unc_wXf[ i ]), u2mic( unc_wYf[ i ]));
         //        sprintf( c, "wire '%s' %f (%f %f) (%f %f );\n", unc_vaNet[i],  10.0,  u2mic( unc_wXs[i]), u2mic( unc_wYs[i]), u2mic( unc_wXf[ i ]), u2mic( unc_wYf[ i ]));        
@@ -1978,7 +1987,7 @@ int main()
           
         if( docment_via_to_pad )
         {
-          sprintf(c, "layer 'FIX_VIA_ViaText' %d;\n", ViaEagleReportLayerTxt ); // select Doc layer
+          sprintf(c, "layer 'FIX_VIA_Text' %d;\n", ViaEagleReportLayerTxt ); // select Doc layer
           pcb_cmd += c;
           sprintf(c, "CHANGE FONT VECTOR;\n"); // select Font
           pcb_cmd += c;
@@ -1990,7 +1999,7 @@ int main()
             sprintf( c, "TEXT 'V:%s:%d:%d' R35 (%f %f);\n", unc_vaNet[i], i + 1, unnconnected_vias_Ct, u2mic(unc_vaX[i]) + 0.1, u2mic(unc_vaY[i]));
             pcb_cmd += c;
 
-            sprintf(c, "layer 'FIX_VIA_ViaDraw' %d;\n", ViaEagleReportLayerDrawing ); // select Doc layer
+            sprintf(c, "layer 'FIX_VIA_Draw' %d;\n", ViaEagleReportLayerDrawing ); // select Doc layer
             pcb_cmd += c;
 
             sprintf(c, "SET WIRE_BEND 2;\n");
