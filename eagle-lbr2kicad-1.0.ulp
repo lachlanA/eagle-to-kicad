@@ -15,8 +15,10 @@
 
 /*
  * CHANGELOG=(dd.mm.yyyy)===============================================
+ * 12.10.2015:  Check for pagage before printing reporting on missing prefix.
+ * 
  * 09.10.2015:  Add missing prefix report Dilog
- * *
+ * 
  * 27.08.2015:  Fix Power systembal to correct for KiCad Power fills, change power supllie to opersit of Eagle.
  *              Change pin to hide when power. supply system.
  *
@@ -143,8 +145,8 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-real VERSION   = 1.6;
-string Version = "1.6";
+real VERSION   = 1.7;
+string Version = "1.7";
 
 
 
@@ -2009,9 +2011,17 @@ void write_kikad_lib( string fileName )
             if ( DEV.prefix == "" )
             {
               string c;
-              sprintf(c, "\nMissing Prefix Part =%s\t\t\t\t%s\t\t\t\t\t%s\t\t%s", DEV.name, DEV.package.name, DEV.library, undefinedPartPreFix );
-              logfile += c;
-              
+	      if((!( DEV.package )) && ( pinCt <= 1 )) // dose it have a package ?
+		{  // No so print NO-PACKAGE
+		  sprintf(c, "\nMissing Prefix Part =%s\t\t\t\t%s\t\t\t\t\t%s\t\t%s", DEV.name, "NO-PACKAGE", DEV.library, undefinedPartPreFix );
+		  logfile += c;
+		}
+	      else
+		{
+		  sprintf(c, "\nMissing Prefix Part =%s\t\t\t\t%s\t\t\t\t\t%s\t\t%s", DEV.name, DEV.package.name, DEV.library, undefinedPartPreFix );
+		  logfile += c;
+		}
+	      
               missingPrefixLog[ g_missingPrefix ] += c;
               g_missingPrefix++;
               sprintf( prefixString, "%s", undefinedPartPreFix);
