@@ -13,6 +13,9 @@
        
 /*
  * CHANGELOG================================================
+ * 13.10.2015: Fix Quoteing of lib name in ft_tables
+ *             Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
+ *
  * 31.07.2015: Add warning about Eagle lib's Ghost parts
  *             Add check/warning for wrong path to converstion scripts.
  *             Fix some spelling stuff.
@@ -77,8 +80,8 @@
 
 
 int debug = 0;       
-real VERSION   = 1.4;
-string Version = "1.4";
+real VERSION   = 1.5;
+string Version = "1.5";
 string myname;
 int datetime;
 real fontSize_PartPreFix_Ajust = 1.0;
@@ -1028,7 +1031,8 @@ int output_fp_lib_table( string fileName, string schName )
   output( fileName, mode )
   {
     printf("(fp_lib_table\n");
-    printf("  (lib (name %s)(type Legacy)(uri \"%s\")(options \"\")(descr \"\"))\n", filesetext( combineLibsName, "" ), outputPath + filesetext( filename( schName), ".mod") );
+    //    printf("  (lib (name %s)(type Legacy)(uri '%s')(options \"\")(descr \"\"))\n", filesetext( combineLibsName, "" ), outputPath + filesetext( filename( schName), ".mod") );
+    printf("  (lib (name \"%s\")(type Legacy)(uri \"%s\")(options \"\")(descr \"\"))\n", filesetext( combineLibsName, "" ), outputPath + filesetext( filename( schName), ".mod") );    
     printf(")\n");
   }
   return 0;
