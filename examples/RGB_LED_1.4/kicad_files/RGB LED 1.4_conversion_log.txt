@@ -1,0 +1,19 @@
+#********** START OF renumber-sheet.ulp ULP Version 4.4.3 13-10-2015 :07:54:14 LOG **********#
+#OldRef				SheetNumber	NewRef
+SWRESET				1	SWRESET45
+#********** END OF renumber-sheet.ulp ULP Version 4.4.3 13-10-2015 :07:54:14 LOG **********#
+
+#********** START OF fix_via_hack.ulp ULP Version 4.4.8 13-10-2015 :07:54:37 LOG **********#
+#********** END OF fix_via_hack.ulp ULP Version 4.4.8 13-10-2015 :07:54:37 LOG **********#
+
+#********** START OF exp-lbrs.ulp 6.6 13-10-2015 :07:54:49 LOG **********#
+OK: Eagle lib export from SCH/PCB OK
+    Conversion completed with no Messages
+#********** END OF exp-lbrs.ulp 6.6 13-10-2015 :07:54:49 LOG **********#
+
+
+#********** START OF eagle-lbr2kicad-1.0.ulp 1.7 13-10-2015 :07:54:56 LOG **********#
+Missing Prefix Part =''				LED-TRICOLOR-THROUGHHOLE					RGB LED 1.4		M
+Missing Prefix Part =''				DIL28-3					RGB LED 1.4		M
+#********** END OF eagle-lbr2kicad-1.0.ulp 1.7 13-10-2015 :07:54:56 LOG **********#
+

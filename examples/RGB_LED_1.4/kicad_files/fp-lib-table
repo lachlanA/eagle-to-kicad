@@ -1,0 +1,3 @@
+(fp_lib_table
+  (lib (name "RGB LED 1.4")(type Legacy)(uri "/home/fred/Desktop/examples/RGB_LED_1.4/kicad_files/RGB LED 1.4.mod")(options "")(descr ""))
+)
