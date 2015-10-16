@@ -13,6 +13,10 @@
        
 /*
  * CHANGELOG================================================
+ * 16.10.2015: Add check for name conflict on lib's package and symbol's,
+ *             and enable add libname prefix if there is.
+ *             Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
+ *
  * 13.10.2015: Fix Quoteing of lib name in ft_tables
  *             Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
  *
@@ -80,8 +84,8 @@
 
 
 int debug = 0;       
-real VERSION   = 1.5;
-string Version = "1.5";
+real VERSION   = 1.6;
+string Version = "1.6";
 string myname;
 int datetime;
 real fontSize_PartPreFix_Ajust = 1.0;
@@ -338,6 +342,13 @@ int devLibsRefListSize = 0;
 
 string conflictPartsLibsList[];
 int conflictPartsLibsListsize = 0;
+
+string devices[];  // hold list of devices and libname of the device
+int deviceSize = 0;
+string symbols[];  // hold list of symbols and libname of the symbol
+int symbolSize = 0;
+string packages[];  // hold list of packages and libname of the package
+int packageSize = 0;
 
 int combineLibs = 1;
 string combineLibsName = "";
@@ -772,6 +783,7 @@ int makeDevLibRefList( UL_SCHEMATIC SCH )
   int n = 0;
   int k = 0;
   int e = 0;
+  int i;
   int cfCount = 0;
   char found = 0;
   string ts;
@@ -784,66 +796,136 @@ int makeDevLibRefList( UL_SCHEMATIC SCH )
   devLibsRefListSize = 0;
   conflictPartsLibsListsize = 0;
 
-  SCH.parts(P)
+  SCH.libraries(L)
   {
-    // first search for deivce name
-    found = 0;
-
-//    sprintf( ts, "%s %s %s\n", P.device.name, P.device.library,  P.name );
-//    outputStringToFile( "./tXXX.txt", ts, 1, 't');
-
-
-    if( devLibsRefListSize )
+    string c;
+    L.devices(D)
     {
-
-      
-      sprintf(  tmpS, "%s \"%s\" %s", P.device.name, P.device.library,  P.name );
-
-      for( e = 0; e < devLibsRefListSize; e++ )
-      {
-        strsplit( tmpSA,  devLibsRefList[ e ], ' ' );
-
-        if( P.device.name == tmpSA[ 0 ] )  // found device name match ?
-        {
-          if( P.device.library == stripQutes( tmpSA[ 1 ] ))  // found devive libname match ?
-          {
-            tmpSA[ 2 ] = tmpSA[ 2 ] + "," + P.name;
-            devLibsRefList[ e ] = strjoin( tmpSA, ' ' ); 
-            found = 1;
-            break;
-          }
-          else
-          {   // Ok device name found but not the same lib name so make this with error and append first conflict refance to it.
-            tmpS = tmpS + " " + tmpSA[ 2 ];
-            cfCount++;
-            devLibsRefList[ devLibsRefListSize++ ] = tmpS; // And add to list.             
-
-
-            strsplit( tmpSA2, devLibsRefList[ e ], ' ' );            
-            strsplit( tmpSA3, tmpSA2[2], ',' );
-            
-            conflictPartsLibsList[ conflictPartsLibsListsize++ ] = tmpSA2[0] + "\t" + tmpSA2[1] + "\t" + tmpSA3[0] + "\tConflicts  With\t" + P.device.name + "\t" + P.device.library + "\t" +  P.name;
-
-            found = 1;
-            break;  //  Ok found,  so make it so
-          }
-        }
-        continue;  // Keep searching
-      }
-      //      sprintf(  tmpS, "%s \"%s\" %s", P.device.name, P.device.library,  P.name );
-      // none found so add to end of list
-      if( found == 0 )
-      {
-        devLibsRefList[ devLibsRefListSize++ ] = tmpS; // And add to list.             
-      }
-      continue; //goto SCH.parts(P)
+      sprintf( c, "%s %s", D.name, L.name ); 
+      devices[ deviceSize++ ] = c;
     }
-    else
-    { // empty list so insurt first one
-      sprintf(  tmpS, "%s \"%s\" %s", P.device.name, P.device.library,  P.name );
-      devLibsRefList[ devLibsRefListSize++ ] = tmpS; // And add to list.             
+    L.symbols(S)
+    {
+      sprintf( c, "%s %s", S.name, L.name); 
+      symbols[ symbolSize++ ] = c;
+    }
+    L.packages(P)
+    {
+      sprintf( c, "%s %s", P.name, L.name); 
+      packages[ packageSize++] = c;
     }
   }
+  
+  SCH.libraries(L)
+  {
+    i = 0;  
+    string rs[];
+    L.devices(D)
+    {
+      for( i = 0; i < deviceSize; i++ )
+      {
+        strsplit( rs,  devices[ i ], ' ' );
+        if( D.name == rs[0]) // Mach device name ?
+          if( L.name == rs[1] ) // Match lib name ?
+            continue; // All ok so continue
+          else
+          { // Ok we have problem,  device name conflict ! Docment it
+            conflictPartsLibsList[ conflictPartsLibsListsize++ ] = rs[0] + "\t" + rs[1] + "\t" + "DEVICE-NAME-CONFLICT" + "\tConflicts  With\t" + D.name + "\t" + L.name + "\t" +   "DEVICE-NAME-CONFLICT";
+          }
+      }
+    }
+
+    L.symbols(S)
+    {
+      for( i = 0; i < symbolSize; i++ )
+      {
+        strsplit( rs,  symbols[ i ], ' ' );
+        if( S.name == rs[0]) // Mach package name ?
+          if( L.name == rs[1] ) // Match lib name ?
+            continue; // All ok so continue
+          else
+          { // Ok we have problem,  package name conflict ! Docment it
+            conflictPartsLibsList[ conflictPartsLibsListsize++ ] = rs[0] + "\t" + rs[1] + "\t" + "SYMBOL-NAME-CONFLICT" + "\tConflicts  With\t" + S.name + "\t" + L.name + "\t" +   "SYMBOL-NAME-CONFLICT";
+          }
+      }
+    }
+
+    L.packages(P)
+    {
+      for( i = 0; i < packageSize; i++ )
+      {
+        strsplit( rs,  packages[ i ], ' ' );
+        if( P.name == rs[0]) // Mach package name ?
+          if( L.name == rs[1] ) // Match lib name ?
+            continue; // All ok so continue
+          else
+          { // Ok we have problem,  package name conflict ! Docment it
+            conflictPartsLibsList[ conflictPartsLibsListsize++ ] = rs[0] + "\t" + rs[1] + "\t" + "PACKAGE-NAME-CONFLICT" + "\tConflicts  With\t" + P.name + "\t" + L.name + "\t" +   "PACKAGE-NAME-CONFLICT";
+          }
+      }
+    }
+  }
+    
+/*   SCH.parts(P) */
+/*   { */
+/*     // first search for deivce name */
+/*     found = 0; */
+
+/* //    sprintf( ts, "%s %s %s\n", P.device.name, P.device.library,  P.name ); */
+/* //    outputStringToFile( "./tXXX.txt", ts, 1, 't'); */
+
+
+/*     if( devLibsRefListSize ) */
+/*     { */
+
+      
+/*       sprintf(  tmpS, "%s \"%s\" %s", P.device.name, P.device.library,  P.name ); */
+
+/*       for( e = 0; e < devLibsRefListSize; e++ ) */
+/*       { */
+/*         strsplit( tmpSA,  devLibsRefList[ e ], ' ' ); */
+
+/*         if( P.device.name == tmpSA[ 0 ] )  // found device name match ? */
+/*         { */
+/*           if( P.device.library == stripQutes( tmpSA[ 1 ] ))  // found devive libname match ? */
+/*           { */
+/*             tmpSA[ 2 ] = tmpSA[ 2 ] + "," + P.name; */
+/*             devLibsRefList[ e ] = strjoin( tmpSA, ' ' );  */
+/*             found = 1; */
+/*             break; */
+/*           } */
+/*           else */
+/*           {   // Ok device name found but not the same lib name so make this with error and append first conflict refance to it. */
+/*             tmpS = tmpS + " " + tmpSA[ 2 ]; */
+/*             cfCount++; */
+/*             devLibsRefList[ devLibsRefListSize++ ] = tmpS; // And add to list.              */
+
+
+/*             strsplit( tmpSA2, devLibsRefList[ e ], ' ' );             */
+/*             strsplit( tmpSA3, tmpSA2[2], ',' ); */
+            
+/*             conflictPartsLibsList[ conflictPartsLibsListsize++ ] = tmpSA2[0] + "\t" + tmpSA2[1] + "\t" + tmpSA3[0] + "\tConflicts  With\t" + P.device.name + "\t" + P.device.library + "\t" +  P.name; */
+
+/*             found = 1; */
+/*             break;  //  Ok found,  so make it so */
+/*           } */
+/*         } */
+/*         continue;  // Keep searching */
+/*       } */
+/*       //      sprintf(  tmpS, "%s \"%s\" %s", P.device.name, P.device.library,  P.name ); */
+/*       // none found so add to end of list */
+/*       if( found == 0 ) */
+/*       { */
+/*         devLibsRefList[ devLibsRefListSize++ ] = tmpS; // And add to list.              */
+/*       } */
+/*       continue; //goto SCH.parts(P) */
+/*     } */
+/*     else */
+/*     { // empty list so insurt first one */
+/*       sprintf(  tmpS, "%s \"%s\" %s", P.device.name, P.device.library,  P.name ); */
+/*       devLibsRefList[ devLibsRefListSize++ ] = tmpS; // And add to list.              */
+/*     } */
+/*   } */
   
   return cfCount;
 }

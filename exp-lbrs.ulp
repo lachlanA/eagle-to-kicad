@@ -343,6 +343,24 @@ int check_overlap( UL_PIN P, int pincount )
   return 0;
 }
 
+//
+// Wright log file.
+//
+void wright_log_to_disk( string logdata )
+{
+  //  logfile = filesetext(EditName, "");
+  logfileName = WorkPath + filesetext( EditName, "_conversion_log.txt");  
+  output( logfileName, "at")
+      printf("%s", logdata );
+}
+
+
+// Wright comand file -----------
+void show_save_script_file(string cm) {
+  ScriptName = WorkPath+PureScriptName;
+  output(ScriptName, "wtD") printf("%s", cm);
+  return;
+}
 
 
 void DisplayHelp() {
@@ -960,8 +978,13 @@ void CreateLbr(UL_LIBRARY LBR) {
 // Make seprate libs
 //
 void make_lbr(void) {
+
+//  dlgMessageBox("got here 1");
+  
   if (board) board(B)
     {
+
+
       int first = 1;
       B.libraries(LBR)
       {
@@ -986,6 +1009,8 @@ void make_lbr(void) {
 
   if (schematic) schematic(SCH)
     {
+
+      
       int first = 1;
       SCH.libraries(LBR)
       {
@@ -1020,10 +1045,20 @@ void make_lbr(void) {
 // make one lib for all deives
 //---------------------------------------
 void make_one_lbr(void) {
+
+//  dlgMessageBox("got here 2");             
+
   int noLbrs = 1;
   if (board) board(B)
     {
-      //      dlgMessageBox("board-libs:" + B.name );             
+//      dlgMessageBox("Got to board" );             
+
+      /* B.elements(E) */
+      /* { */
+      /*   dlgMessageBox("Got to elements" );              */
+      /*   printf("##Element=: %s\n", E.name); */
+      /*   printf("##ElementValue=: %s\n", E.value); */
+      /* }; */
 
       B.libraries(LBR)
       {
@@ -1041,8 +1076,8 @@ void make_one_lbr(void) {
     }
   if (schematic) schematic(SCH)
     {
-      //      dlgMessageBox("sch-libs:" + SCH.name );             
-      
+//      dlgMessageBox("Got to SCH" );             
+
       SCH.libraries(LBR)
       {
         CurrentLbrName = filesetext(EditName, "");
@@ -1081,24 +1116,6 @@ void make_one_lbr(void) {
 }
 
 
-//
-// Wright log file.
-//
-void wright_log_to_disk( string logdata )
-{
-  //  logfile = filesetext(EditName, "");
-  logfileName = WorkPath + filesetext( EditName, "_conversion_log.txt");  
-  output( logfileName, "at")
-      printf("%s", logdata );
-}
-
-
-// Wright comand file -----------
-void show_save_script_file(string cm) {
-  ScriptName = WorkPath+PureScriptName;
-  output(ScriptName, "wtD") printf("%s", cm);
-  return;
-}
 
 //-----------------------------------------------
 //  main.
