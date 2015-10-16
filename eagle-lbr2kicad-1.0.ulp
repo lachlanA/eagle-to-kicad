@@ -15,6 +15,10 @@
 
 /*
  * CHANGELOG=(dd.mm.yyyy)===============================================
+ * 15.10.2015:  Alays display report file,  even if no errors
+ *		Add spacing to make window wider,  1000px, for better report display
+ *              Thanks to: Lachlan  "lachlanusa (at) gmail.com"
+ * 
  * 12.10.2015:  Check for pagage before printing reporting on missing prefix.
  * 
  * 09.10.2015:  Add missing prefix report Dilog
@@ -145,8 +149,8 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-real VERSION   = 1.7;
-string Version = "1.7";
+real VERSION   = 1.8;
+string Version = "1.8";
 
 
 
@@ -2623,24 +2627,27 @@ int main()
   /* else */
   /*   dlgMessageBox("Conversion finished"+messagersult); */
 
-  if ( g_missingPrefix || warnings_count || errors_count )
-  {
-          string logmessags;
-          int result;
-          fileread( logmessags, logfileName); // Read the message
-          result = dlgDialog( filename(logfileName) )
-              {
-                dlgVBoxLayout
-                {
-                  dlgLabel( "There were <b>warnings/error's</b> during the conversion, Here is the contents of <b><i>"+ filename(logfileName) +
-                        "  </i></b>File located at-"+
-                        "<br><b>:<i>"+logfileName);
-                  dlgTextView( logmessags );
-                  dlgPushButton("OK") dlgAccept();
-                }
-              };
-  }else
-    dlgMessageBox("Conversion finished");
+  /* if ( g_missingPrefix || warnings_count || errors_count ) */
+  /* { */
+  string logmessags;
+  int result;
+  fileread( logmessags, logfileName); // Read the message
+  result = dlgDialog( filename(logfileName) )
+      {
+        dlgHBoxLayout {
+          dlgSpacing(1000);
+        };
+        dlgVBoxLayout
+        {
+          dlgLabel( "There were <b>warnings/error's</b> during the conversion, Here is the contents of <b><i>"+ filename(logfileName) +
+                    "  </i></b>File located at-"+
+                    "<br><b>:<i>"+logfileName);
+          dlgTextView( logmessags );
+          dlgPushButton("OK") dlgAccept();
+        }
+      };
+  /* }else */
+  /*   dlgMessageBox("Conversion finished"); */
   
   cfgset( cfg_ConversionLogFileName, "" ); // Set to Null for next time so we dont get confused if the conversion programe has not been run first.
   
