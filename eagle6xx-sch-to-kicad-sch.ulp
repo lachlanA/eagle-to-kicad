@@ -13,6 +13,12 @@
        
 /*
  * CHANGELOG================================================
+ * 16.10.2015: Log all conflicts.
+ *             Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
+ *
+ * 16.10.2015: Ajust offset for sch postion, to fit sheet a bit better.
+ *             Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
+ *
  * 16.10.2015: Add check for name conflict on lib's package and symbol's,
  *             and enable add libname prefix if there is.
  *             Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
@@ -84,8 +90,8 @@
 
 
 int debug = 0;       
-real VERSION   = 1.6;
-string Version = "1.6";
+real VERSION   = 1.7;
+string Version = "1.7";
 string myname;
 int datetime;
 real fontSize_PartPreFix_Ajust = 1.0;
@@ -296,10 +302,10 @@ string g_comment4   = "";
 string libsUsed = "";  // list of libs
 int addLibPrefix = 1; // add lib prifix
 
-real   g_Fact  = 254*32;        // global uMeter to uInch conversion factor
+real  g_Fact  = 254*32;        // global uMeter to uInch conversion factor
 
-int    g_transX = 0;         // Y-axis translation factor, depending on the sheet size
-int    g_transY = 0;         // Y-axis translation factor, depending on the sheet size
+int g_transX = 0;         // Y-axis translation factor, depending on the sheet size
+int g_transY = 0;         // Y-axis translation factor, depending on the sheet size
 
 // Default version of KiCad sch file
 int outPutVersion = 2;
@@ -818,6 +824,7 @@ int makeDevLibRefList( UL_SCHEMATIC SCH )
   
   SCH.libraries(L)
   {
+    string c;    
     i = 0;  
     string rs[];
     L.devices(D)
@@ -831,12 +838,15 @@ int makeDevLibRefList( UL_SCHEMATIC SCH )
           else
           { // Ok we have problem,  device name conflict ! Docment it
             conflictPartsLibsList[ conflictPartsLibsListsize++ ] = rs[0] + "\t" + rs[1] + "\t" + "DEVICE-NAME-CONFLICT" + "\tConflicts  With\t" + D.name + "\t" + L.name + "\t" +   "DEVICE-NAME-CONFLICT";
+            sprintf( c, "\nDevice Name Conflict: Device=%s from Internal SCH lib=%s  With Device=%s from LIB=%s", D.name, L.name, rs[0], rs[1] );
+            logfile += c;
           }
       }
     }
 
     L.symbols(S)
     {
+      string c;      
       for( i = 0; i < symbolSize; i++ )
       {
         strsplit( rs,  symbols[ i ], ' ' );
@@ -846,12 +856,15 @@ int makeDevLibRefList( UL_SCHEMATIC SCH )
           else
           { // Ok we have problem,  package name conflict ! Docment it
             conflictPartsLibsList[ conflictPartsLibsListsize++ ] = rs[0] + "\t" + rs[1] + "\t" + "SYMBOL-NAME-CONFLICT" + "\tConflicts  With\t" + S.name + "\t" + L.name + "\t" +   "SYMBOL-NAME-CONFLICT";
+            sprintf( c, "\nSymbol Name Conflict: Symbol=%s from Internal SCH lib=%s  With Symbol=%s from LIB=%s", S.name, L.name, rs[0], rs[1] );
+            logfile += c;
           }
       }
     }
 
     L.packages(P)
     {
+      string c;
       for( i = 0; i < packageSize; i++ )
       {
         strsplit( rs,  packages[ i ], ' ' );
@@ -861,6 +874,9 @@ int makeDevLibRefList( UL_SCHEMATIC SCH )
           else
           { // Ok we have problem,  package name conflict ! Docment it
             conflictPartsLibsList[ conflictPartsLibsListsize++ ] = rs[0] + "\t" + rs[1] + "\t" + "PACKAGE-NAME-CONFLICT" + "\tConflicts  With\t" + P.name + "\t" + L.name + "\t" +   "PACKAGE-NAME-CONFLICT";
+            sprintf( c, "\nPackage Name Conflict: Package=%s from Internal SCH lib=%s  With Package=%s from LIB=%s", P.name, L.name, rs[0], rs[1] );
+            logfile += c;
+
           }
       }
     }
@@ -970,8 +986,10 @@ int calculateTranslations(UL_AREA area, int paperSizeSelect ) {
 	int sheetHeight = y2 - y1;
 	
 	// center sheet within output
-	int xOffset = ((width - sheetWidth) / 2) + 500;
-	int yOffset = ((height-sheetHeight)/2) - 500;
+	int xOffset = (( width - sheetWidth) / 2  ) - 12000;
+	int yOffset = (( height - sheetHeight) / 2 ) + 8500;
+        //	int xOffset = ((width - sheetWidth) / 2) + 500;
+        //	int yOffset = ((height-sheetHeight)/2) - 500;
 	// align on the grid
 	xOffset = floor(xOffset/50) * 50;
 	yOffset = floor(yOffset/50) * 50;
@@ -2790,7 +2808,7 @@ void write_kicad_schematics( string fileName, int current_sheet, int number_of_s
             sprintf( mulitiGateList[ partGateCount ], "%s %d %s", P.device.name, gateCount, gateNamelist );
 
             // Debug
-            //printf("\n#XXXXX: %s %d %s", P.device.name, gateCount, gateNamelist );            
+            //            printf("\n#XXXXX: %s %d %s", P.device.name, gateCount, gateNamelist );            
 
             /*            
             if( P.device.package )
@@ -3368,7 +3386,6 @@ int main()
   {
     schematic(S)
     {
-      logfileName = filesetext( outputPath + rootschname, "_conversion_log.txt");
       rootschname = filename(S.name);
       makeDevLibRefList( S ); // Build Lib list and check for conflicts.
           
@@ -3441,6 +3458,7 @@ int main()
     exit(EXIT_FAILURE);
   }
 
+  logfileName = filesetext( outputPath + rootschname, "_conversion_log.txt");  
   polygons_message_FileName = filesetext( outputPath + rootschname, "_polygon_messagex.txt");
   /* string tmps; */
   /* sprintf(tmps, "%s", polygons_message_FileName ); */
@@ -3513,8 +3531,8 @@ int main()
     if( conflictPartsLibsListsize && addLibPrefix && combineLibs )
     {
       warnings = "<center><nobr><H3><font color=\"red\">CONVERSION COMPLETED WITH ERRORS</font></H1></center><hr>"+
-                 "<center><nobr><H3><font color=\"red\">A number of parts have the same name, and come from diffrent librarys</font></H3></center>"+
-                 "<center><nobr><H3><font color=\"red\">A qick fix has been aplied for this,  by adding the libname to the part name.</font></H3></center>"+
+                 "<center><nobr><H3><font color=\"red\">Parts have the same device/package/symbol, and come from diffrent librarys</font></H3></center>"+
+                 "<center><nobr><H3><font color=\"red\">A qick fix has been aplied,  by adding the libname to the part name.</font></H3></center>"+
                  "<center><nobr><H3><font color=\"red\">This should get you a working conversion to KiCad from Eagele.</font></H3></center>"+
                   "<center><nobr><H3><font color=\"red\">!!!!! But trible check the result's !!!!!!.</font></H3></center>";
     }
@@ -3550,17 +3568,25 @@ int main()
                     cfgget( cfg_addLibPrefix ));
     */
 
+    // Add conflict device/symbol/package message to log
+    /* int i; */
+    /* for( i = 0;  i < conflictPartsLibsListsize; i++ ) */
+    /*   logfile += "\n" + conflictPartsLibsList[ i ]; */
+
     
     int spos = 0;
     int iC = 0;
     string c;  
-    while( (spos = strchr( logfile, 0x0a, spos )) != -1 )
+    while( 1 )
     {
-      if( ++iC > 2 )
+      spos  = strchr( logfile, 0x0a, spos );
+      if( spos == -1 )
+        break;
+      if( ++iC > 3 )
         break;
       spos++;
     }
-    if( iC < 3 )
+    if( iC < 2 )
       logfile += "\n    Conversion completed with no Messages";
     sprintf(c, "\n#********** END OF %s %s %s LOG **********#\n\n", myname, Version, datetime);
     logfile += c;

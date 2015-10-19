@@ -17,10 +17,13 @@
 
 // THIS PROGRAM IS PROVIDED AS IS AND WITHOUT WARRANTY OF ANY KIND, EXPRESSED OR IMPLIED
 
-string Version = "ULP Version 4.4.8";
+string Version = "ULP Version 4.4.9";
 
 /*
  * CHANGELOG================================================
+ * 19.10.2015:  Add reporting of fill's over pads.  And clean up other reports.
+ *              Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
+ *
  * 14.09.2015: Star adding reporting code for unnected tracks, and multi blind via's
  *              Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
  *
@@ -43,10 +46,16 @@ string Version = "ULP Version 4.4.8";
  * alf@cadsoft.de
  */
 
-int ViaEagleReportLayerTxt = 150;     // which eagle layer reporting text should to too. ( 51 is tDocu)
-int ViaEagleReportLayerDrawing = 152;     // which eagle layer reporting Graphics should to too ( 51 is tDocu)
-int WireEagleReportLayerTxt = 153;     // which eagle layer reporting text should to too. ( 51 is tDocu)
-int WireEagleReportLayerDrawing = 154;     // which eagle layer reporting Graphics should to too ( 51 is tDocu)
+int ViaEagleReportLayerTxt = 150;     // which eagle layer reporting text should to too. ( Eco1_User)
+int ViaEagleReportLayerDrawing = 151;     // which eagle layer reporting Graphics should to too ( Eco2_User)
+int WireEagleReportLayerTxt = 152;     // which eagle layer reporting text should to too. ( Eco1_User)
+int WireEagleReportLayerDrawing = 153;     // which eagle layer reporting Graphics should to too ( Eco2_User)
+int PadEagleReportLayerDrawing = 154;
+int PadEagleReportLayerText = 155;
+int BlinEagleReportLayerTxt = 156;
+int BlinEagleReportLayerDrawing = 156;
+int ViaEagleReportLayerTxtList[] = { 95, 96 };
+int ViaEagleReportLayerTxtListSizie = 2;
 
 int display_error_layers = 1;	// Display error layers only
 
@@ -127,6 +136,7 @@ int aViaP[];	// Point's to Via index from track
 int aPadP[];	// Point's to Pad index
 int aWireConnectionCt[]; // Holds the number of connections from wire to wire for each node
 char aStatus[];	// the connection status,  0=NoConnected, 1=PadConnection.
+char aFillPad[]; // Marks the pad as having possable fill
 int wirenumber[];	// holds the wire number
 int aindex[];	// order storted index of pad/tracks/via's
 int index_size; // Holds the table size
@@ -255,6 +265,16 @@ string infoConvertViaToPad  =  "<b>Eagle use's via's for connections to fill's a
     "&nbsp;&nbsp;&nbsp;&nbsp;this is a very big hack, you will see x=0 y=0-number diffident net's and pad's in the Eagle SCH file<br>"+
     "&nbsp;&nbsp;&nbsp;&nbsp;this mod-filed Eagle file's are saved in the $TARGETDIRECTOR/modified_eagle_files/";
 
+string infoDocFillOverPad  =  "<b>SMD Pads & Normal Pads can be covered with copper when Thermal connection is turned off<br>"+
+    "<b>During importing of Eagle PCB, there is no control per PAD as to which  PAD is covered,  only globle control per fill<br>"+
+    "<b>This leeds to a problem's when you have via to Pad turned on, as if  theremal relive is turned on for that fill, and via's<br>"+
+    "<b>to PAD been turned on, Thermal relive's are generated for each via/pad conversion which is not what you need.<br>"+
+    "<b>In KiCad  you have Globel control and indervilearal PAD control on thermal relive,  so by turning Thermal releaf off for the fill,<br>"+
+    "<b>and turn each smd/pad thermal relive on and needed.  Doing this manual<br>"+
+    "&nbsp;&nbsp;&nbsp;&nbsp;";
+
+
+
 string infoDocomentUnconnectVias  =  "<b>This Option add's a \">\" to the via or converted pad,<br>"+
     "Making it easy to find the changed via's/pad's on the PCB<br>"+
     "Note this will show up as layer eagleReportLayerTxt (tDocu) on Eagle's PCB, and Dwgs.User on KiCad pcbnew.<br>";
@@ -275,6 +295,17 @@ string logfileName;
 string polygon_messagex;
 int polygons_linesCt = 0;
 string polygons_message_FileName;
+int displaylayer[];
+int displayCt = 0;
+
+//--------------------------------------------------------------------------------
+string intoString( int i )
+{
+  string s;
+
+  sprintf( s, "%d", i );
+  return s;
+}
 
 //logfile = filesetext(S.name, "_conversion_log.txt");
 // *******************************************
@@ -828,6 +859,18 @@ void menue(void)
         {
           dlgStretch(10);
           dlgSpacing(space);
+          dlgLabel("Doc Possable Fills over PADS");
+          dlgCheckBox("", enable_via_to_pad );
+          dlgCheckBox("", enable_via_to_pad );
+          dlgCheckBox("", enable_via_to_pad );
+          dlgPushButton("Info") { if (dlgMessageBox( infoConvertViaToPad, "Ok") == 0); };
+          dlgStretch(0);
+        }
+
+        dlgHBoxLayout
+        {
+          dlgStretch(10);
+          dlgSpacing(space);
           dlgLabel("Convert unconnecte Via to PAD's");
           dlgCheckBox("", enable_via_to_pad );
           dlgPushButton("Info") { if (dlgMessageBox( infoConvertViaToPad, "Ok") == 0); };
@@ -841,9 +884,9 @@ void menue(void)
           dlgLabel("Docment unconnect VIA's");
           dlgCheckBox("", docment_via_to_pad );
           dlgLabel("Text Layer");
-          dlgIntEdit(ViaEagleReportLayerTxt, 1, 255);
+          dlgIntEdit(ViaEagleReportLayerTxt, 16, 255);
           dlgLabel("Arrow Layer");
-          dlgIntEdit(ViaEagleReportLayerDrawing, 1, 255);
+          dlgIntEdit(ViaEagleReportLayerDrawing, 16, 255);
           dlgPushButton("Info") { if (dlgMessageBox( infoDocomentUnconnectVias, "Ok") == 0); };
           dlgStretch(0);
         }
@@ -1478,13 +1521,14 @@ int main()
             aY[ pad_counter ] = C.pad.y;
             aSl[ pad_counter ] = 1;    // thou hole pad's allways go's from top to Bottome
             aFl[ pad_counter ] = 16;
-            aNet[ pad_counter ] = C.pad.name;  // set the name up for now. 
+            aNet[ pad_counter ] = C.pad.signal;  // set the name up for now. 
             aType[ pad_counter ] = 0;   // PAD type
             aStatus[  pad_counter ] = 1;  // Mark as connected to Pad
             aViaP[ pad_counter ] = 0;
             aPadP[ pad_counter ] = 0;
-            aDiameter[ pad_counter ] = 0; // get the diameter for start layer for reporting
+            aDiameter[ pad_counter ] = C.pad.diameter[ 1 ]; // get the diameter for start layer for reporting
             aWireConnectionCt[ pad_counter ] = 0;
+            aFillPad[ pad_counter ] = 0; // Clear pad may have fill marker
             pad_counter++;
           }
           if( C.smd )
@@ -1493,13 +1537,14 @@ int main()
             aY[ pad_counter ] = C.smd.y;           
             aSl[ pad_counter ] = C.smd.layer;    // Start and end are always the sme for Smd pads
             aFl[ pad_counter ] = C.smd.layer;
-            aNet[ pad_counter ] = C.smd.name;  // set the name up for now. 
+            aNet[ pad_counter ] = C.smd.signal;  // set the name up for now. 
             aType[ pad_counter ] = 0;   // PAD type
             aStatus[ pad_counter ] = 1;  // Mark as connected to Pad
             aViaP[ pad_counter ] = 0;
             aPadP[ pad_counter ] = 0;
-            aDiameter[ pad_counter ] = 0; // get the via diametmer for start layer for reporting
+            aDiameter[ pad_counter ] = C.smd.dx[ C.smd.layer ] + C.smd.dy[ C.smd.layer ]; // get smd pad size for draying only!
             aWireConnectionCt[ pad_counter ] = 0;
+            aFillPad[ pad_counter ] = 0; // Clear pad may have fill marker            
             pad_counter++;
           }
         }
@@ -1534,6 +1579,16 @@ int main()
       S.polygons(P)
       {
         polygonCount++;
+
+        for( i = 0; i < pad_counter; i++ ) // check for pad's and fill netname match
+        {
+          if( aNet[i] == S.name ) // match the net ?
+            if( (aSl[ i ] >= P.layer && (aFl[ i ] <= P.layer ))) // check to see if it's a pad or SMD pad,  only Mark SMD pad is on the same layer
+            {
+              aFillPad[i] = 1; 		       // if Thou hole pad always mark !
+              displaylayer[ displayCt++ ] = P.layer; // Turn on display of that layer !
+            }
+        }
       }
 
       S.wires(W) // build wire table
@@ -1930,7 +1985,6 @@ int main()
             polygon_messagex += cs;
             polygons_linesCt++;
           }
-      
     } // signals(S) //--------------------
 
 
@@ -1938,32 +1992,48 @@ int main()
     
     int i;
     // setup report layers
-    sprintf(c, "layer %d 'FIX_VIA_Text';\n", ViaEagleReportLayerTxt ); // setup report layers
+    /* for( i = 0; ViaEagleReportLayerTxtListSizie; i++) */
+    /* { */
+    /*   sprintf(c, "layer %d 'FIX_VIA_Text%s';\n", ViaEagleReportLayerTxtList[i], intoString(ViaEagleReportLayerTxtList[i])); // setup report layers */
+    /*   pcb_cmd += c; */
+    /* } */
+
+    sprintf(c, "layer %d 'FIX_VIA_Text';\n", ViaEagleReportLayerTxt );  // setup report layers
     pcb_cmd += c;
     sprintf(c, "layer %d 'FIX_VIA_Draw';\n", ViaEagleReportLayerDrawing );
     pcb_cmd += c;
-    sprintf(c, "layer %d 'FIX_WireText';\n", WireEagleReportLayerTxt );
+    sprintf(c, "layer %d 'UNCONECTED_WireText';\n", WireEagleReportLayerTxt );
     pcb_cmd += c;
-    sprintf(c, "layer %d 'FIX_WireDraw';\n", WireEagleReportLayerDrawing );
+    sprintf(c, "layer %d 'UNCONECTED_WireDraw';\n", WireEagleReportLayerDrawing );
     pcb_cmd += c;
+    sprintf(c, "layer %d %s;\n", PadEagleReportLayerText, (PadEagleReportLayerText<100) ? "" : "'FILL_PAD_Text'" );
+    pcb_cmd += c;
+    sprintf(c, "layer %d %s;\n", PadEagleReportLayerDrawing, (PadEagleReportLayerDrawing<100) ? "" : "'FILL_PAD_Draw'" );
+    pcb_cmd += c;
+    sprintf(c, "layer 'BlindViaText' %d;\n", ViaEagleReportLayerTxt ); // select Doc layer
+    pcb_cmd += c; 
+    sprintf(c, "layer 'BlindViaDraw' %d;\n", BlinEagleReportLayerDrawing ); // select Doc layer
+    pcb_cmd += c; 
+   
 
+    
     for( i = 0; i < unnconnected_wires_Ct; i++) // scan table for unconnect track's
     {
       if( docment_unnconeted_wires )
       {
-        sprintf(c, "layer %d 'FIX_WireText';\n", WireEagleReportLayerTxt ); // select Doc layer
+        sprintf(c, "layer %d 'UNCONECTED_WireText';\n", WireEagleReportLayerTxt ); // select Doc layer
         pcb_cmd += c;
         sprintf(c, "CHANGE FONT VECTOR;\n"); // select Font
         pcb_cmd += c;
-        sprintf(c, "CHANGE SIZE 100.0;\n");
+        sprintf(c, "CHANGE SIZE 50.0;\n");
         pcb_cmd += c;
-        sprintf( c, "TEXT 'TS:%s:%d:%d::L%d' R20 (%f %f);\n", unc_wNet[ i ], i + 1, unnconnected_wires_Ct, unc_wLayer[i], u2mic(unc_wXs[i]) + 0.1, u2mic(unc_wYs[i]));
+        sprintf( c, "TEXT 'TS:%s:%d:%d::L%d' R50 (%f %f);\n", unc_wNet[ i ], i + 1, unnconnected_wires_Ct, unc_wLayer[i], u2mic(unc_wXs[i]) + 0.2, u2mic(unc_wYs[ i ]) + 0.2 );
         pcb_cmd += c;
-        sprintf( c, "TEXT 'TE:%s:%d:%d::L%d' R-20 (%f %f);\n", unc_wNet[ i ], i + 1, unnconnected_wires_Ct, unc_wLayer[i], u2mic(unc_wXf[i]) + 0.1, u2mic(unc_wYf[i]));
+        sprintf( c, "TEXT 'TE:%s:%d:%d::L%d' R-50 (%f %f);\n", unc_wNet[ i ], i + 1, unnconnected_wires_Ct, unc_wLayer[i], u2mic(unc_wXf[i]) + 0.2, u2mic(unc_wYf[ i ]) - 0.2 );
         pcb_cmd += c;
         sprintf(c, "SET WIRE_BEND 2;\n");
         pcb_cmd += c;
-        sprintf(c, "layer %d 'FIX_WireDraw';\n", WireEagleReportLayerDrawing ); // select Doc layer
+        sprintf(c, "layer %d 'UNCONECTED_WireDraw';\n", WireEagleReportLayerDrawing ); // select Doc layer
         pcb_cmd += c;
         sprintf( c, "wire  %f (%f %f) (%f %f );\n", 10.0,  u2mic( unc_wXs[i]), u2mic( unc_wYs[i]), u2mic( unc_wXf[ i ]), u2mic( unc_wYf[ i ]));
         //        sprintf( c, "wire '%s' %f (%f %f) (%f %f );\n", unc_vaNet[i],  10.0,  u2mic( unc_wXs[i]), u2mic( unc_wYs[i]), u2mic( unc_wXf[ i ]), u2mic( unc_wYf[ i ]));        
@@ -1987,54 +2057,60 @@ int main()
           
         if( docment_via_to_pad )
         {
-          sprintf(c, "layer 'FIX_VIA_Text' %d;\n", ViaEagleReportLayerTxt ); // select Doc layer
+          sprintf(c, "layer %d;\n", ViaEagleReportLayerTxt ); // select Doc layer
           pcb_cmd += c;
           sprintf(c, "CHANGE FONT VECTOR;\n"); // select Font
           pcb_cmd += c;
-          sprintf(c, "CHANGE SIZE 100.0;\n");
+          sprintf(c, "CHANGE SIZE 50.0;\n");
           pcb_cmd += c;
 
           if( hidden == 0 ) // Blind or hidden via ?
           { // No, so normal mark will be >
-            sprintf( c, "TEXT 'V:%s:%d:%d' R35 (%f %f);\n", unc_vaNet[i], i + 1, unnconnected_vias_Ct, u2mic(unc_vaX[i]) + 0.1, u2mic(unc_vaY[i]));
+            sprintf( c, "TEXT 'V:%s:%d:%d' R35 (%f %f);\n", unc_vaNet[i], i + 1, unnconnected_vias_Ct, u2mic(unc_vaX[i] + 50000), u2mic(unc_vaY[i] + ( 90000/2)));
+        //            sprintf( c, "TEXT 'V:%s:%d:%d' R35 (%f %f);\n", unc_vaNet[i], i + 1, unnconnected_vias_Ct, u2mic(unc_vaX[i]) + 0.1, u2mic(unc_vaY[i]));
             pcb_cmd += c;
 
-            sprintf(c, "layer 'FIX_VIA_Draw' %d;\n", ViaEagleReportLayerDrawing ); // select Doc layer
+            sprintf(c, "layer %d;\n", ViaEagleReportLayerDrawing ); // select Doc layer
             pcb_cmd += c;
 
             sprintf(c, "SET WIRE_BEND 2;\n");
             pcb_cmd += c;
-            sprintf( c, "wire %f (%f %f) (%f %f );\n", 25.0,  u2mic(unc_vaX[i]), u2mic(unc_vaY[i]), u2mic( unc_vaX[i] - ( unc_vaDiameter[i] /2)), u2mic(unc_vaY[i] + ( unc_vaDiameter[i] /4 )));
+            sprintf( c, "wire %f (%f %f) (%f %f );\n", 10.0,  u2mic(unc_vaX[i]), u2mic(unc_vaY[i]), u2mic( unc_vaX[i] + ( 50000 )), u2mic( unc_vaY[i] + ( 90000/2 )));
+            //            sprintf( c, "wire %f (%f %f) (%f %f );\n", 25.0,  u2mic(unc_vaX[i]), u2mic(unc_vaY[i]), u2mic( unc_vaX[i] - ( unc_vaDiameter[i] /2)), u2mic(unc_vaY[i] + ( unc_vaDiameter[i] /4 )));
             pcb_cmd += c;
-            sprintf( c, "wire %f (%f %f) (%f %f );\n", 25.0, u2mic(unc_vaX[i] - ( unc_vaDiameter[i] /2)), u2mic(unc_vaY[i] - ( unc_vaDiameter[i] /4 )), u2mic(unc_vaX[i]), u2mic(unc_vaY[i]));
-            pcb_cmd += c;
+            /* sprintf( c, "wire %f (%f %f) (%f %f );\n", 25.0, u2mic(unc_vaX[i] - ( unc_vaDiameter[i] /2)), u2mic(unc_vaY[i] - ( unc_vaDiameter[i] /4 )), u2mic(unc_vaX[i]), u2mic(unc_vaY[i])); */
+            /* pcb_cmd += c; */
 
             sprintf( c, "\nVIA\tViaCount=%d\t\tNet=%s\t\t\t\t(X=%f Y=%f)\tLayerStart=%d\tLayerEnd=%d", i+1, unc_vaNet[ i ], u2mic( unc_vaX[i]), u2mic( unc_vaY[i]), unc_vaSl[ i ],  unc_vaFl[ i ]);
             logfile += c;
           }
           else
           { // Ok blind via, so user will have to do manual convertion so Mark with a X!
-            sprintf(c, "layer 'BlindVia' %d;\n", ViaEagleReportLayerTxt ); // select Doc layer
+            sprintf(c, "layer 'BlindViaText' %d;\n", BlinEagleReportLayerTxt ); // select Doc layer
             pcb_cmd += c;
             sprintf(c, "CHANGE FONT VECTOR;\n"); // select Font
             pcb_cmd += c;
-            sprintf(c, "CHANGE SIZE 100.0;\n");
+            sprintf(c, "CHANGE SIZE 50.0;\n");
             pcb_cmd += c;
 
-            sprintf( c, "TEXT 'BV:%s:%d:%d::%d::%d' R0 (%f %f);\n", unc_vaNet[ i ], i + 1, unc_vaSl[ i ], unc_vaFl[ i ], unnconnected_vias_Ct, u2mic(unc_vaX[i]) + 0.1, u2mic(unc_vaY[i]));
+            sprintf( c, "TEXT 'BV:%s:%d:%d::%d::%d' R-30 (%f %f);\n", unc_vaNet[ i ], i + 1, unc_vaSl[ i ], unc_vaFl[ i ], unnconnected_vias_Ct, u2mic(unc_vaX[i] + ( unc_vaDiameter[i] /2)), u2mic(unc_vaY[ i ] - ( unc_vaDiameter[ i ] /4 )));
+            //            sprintf( c, "TEXT 'BV:%s:%d:%d::%d::%d' R-10 (%f %f);\n", unc_vaNet[ i ], i + 1, unc_vaSl[ i ], unc_vaFl[ i ], unnconnected_vias_Ct, u2mic(unc_vaX[i]) + 0.1, u2mic(unc_vaY[i]));            
             pcb_cmd += c;
             sprintf(c, "SET WIRE_BEND 2;\n");
             pcb_cmd += c;
 
+            sprintf(c, "layer 'BlindViaDraw' %d;\n", BlinEagleReportLayerDrawing ); // select Doc layer
+            pcb_cmd += c;
+
             // Print >
-            sprintf( c, "wire %f (%f %f) (%f %f );\n", 25.0,  u2mic(unc_vaX[i]), u2mic(unc_vaY[i]), u2mic(unc_vaX[i] - ( unc_vaDiameter[ i ] /2)), u2mic(unc_vaY[i] + ( unc_vaDiameter[i] /4 )));
-            pcb_cmd += c;
-            sprintf( c, "wire %f (%f %f) (%f %f );\n", 25.0, u2mic(unc_vaX[i] - ( unc_vaDiameter[ i ] /2)), u2mic(unc_vaY[i] - ( unc_vaDiameter[i] /4 )), u2mic(unc_vaX[i]), u2mic(unc_vaY[i]));
-            pcb_cmd += c;
+            /* sprintf( c, "wire %f (%f %f) (%f %f );\n", 10.0, u2mic(unc_vaX[i]), u2mic(unc_vaY[i]), u2mic(unc_vaX[i] - ( unc_vaDiameter[ i ] /2)), u2mic(unc_vaY[i] + ( unc_vaDiameter[i] /4 ))); */
+            /* pcb_cmd += c; */
+            /* sprintf( c, "wire %f (%f %f) (%f %f );\n", 10.0, u2mic(unc_vaX[i] - ( unc_vaDiameter[ i ] /2)), u2mic(unc_vaY[i] - ( unc_vaDiameter[i] /4 )), u2mic(unc_vaX[i]), u2mic(unc_vaY[i])); */
+            /* pcb_cmd += c; */
             // Print <
-            sprintf( c, "wire %f (%f %f) (%f %f );\n", 25.0,  u2mic(unc_vaX[i]), u2mic(unc_vaY[i]), u2mic(unc_vaX[i] + ( unc_vaDiameter[i] /2)), u2mic(unc_vaY[ i ] + ( unc_vaDiameter[ i ] /4 )));
-            pcb_cmd += c;
-            sprintf( c, "wire %f (%f %f) (%f %f );\n", 25.0,  u2mic(unc_vaX[i]), u2mic(unc_vaY[i]), u2mic(unc_vaX[i] + ( unc_vaDiameter[i] /2)), u2mic(unc_vaY[ i ] - ( unc_vaDiameter[ i ] /4 )));
+            /* sprintf( c, "wire %f (%f %f) (%f %f );\n", 10.0, u2mic(unc_vaX[i]), u2mic(unc_vaY[i]), u2mic(unc_vaX[i] + ( unc_vaDiameter[i] /2)), u2mic(unc_vaY[ i ] + ( unc_vaDiameter[ i ] /4 ))); */
+            /* pcb_cmd += c; */
+            sprintf( c, "wire %f (%f %f) (%f %f );\n", 10.0, u2mic(unc_vaX[i]), u2mic(unc_vaY[i]), u2mic(unc_vaX[i] + ( unc_vaDiameter[i] /2)), u2mic(unc_vaY[ i ] - ( unc_vaDiameter[ i ] /4 )));
             pcb_cmd += c;
 
             sprintf( c, "\nBLIND-VIA\tViaCount=%d\t\tNet=%s\t\t\t\t(X=%f Y=%f)\tLayerStart=%d\tLayerEnd=%d", i+1, unc_vaNet[ i ], u2mic( unc_vaX[i]), u2mic( unc_vaY[i]), unc_vaSl[ i ],  unc_vaFl[ i ]);
@@ -2090,19 +2166,61 @@ int main()
           sch_net_count++; // add new offset
 
           //          logfile += ( "\nVIA "+ unnconnected_vias[ unnconnected_vias_Ct++ ]);
-
-
           pad_count++;
         }  // if(( enable_via_to_pad == 1) && ( hidden == 0 ))
       }  // if( aStatus[i] == 0 )
 
+    // Display marker for possable fill over pad.
+    for( i = 0; i < pad_counter; i++) // scan pad's for possable connections to fills
+    {
+      if((aFillPad[ i ]) == 1)// possable fill over pad ?
+      {
+        sprintf(c, "layer %d;\n", PadEagleReportLayerText ); // select Doc layer
+        pcb_cmd += c;
+        sprintf(c, "CHANGE FONT VECTOR;\n"); // select Font
+        pcb_cmd += c;
+        sprintf(c, "CHANGE SIZE 50.0;\n");
+        pcb_cmd += c;
+        sprintf( c, "TEXT 'FllOverPAD:%s:%d:%d' R10 (%f %f);\n", aNet[ i ], i + 1, pad_counter, u2mic( aX[i] + ( 50000 )), u2mic( aY[i] + ( 50000/4 )));
+        //        sprintf( c, "TEXT 'ViaOverPAD:%s:%d:%d' R0 (%f %f);\n", aNet[ i ], i + 1, pad_counter, u2mic( aX[i] + ( aDiameter[i] /2)),  u2mic( aY[i] + ( aDiameter[i] /8 )));
+        //        //        sprintf( c, "TEXT 'PF:%s:%d:%d' R35 (%f %f);\n", aNet[ i ], i + 1, pad_counter, u2mic( aX[i]) + 0.1, u2mic( aY[i]));        
+        pcb_cmd += c;
 
+        sprintf(c, "layer %d;\n", PadEagleReportLayerDrawing ); // select Doc layer
+        pcb_cmd += c;
+
+        sprintf(c, "SET WIRE_BEND 2;\n");
+        pcb_cmd += c;
+
+        sprintf( c, "wire %f (%f %f) (%f %f );\n", 10.0,  u2mic( aX[i]), u2mic( aY[i]), u2mic( aX[i] + ( 50000 )), u2mic( aY[i] + ( 50000/4 )));
+        //        pcb_cmd += c;
+        //        sprintf( c, "wire %f (%f %f) (%f %f );\n", 10.0,  u2mic( aX[i]), u2mic( aY[i]), u2mic( aX[i] + ( 50000 )), u2mic( aY[i] - ( 50000/4 )));
+
+        /* sprintf( c, "wire %f (%f %f) (%f %f );\n", 25.0,  u2mic( aX[i]), u2mic( aY[i]), u2mic( aX[i] + ( aDiameter[i] /2)), u2mic( aY[i] + ( aDiameter[i] /16 ))); */
+        /* pcb_cmd += c; */
+        /* sprintf( c, "wire %f (%f %f) (%f %f );\n", 25.0,  u2mic( aX[i]), u2mic( aY[i]), u2mic( aX[i] + ( aDiameter[i] /2)), u2mic( aY[i] - ( aDiameter[i] /16 ))); */
+        //        //        sprintf( c, "wire %f (%f %f) (%f %f );\n", 25.0, u2mic( aX[i] - ( aDiameter[i] /2)), u2mic( aY[i] - ( aDiameter[i] /4 )), u2mic( aX[i]), u2mic( aY[i]));
+        pcb_cmd += c;
+
+        sprintf( c, "\nPADFILL\tPadCount=%d\t\tNet=%s\t\t\t\t(X=%f Y=%f)\tLayerStart=%d\tLayerEnd=%d", i+1, aNet[ i ], u2mic( aX[i]), u2mic( aY[i]), aSl[ i ],  aFl[ i ]);
+        logfile += c;
+      }  // for( i = 0; i < unnconnected_vias_Ct; i++) // scan table for unconnect via's
+    }
+    
     if( display_error_layers && ( unnconnected_wires_Ct || unnconnected_vias_Ct ))
     {
       sprintf(c, "DISPLAY %s;\n", "NONE" );    
       pcb_cmd += c;
-      sprintf(c, "DISPLAY %d %d %d %d %d %d %d %d;\n", ViaEagleReportLayerTxt, ViaEagleReportLayerDrawing, WireEagleReportLayerTxt, WireEagleReportLayerDrawing, 17, 18, 23, 24  ); // dispaly via's pad's, and top/bottom orgiine
+      sprintf(c, "DISPLAY %d %d %d %d %d %d %d %d %d %d;\n", ViaEagleReportLayerTxt, ViaEagleReportLayerDrawing, WireEagleReportLayerTxt, WireEagleReportLayerDrawing, PadEagleReportLayerText, PadEagleReportLayerDrawing,
+              17, 18, 23, 24 ); // dispaly via's pad's, and top/bottom orgiine
       pcb_cmd += c;
+
+      for( i = 0; i < displayCt; i++ ) // Show layers with possable fill over pad
+      {
+        sprintf(c, "DISPLAY %d;\n", displaylayer[i]);
+        pcb_cmd += c;        
+      }
+
       sprintf(c, "SET FILL_LAYER %d 0;\n", 17);
       pcb_cmd += c;
       sprintf(c, "SET FILL_LAYER %d 0;\n", 18);
