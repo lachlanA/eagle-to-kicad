@@ -54,8 +54,8 @@ int PadEagleReportLayerDrawing = 154;
 int PadEagleReportLayerText = 155;
 int BlinEagleReportLayerTxt = 156;
 int BlinEagleReportLayerDrawing = 156;
-int ViaEagleReportLayerTxtList[] = { 95, 96 };
-int ViaEagleReportLayerTxtListSizie = 2;
+//int ViaEagleReportLayerTxtList[] = { 95, 96 };
+//int ViaEagleReportLayerTxtListSizie = 2;
 
 int display_error_layers = 1;	// Display error layers only
 
@@ -266,12 +266,12 @@ string infoConvertViaToPad  =  "<b>Eagle use's via's for connections to fill's a
     "&nbsp;&nbsp;&nbsp;&nbsp;this mod-filed Eagle file's are saved in the $TARGETDIRECTOR/modified_eagle_files/";
 
 string infoDocFillOverPad  =  "<b>SMD Pads & Normal Pads can be covered with copper when Thermal connection is turned off<br>"+
-    "<b>During importing of Eagle PCB, there is no control per PAD as to which  PAD is covered,  only globle control per fill<br>"+
-    "<b>This leeds to a problem's when you have via to Pad turned on, as if  theremal relive is turned on for that fill, and via's<br>"+
-    "<b>to PAD been turned on, Thermal relive's are generated for each via/pad conversion which is not what you need.<br>"+
-    "<b>In KiCad  you have Globel control and indervilearal PAD control on thermal relive,  so by turning Thermal releaf off for the fill,<br>"+
-    "<b>and turn each smd/pad thermal relive on and needed.  Doing this manual<br>"+
-    "&nbsp;&nbsp;&nbsp;&nbsp;";
+    "<b>During importing of Eagle PCB, there is no control per PAD as to which  PAD is covered,  only global control per fill<br>"+
+    "<b>This leads to a problem's when you have via to Pad turned on, as if  thermal relief's is turned on for that fill, and via's<br>"+
+    "<b>to PAD been turned on, Thermal relief's are generated for each via/pad conversion which is not what you need.<br>"+
+    "<b>In KiCad you have Global control and individual PAD control on thermal relive, so by turning Thermal relief off for the fill,<br>"+
+    "<b>and turn each smd/pad Thermal relief on and needed.  Doing this manual<br>"+
+    " ";
 
 
 
@@ -859,9 +859,19 @@ void menue(void)
         {
           dlgStretch(10);
           dlgSpacing(space);
-          dlgLabel("Doc Possable Fills over PADS");
+          dlgLabel("Doc Possible Fills over PADS");
           dlgCheckBox("", enable_via_to_pad );
           dlgCheckBox("", enable_via_to_pad );
+          dlgCheckBox("", enable_via_to_pad );
+          dlgPushButton("Info") { if (dlgMessageBox( infoDocFillOverPad, "Ok") == 0); };
+          dlgStretch(0);
+        }
+
+        dlgHBoxLayout
+        {
+          dlgStretch(10);
+          dlgSpacing(space);
+          dlgLabel("Convert unconnected Via to PAD's");
           dlgCheckBox("", enable_via_to_pad );
           dlgPushButton("Info") { if (dlgMessageBox( infoConvertViaToPad, "Ok") == 0); };
           dlgStretch(0);
@@ -871,17 +881,7 @@ void menue(void)
         {
           dlgStretch(10);
           dlgSpacing(space);
-          dlgLabel("Convert unconnecte Via to PAD's");
-          dlgCheckBox("", enable_via_to_pad );
-          dlgPushButton("Info") { if (dlgMessageBox( infoConvertViaToPad, "Ok") == 0); };
-          dlgStretch(0);
-        }
-
-        dlgHBoxLayout
-        {
-          dlgStretch(10);
-          dlgSpacing(space);
-          dlgLabel("Docment unconnect VIA's");
+          dlgLabel("Documents unconnected VIA's");
           dlgCheckBox("", docment_via_to_pad );
           dlgLabel("Text Layer");
           dlgIntEdit(ViaEagleReportLayerTxt, 16, 255);
@@ -895,7 +895,7 @@ void menue(void)
         {
           dlgStretch(10);
           dlgSpacing(space);
-          dlgLabel("Docment unconnect WIRES's");
+          dlgLabel("Documents unconnected WIRES's");
           dlgCheckBox("", docment_via_to_pad );
           dlgLabel("Text Layer");
           dlgIntEdit(WireEagleReportLayerTxt, 1, 255);
@@ -2211,8 +2211,8 @@ int main()
     {
       sprintf(c, "DISPLAY %s;\n", "NONE" );    
       pcb_cmd += c;
-      sprintf(c, "DISPLAY %d %d %d %d %d %d %d %d %d %d;\n", ViaEagleReportLayerTxt, ViaEagleReportLayerDrawing, WireEagleReportLayerTxt, WireEagleReportLayerDrawing, PadEagleReportLayerText, PadEagleReportLayerDrawing,
-              17, 18, 23, 24 ); // dispaly via's pad's, and top/bottom orgiine
+      sprintf(c, "DISPLAY %d %d %d %d %d %d %d %d %d %d %d %d;\n", ViaEagleReportLayerTxt, ViaEagleReportLayerDrawing, WireEagleReportLayerTxt, WireEagleReportLayerDrawing, PadEagleReportLayerText, PadEagleReportLayerDrawing,
+              BlinEagleReportLayerDrawing, BlinEagleReportLayerTxt, 17, 18, 23, 24 ); // dispaly via's pad's, and top/bottom orgiine
       pcb_cmd += c;
 
       for( i = 0; i < displayCt; i++ ) // Show layers with possable fill over pad
