@@ -17,7 +17,7 @@
 
 // THIS PROGRAM IS PROVIDED AS IS AND WITHOUT WARRANTY OF ANY KIND, EXPRESSED OR IMPLIED
 
-string Version = "ULP Version 4.4.9";
+string Version = "ULP Version 4.5.0";
 
 /*
  * CHANGELOG================================================
@@ -46,14 +46,18 @@ string Version = "ULP Version 4.4.9";
  * alf@cadsoft.de
  */
 
-int ViaEagleReportLayerTxt = 150;     // which eagle layer reporting text should to too. ( Eco1_User)
-int ViaEagleReportLayerDrawing = 151;     // which eagle layer reporting Graphics should to too ( Eco2_User)
-int WireEagleReportLayerTxt = 152;     // which eagle layer reporting text should to too. ( Eco1_User)
-int WireEagleReportLayerDrawing = 153;     // which eagle layer reporting Graphics should to too ( Eco2_User)
-int PadEagleReportLayerDrawing = 154;
-int PadEagleReportLayerText = 155;
-int BlinEagleReportLayerTxt = 156;
-int BlinEagleReportLayerDrawing = 156;
+int ViaEagleReportLayerTxt = 160;     // which eagle layer reporting text should to too. ( Eco1_User)
+int ViaEagleReportLayerTxtColor = 3;
+int ViaEagleReportLayerDrawing = 161;     // which eagle layer reporting Graphics should to too ( Eco2_User)
+int WireEagleReportLayerTxt = 162;     // which eagle layer reporting text should to too. ( Eco1_User)
+int WireEagleReportLayerTxtColor = 4;     // which eagle layer reporting text should to too. ( Eco1_User)
+int WireEagleReportLayerDrawing = 163;     // which eagle layer reporting Graphics should to too ( Eco2_User)
+int PadEagleReportLayerText = 164;
+int PadEagleReportLayerTextColor = 5;
+int PadEagleReportLayerDrawing = 165;
+int BlindEagleReportLayerTxt = 166;
+int BlindEagleReportLayerTxtColor = 6;
+int BlindEagleReportLayerDrawing = 167;
 //int ViaEagleReportLayerTxtList[] = { 95, 96 };
 //int ViaEagleReportLayerTxtListSizie = 2;
 
@@ -166,7 +170,7 @@ int unc_wYf[];
 int unc_wLayer[];
 string unc_wNet[];
 
-char docment_unnconeted_wires = 1;
+int docment_unnconeted_wires = 1;
 
 // Hold table of wire's used when check for free wire's.
 // Note this looks bit old, as we dont have a end X,Y
@@ -227,6 +231,8 @@ int  stack_p;
 
 int enable_via_to_pad = 1;
 int docment_via_to_pad = 1;
+int docment_blind_via_to_pad = 1;
+int docment_fill_over_pad = 1;
 int libsetup = 0;
 
 int total_vias = 0;
@@ -279,6 +285,11 @@ string infoDocomentUnconnectVias  =  "<b>This Option add's a \">\" to the via or
     "Making it easy to find the changed via's/pad's on the PCB<br>"+
     "Note this will show up as layer eagleReportLayerTxt (tDocu) on Eagle's PCB, and Dwgs.User on KiCad pcbnew.<br>";
 
+string infoDocomentUnconnectWires  =  "<b>This Option add's a \">\" to the via or converted pad,<br>"+
+    "Making it easy to find the changed via's/pad's on the PCB<br>"+
+    "Note this will show up as layer eagleReportLayerTxt (tDocu) on Eagle's PCB, and Dwgs.User on KiCad pcbnew.<br>";
+
+
 string infoULPdir           = "<b>Eagle ULP conversion script location</b>";
 
 int  blindviaCt = 0;
@@ -298,6 +309,23 @@ string polygons_message_FileName;
 int displaylayer[];
 int displayCt = 0;
 
+string Colors[] =  {"Black", /* 0 */
+                    "Blue",  /* 1 */
+                    "Green", /* 2 */
+                    "Cyan",  /* 3 */
+                    "Red",   /* 4  */
+                    "Magenta", /* 5 */
+                    "Brown", /* 6 */
+                    "LGray", /* 7 */
+                    "DGray", /* 8  */
+                    "LBlue", /* 9 */
+                    "LGreen",/* 10 */
+                    "LCyan", /* 11 */
+                    "LRed",  /* 12 */
+                    "LMagenta", /* 13 */
+                    "Yellow", /* 14 */
+                    "White" }; /* 15 */
+//
 //--------------------------------------------------------------------------------
 string intoString( int i )
 {
@@ -758,7 +786,6 @@ void visible(UL_SCHEMATIC S) {
 // 
 void menue(void)
 {
-
   int result;
   int rs = 0;
   string tmpSX;
@@ -767,10 +794,10 @@ void menue(void)
   int saveAsDefaultULP_Path = 1;
   string tmpS10 = "";
   
-  result = dlgDialog("Vis to Pad hack:" + "  BUILD DATE:" + BUILD_DATE )
+  result = dlgDialog("Via's to Pad, and Track Check:" + "  BUILD DATE:" + BUILD_DATE )
       {
-        dlgLabel("<b><font color=\"red\">This ULP will change unconnected VIA's to PADS with Same Net name<br>" + 
-                 "<font color=\"blue\">It will also Documents on user defined PCB layers unconnected Via's and Tracks<br>" +
+        dlgLabel("<b><font color=\"red\">This ULP will change unconnected VIA's to PADS<br>" + 
+                 "<font color=\"blue\">It will also Documents on user defined layer's unconnected VIA'S and Tracks<br>" +
                  "<i>Click on <i>Info</> for importand Note's!</i><br>"+
                  "<b>NOTE:<i> This hack modifies both the Eagle SCH and PCB file,<br>"+
                  "which are saved in the <i>TARGET-DIRECTORY</i>/modified_eagle_files/");
@@ -783,7 +810,7 @@ void menue(void)
         /* "<b>NOTE:<i> This hack modifies both the eagle sch and PCB file,  which are saved in the TARGET-DIRECTORY/modified_eagle_files/</i>"); */
 
 
-        
+  
         dlgHBoxLayout dlgSpacing(900);
         dlgHBoxLayout
         {
@@ -854,15 +881,26 @@ void menue(void)
           dlgStretch(0);
         }
 
+        dlgHBoxLayout
+        {
+          dlgStretch(10);
+          dlgSpacing(space);
+          dlgLabel("Convert unconnected VIA's to PAD's");
+          dlgCheckBox("", enable_via_to_pad );
+          dlgPushButton("Info") { if (dlgMessageBox( infoConvertViaToPad, "Ok") == 0); };
+          dlgStretch(0);
+        }
 
         dlgHBoxLayout
         {
           dlgStretch(10);
           dlgSpacing(space);
           dlgLabel("Doc Possible Fills over PADS");
-          dlgCheckBox("", enable_via_to_pad );
-          dlgCheckBox("", enable_via_to_pad );
-          dlgCheckBox("", enable_via_to_pad );
+          dlgCheckBox("", docment_fill_over_pad );
+          dlgLabel("Layer");
+          dlgIntEdit( PadEagleReportLayerText, 16, 255);
+          dlgLabel("Layer Color");
+          dlgComboBox(Colors, PadEagleReportLayerTextColor);// dlgMessageBox("You have selected " + Colors[Selected]); 
           dlgPushButton("Info") { if (dlgMessageBox( infoDocFillOverPad, "Ok") == 0); };
           dlgStretch(0);
         }
@@ -871,9 +909,15 @@ void menue(void)
         {
           dlgStretch(10);
           dlgSpacing(space);
-          dlgLabel("Convert unconnected Via to PAD's");
-          dlgCheckBox("", enable_via_to_pad );
-          dlgPushButton("Info") { if (dlgMessageBox( infoConvertViaToPad, "Ok") == 0); };
+          dlgLabel("Documents unconnected WIRES");
+          dlgCheckBox("", docment_unnconeted_wires );
+          dlgLabel("Text Layer");
+          dlgIntEdit( WireEagleReportLayerTxt, 100, 255);
+          dlgLabel("Arrow Layer");
+          dlgIntEdit( WireEagleReportLayerDrawing, 100, 255);
+          dlgLabel("Layer Color");
+          dlgComboBox(Colors, WireEagleReportLayerTxtColor );// dlgMessageBox("You have selected " + Colors[Selected]); 
+          dlgPushButton("Info") { if (dlgMessageBox( infoDocomentUnconnectWires, "Ok") == 0); };
           dlgStretch(0);
         }
 
@@ -884,23 +928,27 @@ void menue(void)
           dlgLabel("Documents unconnected VIA's");
           dlgCheckBox("", docment_via_to_pad );
           dlgLabel("Text Layer");
-          dlgIntEdit(ViaEagleReportLayerTxt, 16, 255);
+          dlgIntEdit(ViaEagleReportLayerTxt, 100, 255);
           dlgLabel("Arrow Layer");
-          dlgIntEdit(ViaEagleReportLayerDrawing, 16, 255);
+          dlgIntEdit(ViaEagleReportLayerDrawing, 100, 255);
+          dlgLabel("Layer Color");
+          dlgComboBox(Colors, ViaEagleReportLayerTxtColor);// dlgMessageBox("You have selected " + Colors[Selected]); 
           dlgPushButton("Info") { if (dlgMessageBox( infoDocomentUnconnectVias, "Ok") == 0); };
           dlgStretch(0);
         }
-
+        
         dlgHBoxLayout
         {
           dlgStretch(10);
           dlgSpacing(space);
-          dlgLabel("Documents unconnected WIRES's");
-          dlgCheckBox("", docment_via_to_pad );
+          dlgLabel("Documents unconnected Blind VIA's");
+          dlgCheckBox("", docment_blind_via_to_pad );
           dlgLabel("Text Layer");
-          dlgIntEdit(WireEagleReportLayerTxt, 1, 255);
+          dlgIntEdit( BlindEagleReportLayerTxt, 100, 255);
           dlgLabel("Arrow Layer");
-          dlgIntEdit(WireEagleReportLayerDrawing, 1, 255);
+          dlgIntEdit( BlindEagleReportLayerDrawing, 100, 255);
+          dlgLabel("Layer Color");
+          dlgComboBox(Colors, BlindEagleReportLayerTxtColor );// dlgMessageBox("You have selected " + Colors[Selected]); 
           dlgPushButton("Info") { if (dlgMessageBox( infoDocomentUnconnectVias, "Ok") == 0); };
           dlgStretch(0);
         }
@@ -2010,12 +2058,32 @@ int main()
     pcb_cmd += c;
     sprintf(c, "layer %d %s;\n", PadEagleReportLayerDrawing, (PadEagleReportLayerDrawing<100) ? "" : "'FILL_PAD_Draw'" );
     pcb_cmd += c;
-    sprintf(c, "layer 'BlindViaText' %d;\n", ViaEagleReportLayerTxt ); // select Doc layer
+    sprintf(c, "layer 'BlindViaText' %d;\n", BlindEagleReportLayerTxt ); // select Doc layer
     pcb_cmd += c; 
-    sprintf(c, "layer 'BlindViaDraw' %d;\n", BlinEagleReportLayerDrawing ); // select Doc layer
+    sprintf(c, "layer 'BlindViaDraw' %d;\n", BlindEagleReportLayerDrawing ); // select Doc layer
     pcb_cmd += c; 
    
+    sprintf(c, "SET COLOR_LAYER %d %s;\n", PadEagleReportLayerText, Colors[ PadEagleReportLayerTextColor ] );  // setup report layer color
+    pcb_cmd += c;
+    sprintf(c, "SET COLOR_LAYER %d %s;\n", PadEagleReportLayerDrawing, Colors[ PadEagleReportLayerTextColor ] );  // setup report layer color
+    pcb_cmd += c;
 
+    sprintf(c, "SET COLOR_LAYER %d %s;\n", ViaEagleReportLayerTxt, Colors[ ViaEagleReportLayerTxtColor ] );  // setup report layer color
+    pcb_cmd += c;
+    sprintf(c, "SET COLOR_LAYER %d %s;\n", ViaEagleReportLayerDrawing, Colors[ ViaEagleReportLayerTxtColor ] );  // setup report layer color
+    pcb_cmd += c;
+
+    sprintf(c, "SET COLOR_LAYER %d %s;\n", WireEagleReportLayerTxt, Colors[ WireEagleReportLayerTxtColor ] );  // setup report layer color
+    pcb_cmd += c;
+    sprintf(c, "SET COLOR_LAYER %d %s;\n", WireEagleReportLayerDrawing, Colors[ WireEagleReportLayerTxtColor ] );  // setup report layer color
+    pcb_cmd += c;
+    
+
+    sprintf(c, "SET COLOR_LAYER %d %s;\n", BlindEagleReportLayerTxt, Colors[ BlindEagleReportLayerTxtColor ] );  // setup report layer color
+    pcb_cmd += c;
+    sprintf(c, "SET COLOR_LAYER %d %s;\n", BlindEagleReportLayerDrawing, Colors[ BlindEagleReportLayerTxtColor ] );  // setup report layer color
+    pcb_cmd += c;
+    
     
     for( i = 0; i < unnconnected_wires_Ct; i++) // scan table for unconnect track's
     {
@@ -2086,7 +2154,7 @@ int main()
           }
           else
           { // Ok blind via, so user will have to do manual convertion so Mark with a X!
-            sprintf(c, "layer 'BlindViaText' %d;\n", BlinEagleReportLayerTxt ); // select Doc layer
+            sprintf(c, "layer 'BlindViaText' %d;\n", BlindEagleReportLayerTxt ); // select Doc layer
             pcb_cmd += c;
             sprintf(c, "CHANGE FONT VECTOR;\n"); // select Font
             pcb_cmd += c;
@@ -2099,7 +2167,7 @@ int main()
             sprintf(c, "SET WIRE_BEND 2;\n");
             pcb_cmd += c;
 
-            sprintf(c, "layer 'BlindViaDraw' %d;\n", BlinEagleReportLayerDrawing ); // select Doc layer
+            sprintf(c, "layer 'BlindViaDraw' %d;\n", BlindEagleReportLayerDrawing ); // select Doc layer
             pcb_cmd += c;
 
             // Print >
@@ -2181,7 +2249,7 @@ int main()
         pcb_cmd += c;
         sprintf(c, "CHANGE SIZE 50.0;\n");
         pcb_cmd += c;
-        sprintf( c, "TEXT 'FllOverPAD:%s:%d:%d' R10 (%f %f);\n", aNet[ i ], i + 1, pad_counter, u2mic( aX[i] + ( 50000 )), u2mic( aY[i] + ( 50000/4 )));
+        sprintf( c, "TEXT 'FillOverPAD:%s:%d:%d' R10 (%f %f);\n", aNet[ i ], i + 1, pad_counter, u2mic( aX[i] + ( 50000 )), u2mic( aY[i] + ( 50000/4 )));
         //        sprintf( c, "TEXT 'ViaOverPAD:%s:%d:%d' R0 (%f %f);\n", aNet[ i ], i + 1, pad_counter, u2mic( aX[i] + ( aDiameter[i] /2)),  u2mic( aY[i] + ( aDiameter[i] /8 )));
         //        //        sprintf( c, "TEXT 'PF:%s:%d:%d' R35 (%f %f);\n", aNet[ i ], i + 1, pad_counter, u2mic( aX[i]) + 0.1, u2mic( aY[i]));        
         pcb_cmd += c;
@@ -2212,7 +2280,7 @@ int main()
       sprintf(c, "DISPLAY %s;\n", "NONE" );    
       pcb_cmd += c;
       sprintf(c, "DISPLAY %d %d %d %d %d %d %d %d %d %d %d %d;\n", ViaEagleReportLayerTxt, ViaEagleReportLayerDrawing, WireEagleReportLayerTxt, WireEagleReportLayerDrawing, PadEagleReportLayerText, PadEagleReportLayerDrawing,
-              BlinEagleReportLayerDrawing, BlinEagleReportLayerTxt, 17, 18, 23, 24 ); // dispaly via's pad's, and top/bottom orgiine
+              BlindEagleReportLayerDrawing, BlindEagleReportLayerTxt, 17, 18, 23, 24 ); // dispaly via's pad's, and top/bottom orgiine
       pcb_cmd += c;
 
       for( i = 0; i < displayCt; i++ ) // Show layers with possable fill over pad
@@ -2361,7 +2429,7 @@ int main()
             if( unnconnected_wires_Ct )
             {
               string c;
-              dlgLabel( "Consult the log file for a list of unnconted vais and tracks<br><b><i>" + logfileName +
+              dlgLabel( "Consult log file for unnconted via's and tracks<br><b><i>" + logfileName +
                         "</b></i><br> to help with fixing any warning's and errors");
               dlgLabel( x );
               sprintf(c, "<b><font color=\"red\">There are %d unnconnected Track(s)", unnconnected_wires_Ct );
