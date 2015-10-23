@@ -1,5 +1,7 @@
 ###**Converting from Eagle to KiCad.**
-*    [Test video](http://cosmosc.com/video/testtital.mp4 )
+*    [Qick Introduction Video](http://cosmosc.com/video/testtital.mp4 )  
+     *Recomened video player [Firefox 41+](https://www.mozilla.org/en-US/firefox/desktop/) with [VLC video player plugin](http://www.videolan.org/vlc/)*  
+
 
 * The following 5 **ulp** (eagle user script file) and one **ulp** include file, work together or stand alone to convert **Eagle**  *sch/pcb* version 6.xx file(s) and any version of Eagle lib(*lbr*) to **KiCad** *sch/pcb* and *lib/mod* files.  
 
@@ -16,7 +18,7 @@
 	* Converts Via's to Pads, which helps with KiCad's flood fill, when Via's have no connections.  
 	* Documnet fill's over SMD pad's on Eagle Layer 155,156  
 	* Document on layer's 150,152,153,154 of (Eagle) the unconnected Via's and tracks.  
-	* The **examples** director contains a number of converted sch's/board's.  
+	* The **[examples](https://github.com/lachlanA/eagle-to-kicad/tree/master/examples)** director contains a number of converted sch's/board's.  
 
 * By using the  the following **ulp's**  a consistent link from the SCH to PCB is maintained So forward and backwoods net-list annotation work's under KiCad!  
 
