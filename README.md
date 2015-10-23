@@ -34,12 +34,12 @@
   ***DO NOT install them in Eagle's ULP directory***.  
 
 * There are 5 **ulp's** and one **ulp** include file have been hack together.  
-***renumber-sheet.ulp*** ......................   stage 1: Add missing number(s) to parts Prefix's.  
+***renumber-sheet.ulp*** ........................   stage 1: Add missing number(s) to parts Prefix's.  
 ***fix_via_hack.ulp*** ..............................   stage 2: Converts unconnected Via's to Pad's.  
-***eagle6xx-sch-to-kicad-sch.ulp*** .....    stage 3: Build sch and project files, etc  
+***eagle6xx-sch-to-kicad-sch.ulp*** ....    stage 3: Build sch and project files, etc  
 ***exp-lbrs.ulp*** .......................................   stage 4: Extract libs from eagle SCH/PCB  
 ***eagle-lbr2kicad-1.0.ulp***....................  stage 5: Converts Eagle lbr to KiCad lib/mod  
-***eagle_to_kicad_include.inc*** ...........  Include file used by the other 4 ULP's  
+***eagle_to_kicad_include.inc*** ..........  Include file used by the other 4 ULP's  
 ####HOW TO RUN THE ULP'S 
  
  **WARNING Always backup your Eagle SCH/PCB files before running this program!**  
