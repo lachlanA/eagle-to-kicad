@@ -1,6 +1,6 @@
 ###**Converting from Eagle to KiCad.**
-*    [Qick Introduction Video](http://cosmosc.com/video/testtital.mp4 )  
-     *Recomened video player [Firefox 41+](https://www.mozilla.org/en-US/firefox/desktop/) with [VLC video player plugin](http://www.videolan.org/vlc/)*  
+*    [Quick Introduction Video](http://cosmosc.com/video/testtital.mp4)  
+     *Recommended video player [Firefox 41+](https://www.mozilla.org/en-US/firefox/desktop/) with [VLC video player plugin](http://www.videolan.org/vlc/)*  
 
 
 * The following 5 **ulp** (eagle user script file) and one **ulp** include file, work together or stand alone to convert **Eagle**  *sch/pcb* version 6.xx file(s) and any version of Eagle lib(*lbr*) to **KiCad** *sch/pcb* and *lib/mod* files.  
@@ -20,13 +20,13 @@
 	* Document on layer's 150,152,153,154 of (Eagle) the unconnected Via's and tracks.  
 	* The **[examples](https://github.com/lachlanA/eagle-to-kicad/tree/master/examples)** director contains a number of converted sch's/board's.  
 
-* By using the  the following **ulp's**  a consistent link from the SCH to PCB is maintained So forward and backwoods net-list annotation work's under KiCad!  
+* By using the following **ulp's**  a consistent link from the SCH to PCB is maintained so forward and backward net-list annotations work under KiCad!  
 
-**WARNING KiCad via's and tracks don't retain NET information from Eagle when they are not connect to a PAD!,**** So KiCad flood fill's will not connect to them !!! There is option to convert and document on layer's 150,152,153,154 of (Eagle) the unconnected Via's and tracks which will make finding and fixing the problem much easy-er.**  
+**WARNING KiCad via's and tracks don't retain NET information from Eagle when they are not connect to a PAD!,**** So KiCad flood fill will not connect to them !!! There is an option to convert and document on layer's 150,152,153,154 of (Eagle) the unconnected Via's and tracks which will make finding and fixing the problem much easier.**  
 
 
 ###Installing.
-* Download the zip file, (*click on the Button to the your bottom right on this page*. **Download ZIP**) And unzip using your favorite zip program to your target directory. *OR* if your prefer git
+* Download the zip file, (*click on the button on the bottom right of this page*. **Download ZIP**) And unzip using your favorite zip program to your target directory *OR* if your prefer git:
 
 			git clone https://github.com/lachlanA/eagle-to-kicad.git  
 
