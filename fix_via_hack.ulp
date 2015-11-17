@@ -49,15 +49,15 @@ string Version = "ULP Version 4.5.0";
 int ViaEagleReportLayerTxt = 160;     // which eagle layer reporting text should to too. ( Eco1_User)
 int ViaEagleReportLayerTxtColor = 3;
 int ViaEagleReportLayerDrawing = 161;     // which eagle layer reporting Graphics should to too ( Eco2_User)
-int WireEagleReportLayerTxt = 162;     // which eagle layer reporting text should to too. ( Eco1_User)
+int WireEagleReportLayerTxt = 160;     // which eagle layer reporting text should to too. ( Eco1_User)
 int WireEagleReportLayerTxtColor = 4;     // which eagle layer reporting text should to too. ( Eco1_User)
-int WireEagleReportLayerDrawing = 163;     // which eagle layer reporting Graphics should to too ( Eco2_User)
-int PadEagleReportLayerText = 164;
+int WireEagleReportLayerDrawing = 161;     // which eagle layer reporting Graphics should to too ( Eco2_User)
+int PadEagleReportLayerText = 160;
 int PadEagleReportLayerTextColor = 5;
-int PadEagleReportLayerDrawing = 165;
-int BlindEagleReportLayerTxt = 166;
+int PadEagleReportLayerDrawing = 160;
+int BlindEagleReportLayerTxt = 160;
 int BlindEagleReportLayerTxtColor = 6;
-int BlindEagleReportLayerDrawing = 167;
+int BlindEagleReportLayerDrawing = 161;
 //int ViaEagleReportLayerTxtList[] = { 95, 96 };
 //int ViaEagleReportLayerTxtListSizie = 2;
 
@@ -2103,7 +2103,7 @@ int main()
         pcb_cmd += c;
         sprintf(c, "layer %d 'UNCONECTED_WireDraw';\n", WireEagleReportLayerDrawing ); // select Doc layer
         pcb_cmd += c;
-        sprintf( c, "wire  %f (%f %f) (%f %f );\n", 10.0,  u2mic( unc_wXs[i]), u2mic( unc_wYs[i]), u2mic( unc_wXf[ i ]), u2mic( unc_wYf[ i ]));
+        sprintf( c, "wire  %f (%f %f) (%f %f );\n", 25.0,  u2mic( unc_wXs[i]), u2mic( unc_wYs[i]), u2mic( unc_wXf[ i ]), u2mic( unc_wYf[ i ]));
         //        sprintf( c, "wire '%s' %f (%f %f) (%f %f );\n", unc_vaNet[i],  10.0,  u2mic( unc_wXs[i]), u2mic( unc_wYs[i]), u2mic( unc_wXf[ i ]), u2mic( unc_wYf[ i ]));        
         pcb_cmd += c;
       }
@@ -2143,7 +2143,7 @@ int main()
 
             sprintf(c, "SET WIRE_BEND 2;\n");
             pcb_cmd += c;
-            sprintf( c, "wire %f (%f %f) (%f %f );\n", 10.0,  u2mic(unc_vaX[i]), u2mic(unc_vaY[i]), u2mic( unc_vaX[i] + ( 50000 )), u2mic( unc_vaY[i] + ( 90000/2 )));
+            sprintf( c, "wire %f (%f %f) (%f %f );\n", 25.0,  u2mic(unc_vaX[i]), u2mic(unc_vaY[i]), u2mic( unc_vaX[i] + ( 50000 )), u2mic( unc_vaY[i] + ( 90000/2 )));
             //            sprintf( c, "wire %f (%f %f) (%f %f );\n", 25.0,  u2mic(unc_vaX[i]), u2mic(unc_vaY[i]), u2mic( unc_vaX[i] - ( unc_vaDiameter[i] /2)), u2mic(unc_vaY[i] + ( unc_vaDiameter[i] /4 )));
             pcb_cmd += c;
             /* sprintf( c, "wire %f (%f %f) (%f %f );\n", 25.0, u2mic(unc_vaX[i] - ( unc_vaDiameter[i] /2)), u2mic(unc_vaY[i] - ( unc_vaDiameter[i] /4 )), u2mic(unc_vaX[i]), u2mic(unc_vaY[i])); */
@@ -2171,14 +2171,14 @@ int main()
             pcb_cmd += c;
 
             // Print >
-            /* sprintf( c, "wire %f (%f %f) (%f %f );\n", 10.0, u2mic(unc_vaX[i]), u2mic(unc_vaY[i]), u2mic(unc_vaX[i] - ( unc_vaDiameter[ i ] /2)), u2mic(unc_vaY[i] + ( unc_vaDiameter[i] /4 ))); */
+            /* sprintf( c, "wire %f (%f %f) (%f %f );\n", 25.0, u2mic(unc_vaX[i]), u2mic(unc_vaY[i]), u2mic(unc_vaX[i] - ( unc_vaDiameter[ i ] /2)), u2mic(unc_vaY[i] + ( unc_vaDiameter[i] /4 ))); */
             /* pcb_cmd += c; */
             /* sprintf( c, "wire %f (%f %f) (%f %f );\n", 10.0, u2mic(unc_vaX[i] - ( unc_vaDiameter[ i ] /2)), u2mic(unc_vaY[i] - ( unc_vaDiameter[i] /4 )), u2mic(unc_vaX[i]), u2mic(unc_vaY[i])); */
             /* pcb_cmd += c; */
             // Print <
             /* sprintf( c, "wire %f (%f %f) (%f %f );\n", 10.0, u2mic(unc_vaX[i]), u2mic(unc_vaY[i]), u2mic(unc_vaX[i] + ( unc_vaDiameter[i] /2)), u2mic(unc_vaY[ i ] + ( unc_vaDiameter[ i ] /4 ))); */
             /* pcb_cmd += c; */
-            sprintf( c, "wire %f (%f %f) (%f %f );\n", 10.0, u2mic(unc_vaX[i]), u2mic(unc_vaY[i]), u2mic(unc_vaX[i] + ( unc_vaDiameter[i] /2)), u2mic(unc_vaY[ i ] - ( unc_vaDiameter[ i ] /4 )));
+            sprintf( c, "wire %f (%f %f) (%f %f );\n", 25.0, u2mic(unc_vaX[i]), u2mic(unc_vaY[i]), u2mic(unc_vaX[i] + ( unc_vaDiameter[i] /2)), u2mic(unc_vaY[ i ] - ( unc_vaDiameter[ i ] /4 )));
             pcb_cmd += c;
 
             sprintf( c, "\nBLIND-VIA\tViaCount=%d\t\tNet=%s\t\t\t\t(X=%f Y=%f)\tLayerStart=%d\tLayerEnd=%d", i+1, unc_vaNet[ i ], u2mic( unc_vaX[i]), u2mic( unc_vaY[i]), unc_vaSl[ i ],  unc_vaFl[ i ]);
@@ -2260,7 +2260,7 @@ int main()
         sprintf(c, "SET WIRE_BEND 2;\n");
         pcb_cmd += c;
 
-        sprintf( c, "wire %f (%f %f) (%f %f );\n", 10.0,  u2mic( aX[i]), u2mic( aY[i]), u2mic( aX[i] + ( 50000 )), u2mic( aY[i] + ( 50000/4 )));
+        sprintf( c, "wire %f (%f %f) (%f %f );\n", 25.0,  u2mic( aX[i]), u2mic( aY[i]), u2mic( aX[i] + ( 50000 )), u2mic( aY[i] + ( 50000/4 )));
         //        pcb_cmd += c;
         //        sprintf( c, "wire %f (%f %f) (%f %f );\n", 10.0,  u2mic( aX[i]), u2mic( aY[i]), u2mic( aX[i] + ( 50000 )), u2mic( aY[i] - ( 50000/4 )));
 
