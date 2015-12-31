@@ -1,14 +1,14 @@
 ###**Converting from Eagle to KiCad.**
 *    [Quick Introduction Video](http://cosmosc.com/video/testtital.mp4)  
-     *Recommended video player [Firefox 41+](https://www.mozilla.org/en-US/firefox/desktop/) with [VLC video player plugin](http://www.videolan.org/vlc/)*  
+     *Recommended video player [Firefox 43+](https://www.mozilla.org/en-US/firefox/desktop/) with [VLC video player plugin](http://www.videolan.org/vlc/)*  
 
 
 * The following 5 **ulp** (eagle user script file) and one **ulp** include file, work together or stand alone to convert **Eagle** *sch/pcb* version 6.xx*(7.xx maybe?)* file(s) and any version of Eagle lib(*lbr*) to **KiCad** *sch/pcb* and *lib/mod* files.  
 
 * The Programs will do
-	* Eagle multi sheet sch to KiCad  multi sheets.  
-	* Global and local net labels for multi sheets.*(This is real nasty bit of hacking!*)  
-	* Multi part gate's.  
+	* Eagle mulit sheet sch to KiCad  mulit sheets.  
+	* Global and local net labels for mulit sheets.*(This is a real nasty bit of hacking!*)  
+	* Mulit part gate's.  
 	* Build KiCad PCB modules and SCH libs from Eagle SCH.  
 	* Make project director to store all the converted files.  
 	* And basic error checking.  
@@ -16,8 +16,8 @@
 	* Eagle *LBR's*(any version of Eagel libs or size ) can be converted to KiCad lib/mod using eagle-lbr2kicad-1.0.ulp see  
 	* [Eagle Lib conversion]( https://github.com/lachlanA/eagle-to-kicad-libs) for more details.  
 	* Converts Via's to Pads, which helps with KiCad's flood fill, when Via's have no connections.  
-	* Documnet fill's over SMD pad's on Eagle Layer 155,156  
-	* Document on layer's 150,152,153,154 of (Eagle) the unconnected Via's and tracks.  
+	* Documents fill's over SMD pad's on Eagle Layer 155,156  
+	* Documents on layer's 150,152,153,154 of (Eagle) the unconnected Via's and tracks.  
 	* The **[examples](https://github.com/lachlanA/eagle-to-kicad/tree/master/examples)** director contains a number of converted sch's/board's.  
 
 * By using the following **ulp's**  a consistent link from the SCH to PCB is maintained so forward and backward net-list annotations work under KiCad!  
@@ -54,8 +54,8 @@
 
 * **5:** Next stage will run automatically, ***fix_via_hack.ulp*** This will check for free unconnected VIA'S and convert them to PADS,  this is very much a hack, as it change's the Eagle SCH/PCB files.  The changed files are saved in ***targetdir/modified_eagle_files/***  
 There are 2 option's Document the VIA'S/PADS buy putting a ***>*** and net lable name on the VIA/PAD on **layer 51** for Ealge, and **Dwgs.User** for KiCad. Second option is to Not to convert the VIA's to PAD'S.  
-The ulp hack add's pad's to the SCH file, at **X-Y 0.0** this may conflict with any net/part at this lowcation, so please move the sch/pcb contents so, there is no parts/nets at this lowcation before running the script.
-You may getting warnings from Eagle about connecting net??? to a power plan net, just click ok, as this is normal for this script.
+The ulp hack adds pad's to the SCH file, at **X-Y 0.0** this may conflict with any net/part at this location, so please move the sch/PCB contents so, there is no parts/nets at this location before running the script.
+You may getting warnings from Eagle about connecting net??? to a power plan net, just click OK, as this is normal for this script.
 
 * **6:** Next stage will run automatically  
 Set the option/location of the download ULP. And also Make sure you make/select a ***clean target directory*** where all the KiCad file's will be put. Select OK, And with luck you should have SCH part done.   The previous ULP will link automatically to ***exp-lbrs.ulp*** for the  next step: If you have selected extract the KiCad lib's from Eagle SCH/PCB *(The default).* This  ULP will build  Eagle lbr file,  *Note: this can be a very slow process,  and will  
@@ -65,13 +65,13 @@ leave the Eagle PCB editor window open when complete*. Just ignore this for the 
  *If you make the mistake of not opening **pcbnew** directly, and instead chose to run it from KiCad's **pcbnew**  menu. You will have no option for importing the Eagle 6 PCB file!*  Click on **File->Open** in **pcbnew** an window will pop-up, and on Wright side you will have a drop down menu box option, to select the type in import file. Select version 6.x  XML  of Eagle, and the PCB eagle file linked to the eagle SCH file we used at the beginning and press OK. After importing the Eagle PCB file, (with out error's I hope). Do a **SAVE AS** to **PROJECTNAME.kicad_pcb** to the new target directory *(where you saved the output from to preceding ULP's too).* **PROJECTNAME** being the name you give to your project early on. As a helper a Dummy kicad_pcb file with the correct name has been crated in the target directory which you can use to do a save-as to.
 
 * **8:** Next step is to check the KiCad **SCH** and KiCad **PCB** are consistent for parts and nets.
-Start **KiCad**, and open the project in the newly created target directory. Open the SCH file. And if it was converted from the single SCH file, you should have the **SCH** file in the display. Or multi sheet **SCH** file you will have a number of small box's spread across the page. Each one of those box's being a converted Eagle sub-sheet. Click on the first one and check for errors. All being good, click on Generate Net-list, and click OK. It may ask to Annotate the **SCH**. If so do the Annotation step. And then come back and click on Generate net-list. And Generate it.
+Start **KiCad**, and open the project in the newly created target directory. Open the SCH file. And if it was converted from the single SCH file, you should have the **SCH** file in the display. Or mulit sheet **SCH** file you will have a number of small box's spread across the page. Each one of those box's being a converted Eagle sub-sheet. Click on the first one and check for errors. All being good, click on Generate Net-list, and click OK. It may ask to Annotate the **SCH**. If so do the Annotation step. And then come back and click on Generate net-list. And Generate it.
 
-* **9:** Next click on **CvPCB**, this assigness the PCB footprints with the SCH parts. Most likely you will get the
-following warning: *Some of the assigned footprints are legacy entries (are missing lib nicknames). Would you like CvPcb to attempt to convert them to the new required FPID format? (If you answer no, then these assignments will be cleared out and you will have to re-assign these footprints yourself.)* Just click the yes button. And a window will open up listing all the part's and foot print's which it has assignmented. Under FILE menu click Save. And then File Close.
+* **9:** Next click on **CvPCB**, this assigns the PCB footprints with the SCH parts. Most likely you will get the
+following warning: *Some of the assigned footprints are legacy entries (are missing lib nicknames). Would you like CvPcb to attempt to convert them to the new required FPID format? (If you answer no, then these assignments will be cleared out and you will have to re-assign these footprints yourself.)* Just click the yes button. And a window will open up listing all the part's and foot print's which it has assigned. Under FILE menu click Save. And then File Close.
 
 * **10:** Next Clink on **PcbNew** button on the top menu, and the PCB should open up.
-Now click on the **NetList** and a window should open up, from there click on Read Current Net-list. All going well you should not have any extra parts added, and only a few warning's about changing net list names.  And you should be done.  Please check over the converted **SCH/PCB** as there are many things which can go wrong.  While I have try-ed to catch as many conversion problem, I expect there many still wating to be found. ***So check and triple check the results!!!***
+Now click on the **NetList** and a window should open up, from there click on Read Current Net-list. All going well you should not have any extra parts added, and only a few warning's about changing net list names.  And you should be done.  Please check over the converted **SCH/PCB** as there are many things which can go wrong!.  While I have try-ed to catch as many conversion problem, I expect there many still waiting to be found. ***So check and triple check the results!!!***
 
 * **NOTE'S:**   For more info on KiCad  http://www.kicad-pcb.org/display/KICAD/Installing+KiCad  
 As KiCad is the process of major upgrade,  and enhancement  please be nice asking ? of the Development team.  I think you  will love the new Push and Shove router, that feature alone make's it worth while moving from Eagle to KiCad I hope the ULP's  make the job a lot easy.
