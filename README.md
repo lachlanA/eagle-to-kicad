@@ -3,7 +3,7 @@
      *Recommended video player [Firefox 41+](https://www.mozilla.org/en-US/firefox/desktop/) with [VLC video player plugin](http://www.videolan.org/vlc/)*  
 
 
-* The following 5 **ulp** (eagle user script file) and one **ulp** include file, work together or stand alone to convert **Eagle**  *sch/pcb* version 6.xx file(s) and any version of Eagle lib(*lbr*) to **KiCad** *sch/pcb* and *lib/mod* files.  
+* The following 5 **ulp** (eagle user script file) and one **ulp** include file, work together or stand alone to convert **Eagle** *sch/pcb* version 6.xx*(7.xx maybe?)* file(s) and any version of Eagle lib(*lbr*) to **KiCad** *sch/pcb* and *lib/mod* files.  
 
 * The Programs will do
 	* Eagle multi sheet sch to KiCad  multi sheets.  
