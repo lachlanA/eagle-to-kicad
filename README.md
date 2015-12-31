@@ -7,7 +7,7 @@
 
 * The Programs will do
 	* Eagle multi sheet sch to KiCad  multi sheets.  
-	* Global and local net labels for multi sheets.  
+	* Global and local net labels for multi sheets.*(This is real nasty bit hacking!*)  
 	* Multi part gate's.  
 	* Build KiCad PCB modules and SCH libs from Eagle SCH.  
 	* Make project director to store all the converted files.  
