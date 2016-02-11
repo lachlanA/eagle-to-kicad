@@ -17,10 +17,17 @@
 
 // THIS PROGRAM IS PROVIDED AS IS AND WITHOUT WARRANTY OF ANY KIND, EXPRESSED OR IMPLIED
 
-string Version = "ULP Version 4.5.0";
+string Version = "ULP Version 4.6.0";
 
 /*
  * CHANGELOG================================================
+ * 11.02.2016:  Put new pads top/left corner of sch file, so not to very write other
+ *              connections.
+ *              Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
+ *
+ * 11.02.2016:  Change ! to ~ for onver bard on KiCad
+ *              Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
+ *
  * 19.10.2015:  Add reporting of fill's over pads.  And clean up other reports.
  *              Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
  *
@@ -223,6 +230,7 @@ string dev_prefix = "VPDEV";
 int sch_pad_X = 0;
 int sch_pad_Y = 0;
 int sch_net_count = 0;
+int sheetnumber = 0;
 
 // stack for tracking connections
 char stack_p_connection_status[];
@@ -535,6 +543,49 @@ void DescendingX(void) {
   }
   return;
 }
+
+//------------------------------------------------------
+//Replaces all occurrences of a substring found within a string.
+//------------------------------------------------------
+string xstr_replace(string search, string replace, string subject)
+{
+    int lastpos = 0;
+    int pos;
+    string before;
+    string after;
+
+    // Check if there is any thing to replace
+    if( strstr(subject, search, lastpos) == -1)
+    	return subject;  // No so just return input string
+    
+    while (strstr(subject, search, lastpos) >= 0)
+    {
+        pos = strstr(subject, search, lastpos);
+        before = strsub(subject, 0, pos);
+        after = strsub(subject, pos + strlen(search), strlen(subject) - ( pos + strlen(search)) );
+        subject = before + replace + after;
+        lastpos = pos + strlen(replace);
+    }
+    return subject;
+}
+
+
+//------------------------------------------------------
+//Replaces all occurrences of a substring found within a string.
+//------------------------------------------------------
+string str_replace(string search, string replace, string subject)
+{
+    string tmpS;
+
+
+    if( search == "," && ( strlen( search ) == strlen( "," )) )
+    {
+      tmpS = xstr_replace( search, replace, subject);
+      return xstr_replace( "/", replace, subject);
+    }
+    return  xstr_replace( search, replace, subject);
+}
+
 
 void SortElements(void) {
   // Sorts the elements according to their location, first by ascending
@@ -1532,7 +1583,71 @@ int main()
       myULP_HOME = ULP_Path; 
   }
 
+  // work top left corner for sch pads start
+  project.schematic(S)
+  {
+    S.sheets(SH)
+    {
+      sheetnumber = SH.number;
+      sch_pad_X = SH.area.x1 - 2540000; // subtract just a bit more to be safe
+      sch_pad_Y = SH.area.y2;
+      break;
+    }
+  }
 
+    //******    if( Enable_Over_Bar_Conversion )
+    if( 1 )
+    {
+      int idx;
+      string t;
+
+      sch_cmd = "";
+      sprintf(c, "grid mic;\n");
+      sch_cmd += c;
+      sprintf(c, "SET Cmd.Name.RenameEntireNetByDefault 1;\n" );      
+      sch_cmd += c;
+      sprintf(c, "SET CONFIRM YES;\n");
+      sch_cmd += c;
+      project.schematic(S)
+      {
+        S.sheets(SH)
+        {
+          sprintf( c, "EDIT .s%d ;\n", SH.number );
+          sch_cmd += c;
+          SH.nets(N)
+          {
+            if( strchr( N.name, '!' ) == -1 ) // Over bar marker in netlist name ?
+              continue; // No.. next one then.
+            N.segments(SEG)
+            {
+              SEG.wires(W)
+              {
+                sprintf( c, "NAME %s (%f %f);\n", str_replace( "!", "~", N.name), u2mic(W.x1), u2mic(W.y1) );
+                sch_cmd += c;
+                break;
+              }
+              break;
+            }
+          }
+
+          // fix up refance if it's got a over bar in it.
+          S.parts(P)
+          {
+            P.instances(I)
+            {
+              if( strchr( P.name, '!' ) == -1 ) // Over bar marker in refance name ?
+                continue; // No.. next one then.
+
+              sprintf( c, "EDIT .s%d ;\n", I.sheet );
+              sch_cmd += c;
+              sprintf( c, "NAME %s (%f %f);\n", str_replace( "!", "~", P.name), u2mic(I.x), u2mic(I.y) );
+              sch_cmd += c;
+            }
+          }
+        }
+      } 
+    } 
+  
   if( schematic || library )
   {
     dlgMessageBox("<b><h2>This ulp can only be run with the target pcb board open!</h2></b>");             
@@ -2034,7 +2149,7 @@ int main()
             polygons_linesCt++;
           }
     } // signals(S) //--------------------
-
+  
 
     menue();
     
@@ -2045,6 +2160,7 @@ int main()
     /*   sprintf(c, "layer %d 'FIX_VIA_Text%s';\n", ViaEagleReportLayerTxtList[i], intoString(ViaEagleReportLayerTxtList[i])); // setup report layers */
     /*   pcb_cmd += c; */
     /* } */
+
 
     sprintf(c, "layer %d 'FIX_VIA_Text';\n", ViaEagleReportLayerTxt );  // setup report layers
     pcb_cmd += c;
@@ -2222,9 +2338,12 @@ int main()
             
           sprintf(c, "grid mic;\n");
           sch_cmd += c;
-          sprintf(c, "add '%s@%s' '%s%d' (%f %f);\n", dev_name[idx], WorkPath+CurrentLbrName, "VP_", pad_count, u2mic(sch_pad_X), u2mic(sch_pad_Y ) - ( sch_net_count * 2540.0 ));  // add the pad sch
+          sprintf(c, "Edit .s%d;\n", sheetnumber);
+          cmd += c;
+
+          sprintf(c, "add '%s@%s' '%s%d' (%f %f);\n", dev_name[idx], WorkPath+CurrentLbrName, "VP_", pad_count, u2mic( sch_pad_X ), u2mic( sch_pad_Y ) - ( sch_net_count * 2540.0 ));  // add the pad sch
           sch_cmd += c;
-          sprintf(c, "move '%s%d' (%f %f);\n", "VP_", pad_count, u2mic(unc_vaX[i]), u2mic(unc_vaY[i]));  // move the Pad into where the via was
+          sprintf(c, "move '%s%d' (%f %f);\n", "VP_", pad_count, u2mic( unc_vaX[i]), u2mic( unc_vaY[i]));  // move the Pad into where the via was
           pcb_cmd += c;
 
           sprintf(c, "NET %s (%f %f )( %f %f );\n", unc_vaNet[i], u2mic(sch_pad_X ), u2mic(sch_pad_Y ) - ( sch_net_count * 2540.0 ), u2mic(sch_pad_X) - 2540.0, u2mic( sch_pad_Y ) - ( sch_net_count * 2540.0 ) );

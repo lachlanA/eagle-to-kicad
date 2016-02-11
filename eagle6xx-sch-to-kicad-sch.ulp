@@ -13,6 +13,21 @@
        
 /*
  * CHANGELOG================================================
+ * 12.02.2016  Disable display of KiCad footprint Field in schematic.
+ *             Thanks to: Lachlan  "lachlanusa (at) gmail.com"
+ *
+ * 08.02.2016  Fix over bar,  sch and lib ulp's now convert ! (eagle over bar marker)
+ *             ~ (KiCad's over bar marker )
+ *             Thanks to: Lachlan  "lachlanusa (at) gmail.com"
+ *
+ * 08.02.2016  Re-size Text in Lib parts better match eagle.
+ *             Thanks to: Lachlan  "lachlanusa (at) gmail.com"
+ *
+ * 08.02.2016  Fix up text export to kicad sch so dose not ghost the same text
+ *             on the lib part, IE we only included text for Refance and Value in SCH
+ *             all other text is not put in as free text in sch.
+ *             Thanks to: Lachlan  "lachlanusa (at) gmail.com"
+ *
  * 16.10.2015: Log all conflicts.
  *             Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
  *
@@ -90,8 +105,8 @@
 
 
 int debug = 0;       
-real VERSION   = 1.7;
-string Version = "1.7";
+real VERSION   = 1.8;
+string Version = "1.8";
 string myname;
 int datetime;
 real fontSize_PartPreFix_Ajust = 1.0;
@@ -1815,29 +1830,27 @@ void writeTextLabels( UL_LABEL L )
                 
    switch( int(textAngle) )
    {
-      case 0:
-        orient = 0;
-        if( L.text.mirror )
-          orient = 2;
-        break;
- 
-      case 90:
-         orient = 1;
-      break;
-
-      case 180:
+     case 0:
+       orient = 0;
+       if( L.text.mirror )
          orient = 2;
-         if( L.text.mirror )
-           orient = 0;
-         break;
-
-      case 270:
-         orient = 3;
-
-         break;
+       break;
+     case 90:
+       orient = 1;
+       break;
+     case 180:
+       orient = 2;
+       if( L.text.mirror )
+         orient = 0;
+       posY = posY - (( L.text.size / g_Fact ) * 1.2 );
+       break;
+     case 270:
+       orient = 3;
+       break;
    }
    printf("Text Label %d %d %d    %d   ~ 0\n", posX, -posY, orient, fontSize);
-   printf("%s\n", textString);
+   printf("%s\n", charstr_replace( "!", "~", textString )); // Swich over bar start end charters  
+          //   printf("%s\n", textString);
 }
 
 //--------------------------------------------------------------------------------
@@ -1894,14 +1907,13 @@ void writeTextNetLabel( string textString, real textAngle, int fontSize, int pos
          break;
      }     
 
-
-   
    if( global )
      printf("Text GLabel %d %d %d %d %s\n", posX, -posY, Xorient, fontSize, "UnSpc");
    else
      printf("Text Label %d %d %d    %d   ~ 0\n", posX, -posY, Xorient, fontSize);
 
-   printf("%s\n", textString);
+   printf("%s\n", charstr_replace( "!", "~", textString )); // Swich over bar start end charters  
+   //   printf("%s\n", textString);
 }
 
 
@@ -2048,7 +2060,8 @@ void write_kicad_text_notes( UL_SHEET S )
       if( outPutVersion == 2 )
 	printf("Text Notes %d %d %d    %d   ~ %d\n", posX, -posY, orient, fontSize,  0 );
 
-      printf("%s\n", newString);
+      printf("%s\n", charstr_replace( "!", "~", newString )); // Change over bar charter! to kicad ~
+      //      printf("%s\n", newString);
    } 
 }
 
@@ -2290,12 +2303,19 @@ void write_kicad_components( UL_SHEET S )
                                     strsplit( tmpXA, strItextOutPut[ ct1 ], ' ' );
                                     tmpXA[ 0 ] = stripQutes( str_replace( ",", "_", tmpXA[ 0 ] ));
                                     tmpXA[ 0 ] = "\"" + strupr( libName ) + libNamePartNameSeperator + tmpXA[ 0 ] + "\"";
+                                    tmpXA[ 6 ] = "0001";  // Dont display
                                     printf("F %d %s", ct, strjoin( tmpXA, ' ' ));    // Print smashed text
                                     
                                     //                                    printf("F %d %s\n", ct, "\"" + strupr( libName ) + libNamePartNameSeperator + stripQutes( str_replace( ",", "_", strItextOutPut[ ct1 ])));    // Print smashed text
                                   }
                                   else
-                                    printf("F %d %s", ct,  str_replace( ",", "_", strItextOutPut[ ct1 ]));    // Print smashed text
+                                  {
+                                    string tmpXA[];
+                                    strsplit( tmpXA, strItextOutPut[ ct1 ], ' ' );
+                                    tmpXA[ 6 ] = "0001";  // Dont display
+                                    printf("F %d %s", ct, str_replace( ",", "_", strjoin( tmpXA, ' ' )));    // Print smashed text
+                                    //  printf("F %d %s", ct,  str_replace( ",", "_", strItextOutPut[ ct1 ]));    // Print smashed text
+                                  }
                                 }
                                 else
                                   printf("F %d %s", ct,  strItextOutPut[ ct1 ]);    // Print smashed text
@@ -2343,11 +2363,23 @@ void write_kicad_components( UL_SHEET S )
                                     strsplit( tmpXA, IgateSymTextOutPut[ ct1 ], ' ' );
                                     tmpXA[ 0 ] = stripQutes( str_replace( ",", "_", tmpXA[ 0 ] ));
                                     tmpXA[ 0 ] = "\"" + strupr( libName ) + libNamePartNameSeperator + tmpXA[ 0 ] + "\"";
+                                    //                                    if( numberOfSubParts > 1 ) // If we have subparts then dont show package in sch
+                                      tmpXA[ 6 ] = "0001";
                                     printf("F %d %s", ct, strjoin( tmpXA, ' ' ));    // Print smashed text
                                     //                                    printf("F %d \"%s\"\n", ct, strupr( libName ) + libNamePartNameSeperator + stripQutes( str_replace( ",", "_", IgateSymTextOutPut[ ct1 ])));
                                   }
                                   else
-                                    printf("F %d %s", ct,  str_replace( ",", "_", IgateSymTextOutPut[ ct1 ]));
+                                  {
+                                    if( numberOfSubParts > 1 ) // If we have subparts then dont show package in sch
+                                    {
+                                      string tmpXA[];
+                                      strsplit( tmpXA, IgateSymTextOutPut[ ct1 ], ' ' );
+                                      tmpXA[ 6 ] = "0001";
+                                      printf("F %d %s", ct,  str_replace( ",", "_", strjoin( tmpXA, ' ' )));
+                                    }
+                                    else
+                                      printf("F %d %s", ct,  str_replace( ",", "_", IgateSymTextOutPut[ ct1 ]));
+                                  }
                                 }
                                 else
                                   printf("F %d %s", ct,  IgateSymTextOutPut[ ct1 ]);
@@ -2387,35 +2419,36 @@ void write_kicad_components( UL_SHEET S )
                       }
 
 		      if( outPutVersion == 1 )
-			printf("F %d \"%s\" H %d %d 70  %.4d %c %c\n", ct,  tmp, (posX - 10), -(posY+10+(ct*100)), 1, hAlign, vAlign );
+			printf("F %d \"%s\" H %d %d 65  %.4d %c %c\n", ct,  tmp, (posX - 10), -(posY+10+(ct*100)), 1, hAlign, vAlign );
 		      if( outPutVersion == 2 )
-			printf("F %d \"%s\" H %d %d 70  %.4d %c %cNN\n", ct, tmp, (posX - 10), -(posY+10+(ct*100)), 1, hAlign, vAlign );
+			printf("F %d \"%s\" H %d %d 65  %.4d %c %cNN\n", ct, tmp, (posX - 10), -(posY+10+(ct*100)), 1, hAlign, vAlign );
 
 		    }
 		    
 		  //		}
 
 	      // Out put smashed text
-	      ct = 3;
-	      for( int ct1 = 0; ct1 < ItextCount; ct1++ )
-		{
-		  if( strItextFoundflag[ ct1 ] == 0 )  // found  so output it
-		    {
-		      printf("F %d %s", ct,  strItextOutPut[ ct1 ] );   // Print smashed text
-		      strItextFoundflag[ ct1 ] = 1;  //  Mark so we don't output this
-		    }
-		  ct++;
-		}
-	      // Out put none smashed text
-	      for( ct1 = 0; ct1 < IgateSymolTextCount; ct1++ )
-		{
-		  if( IgateSymTextFoundFlag[ ct1 ] == 0 )  // found  so output it
-		    {
-		      printf("F %d %s", ct,  IgateSymTextOutPut[ ct1 ] );
-		      IgateSymTextFoundFlag[ ct1 ] = 1;  //  Mark so we don't output this
-		    }
-		  ct++;
-		}
+	      /* ct = 3; */
+              /* for( int ct1 = 0; ct1 < ItextCount; ct1++ )                 */
+              /* { */
+	      /*     if( strItextFoundflag[ ct1 ] == 0 )  // found  so output it */
+	      /*       { */
+              /*         printf("F %d %s", ct,  strItextOutPut[ ct1 ] );   // Print smashed text */
+	      /*         strItextFoundflag[ ct1 ] = 1;  //  Mark so we don't output this */
+	      /*       } */
+	      /*     ct++; */
+              /* } */
+	      /* // Out put none smashed text */
+	      /* for( ct1 = 0; ct1 < IgateSymolTextCount && ct1 < 3; ct1++ )  // Only output Name and Value,  other text is in Lib sym */
+              /*   //	      for( ct1 = 0; ct1 < IgateSymolTextCount; ct1++ ) */
+	      /*   { */
+	      /*     if( IgateSymTextFoundFlag[ ct1 ] == 0 )  // found  so output it */
+	      /*       { */
+	      /*         printf("F %d %s", ct,  IgateSymTextOutPut[ ct1 ] ); */
+	      /*         IgateSymTextFoundFlag[ ct1 ] = 1;  //  Mark so we don't output this */
+	      /*       } */
+	      /*     ct++; */
+	      /*   } */
 	    
 
 	      //	      if( outPutVersion == 1 )
@@ -2700,7 +2733,7 @@ void write_kicad_header( UL_SCHEMATIC SCH, int current_sheet, int number_of_shee
 //------------------------------------------------------
 void write_kicad_netNames( UL_SHEET SH, int current_sheet )
 {
-  int Default_Netlabe_Size = 20;
+  int Default_Netlabe_Size = 10;
   int tsize;
   char globalable;
   

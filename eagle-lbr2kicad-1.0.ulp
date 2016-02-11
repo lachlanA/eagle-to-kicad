@@ -15,6 +15,13 @@
 
 /*
  * CHANGELOG=(dd.mm.yyyy)===============================================
+ *
+ * 08.02.2016  Change Default size of F0 and F1, Refance/value to 45
+ *             Thanks to: Lachlan  "lachlanusa (at) gmail.com"
+ * 
+ * 08.02.2016  Fix over bar,  on pin labels, this changes Eagle ! to KiCad ~
+ *             Thanks to: Lachlan  "lachlanusa (at) gmail.com"
+ *
  * 15.10.2015:  Alays display report file,  even if no errors
  *		Add spacing to make window wider,  1000px, for better report display
  *              Thanks to: Lachlan  "lachlanusa (at) gmail.com"
@@ -149,8 +156,8 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-real VERSION   = 1.8;
-string Version = "1.8";
+real VERSION   = 2.0;
+string Version = "2.0";
 
 
 
@@ -1135,6 +1142,8 @@ void write_kikad_mod(string name)
 string g_mod_name ;
 string g_lib_name ;
 real   g_Fact = 254 * 32;      // global uMeter to uInch conversion factor
+real LibTexPosionOffset = 0.770;
+real textSizeCorrectionfactor = 0.8;
 string missingPrefixLog[];
 int    g_missingPrefix = 0; // global Indicator if an eagle devices hasn't got an prefix
 int warnings_count = 0;
@@ -1268,10 +1277,10 @@ void write_kikad_text( UL_GATE G, int transX, int transY, int gatePos )
     {
         int    textAngle   = T.angle;
         string textString  = T.value;
-        real   fontSize    = T.size / g_Fact;
+        real   fontSize    = ( T.size / g_Fact ) * textSizeCorrectionfactor;
         int    posX        = (T.x / g_Fact) - transX;
         int    posY        = (T.y / g_Fact) - transY;
-        int    offset = ((T.size * strlen(T.value)) / 2) / g_Fact;
+        int    offset = ((( T.size * strlen(T.value)) / 2 ) / g_Fact ) * LibTexPosionOffset;
 
         if( T.layer > 200 )
           continue;
@@ -1310,28 +1319,30 @@ void write_kikad_text( UL_GATE G, int transX, int transY, int gatePos )
             break;
 
         case 180:
-            orient = 1800;
+          //            orient = 1800;
+            orient = 0;
             hAlign = 'R';
-            vAlign = 'T';
+            vAlign = 'B';
             posX   = posX - offset;
-            posY   = posY - fontSize / 2;
+            posY   = posY - ( fontSize / 2 ) - 7;
             break;
 
         case 270:
-            orient = 2700;
-            hAlign = 'L';
-            vAlign = 'B';
-            posX   = posX + fontSize / 2;
+            orient = 900;
+            //            orient = 2700;            
+            hAlign = 'R';
+            vAlign = 'T';
+            posX   = posX + ( fontSize / 2 ) + 7;
             posY   = posY - offset;
             break;
 
         }
 
-	if ((strupr(T.value) == ">NAME") || (strupr(T.value) == ">VALUE" ))
+	if ((strupr(T.value) == ">NAME") || (strupr(T.value) == ">VALUE" )) // Dont write place holders
 	  continue;
 	else
 	  printf("T %d %d %d %.0f %d %d %d \"%s\"  Normal 0 C C\n", orient, posX, posY,
-                   fontSize, 0, gatePos, 0, textString );
+                 fontSize, 0, gatePos, 0, charstr_replace( "!", "~", textString ));
     }
 }
 
@@ -1497,7 +1508,7 @@ void write_kikad_pins( UL_GATE G, int  transX, int transY, int gatePos )
                 pinShape = "N";
             }
 
-            printf( "X %s %s %d %d %d %c %d %d %d %d %c %s\n", stripArfterAT(P.name, '@', deleteTextArfterATsysbolInPinName), pad.name,
+            printf( "X %s %s %d %d %d %c %d %d %d %d %c %s\n", charstr_replace( "!", "~", stripArfterAT(P.name, '@', deleteTextArfterATsysbolInPinName)),  pad.name,
                     posX, posY,
                     pinLength, orient,
                     40, 40, gatePos, 1,
@@ -1513,9 +1524,7 @@ void write_kikad_pins( UL_GATE G, int  transX, int transY, int gatePos )
 
           
           printf("P 2 %d %d %d %d %d %d %d N\n", gatePos, 0, 0, posX, posY, x2, y2 );
-
-          
-          printf( "X %s %s %d %d %d %c %d %d %d %d %c %s\n", stripArfterAT(P.name, '@', deleteTextArfterATsysbolInPinName), "~",
+          printf( "X %s %s %d %d %d %c %d %d %d %d %c %s\n", charstr_replace( "!", "~", stripArfterAT(P.name, '@', deleteTextArfterATsysbolInPinName)), "~",
                   posX, posY,
                   pinLength, orient,
                   40, 40, gatePos, 1,
@@ -1524,7 +1533,7 @@ void write_kikad_pins( UL_GATE G, int  transX, int transY, int gatePos )
     }
 }
 //------------------------------------------------------
-//write rectangles entries
+//write lib part entries
 //------------------------------------------------------
 void write_kikad_elements( UL_GATE G, int gatePos )
 {
@@ -1631,9 +1640,9 @@ void write_kikad_def_alias( UL_DEVICE DEV, UL_GATE G, string symbolName, int cou
     //    if ( DEV.prefix == "" ) // No prefix ?
     //    { 
     if ( hasName  )  // dose it have a >Name  so use the genrated prifix
-      printf("F0 \"%s\" %d %d %d %c %c %c %cNN\n", prefixString, prefix_X, prefix_Y, 50, orient, 'V', hAlign, vAlign);
+      printf("F0 \"%s\" %d %d %d %c %c %c %cNN\n", prefixString, prefix_X, prefix_Y, 45, orient, 'V', hAlign, vAlign);
     else       
-      printf("F0 \"%s\" %d %d %d %c %c %c %cNN\n", prefixString, prefix_X, prefix_Y, 50, orient, 'I', hAlign, vAlign);
+      printf("F0 \"%s\" %d %d %d %c %c %c %cNN\n", prefixString, prefix_X, prefix_Y, 45, orient, 'I', hAlign, vAlign);
     //    }
     //    else  // good we have prifix so use that
     //    {
@@ -1644,10 +1653,10 @@ void write_kikad_def_alias( UL_DEVICE DEV, UL_GATE G, string symbolName, int cou
     //    }
 
     if ( hasValue )  
-      printf("F1 \"%s\" %d %d %d %c %c %c %cNN\n", charstr_replace( ",/", "_", symbolName), name_X, name_Y, 50, orient, 'V', hAlign, vAlign);  // Display then
+      printf("F1 \"%s\" %d %d %d %c %c %c %cNN\n", charstr_replace( ",/", "_", symbolName), name_X, name_Y, 45, orient, 'V', hAlign, vAlign);  // Display then
                  //                 printf("F1 \"%s\" %d %d %d %c %c %c %cNN\n", str_replace( ",", "_", symbolName), name_X, name_Y, 50, orient, 'V', hAlign, vAlign);  // Display then                  
     else
-      printf("F1 \"%s\" %d %d %d %c %c %c %cNN\n", charstr_replace( ",/", "_", symbolName), name_X, name_Y, 50, orient, 'I', hAlign, vAlign);  // Else no display
+      printf("F1 \"%s\" %d %d %d %c %c %c %cNN\n", charstr_replace( ",/", "_", symbolName), name_X, name_Y, 45, orient, 'I', hAlign, vAlign);  // Else no display
                  //                 printf("F1 \"%s\" %d %d %d %c %c %c %cNN\n", str_replace( ",", "_", symbolName), name_X, name_Y, 50, orient, 'I', hAlign, vAlign);  // Else no display                 
 
 

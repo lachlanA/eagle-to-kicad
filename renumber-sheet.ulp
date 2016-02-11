@@ -14,11 +14,14 @@
 
 // THIS PROGRAM IS PROVIDED AS IS AND WITHOUT WARRANTY OF ANY KIND, EXPRESSED OR IMPLIED
 
-string Version = "ULP Version 4.4.3";
+string Version = "ULP Version 4.4.4";
 #include "eagle_to_kicad_include.inc"
 
 /*
  * CHANGELOG================================================
+ * 11.02.2016: Inc version.
+ *             Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
+ *              
  * 01.10.2015: Add logfile
  *             Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
  * 18.08.2015: Add save command, so sch and pcb are update, save user having to rember
