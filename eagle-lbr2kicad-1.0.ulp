@@ -1,15 +1,15 @@
 #usage "<b>KiCAD lib and module exporting tool version 1.1)</b>\n"
-        "<p>"
-        "This ULP can exports Eagle CAD Package and Symbol contents into KiCAD lib and module formats."
-        "<p>"
-        "In Load any library and execute the ULP."
-        "<p>"
-        "<author>Author: Dmitri N. Sytov sdn (at) openhardware.ru</author>"
-        "<author>Author: juergen.messerer (at) freesurf.ch</author>"
-	"<author>Author: \"lachlanusa (at) gmail.com\"</author>"
+"<p>"
+"This ULP can exports Eagle CAD Package and Symbol contents into KiCAD lib and module formats."
+"<p>"
+"In Load any library and execute the ULP."
+"<p>"
+"<author>Author: Dmitri N. Sytov sdn (at) openhardware.ru</author>"
+"<author>Author: juergen.messerer (at) freesurf.ch</author>"
+"<author>Author: \"lachlanusa (at) gmail.com\"</author>"
 
 #require 6.0000
-        //#require 5.0000
+//#require 5.0000
 
 #include "eagle_to_kicad_include.inc"
 
@@ -18,18 +18,18 @@
  *
  * 08.02.2016  Change Default size of F0 and F1, Refance/value to 45
  *             Thanks to: Lachlan  "lachlanusa (at) gmail.com"
- * 
+ *
  * 08.02.2016  Fix over bar,  on pin labels, this changes Eagle ! to KiCad ~
  *             Thanks to: Lachlan  "lachlanusa (at) gmail.com"
  *
  * 15.10.2015:  Alays display report file,  even if no errors
  *		Add spacing to make window wider,  1000px, for better report display
  *              Thanks to: Lachlan  "lachlanusa (at) gmail.com"
- * 
+ *
  * 12.10.2015:  Check for pagage before printing reporting on missing prefix.
- * 
+ *
  * 09.10.2015:  Add missing prefix report Dilog
- * 
+ *
  * 27.08.2015:  Fix Power systembal to correct for KiCad Power fills, change power supllie to opersit of Eagle.
  *              Change pin to hide when power. supply system.
  *
@@ -40,54 +40,54 @@
  * 10.02.2015: Fix add lib prefix to footprint name
  *              Thanks to: Lachlan  "lachlanusa (at) gmail.com"
  *
- * 03.02.2015: Fix Alais name, and inc version.   
+ * 03.02.2015: Fix Alais name, and inc version.
  *              Thanks to: Lachlan  "lachlanusa (at) gmail.com"
  *
  * 25.09.2014: Add version reqired, to alows us to make 2 scripts.  One for 6.0+  and one for 5.0
- *             Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
+ *             Thanks to: Lachlan  "lachlanusa (at) gmail.com"
  *
  * 06.09.2014: Fix device alaias, to put in zero size string in * place holder when
  *             '' is found in part Tecknowage/alias name.
- *             Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
+ *             Thanks to: Lachlan  "lachlanusa (at) gmail.com"
  *
  * 06.09.2014: Move some code to main(), bit easy to understand!
- *             Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
+ *             Thanks to: Lachlan  "lachlanusa (at) gmail.com"
  *
  * 05.09.2014: Inc version number to 1.1
- *             Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
+ *             Thanks to: Lachlan  "lachlanusa (at) gmail.com"
  *
  * 05.09.2014: Try a number of fix's for part name, and ALISA list,  to work better with eagle2kicad_sch.ulp
  *             Note there are many problems here. See as badly name eagle lib's will make for lot's of devices name collisions!
  *             Which will make KiCad stop loading the lib/mod!
- *             Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
+ *             Thanks to: Lachlan  "lachlanusa (at) gmail.com"
  *
  * 26.07.2014: Fix >NAME and >VALUE in in module, so eagle text is not lost, or confused with module prefix/value
- *             Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
+ *             Thanks to: Lachlan  "lachlanusa (at) gmail.com"
  *
  * 26.07.2014: Fix text width in module, so module text use's eagles text width.
- *             Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
+ *             Thanks to: Lachlan  "lachlanusa (at) gmail.com"
  *
  * 26.07.2014: Fix Squ Pad size 0 problem in module
- *             Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
+ *             Thanks to: Lachlan  "lachlanusa (at) gmail.com"
  *
  * 14.07.2014: Add option allows combining of device's into one KiCad lib part if the pin name/number match exactly.
  *             Note: Pin number/name IS the deciding factor! NOT package type or package pin count.
- *             Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
+ *             Thanks to: Lachlan  "lachlanusa (at) gmail.com"
  *
  * 12.07.2014: Add option to allows adding $PACKAGE list to KiCad where parts Shari'a common pin refances.
- *             Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
+ *             Thanks to: Lachlan  "lachlanusa (at) gmail.com"
  *
  * 21.06.2014: Fix bug where, >NAME and >VALUE  were getting past thou from eage to kicad libs
  * 	       because there were not in upper case.
- *	       thanks to: Lachlan  "lachlanusa (at) gmail.com" 
+ *	       thanks to: Lachlan  "lachlanusa (at) gmail.com"
  *
  * 20.06.2014: Add option to Remove Text after @, this works bit like the hide after @ in Eagle SCH
- *	       thanks to: Lachlan  "lachlanusa (at) gmail.com" 
+ *	       thanks to: Lachlan  "lachlanusa (at) gmail.com"
  *
  * 20.06.2014: Fix bug in str_replace(string search, string replace, string subject
  *             Bug was, it did not return the Original string,  if the search string was not
- *	       found,  but returned the replacement string !!   
- *	       thanks to: Lachlan  "lachlanusa (at) gmail.com" 
+ *	       found,  but returned the replacement string !!
+ *	       thanks to: Lachlan  "lachlanusa (at) gmail.com"
  *
  * 12.06.2014: Fix \r \n in value import,  which eagle allows but KiCAD dos not like.
  * 	       also remove any other charters which are not printable
@@ -159,9 +159,6 @@
 real VERSION   = 2.0;
 string Version = "2.0";
 
-
-
-
 int add_libnamePrefixToPartName = 0;
 
 int rect_conv  = 1; // many QFP-like packages use rectangles as a pin contour (too much segments in the ki-format)
@@ -177,7 +174,7 @@ int outPutFootPrint = 1;     // Controls the Out put foot print in F2
 int outPutFootPrints = 1;     // Controls the Out put footprints in $FPLIST
 string footPrintList = "";
 string footPrintPreFix = "";     // Prefix for footPrint note maybe blank
-string undefinedPartPreFix = "M"; 
+string undefinedPartPreFix = "M";
 string aliasList = "";     // list of part alias's
 
 int wildCardPrefix = 1;  // 1 = pre add * wild card to $FPLIST footprint list names
@@ -191,9 +188,7 @@ int devicesCount = 0;
 int deleteTextArfterATsysbolInPinName = 1;   //Eagle dos not show any text in pin name's arfter the @ sysbold.
 int deleteNameTextSCH = 1;   //Delete >Name from schematic
 int deleteValueTextSCH = 1;   //Delete >Value from schematic
-string  symbolicPrefix;      /*list  symbolic prefix(s)(commer seperated) not to show pin's or pad's or Part,
-
- 			       or symbolic prefix for,  Note list format is D, C, X, V, #  */
+string  symbolicPrefix;      /*list  symbolic prefix(s)(commer seperated) not to show pin's or pad's or Part, or symbolic prefix for,  Note list format is D, C, X, V, #  */
 
 int dontShowPin = 1;   //Dont show pin's from symbloicPrefix list
 int dontShowPad = 1;   //Dont show Pad's from symbloicPrefix list
@@ -209,7 +204,6 @@ string ValueSCH = ">Value";
 
 int RECT_WIDTH = 26;
 
-
 real linMaxWidth = 10.0;
 real linMinWidth = 0.01;
 int limitTextLineWidth = 0;
@@ -220,10 +214,12 @@ real eagleToKiCadUnitCoversionFactor1 = 808;
 real eagleToKiCadUnitCoversionFactor2 = 404;
 
 string partlist[];
-int partlistSize = 0; 
+int partlistSize = 0;
 
 string conflictPartsLibsList[];
 int conflictPartsLibsListsize = 0;
+
+int MM = 0, INCH = 1, TOINCH = 2;
 
 string logfileName;
 string logfile;
@@ -266,11 +262,11 @@ string infoTextMaxMinValue = "<pre>You can override text font line width size in
                              "     Any text line width which is less than Min line will be replaced with Min width value.</pre>";
 
 string infoProgramHowTo = "This program converts a eagle lib to KiCad lib and mod lib.<br>You have a number of options to how this conversion is done.<br>"+
-                           "<b><br><i>WARNING: You should check the results of the conversion!<br>As there is no way this program will make a perfect conversion<i></b>"+
-                           "<pre><b><font color=red>BUGS and and warnings:<br>  1: Text can appear on any layer in Eagle lib's, where as KiCad only allows Text on top layer<br>"+
-                           "     This will result in all text from eagle appearing on the top silk screen layer,<br>     and mirrored text will no longer be mirrored !</pre></font>"+
-                           "<i>This version of eagle-to-kicad is hosted on <a href=\"http://github.com/lachlanA/eagle-to-kicad/\">https://github.com/lachlanA/eagle-to-kicad</a><br>"+
-                           "Please check this site for latest version, bug reports, and to make suggestions/improvement<br><i>";
+                          "<b><br><i>WARNING: You should check the results of the conversion!<br>As there is no way this program will make a perfect conversion<i></b>"+
+                          "<pre><b><font color=red>BUGS and and warnings:<br>  1: Text can appear on any layer in Eagle lib's, where as KiCad only allows Text on top layer<br>"+
+                          "     This will result in all text from eagle appearing on the top silk screen layer,<br>     and mirrored text will no longer be mirrored !</pre></font>"+
+                          "<i>This version of eagle-to-kicad is hosted on <a href=\"http://github.com/lachlanA/eagle-to-kicad/\">https://github.com/lachlanA/eagle-to-kicad</a><br>"+
+                          "Please check this site for latest version, bug reports, and to make suggestions/improvement<br><i>";
 
 // please edit this LUT if you found mistakes,
 // and send your corrections to sdn (at) openhardware.ru.
@@ -417,83 +413,116 @@ int pad_lut[] =
     0               //LAYER_VALUES
 };
 
-//
-//replace new line charter with string '\n' as kicad can handel that, but not new line chareter
-//
+
+//------------------------------------------------------
+// Global variables
+//------------------------------------------------------
+string g_mod_name ;
+string g_lib_name ;
+real   g_Fact = 254 * 32;      // global uMeter to uInch conversion factor
+real LibTexPosionOffset = 0.770;
+real textSizeCorrectionfactor = 0.8;
+string missingPrefixLog[];
+int g_missingPrefix = 0; // global Indicator if an eagle devices hasn't got an prefix
+string errorLog[];
+int warnings_count = 0;
+int errors_count = 0;
+
+/**
+ * @brief replace new line charter with string "\n" as kicad can handel that, but not new line chareter
+ * @param  textString string with new line charter '\n'
+ * @return            string with "\n" in '\n' place
+ */
 string stripLfCrToEscCRLF( string textString )
 {
-  string newString;
-  int idx = 0;
-  int idx2 = 0;
+    string newString;
+    int idx = 0;
+    int idx2 = 0;
 
-      for ( idx = 0; textString[idx];)
-      	{
-	  if( ( isspace( textString[idx] )) || ( isprint( textString[idx] )))
-	    {
-	      if(( textString[idx] == '\n') || ( textString[idx] == '\r' ) )
-		{
-		  newString =  newString + "\\n"; 
-		  idx++;
-		  idx2 = idx2 + 2;
-		}
-	      else
-		{
-		  newString[idx2] = textString[idx];
-		  idx++;
-		  idx2++;
-		}
-	    }
-	  else
-	    {  // Ok bad chart so replace with ~
-	      newString[idx2] = '~';
-	      idx++;
-	      idx2++;
-	    }
-      	}
-      return newString;
- }
+    for ( idx = 0; textString[idx];)
+    {
+        if( ( isspace( textString[idx] )) || ( isprint( textString[idx] )))
+        {
+            if(( textString[idx] == '\n') || ( textString[idx] == '\r' ) )
+            {
+                newString =  newString + "\\n";
+                idx++;
+                idx2 = idx2 + 2;
+            }
+            else
+            {
+                newString[idx2] = textString[idx];
+                idx++;
+                idx2++;
+            }
+        }
+        else
+        {   // Ok bad chart so replace with ~
+            newString[idx2] = '~';
+            idx++;
+            idx2++;
+        }
+    }
+    return newString;
+}
 
-//------------------------------------------------------
-// utils
-//------------------------------------------------------
+/**
+ * @brief
+ * @param  unitConvertTo   convert to unit (MM,INCH,TOINCH)
+ * @param  unitConvertFrom convert from unit (MM,INCH,TOINCH)
+ * @param  inputValue      unit to convert
+ * @return                 converted unid
+ */
 real unitConver(int unitConvertTo, int unitConvertFrom, real inputValue)
 {
-  // 0 = MM, 1 = Inch, 2 = Thousands of inch
+    // 0 = MM, 1 = Inch, 2 = Thousands of inch
 
-  real converversionTable0[] = {1.0, 25.4, 0.0254};
-  real converversionTable1[] = {0.03937007874, 1.0, 0.001};
-  real converversionTable2[] = {39.37007874, 1000.0, 1.0};
+    real converversionTable0[] = {1.0, 25.4, 0.0254};
+    real converversionTable1[] = {0.03937007874, 1.0, 0.001};
+    real converversionTable2[] = {39.37007874, 1000.0, 1.0};
 
-  switch(unitConvertTo)
+    switch(unitConvertTo)
     {
-    case 0:
-      return (inputValue * converversionTable0[ unitConvertFrom ]);
-      break;
-    case 1:
-      return (inputValue * converversionTable1[ unitConvertFrom ]);
-      break;
-    case 2:
-      return (inputValue * converversionTable2[ unitConvertFrom ]);
-      break;
+    case 0: // MM
+        return (inputValue * converversionTable0[ unitConvertFrom ]);
+        break;
+    case 1: // INCH
+        return (inputValue * converversionTable1[ unitConvertFrom ]);
+        break;
+    case 2: // TOINCH
+        return (inputValue * converversionTable2[ unitConvertFrom ]);
+        break;
     }
 
 }
 
-
+/**
+ * @brief  look to layer
+ * @param  layer layer ID
+ * @return       Return layer ID
+ */
 int layer_lookup(int layer)
 {
     if (layer > 42) return 21;
     return layer_lut[layer + 1];
 }
 
-//Units conversion routine | 1.0 inch = 10000 Ki-units |
+/**
+ * @brief  convert internal eagle units in 1E4*inchs
+ * @param  units internal eagle units
+ * @return       1E4*inchs(internal eagle units)
+ */
 int egl2ki(int units)
 {
     real inch = u2inch(units);
     return int(inch * 10000);
 }
 
-// check for smd pads in package
+/**
+ * @brief  check for smd pads in package
+ * @param  PAC package
+ * @return     if has smd pads return true else false
+ */
 int issmd(UL_PACKAGE PAC)
 {
     int res = 0;
@@ -506,32 +535,41 @@ int issmd(UL_PACKAGE PAC)
 
 }
 
-//------------------------------------------------------
-// Replaces all occurrences of a charter in a string with a string
-//------------------------------------------------------
+/**
+ * @brief  replaces all occurrences of a charter in a string with a string
+ * @param  search  charter to search
+ * @param  replace charter to replace
+ * @param  subject original string
+ * @return         return modified string
+ */
 string charstr_replace(string search, string replace, string subject)
 {
-  int lastpos = 0;
-  int pos = 0;
-  string before;
-  string after;
+    int lastpos = 0;
+    int pos = 0;
+    string before;
+    string after;
 
-  for( pos = 0; pos < strlen(search); pos++ )
-  {
-    lastpos = 0;
-    while( (( lastpos = strchr( subject, search[ pos ], lastpos)) != -1 ))
+    for( pos = 0; pos < strlen(search); pos++ )
     {
-      before = strsub(subject, 0, lastpos);  //  get the before string
-      after = strsub(subject, lastpos + 1, strlen(subject) - lastpos );
-      subject = before + replace + after;
-      lastpos = strlen(before) + strlen( replace ); // 
+        lastpos = 0;
+        while( (( lastpos = strchr( subject, search[ pos ], lastpos)) != -1 ))
+        {
+            before = strsub(subject, 0, lastpos);  //  get the before string
+            after = strsub(subject, lastpos + 1, strlen(subject) - lastpos );
+            subject = before + replace + after;
+            lastpos = strlen(before) + strlen( replace ); //
+        }
     }
-  }
-  return subject;
+    return subject;
 }
-//------------------------------------------------------
-//Replaces all occurrences of a substring found within a string.
-//------------------------------------------------------
+
+/**
+ * @brief  replace all occurrences of a string
+ * @param  search  string to sarch
+ * @param  replace string to replace
+ * @param  subject original string
+ * @return         return modified string
+ */
 string str_replace(string search, string replace, string subject)
 {
     int lastpos = 0;
@@ -541,8 +579,8 @@ string str_replace(string search, string replace, string subject)
 
     // Check if there is any thing to replace
     if( strstr(subject, search, lastpos) == -1)
-    	return subject;  // No so just return input string
-    
+        return subject;  // No so just return input string
+
     while (strstr(subject, search, lastpos) >= 0)
     {
         pos = strstr(subject, search, lastpos);
@@ -554,6 +592,11 @@ string str_replace(string search, string replace, string subject)
     return subject;
 }
 
+/**
+ * @brief  replace escape quotes in string
+ * @param  input original string
+ * @return       return modified string
+ */
 string escape_quotes(string input)
 {
     return str_replace( "\"", "\\\"", input);
@@ -562,78 +605,90 @@ string escape_quotes(string input)
 //****
 //  Truncats string, from delimiter charter in string
 //  Return trancated  string
+
+/**
+ * @brief  Splits a string and return the first one.
+ * @param  name      original string
+ * @param  delimiter delimited charter
+ * @param  flag      if 0, return original string, else the splited string
+ * @return           splited string
+ */
 string stripArfterAT(string name, char delimiter, int flag)
 {
-	string a[];
-	int lastpos = 0;
+    string a[];
+    int lastpos = 0;
 
-	if(flag == 0)	
-	 return name;
+    if(flag == 0)
+        return name;
 
-// Split,  if more the 1 deilimiter take ony the first part, if not found return with  no change
+    // Split, if more the 1 delimiter take ony the first part, if not found return with no change
     if( strsplit(a, name, delimiter) >= 1 )
-       return a[0];  
+        return a[0];
     else
-       return name;
+        return name;
 }
-//********
-// Work out placement
-// and sugest a size
-// Return's -1 if if can't fit in any size !
-//
+
+/**
+ * @brief  transform int to string
+ * @param  value int value
+ * @return       string with int value
+ */
 string intToString( int value )
 {
-  string tmpS;
+    string tmpS;
 
-  sprintf( tmpS, "%d", value );
-  return tmpS;
+    sprintf( tmpS, "%d", value );
+    return tmpS;
 }
 
-//------------------------------------------------------
-// Seach for conflicking part, and return "-CONFLICKING-PART-"
-// if there is a conflict, And add to conflictPartsLibsList[] list
-// else return ""  if all good
-//------------------------------------------------------
+/**
+ * @brief  search for conflicking part
+ * @param  search search part in partList
+ * @param  offset offset in partList
+ * @return        return "-CONFLICKING-PART-" if there is a conflict, And add to conflictPartsLibsList[] list
+ *                else return "" if all good
+ */
 string partlistSearchAdd( string search, int offset )
 {
-  int n;
+    int n;
 
-  if( partlistSize == 0 )
-  {
-    partlist[ partlistSize++ ] = search;
-    return "";
-  }
-
-  for( n = 0; n <  partlistSize; n++ )
-  {
-    //    printf("\nsearch=%s partlist[%d]=%s", search, n, partlist[n]);
-
-    //    printf("search=%s partlist[%d]=%s\n", search, n, partlist[n]);
-    
-    if( (strlen( search ) == 0) )  // Null search ?
-      return "";
-    
-    if( search ==  partlist[ n ] )
-      break;
-    else
+    if( partlistSize == 0 )
     {
-      if( (n + 1) >= partlistSize )
-      {
         partlist[ partlistSize++ ] = search;
         return "";
-      }
     }
-  }
+
+    for( n = 0; n <  partlistSize; n++ )
+    {
+        //    printf("\nsearch=%s partlist[%d]=%s", search, n, partlist[n]);
+        //    printf("search=%s partlist[%d]=%s\n", search, n, partlist[n]);
+
+        if( (strlen( search ) == 0) )  // Null search ?
+            return "";
+
+        if( search ==  partlist[ n ] )
+            break;
+        else
+        {
+            if( (n + 1) >= partlistSize )
+            {
+                partlist[ partlistSize++ ] = search;
+                return "";
+            }
+        }
+    }
 
 
-  conflictPartsLibsList[ conflictPartsLibsListsize++ ] = search;  
-  
-  return "-CONFLICKING-PART-" +  intToString( conflictPartsLibsListsize ) ;
+    conflictPartsLibsList[ conflictPartsLibsListsize++ ] = search;
+
+    return "-CONFLICKING-PART-" +  intToString( conflictPartsLibsListsize ) ;
 
 }
-//------------------------------------------------------
-//write index of modules
-//------------------------------------------------------
+
+/**
+ * @brief write index of modules
+ * @param LIB Library
+ */
 void write_kikad_mod_idx(UL_LIBRARY LIB)
 {
     // write INDEX start tag
@@ -642,35 +697,34 @@ void write_kikad_mod_idx(UL_LIBRARY LIB)
     // write index of modules
     //    LIB.packages(PAC)
     //    {
-    //      if ( outPutFootPrint  )  // Prefix libprefix in foot print name 
+    //      if ( outPutFootPrint  )  // Prefix libprefix in foot print name
     //        printf("%s-%s\n", escape_quotes(g_lib_prefix), escape_quotes(strupr(PAC.name)));
     //      else
     //        printf("%s\n", escape_quotes(strupr(PAC.name)));
     //    }
 
-    if( outPutFootPrint == 0 ) 
-      LIB.packages(PAC) // Don't add lib prefix
-      {
+    if( outPutFootPrint == 0 )
+        LIB.packages(PAC) // Don't add lib prefix
+    {
         printf("%s\n", charstr_replace(",/", "_", escape_quotes(strupr(PAC.name))));
-        //        printf("%s\n", str_replace( ",", "_", escape_quotes(strupr(PAC.name))));        
-      }
+        //        printf("%s\n", str_replace( ",", "_", escape_quotes(strupr(PAC.name))));
+    }
     else
-      LIB.packages(PAC) // Add lib prefix
-      {
+        LIB.packages(PAC) // Add lib prefix
+    {
         printf("%s-%s\n", escape_quotes(g_lib_prefix), charstr_replace(",/", "_", escape_quotes(strupr(PAC.name))));
         //        printf("%s-%s\n", escape_quotes(g_lib_prefix), str_replace( ",", "_", escape_quotes(strupr(PAC.name))));
-      }
-    
+    }
+
     // write INDEX end tag
     printf("$EndINDEX\n");
 
 }
 
-//------------------------------------------------------
-//
-//------------------------------------------------------
-// pad conversion
-//------------------------------------------------------
+/**
+ * @brief pad conversion
+ * @param PAC eagle package http://web.mit.edu/xavid/arch/i386_rhel4/help/181.htm
+ */
 void write_kikad_mod_pad(UL_PACKAGE PAC)
 {
     char shp = 'R';
@@ -715,16 +769,16 @@ void write_kikad_mod_pad(UL_PACKAGE PAC)
                 dy = CN.pad.diameter[LAYER_TOP] * 2;
             }
             if (CN.pad.shape[LAYER_TOP] == PAD_SHAPE_LONG )
-	      {
+            {
                 shp = 'O';
                 angle = CN.pad.angle + 90;
                 dy = CN.pad.diameter[LAYER_TOP] * 2;
-	      }
-	    if (CN.pad.shape[LAYER_TOP] == PAD_SHAPE_SQUARE )
-	      {
+            }
+            if (CN.pad.shape[LAYER_TOP] == PAD_SHAPE_SQUARE )
+            {
                 shp = 'R';
                 dy = CN.pad.diameter[LAYER_TOP];
-	      }
+            }
 
             dx = CN.pad.diameter[LAYER_TOP];
             drill = CN.pad.drill;
@@ -733,8 +787,7 @@ void write_kikad_mod_pad(UL_PACKAGE PAC)
         }
 
         // pad shape
-        printf("Sh \"%s\" %c %d %d %d %d %d\n",
-               CN.name, shp, egl2ki(dx), egl2ki(dy), 0, 0, angle * 10);
+        printf("Sh \"%s\" %c %d %d %d %d %d\n", CN.name, shp, egl2ki(dx), egl2ki(dy), 0, 0, angle * 10);
 
         printf("Dr %d %d %d \n", egl2ki(drill), 0, 0);
 
@@ -754,6 +807,10 @@ void write_kikad_mod_pad(UL_PACKAGE PAC)
 //------------------------------------------------------
 // shape conversion
 //------------------------------------------------------
+/**
+ * shape conversion
+ * @param PAC eagle package http://web.mit.edu/xavid/arch/i386_rhel4/help/181.htm
+ */
 void write_kicad_mod_shapes(UL_PACKAGE PAC)
 {
     //writing shapes
@@ -803,10 +860,7 @@ void write_kicad_mod_shapes(UL_PACKAGE PAC)
         }
     }
 
-
-
     //circles (always from eagle's circles and optional from holes)
-
     //converting circles --------------------------------------------------------------------
     PAC.circles(C)
     {
@@ -838,10 +892,7 @@ void write_kicad_mod_shapes(UL_PACKAGE PAC)
                egl2ki(H.x), -egl2ki(H.y + (H.drill / 2)), 50, layer);
     }
 
-
-
     //converting (always from wires)arcs ----------------------------------------------------
-
     PAC.wires(W)
     {
         if (W.arc)
@@ -856,47 +907,46 @@ void write_kicad_mod_shapes(UL_PACKAGE PAC)
                    egl2ki(W.arc.width), layer);
         }
     }
-
 }
 
-
-//------------------------------------------------------
-// field conversion
-//------------------------------------------------------
+/**
+ * field conversion
+ * @param PAC eagle package http://web.mit.edu/xavid/arch/i386_rhel4/help/181.htm
+ */
 void write_kicad_mod_text(UL_PACKAGE PAC)
 {
-  int textnum = 0;
-  int offset = 0;
-  int xoffs, yoffs, size;
-  int nameCt = 0;
-  int valueCt = 0;
-  int textCt = 0;
-  string text;
+    int textnum = 0;
+    int offset = 0;
+    int xoffs, yoffs, size;
+    int nameCt = 0;
+    int valueCt = 0;
+    int textCt = 0;
+    string text;
 
-  string NAME = "";
-  string VALUE = "";
+    string NAME = "";
+    string VALUE = "";
 
-  int textWidth = 0;
+    int textWidth = 0;
 
     PAC.texts(T)
-      {
-	textWidth = 0;
-	// find the max with of font/text
-	T.wires(W)
-	  {
-	    textWidth =  W.width / eagleToKiCadUnitCoversionFactor1;
-	      break;
-	  }
+    {
+        textWidth = 0;
+        // find the max with of font/text
+        T.wires(W)
+        {
+            textWidth =  W.width / eagleToKiCadUnitCoversionFactor1;
+            break;
+        }
 
-	// Limit line width ?
-	if( limitTextLineWidth )
-	  {
-	    if( textWidth <  ( unitConver( 0, minMaxUnitsSelect, linMinWidth )*eagleToKiCadUnitCoversionFactor2))
-	      textWidth = unitConver( 0, minMaxUnitsSelect, linMinWidth ) * eagleToKiCadUnitCoversionFactor2;
+        // Limit line width ?
+        if( limitTextLineWidth )
+        {
+            if( textWidth <  ( unitConver( MM, minMaxUnitsSelect, linMinWidth )*eagleToKiCadUnitCoversionFactor2))
+                textWidth = unitConver( MM, minMaxUnitsSelect, linMinWidth ) * eagleToKiCadUnitCoversionFactor2;
 
-	    if( textWidth >  ( unitConver( 0, minMaxUnitsSelect, linMaxWidth )*eagleToKiCadUnitCoversionFactor2 ))
-	      textWidth = unitConver( 0, minMaxUnitsSelect, linMaxWidth ) * eagleToKiCadUnitCoversionFactor2;
-	  }
+            if( textWidth >  ( unitConver( MM, minMaxUnitsSelect, linMaxWidth )*eagleToKiCadUnitCoversionFactor2 ))
+                textWidth = unitConver( MM, minMaxUnitsSelect, linMaxWidth ) * eagleToKiCadUnitCoversionFactor2;
+        }
 
         size = egl2ki(T.size );
         switch (int(T.angle))
@@ -922,77 +972,72 @@ void write_kicad_mod_text(UL_PACKAGE PAC)
             break;
         }
 
+        // check for part prefix/>NAME
+        if (strupr(T.value) == ">NAME" )
+        {
+            if ( nameCt == 0 )
+            {
+                NAME = strupr(T.value);
+                sprintf(NAME, "T%d %d %d %d %d %d %d N %d V \"%s\"\n",
+                        0, egl2ki(T.x + xoffs), -egl2ki(T.y + yoffs),
+                        size, size,
+                        int((abs(T.angle)) * 10), textWidth, layer_lut[T.layer], strupr(T.value) );
+                nameCt++;
+                textCt++;
+                continue;
+            }
+            else
+            {
+                nameCt++;
+                textCt++;
+                continue;
+            }
+        }
 
-	// check for part prefix/>NAME
-
-	if (strupr(T.value) == ">NAME" )
-	  {
-	    if ( nameCt == 0 )
-	      {
-		NAME = strupr(T.value);
-		sprintf(NAME, "T%d %d %d %d %d %d %d N %d V \"%s\"\n",
-			0, egl2ki(T.x + xoffs), -egl2ki(T.y + yoffs),
-			size, size,
-			int((abs(T.angle)) * 10), textWidth, layer_lut[T.layer], strupr(T.value) );
-		nameCt++;
-		textCt++;
-		continue;
-	      }
-	    else
-	      {
-		nameCt++;
-		textCt++;
-		continue;
-	      }
-	  }
-
-	// check for part prefix/>VALUE
-	if (strupr(T.value) == ">VALUE" )
-	  {
-	    if ( valueCt == 0 )
-	      {
-		sprintf(VALUE, "T%d %d %d %d %d %d %d N %d V \"%s\"\n",
-			1, egl2ki(T.x + xoffs), -egl2ki(T.y + yoffs),
-			size, size,
-			int((abs(T.angle)) * 10), textWidth, layer_lut[T.layer], strupr(T.value) );
-		valueCt++;
-		textCt++;
-		continue;
-	      }
-	    else
-	      {
-		valueCt++;
-		textCt++;
-		continue;
-	      }
-	  }
-	textCt++;
-      } //PAC.text
+        // check for part prefix/>VALUE
+        if (strupr(T.value) == ">VALUE" )
+        {
+            if ( valueCt == 0 )
+            {
+                sprintf(VALUE, "T%d %d %d %d %d %d %d N %d V \"%s\"\n",
+                        1, egl2ki(T.x + xoffs), -egl2ki(T.y + yoffs),
+                        size, size,
+                        int((abs(T.angle)) * 10), textWidth, layer_lut[T.layer], strupr(T.value) );
+                valueCt++;
+                textCt++;
+                continue;
+            }
+            else
+            {
+                valueCt++;
+                textCt++;
+                continue;
+            }
+        }
+        textCt++;
+    } //PAC.text
 
 
     textnum = 0;
 
     PAC.texts(T)
     {
+        textWidth = 0;
+        // find the max with of font/text
+        T.wires(W)
+        {
+            textWidth =  W.width/eagleToKiCadUnitCoversionFactor1;
+            break;
+        }
 
-	textWidth = 0;
-	// find the max with of font/text
-	T.wires(W)
-	  {
-	      textWidth =  W.width/eagleToKiCadUnitCoversionFactor1;
-	      break;
-	  }
+        if( limitTextLineWidth )
+        {
+            if( textWidth <  ( unitConver( MM, minMaxUnitsSelect, linMinWidth )*eagleToKiCadUnitCoversionFactor2))
+                textWidth = unitConver( MM, minMaxUnitsSelect, linMinWidth ) * eagleToKiCadUnitCoversionFactor2;
 
-
-	if( limitTextLineWidth )
-	  {
-	    if( textWidth <  ( unitConver( 0, minMaxUnitsSelect, linMinWidth )*eagleToKiCadUnitCoversionFactor2))
-	      textWidth = unitConver( 0, minMaxUnitsSelect, linMinWidth ) * eagleToKiCadUnitCoversionFactor2;
-
-	    if( textWidth >  ( unitConver( 0, minMaxUnitsSelect, linMaxWidth )*eagleToKiCadUnitCoversionFactor2 ))
-	      textWidth = unitConver( 0, minMaxUnitsSelect, linMaxWidth ) * eagleToKiCadUnitCoversionFactor2;
-	  }
-
+            if( textWidth >  ( unitConver( MM, minMaxUnitsSelect, linMaxWidth )*eagleToKiCadUnitCoversionFactor2 ))
+                textWidth = unitConver( MM, minMaxUnitsSelect, linMaxWidth ) * eagleToKiCadUnitCoversionFactor2;
+        }
 
         size = egl2ki(T.size );
         switch (int(T.angle))
@@ -1018,56 +1063,56 @@ void write_kicad_mod_text(UL_PACKAGE PAC)
             break;
         }
 
-	// check for part prefix/>NAME
-	if( textnum == 0 )
-	  {
-	    if( nameCt )
-	      printf("%s", NAME );
-	    textnum++;
-	    continue;
-	  }
-	if( textnum == 1 )
-	  {
-	    if( valueCt )
-	      printf("%s", VALUE );
-	    textnum++;
-	    continue;
-	  }
+        // check for part prefix/>NAME
+        if( textnum == 0 )
+        {
+            if( nameCt )
+                printf("%s", NAME );
+            textnum++;
+            continue;
+        }
+        if( textnum == 1 )
+        {
+            if( valueCt )
+                printf("%s", VALUE );
+            textnum++;
+            continue;
+        }
 
-	if (strupr(T.value) == ">NAME" || strupr(T.value) == ">VALUE" )
-	  continue;
-	else
-	  {
-	    printf("T%d %d %d %d %d %d %d N %d V \"%s\"\n",
-		   textnum, egl2ki(T.x + xoffs), -egl2ki(T.y + yoffs),
-		   size, size,
-		   int((abs(T.angle)) * 10), textWidth, layer_lut[T.layer], T.value);
-	    textnum++;
-	  }
+        if (strupr(T.value) == ">NAME" || strupr(T.value) == ">VALUE" )
+            continue;
+        else
+        {
+            printf("T%d %d %d %d %d %d %d N %d V \"%s\"\n",
+                   textnum, egl2ki(T.x + xoffs), -egl2ki(T.y + yoffs),
+                   size, size,
+                   int((abs(T.angle)) * 10), textWidth, layer_lut[T.layer], T.value);
+            textnum++;
+        }
     }
 }
 
-//------------------------------------------------------
-// Mod body conversion
-//------------------------------------------------------
+/**
+ * @write kicad modules
+ * @param LIB eagle library http://web.mit.edu/xavid/arch/i386_rhel4/help/179.htm
+ */
 void write_kikad_mod_body(UL_LIBRARY LIB)
 {
     //for all packages in library
     LIB.packages(PAC)
     {
         // write MODULE start tag
-      
-      if( outPutFootPrint == 0 ) 
-        printf("$MODULE %s\n", escape_quotes(strupr( charstr_replace(",/", "_", PAC.name))));
-      //              printf("$MODULE %s\n", escape_quotes(strupr( str_replace(",", "_", PAC.name))));
-      else
-        printf("$MODULE %s-%s\n", escape_quotes(g_lib_prefix), escape_quotes(strupr( charstr_replace(",/", "_", PAC.name))));
-      
-      //      if ( outPutFootPrint  )  // Prefix libprefix in foot print name 
-      //        printf("$MODULE %s-%s\n", escape_quotes(g_lib_prefix), escape_quotes(strupr(PAC.name)));
-      //      else
-      //        printf("$MODULE %s\n", escape_quotes(strupr(PAC.name)));
-        
+        if( outPutFootPrint == 0 )
+            printf("$MODULE %s\n", escape_quotes(strupr( charstr_replace(",/", "_", PAC.name))));
+        //              printf("$MODULE %s\n", escape_quotes(strupr( str_replace(",", "_", PAC.name))));
+        else
+            printf("$MODULE %s-%s\n", escape_quotes(g_lib_prefix), escape_quotes(strupr( charstr_replace(",/", "_", PAC.name))));
+
+        //      if ( outPutFootPrint  )  // Prefix libprefix in foot print name
+        //        printf("$MODULE %s-%s\n", escape_quotes(g_lib_prefix), escape_quotes(strupr(PAC.name)));
+        //      else
+        //        printf("$MODULE %s\n", escape_quotes(strupr(PAC.name)));
+
         //write module position
         printf("Po %d %d %d %d 00200000 00000000 ~~\n",
                0, // what's it?
@@ -1077,13 +1122,13 @@ void write_kikad_mod_body(UL_LIBRARY LIB)
               );
 
         //write name & description
-      if( outPutFootPrint == 0 )
-        printf("Li %s\n", escape_quotes( strupr( charstr_replace(",/", "_", PAC.name))));
-      //      printf("Li %s\n", escape_quotes(strupr(str_replace(",", "_", PAC.name))));
-      else
-        printf("Li %s-%s\n", escape_quotes(g_lib_prefix), escape_quotes( strupr( charstr_replace(",/", "_", PAC.name))));
-      //        printf("Li %s-%s\n", escape_quotes(g_lib_prefix), escape_quotes(strupr(str_replace(",", "_", PAC.name))));      
-        //        if ( outPutFootPrint  )  // Prefix libprefix in foot print name 
+        if( outPutFootPrint == 0 )
+            printf("Li %s\n", escape_quotes( strupr( charstr_replace(",/", "_", PAC.name))));
+        //      printf("Li %s\n", escape_quotes(strupr(str_replace(",", "_", PAC.name))));
+        else
+            printf("Li %s-%s\n", escape_quotes(g_lib_prefix), escape_quotes( strupr( charstr_replace(",/", "_", PAC.name))));
+        //        printf("Li %s-%s\n", escape_quotes(g_lib_prefix), escape_quotes(strupr(str_replace(",", "_", PAC.name))));
+        //        if ( outPutFootPrint  )  // Prefix libprefix in foot print name
         //          printf("Li %s-%s\n", escape_quotes(g_lib_prefix), escape_quotes(strupr(PAC.name)));
         //        else
         //          printf("Li %s\n", escape_quotes(strupr(PAC.name)));
@@ -1107,16 +1152,17 @@ void write_kikad_mod_body(UL_LIBRARY LIB)
 
         // write MODULE end tag
         printf("$EndMODULE %s\n", escape_quotes(strupr( charstr_replace(",/", "_", PAC.name))));
-        //        printf("$EndMODULE %s\n", escape_quotes(strupr( str_replace(",", "_", PAC.name))));        
+        //        printf("$EndMODULE %s\n", escape_quotes(strupr( str_replace(",", "_", PAC.name))));
     }
 }
 
-
-//------------------------------------------------------
-//ki-format high-level writing functions
-//------------------------------------------------------
+/**
+ * ki-format high-level writing functions
+ * @param name filename
+ */
 void write_kikad_mod(string name)
 {
+    fileerror();
     output(name, "wt")
     {
         if (library)
@@ -1130,28 +1176,26 @@ void write_kikad_mod(string name)
             printf("$EndLIBRARY\n");
         }
     }
+    if(fileerror())
+    {
+        string c;
+        sprintf(c, "Problem writing in %s", name);
+        errorLog[errors_count] = c;
+        errors_count++;
+    }
 }
 
 //==============================================================================================================
 // Eagle Symbol conversion to kicad lib file 08.06.2006
 //=============================================================================================================
 
-//------------------------------------------------------
-// Global variables
-//------------------------------------------------------
-string g_mod_name ;
-string g_lib_name ;
-real   g_Fact = 254 * 32;      // global uMeter to uInch conversion factor
-real LibTexPosionOffset = 0.770;
-real textSizeCorrectionfactor = 0.8;
-string missingPrefixLog[];
-int    g_missingPrefix = 0; // global Indicator if an eagle devices hasn't got an prefix
-int warnings_count = 0;
-int errors_count = 0;
-
-//------------------------------------------------------
-//write kicad multipoint polygone entries
-//------------------------------------------------------
+/**
+ * @brief Write kicad multipoint polygone entries
+ * @param G       UL_GATE http://web.mit.edu/xavid/arch/i386_rhel4/help/173.htm
+ * @param transX  x coord
+ * @param transY  y coord
+ * @param gatePos gate position
+ */
 void write_kikad_polygon( UL_GATE G, int transX, int transY, int gatePos )
 {
     G.symbol.polygons(POLY)
@@ -1184,10 +1228,10 @@ void write_kikad_polygon( UL_GATE G, int transX, int transY, int gatePos )
             countPolyCoord += 2;
         }
 
-	if( polyCoord[0] == ' ' )  // Remove leading space, not shure how it get's in the string !!
-	  polyCoord = strsub( polyCoord, 1);	  
-	  
-	  printf("P %d %d %d %d %s %c N\n", countPolyCoord, gatePos, 1, 0, polyCoord, fillPattern);
+        if( polyCoord[0] == ' ' )  // Remove leading space, not shure how it get's in the string !!
+            polyCoord = strsub( polyCoord, 1);
+
+        printf("P %d %d %d %d %s %c N\n", countPolyCoord, gatePos, 1, 0, polyCoord, fillPattern);
 
     }
 }
@@ -1195,6 +1239,13 @@ void write_kikad_polygon( UL_GATE G, int transX, int transY, int gatePos )
 //------------------------------------------------------
 //write kicad arc and polygone (line) entries
 //------------------------------------------------------
+/**
+ * @brief write kicad arc and polygone (line) entries
+ * @param G       UL_GATE http://web.mit.edu/xavid/arch/i386_rhel4/help/173.htm
+ * @param transX  X coord
+ * @param transY  Y coord
+ * @param gatePos gate position
+ */
 void write_kikad_arc_line( UL_GATE G, int transX, int transY, int gatePos )
 {
     G.symbol.wires(WIRE)
@@ -1212,7 +1263,7 @@ void write_kikad_arc_line( UL_GATE G, int transX, int transY, int gatePos )
             int angle2 = (WIRE.arc.angle2 * 10) - 3601;
 
             printf("A %d %d %d %d %d %d %d %d N %d %d %d %d\n", xc, yc, radius, angle1, angle2,
-                    gatePos, 1, 0, x1, y1, x2, y2 );
+                   gatePos, 1, 0, x1, y1, x2, y2 );
         }
         else
         {
@@ -1225,9 +1276,13 @@ void write_kikad_arc_line( UL_GATE G, int transX, int transY, int gatePos )
     }
 }
 
-//------------------------------------------------------
-//write kicad rectangle entries
-//------------------------------------------------------
+/**
+ * @brief write kicad rectangle entries
+ * @param G       UL_GATE http://web.mit.edu/xavid/arch/i386_rhel4/help/173.htm
+ * @param transX  X coord
+ * @param transY  X coord
+ * @param gatePos gate position
+ */
 void write_kikad_rectangle( UL_GATE G, int transX, int transY, int gatePos )
 {
     G.symbol.rectangles(RECT)
@@ -1239,10 +1294,13 @@ void write_kikad_rectangle( UL_GATE G, int transX, int transY, int gatePos )
         printf("S %d %d %d %d %d %d %d F\n", x1, y1, x2, y2, gatePos, 1, 0 );
     }
 }
-
-//------------------------------------------------------
-//write kicad circle entries
-//------------------------------------------------------
+/**
+ * @brief write kicad circle entries
+ * @param G       UL_GATE http://web.mit.edu/xavid/arch/i386_rhel4/help/173.htm
+ * @param transX  X coord
+ * @param transY  Y coord
+ * @param gatePos gate position
+ */
 void write_kikad_circle( UL_GATE G, int transX, int transY, int gatePos )
 {
     G.symbol.circles(C)
@@ -1262,9 +1320,13 @@ void write_kikad_circle( UL_GATE G, int transX, int transY, int gatePos )
     }
 }
 
-//------------------------------------------------------
-//write kicad text entries
-//------------------------------------------------------
+/**
+ * @brief write kicad text entries
+ * @param G       UL_GATE http://web.mit.edu/xavid/arch/i386_rhel4/help/173.htm
+ * @param transX  X coord
+ * @param transY  Y coord
+ * @param gatePos gate position
+ */
 void write_kikad_text( UL_GATE G, int transX, int transY, int gatePos )
 {
     int  orient       = 0;
@@ -1283,22 +1345,19 @@ void write_kikad_text( UL_GATE G, int transX, int transY, int gatePos )
         int    offset = ((( T.size * strlen(T.value)) / 2 ) / g_Fact ) * LibTexPosionOffset;
 
         if( T.layer > 200 )
-          continue;
+            continue;
 
-        
-	//    printf("writeing text\n");
+        // printf("writeing text\n");
 
+        // Check for valid charters and replace with '~' if not
+        // Note that includes ' '  will be replaced with '~'
+        //	for (int idx = 0; textString[idx]; ++idx)
+        //	{
+        //	    if( !(isprint( textString[idx])) ||  textString[idx] == ' ' )
+        //                textString[idx] = '~';
+        //	}
 
-	// Check for valid charters and replace with '~' if not
-	// Note that includes ' '  will be replaced with '~'
-	//	for (int idx = 0; textString[idx]; ++idx)
-	//	{
-	//	    if( !(isprint( textString[idx])) ||  textString[idx] == ' ' )
-	//                textString[idx] = '~';
-	//	}
-
-      textString =  stripLfCrToEscCRLF( textString );
-
+        textString =  stripLfCrToEscCRLF( textString );
 
         switch ( textAngle )
         {
@@ -1318,8 +1377,7 @@ void write_kikad_text( UL_GATE G, int transX, int transY, int gatePos )
             posY   = posY + offset;
             break;
 
-        case 180:
-          //            orient = 1800;
+        case 180: // orient = 1800;
             orient = 0;
             hAlign = 'R';
             vAlign = 'B';
@@ -1327,9 +1385,8 @@ void write_kikad_text( UL_GATE G, int transX, int transY, int gatePos )
             posY   = posY - ( fontSize / 2 ) - 7;
             break;
 
-        case 270:
+        case 270: // orient = 2700;
             orient = 900;
-            //            orient = 2700;            
             hAlign = 'R';
             vAlign = 'T';
             posX   = posX + ( fontSize / 2 ) + 7;
@@ -1338,17 +1395,24 @@ void write_kikad_text( UL_GATE G, int transX, int transY, int gatePos )
 
         }
 
-	if ((strupr(T.value) == ">NAME") || (strupr(T.value) == ">VALUE" )) // Dont write place holders
-	  continue;
-	else
-	  printf("T %d %d %d %.0f %d %d %d \"%s\"  Normal 0 C C\n", orient, posX, posY,
-                 fontSize, 0, gatePos, 0, charstr_replace( "!", "~", textString ));
+        if ((strupr(T.value) == ">NAME") || (strupr(T.value) == ">VALUE" )) // Dont write place holders
+            continue;
+        else
+            printf("T %d %d %d %.0f %d %d %d \"%s\"  Normal 0 C C\n", orient, posX, posY,
+                   fontSize, 0, gatePos, 0, charstr_replace( "!", "~", textString ));
     }
 }
 
 //------------------------------------------------------
 //write kicad pin entries
 //------------------------------------------------------
+/**
+ * write kicad pin entries
+ * @param G       UL_GATE http://web.mit.edu/xavid/arch/i386_rhel4/help/173.htm
+ * @param transX  X coord
+ * @param transY  Y coord
+ * @param gatePos gate position
+ */
 void write_kikad_pins( UL_GATE G, int  transX, int transY, int gatePos )
 {
     int pinCount = 1;
@@ -1366,34 +1430,32 @@ void write_kikad_pins( UL_GATE G, int  transX, int transY, int gatePos )
         int    padCount   = 0;
         int    x2         = 0;
         int    y2         = 0;
-        
+
         if (pinCount >= 9999 )
         {
             dlgMessageBox("Canceled! To many pin numbers. (>9999)" );
             exit(EXIT_FAILURE);
         }
 
-
-
         switch (P.length)
         {
-          case PIN_LENGTH_POINT:
+        case PIN_LENGTH_POINT:
             pinLength = 0;
             break;
 
-          case PIN_LENGTH_SHORT:
+        case PIN_LENGTH_SHORT:
             pinLength = 100;
             break;
 
-          case PIN_LENGTH_MIDDLE:
+        case PIN_LENGTH_MIDDLE:
             pinLength = 200;
             break;
 
-          case PIN_LENGTH_LONG:
+        case PIN_LENGTH_LONG:
             pinLength = 300;
             break;
 
-          default:
+        default:
             pinLength = 200;
             break;
         }
@@ -1457,7 +1519,7 @@ void write_kikad_pins( UL_GATE G, int  transX, int transY, int gatePos )
             pinType = 'C';
             break;
 
-          case PIN_DIRECTION_PWR: // Input for KiCad
+        case PIN_DIRECTION_PWR: // Input for KiCad
             pinType = 'W';
             break;
 
@@ -1469,7 +1531,7 @@ void write_kikad_pins( UL_GATE G, int  transX, int transY, int gatePos )
             pinType = 'T';
             break;
 
-          case PIN_DIRECTION_SUP: // Output for KiCad
+        case PIN_DIRECTION_SUP: // Output for KiCad
             pinType = 'w';
             break;
 
@@ -1502,7 +1564,7 @@ void write_kikad_pins( UL_GATE G, int  transX, int transY, int gatePos )
         }
 
         P.contacts(pad)  // Real componet ?
-        { // Yes
+        {   // Yes
             if (padCount > 0)
             {
                 pinShape = "N";
@@ -1517,24 +1579,27 @@ void write_kikad_pins( UL_GATE G, int  transX, int transY, int gatePos )
         }
 
         if (padCount == 0) // Virtual componet ?
-        { //Yes
-          pinShape = "N";        // Pin shape is hide for KiCad !
-          if( pinType == 'w' )   // Change meaning for virual suplie ?
-            pinType = 'W';   // Change meaning for virual suplie to Input
+        {   //Yes
+            pinShape = "N";        // Pin shape is hide for KiCad !
+            if( pinType == 'w' )   // Change meaning for virual suplie ?
+                pinType = 'W';   // Change meaning for virual suplie to Input
 
-          
-          printf("P 2 %d %d %d %d %d %d %d N\n", gatePos, 0, 0, posX, posY, x2, y2 );
-          printf( "X %s %s %d %d %d %c %d %d %d %d %c %s\n", charstr_replace( "!", "~", stripArfterAT(P.name, '@', deleteTextArfterATsysbolInPinName)), "~",
-                  posX, posY,
-                  pinLength, orient,
-                  40, 40, gatePos, 1,
-                  pinType, pinShape );
+
+            printf("P 2 %d %d %d %d %d %d %d N\n", gatePos, 0, 0, posX, posY, x2, y2 );
+            printf( "X %s %s %d %d %d %c %d %d %d %d %c %s\n", charstr_replace( "!", "~", stripArfterAT(P.name, '@', deleteTextArfterATsysbolInPinName)), "~",
+                    posX, posY,
+                    pinLength, orient,
+                    40, 40, gatePos, 1,
+                    pinType, pinShape );
         }
     }
 }
-//------------------------------------------------------
-//write lib part entries
-//------------------------------------------------------
+
+/**
+ * write lib part entries
+ * @param G       UL_GATE http://web.mit.edu/xavid/arch/i386_rhel4/help/173.htm
+ * @param gatePos gate position
+ */
 void write_kikad_elements( UL_GATE G, int gatePos )
 {
     int transX = G.x / g_Fact;
@@ -1562,6 +1627,14 @@ void write_kikad_elements( UL_GATE G, int gatePos )
 //------------------------------------------------------
 //Write kicad alias entries
 //------------------------------------------------------
+/**
+ * @brief write kicad alias entries
+ * @param DEV          UL_DEVICE http://web.mit.edu/xavid/arch/i386_rhel4/help/170.htm
+ * @param G            UL_GATE http://web.mit.edu/xavid/arch/i386_rhel4/help/173.htm
+ * @param symbolName   symbol name
+ * @param countPart    count part
+ * @param prefixString prefix string
+ */
 void write_kikad_def_alias( UL_DEVICE DEV, UL_GATE G, string symbolName, int countPart, string prefixString )
 {
     int prefix_X = 0;
@@ -1581,734 +1654,739 @@ void write_kikad_def_alias( UL_DEVICE DEV, UL_GATE G, string symbolName, int cou
 
     G.symbol.texts(T)
     {
-      if ( strupr(T.value) == ">VALUE" || strupr(T.value) == ">NAME" )
-      {
-        int transX = G.x / g_Fact;
-        int transY = G.y / g_Fact;
-        int angle = T.angle;
-        int posX   = 0;
-        int posY   = 0;
-        int offset = 0;
-
-        switch ( angle )
+        if ( strupr(T.value) == ">VALUE" || strupr(T.value) == ">NAME" )
         {
-          case 0:
-            orient = 'H';
-            hAlign = 'L';
-            vAlign = 'B';
-            break;
+            int transX = G.x / g_Fact;
+            int transY = G.y / g_Fact;
+            int angle = T.angle;
+            int posX   = 0;
+            int posY   = 0;
+            int offset = 0;
 
-          case 90:
-            offset = -(T.size / 2) / g_Fact;
-            orient = 'V';
-            hAlign = 'L';
-            vAlign = 'B';
-            break;
+            switch ( angle )
+            {
+            case 0:
+                orient = 'H';
+                hAlign = 'L';
+                vAlign = 'B';
+                break;
 
-          case 180:
-            orient = 'H';
-            hAlign = 'R';
-            vAlign = 'T';
-            break;
+            case 90:
+                offset = -(T.size / 2) / g_Fact;
+                orient = 'V';
+                hAlign = 'L';
+                vAlign = 'B';
+                break;
 
-          case 270:
-            orient = 'V';
-            hAlign = 'L';
-            vAlign = 'B';
-            break;
+            case 180:
+                orient = 'H';
+                hAlign = 'R';
+                vAlign = 'T';
+                break;
+
+            case 270:
+                orient = 'V';
+                hAlign = 'L';
+                vAlign = 'B';
+                break;
+            }
+
+            if ( strupr(T.value) == ">VALUE" )
+            {
+                name_X = T.x / g_Fact - transX + offset;
+                name_Y = T.y / g_Fact - transY;
+                hasValue = 1;  // Mark to display Value
+
+
+            }
+
+            if ( strupr(T.value) == ">NAME" )
+            {
+                prefix_X = T.x / g_Fact - transX + offset;
+                prefix_Y = T.y / g_Fact - transY;
+                hasName = 1;  // Mark to display Name
+            }
         }
-
-        if ( strupr(T.value) == ">VALUE" )
-        {
-          name_X = T.x / g_Fact - transX + offset;
-          name_Y = T.y / g_Fact - transY;
-          hasValue = 1;  // Mark to display Value
-
-
-        }
-
-        if ( strupr(T.value) == ">NAME" )
-        {
-          prefix_X = T.x / g_Fact - transX + offset;
-          prefix_Y = T.y / g_Fact - transY;
-          hasName = 1;  // Mark to display Name
-        }
-      }
     }
 
 
     //    if ( DEV.prefix == "" ) // No prefix ?
-    //    { 
+    //    {
     if ( hasName  )  // dose it have a >Name  so use the genrated prifix
-      printf("F0 \"%s\" %d %d %d %c %c %c %cNN\n", prefixString, prefix_X, prefix_Y, 45, orient, 'V', hAlign, vAlign);
-    else       
-      printf("F0 \"%s\" %d %d %d %c %c %c %cNN\n", prefixString, prefix_X, prefix_Y, 45, orient, 'I', hAlign, vAlign);
+        printf("F0 \"%s\" %d %d %d %c %c %c %cNN\n", prefixString, prefix_X, prefix_Y, 45, orient, 'V', hAlign, vAlign);
+    else
+        printf("F0 \"%s\" %d %d %d %c %c %c %cNN\n", prefixString, prefix_X, prefix_Y, 45, orient, 'I', hAlign, vAlign);
     //    }
     //    else  // good we have prifix so use that
     //    {
-    //         if ( hasName  )  // dos it have a >Name prifix 
+    //         if ( hasName  )  // dos it have a >Name prifix
     //	    printf("F0 \"%s\" %d %d %d %c %c %c %cNN\n", DEV.prefix, prefix_X, prefix_Y, 50, orient, 'V', hAlign, vAlign);
-    //	 else       
+    //	 else
     //	    printf("F0 \"%s\" %d %d %d %c %c %c %cNN\n", DEV.prefix, prefix_X, prefix_Y, 50, orient, 'I', hAlign, vAlign);
     //    }
 
-    if ( hasValue )  
-      printf("F1 \"%s\" %d %d %d %c %c %c %cNN\n", charstr_replace( ",/", "_", symbolName), name_X, name_Y, 45, orient, 'V', hAlign, vAlign);  // Display then
-                 //                 printf("F1 \"%s\" %d %d %d %c %c %c %cNN\n", str_replace( ",", "_", symbolName), name_X, name_Y, 50, orient, 'V', hAlign, vAlign);  // Display then                  
+    if ( hasValue )
+        printf("F1 \"%s\" %d %d %d %c %c %c %cNN\n", charstr_replace( ",/", "_", symbolName), name_X, name_Y, 45, orient, 'V', hAlign, vAlign);  // Display then
     else
-      printf("F1 \"%s\" %d %d %d %c %c %c %cNN\n", charstr_replace( ",/", "_", symbolName), name_X, name_Y, 45, orient, 'I', hAlign, vAlign);  // Else no display
-                 //                 printf("F1 \"%s\" %d %d %d %c %c %c %cNN\n", str_replace( ",", "_", symbolName), name_X, name_Y, 50, orient, 'I', hAlign, vAlign);  // Else no display                 
+        printf("F1 \"%s\" %d %d %d %c %c %c %cNN\n", charstr_replace( ",/", "_", symbolName), name_X, name_Y, 45, orient, 'I', hAlign, vAlign);  // Else no display
 
 
     if ( DEV.package )
-      switch( outPutFootPrint )
-      {
+        switch( outPutFootPrint )
+        {
         case 0: // Dont prefix lib name to footprint name
-          printf("F2 \"%s\" 30 150 20 H I C CNN\n", escape_quotes( charstr_replace(",/()", "_", DEV.package.name)));
-          //          printf("F2 \"%s\" 30 150 20 H I C CNN\n", escape_quotes(str_replace(",", "_", str_replace("/", "_", DEV.package.name))));          
-          //          printf("F2 \"%s\" 30 150 20 H I C CNN\n", escape_quotes(str_replace(",", "_", DEV.package.name)));
-          break;
+            printf("F2 \"%s\" 30 150 20 H I C CNN\n", escape_quotes( charstr_replace(",/()", "_", DEV.package.name)));
+            break;
         case 1: // Prexfix lib name to footprint name
-          printf("F2 \"%s_%s\" 30 150 20 H I C CNN\n", footPrintPreFix, escape_quotes( charstr_replace(",/()", "_", DEV.package.name)));
-          //          printf("F2 \"%s_%s\" 30 150 20 H I C CNN\n", footPrintPreFix, escape_quotes(str_replace(",", "_", DEV.package.name)));          
-          //	 printf("F2 \"%s-%s\" 0 150 50 H I C C\n", DEV.library, DEV.package.name);
-          break;
+            printf("F2 \"%s_%s\" 30 150 20 H I C CNN\n", footPrintPreFix, escape_quotes( charstr_replace(",/()", "_", DEV.package.name)));
+            break;
         case 2: // Prexfix name to footprint name
-          printf("F2 \"%s_%s\" 30 150 20 H I C CNN\n", footPrintPreFix, escape_quotes( charstr_replace(",/()", "_", DEV.package.name)));
-          //          printf("F2 \"%s_%s\" 30 150 20 H I C CNN\n", footPrintPreFix, escape_quotes( str_replace(",", "_", DEV.package.name)));          
-          break;
-      }
-
-
+            printf("F2 \"%s_%s\" 30 150 20 H I C CNN\n", footPrintPreFix, escape_quotes( charstr_replace(",/()", "_", DEV.package.name)));
+            break;
+        }
 
     if( outPutAlias )
     {
-      int ctx;
-      string tmpxy[];
-      string tmps;
-      
-      ctx = strsplit( tmpxy, aliasList, ' ' );
+        int ctx;
+        string tmpxy[];
+        string tmps;
 
-      for( int n = 0; n < ctx; n++ )
-      {
-        if( strlen( tmps = partlistSearchAdd( tmpxy[ n ], 0 )) == 0 ) // Search for conflicting partname in Alisa list
+        ctx = strsplit( tmpxy, aliasList, ' ' );
+
+        for( int n = 0; n < ctx; n++ )
         {
-          //          printf("\nGood =%s", tmpxy[ n ] ); 
-          continue;  // all good so continue
+            if( strlen( tmps = partlistSearchAdd( tmpxy[ n ], 0 )) == 0 ) // Search for conflicting partname in Alisa list
+            {
+                //          printf("\nGood =%s", tmpxy[ n ] );
+                continue;  // all good so continue
+            }
+            else
+            {
+                //          printf("\nBad =%s", tmpxy[ n ] );
+                tmpxy[ n ] = tmpxy[ n ] + tmps; // Add error to alias part name
+                aliasList = strjoin( tmpxy, ' ' );  // Make new alais list with conflict error note
+                break;
+            }
         }
-        else
-        {
-          //          printf("\nBad =%s", tmpxy[ n ] ); 
-          tmpxy[ n ] = tmpxy[ n ] + tmps; // Add error to alias part name
-          aliasList = strjoin( tmpxy, ' ' );  // Make new alais list with conflict error note
-          break;
-        }
-      }
-      
-      if( strlen( aliasList ) > 0 )  // check for any alias's 
-        printf("ALIAS %s\n", aliasList );
+
+        if( strlen( aliasList ) > 0 )  // check for any alias's
+            printf("ALIAS %s\n", aliasList );
     }
 
 
     if ( DEV.package )
     {
-      switch ( outPutFootPrints )
-      {
+        switch ( outPutFootPrints )
+        {
         case 0:
-          break;
+            break;
         case 1:
         case 2:
-          printf("$FPLIST\n%s$ENDFPLIST\n", charstr_replace("/", "_", footPrintList ));
-//          printf("$FPLIST\n%s$ENDFPLIST\n", str_replace("/", "_", footPrintList ));
-//          printf("$FPLIST\n%s$ENDFPLIST\n", footPrintList );
-          break;
-      }
+            printf("$FPLIST\n%s$ENDFPLIST\n", charstr_replace("/", "_", footPrintList ));
+            break;
+        }
     }
 }
 
-
-
-//------------------------------------------------------
-//write lib header
-//------------------------------------------------------
+/**
+ * write lib header
+ * @param fileName filename
+ */
 void write_kikad_lib( string fileName )
 {
-  int oneRun = 0;
-  int output_part = 0;
+    int oneRun = 0;
+    int output_part = 0;
 
-  output(fileName, "wt")
-  {
-    if (library)
+    fileerror();
+    output(fileName, "wt")
     {
-      library(LIB)
-      {
-        int t = time();
-        printf("EESchema-LIBRARY Version 2.3  %02d/%02d/%04d-%02d:%02d:%02d",
-               t2day(t), t2month(t) + 1, t2year(t), t2hour(t), t2minute(t), t2second(t));
-        printf("\n# Converted with eagle-lbr2kicad-1.0.ulp Version:%.2f  Build Date:%s  USE THIS PROGRAM AT YOUR OWN RISK", VERSION, BUILD_DATE);
-
-        int countDevices = 0;
-        LIB.devices(DEV)
+        if (library)
         {
-          countDevices++;
-        }
-
-        //	    printf("\n# Device count = %d", countDevices);
-
-        LIB.devicesets(D)
-        {
-          devicesetsCount++;
-          D.devices(DEV)
-          {
-            devicesCount++;
-          }
-        }
-        printf("\n# devicesets = %d  devicescount =%d", devicesetsCount, devicesCount );
-
-	  
-
-        // ****************  DeviceSets section *******************
-        LIB.devicesets(D)
-        {
-          string nameDeviceSet = D.name;
-          string nameDeviceSetDescrtiption = D.description;
-          footPrintList = " ";
-
-          devicesCount = 0;
-
-          //********************************
-
-          // Find the number of deivce's and add the name's to a aray list of device names/package name lists,
-          // Also pin list for compair
-          int DevSetPackageCount = 0;
-          D.devices(DEV) 
-          {
-            int padCount = 0;
-
-            if( DEV.package )
-              packageNameList[DevSetPackageCount] = str_replace(",", "_", DEV.package.name );  // Add to package list
-		    
-
-            DEV.gates(G)    // Make a list of pine's for the device match
+            library(LIB)
             {
-              string temp = "";
-              G.symbol.pins(P)
-              {
-                P.contacts(pad)
+                int t = time();
+                printf("EESchema-LIBRARY Version 2.3  %02d/%02d/%04d-%02d:%02d:%02d",
+                       t2day(t), t2month(t) + 1, t2year(t), t2hour(t), t2minute(t), t2second(t));
+                printf("\n# Converted with eagle-lbr2kicad-1.0.ulp Version:%.2f  Build Date:%s  USE THIS PROGRAM AT YOUR OWN RISK", VERSION, BUILD_DATE);
+
+                int countDevices = 0;
+                LIB.devices(DEV)
                 {
-                  padCount++;
-                  sprintf( temp ,  "%s%s%d",  P.name, pad.name, padCount );
-                  pinNamePnumberList[DevSetPackageCount] +=  temp;   // Make a list of pine's for the divice match
+                    countDevices++;
                 }
-              }
-            }
 
-            if( DEV.package ) // Any packages for this deivice ?
-              DevSetPackageCount++; // Inc package count then.
+                //	    printf("\n# Device count = %d", countDevices);
 
-          } // end of D.devices(DEV) 
-
-          int ct = 0;
-          int ct1 =  0;
-          int matchCt = 0;
-          int mt = 0;
-
-          for( ct1 = 0; ((ct1 + 1) < DevSetPackageCount) && ( ( matchCt + 1 ) < DevSetPackageCount); ct1++)
-          {
-            for( ct = ct1; ( ct + 1) < DevSetPackageCount; ct++ )
-            {
-              if( strstr( pinNamePnumberList[ ct1 ], pinNamePnumberList[ ct + 1 ]) == 0)
-              {
-                if( mt )
-                  packageNameListMatch[ ct1 ] += " ";
-
-                packageNameListMatch[ ct1 ] += packageNameList[ ct + 1 ]; // Add to matched package list
-                matchCt++;
-                mt++;
-              }
-              //			printf("\nmatchCt:%d DV:%d", matchCt, DevSetPackageCount);
-            }
-            mt = 0;
-
-          }
-	      
-          //		ct1 = DevSetPackageCount;
-          //		ct = 0;
-
-          int currentDeviceCt = 0;
-          ct1 = DevSetPackageCount;
-          ct = 0;
-
-          //		printf("\n****\n****DevSetPackageCount=%d\n****\n", DevSetPackageCount);
-
-          // ****************  Device's section *******************
-          D.devices(DEV)
-          {
-
-            //		    printf("\nDevSetPackageCount=%d", DevSetPackageCount);
-
-            int countGates = 0;
-
-            // retrieve amount of gates
-            DEV.gates(G)
-            {
-              int k = 0;
-              // check to see if there is a real gate there to draw
-              G.symbol.circles(S) { k++;}
-              G.symbol.dimensions(S) { k++;}
-              G.symbol.frames(S) { k++;}
-              G.symbol.rectangles(S) { k++;}
-              G.symbol.pins(S) { k++;}
-              if( k == 0 )
-                printf("\n#ERROR No Gate pins.  Gate Number=%d", countGates+1 );
-
-              G.symbol.polygons(S) { k++;}
-              G.symbol.texts(S) { k++;}
-              G.symbol.wires(S) { k++;}
-
-              if( k == 0 )
-                printf("\n#ERROR No Gate info: Gate: Number=%d", countGates+1 );
-              
-              countGates++;
-            }
-
-            string nameString;
-
-            {
-              string alias[];
-              alias[0] = "";
-              int aliasCt = strsplit(alias, DEV.technologies, ' '); 
-
-              //                      for( int j = 0; j < aliasCt; j++ )
-              //                        printf("\n### aliasCt=%d %s  %s", j,  alias[j], D.name);
-                      
-              // dose name have place holder for Teck ?
-              if( strstr(D.name, "*", 0) != -1 )
-              { // Yes!
-                if( alias[0] == "\'\'" )
+                LIB.devicesets(D)
                 {
-                  //                            printf("\n#1 %s", D.name),
-                  nameString = str_replace( "*", "", D.name );
+                    devicesetsCount++;
+                    D.devices(DEV)
+                    {
+                        devicesCount++;
+                    }
                 }
-                else
+                printf("\n# devicesets = %d  devicescount =%d", devicesetsCount, devicesCount );
+
+
+
+                // ****************  DeviceSets section *******************
+                LIB.devicesets(D)
                 {
-                  //                            printf("\n#2 %s", D.name),
-                  nameString = str_replace( "*", alias[0], D.name );
-                }
-              }
+                    string nameDeviceSet = D.name;
+                    string nameDeviceSetDescrtiption = D.description;
+                    footPrintList = " ";
 
-                          
-              //                          if( aliasCt >= 1 ) // one or more alias ?
-              //                          {
-              //                            if( alias[0] == "\'\'" &&  ( strlen( alias[ 1 ]) >= 1 ))
-              //                              nameString = str_replace( "*", alias[ 1 ], D.name );
-              //                            else
-              //                              nameString = str_replace( "*", "", D.name );
-              //                          }
-              //                          else
-              //                          {
-              //                            if( alias[0] == "\'\'" )
-              //                              nameString = str_replace( "*", "", D.name );
-              //                            else
-              //                              nameString = str_replace( "*", alias[0], D.name );
-              //                          }
-              //                        }
+                    devicesCount = 0;
 
+                    //********************************
+                    // Find the number of deivce's and add the name's to a aray list of device names/package name lists,
+                    // Also pin list for compair
+                    int DevSetPackageCount = 0;
+                    D.devices(DEV)
+                    {
+                        int padCount = 0;
 
-                      
-              else // No!
-                nameString = D.name;
+                        if( DEV.package )
+                            packageNameList[DevSetPackageCount] = str_replace(",", "_", DEV.package.name );  // Add to package list
 
-              // Dose name have place holder for package variant name ?
-              if( strstr(nameString, "?", 0) != -1 )
-              { // Yes!
-                if( DEV.name != "\'\'" ) //  variant have '' ?
-                  nameString = str_replace( "?", DEV.name, nameString ); // No '', so we can used the variant name.. for device name.
-                else
-                { // Yes we have package name variant of '',  and we have a place holder for it in the name, so replace the '?' with nothing
-                  nameString = str_replace( "?", "", nameString );
-                }
-              }
-              else // No ! place holder for variant name !
-              {  // So just append the Variant named to the device name.
-                nameString = nameString + ((DEV.name != "\'\'") ? DEV.name : "");
-              }
-			
+                        DEV.gates(G)    // Make a list of pine's for the device match
+                        {
+                            string temp = "";
+                            G.symbol.pins(P)
+                            {
+                                P.contacts(pad)
+                                {
+                                    padCount++;
+                                    sprintf( temp ,  "%s%s%d",  P.name, pad.name, padCount );
+                                    pinNamePnumberList[DevSetPackageCount] +=  temp;   // Make a list of pine's for the divice match
+                                }
+                            }
+                        }
 
-              /*
-                if( DEV.name == "\'\'" ) // '' dose it have a package variant name of '', Note this is not the package name !!
-                nameString = D.name;   // if package variant name = ''  don't add it to deivce name
-                else
-                {
-                //    if( strstr(D.name, "*", 0) != -1 ) // is there place holder for part tec ?
-                nameString = str_replace( "*", alias[0], D.name );
+                        if( DEV.package ) // Any packages for this deivice ?
+                            DevSetPackageCount++; // Inc package count then.
+                    } // end of D.devices(DEV)
 
-                if( strstr(D.name, "?", 0) != -1 ) // is there a place to put the package name alias ?
-                nameString = str_replace( "?", DEV.name, nameString);
-                else // Ok no place holder for package name alias so put at end
-                nameString = nameString + DEV.name;
-                }
-              */
-            }
+                    int ct = 0;
+                    int ct1 =  0;
+                    int matchCt = 0;
+                    int mt = 0;
 
+                    for( ct1 = 0; ((ct1 + 1) < DevSetPackageCount) && ( ( matchCt + 1 ) < DevSetPackageCount); ct1++)
+                    {
+                        for( ct = ct1; ( ct + 1) < DevSetPackageCount; ct++ )
+                        {
+                            if( strstr( pinNamePnumberList[ ct1 ], pinNamePnumberList[ ct + 1 ]) == 0)
+                            {
+                                if( mt )
+                                    packageNameListMatch[ ct1 ] += " ";
 
-            /*		    
-                            nameString = str_replace( "?", DEV.name, D.name);
-                            nameString = str_replace( "*", DEV.name, nameString);
-                            int aliasCt = strsplit(alias, DEV.technologies, ' '); 
-                            str_replace( "*", "", D.name ));
-            */
+                                packageNameListMatch[ ct1 ] += packageNameList[ ct + 1 ]; // Add to matched package list
+                                matchCt++;
+                                mt++;
+                            }
+                            //			printf("\nmatchCt:%d DV:%d", matchCt, DevSetPackageCount);
+                        }
+                        mt = 0;
 
-            /*
+                    }
 
-              if( DEV.name == "\'\'" ) // '' dose it have a package variant name of the package, Note this is not the package name !!
-              {
-              nameString =  str_replace( "?", "", str_replace( "*", "", D.name ));
-              }
-              else
-              {
-              if( eaglePartToKiCadPartConversion ) // yes so clean up the mess to alow the eagle to kicad sch to work
-              nameString =  str_replace( "*", "", D.name ) + DEV.name; // Add package variant name,  part name
-              else
-              nameString =  str_replace( "*", "", D.name );
-              //		      nameString =  str_replace( "*", "", D.name ) + DEV.package.name;
-              //		      nameString =  str_replace( "*", "", D.name ) + DEV.name;
+                    //		ct1 = DevSetPackageCount;
+                    //		ct = 0;
+                    int currentDeviceCt = 0;
+                    ct1 = DevSetPackageCount;
+                    ct = 0;
 
-              if( eaglePartToKiCadPartConversion ) // combine common footprints ?
-              {	// Replace all spaces or '/' with '_' in part number
-              for (int idx = 0; nameString[idx]; ++idx)
-              {
-              if( nameString[idx] == ' ' || nameString[idx] == '/')
-              nameString[idx] = '_';
-              }
-              }
-              }
-              //                    string nameString   = D.name + DEV.name;
-              */
+                    //		printf("\n****\n****DevSetPackageCount=%d\n****\n", DevSetPackageCount);
+                    // ****************  Device's section *******************
+                    D.devices(DEV)
+                    {
+                        //		    printf("\nDevSetPackageCount=%d", DevSetPackageCount);
+                        int countGates = 0;
 
-            string prefixString = DEV.prefix;
-            string drawPinNumberStr  = "N";
-            string drawPinNameStr  = "N";
-            char partType = 'N';
+                        // retrieve amount of gates
+                        DEV.gates(G)
+                        {
+                            int k = 0;
+                            // check to see if there is a real gate there to draw
+                            G.symbol.circles(S) {
+                                k++;
+                            }
+                            G.symbol.dimensions(S) {
+                                k++;
+                            }
+                            G.symbol.frames(S) {
+                                k++;
+                            }
+                            G.symbol.rectangles(S) {
+                                k++;
+                            }
+                            G.symbol.pins(S) {
+                                k++;
+                            }
+                            if( k == 0 )
+                                printf("\n#ERROR No Gate pins.  Gate Number=%d", countGates+1 );
 
+                            G.symbol.polygons(S) {
+                                k++;
+                            }
+                            G.symbol.texts(S) {
+                                k++;
+                            }
+                            G.symbol.wires(S) {
+                                k++;
+                            }
 
-            // Scan thou  pins looking for visabele not visable status
-            int pinNameVisable = 0;
-            int pinNumberVisable = 0;
-            int pinCt = 0;
-            int pinPower = 0;
-            
-            DEV.gates(G)
-            {
-              G.symbol.pins(P)
-              {
-                pinCt++;
+                            if( k == 0 )
+                                printf("\n#ERROR No Gate info: Gate: Number=%d", countGates+1 );
 
-                if( P.direction == PIN_DIRECTION_SUP ) // power supply pin pin ?
-                  pinPower = 1; // yes
-                
-                if( P.visible == 0)
-                  continue;
-                else
-                {
-                  if ( P.visible == 1 || P.visible == 3 )
-                    pinNameVisable++;
+                            countGates++;
+                        }
 
-                  if ( P.visible == 2 || P.visible == 3 )
-                    pinNumberVisable++;
-                }
-              }
-            }
+                        string nameString;
 
-            // check for missing prefix
-            if ( DEV.prefix == "" )
-            {
-              string c;
-	      if((!( DEV.package )) && ( pinCt <= 1 )) // dose it have a package ?
-		{  // No so print NO-PACKAGE
-		  sprintf(c, "\nMissing Prefix Part =%s\t\t\t\t%s\t\t\t\t\t%s\t\t%s", DEV.name, "NO-PACKAGE", DEV.library, undefinedPartPreFix );
-		  logfile += c;
-		}
-	      else
-		{
-		  sprintf(c, "\nMissing Prefix Part =%s\t\t\t\t%s\t\t\t\t\t%s\t\t%s", DEV.name, DEV.package.name, DEV.library, undefinedPartPreFix );
-		  logfile += c;
-		}
-	      
-              missingPrefixLog[ g_missingPrefix ] += c;
-              g_missingPrefix++;
-              sprintf( prefixString, "%s", undefinedPartPreFix);
-            }
-            if( (!( DEV.package )) && ( pinCt <= 1 )) // dos it have package and pint count <= 1 ?
-            {
-              prefixString = "#" + prefixString; //  No, so mark as virtual componet
-              if( pinPower == 1 )  // Is it a power supply pin ?
-                partType = 'P';   // Ok mark as vuiral Power supply
-            }
+                        {
+                            string alias[];
+                            alias[0] = "";
+                            int aliasCt = strsplit(alias, DEV.technologies, ' ');
+
+                            //  for( int j = 0; j < aliasCt; j++ )
+                            //    printf("\n### aliasCt=%d %s  %s", j,  alias[j], D.name);
+
+                            // dose name have place holder for Teck ?
+                            if( strstr(D.name, "*", 0) != -1 )
+                            {   // Yes!
+                                if( alias[0] == "\'\'" )
+                                {
+                                    //                            printf("\n#1 %s", D.name),
+                                    nameString = str_replace( "*", "", D.name );
+                                }
+                                else
+                                {
+                                    //                            printf("\n#2 %s", D.name),
+                                    nameString = str_replace( "*", alias[0], D.name );
+                                }
+                            }
 
 
-            switch (drawPinNumber)		    
-            {
-              case 0:   // Always show pin numbers ?,   as KiCad only has globale controle !
-                drawPinNumberStr = "Y";
-                break;
-
-              case 1:  // Never show pin numbers ?,   as KiCad only has globale controle !
-                if( pinNumberVisable )
-                  drawPinNumberStr = "Y";
-                break;	    
-
-              case 2: // Never show Number
-                drawPinNumberStr = "N";
-                break;	    
-            }			    
-
+                            // if( aliasCt >= 1 ) // one or more alias ?
+                            // {
+                            //   if( alias[0] == "\'\'" &&  ( strlen( alias[ 1 ]) >= 1 ))
+                            //     nameString = str_replace( "*", alias[ 1 ], D.name );
+                            //   else
+                            //     nameString = str_replace( "*", "", D.name );
+                            // }
+                            // else
+                            // {
+                            //   if( alias[0] == "\'\'" )
+                            //     nameString = str_replace( "*", "", D.name );
+                            //   else
+                            //     nameString = str_replace( "*", alias[0], D.name );
+                            //  }
 
 
-            switch (drawPinName)
-            {
-              case 0:   // Always show pin Names ?,   as KiCad only has globale controle !
-                drawPinNameStr = "Y";
-                break;
+                            else // No!
+                                nameString = D.name;
 
-              case 1:   // Show pin name base on eagle sysmbol ?,   as KiCad only has globale controle !
-                if( pinNameVisable )
-                  drawPinNameStr = "Y";
-                break;
-
-              case 2: // Dont show pin names
-                drawPinNameStr = "N";
-                break;
-            }
-
-
-            aliasList = "";
-            if( outPutAlias )  // output alias if enabled
-            {
-              string alias[];
-              int count = 0;
-              int aliasCt = strsplit(alias, DEV.technologies, ' '); 
-
-              //              printf("\n#technologies = %s| activetechnology = %s", DEV.technologies, DEV.activetechnology );
-
-              
-              while( aliasCt )
-              {
-                if( alias[count] == "''" )
-                {
-                  alias[count] = "";
-                  count++;
-                  aliasCt--;
-                  continue;
-                }
-                            
-                if( DEV.name != "''" ) // We DEV.name ? then  add it.
-                {  // DEV.nanme found so add it
-                  if(( strstr(D.name, "*", 0) != -1 ) && (strstr(D.name, "?", 0) != -1) )  // is there a place to put the Tec alias and package alas ?
-                  {
-                    /* printf("\nX1\n"); */
-                    /* printf("|%d :%s :%s :%s", count, alias[count], D.name, DEV.name ); */
-                    aliasList += str_replace( "*", alias[count++],  str_replace( "?", DEV.name, D.name ));  // Put the Alias's in.
-                  }
-                                
-                  if(( strstr(D.name, "*", 0) != -1 ) && (strstr(D.name, "?", 0) == -1 ))  // Is there a place for Tec alias but no package alias ?
-                  {
-                    //                                  printf("|%d :%s :%s :%s", count, alias[count], D.name, DEV.name );
-                    //                                  printf("\nXXX\n");
-                    aliasList += str_replace( "*", alias[count++], D.name ) + DEV.name;  // Put the Alias's in. and apend the package alias
-                  }
-                  //		  aliasList += str_replace( "*", alias[count++], D.name );  // Put the Alias's in. and apend the package alias
+                            // Dose name have place holder for package variant name ?
+                            if( strstr(nameString, "?", 0) != -1 )
+                            {   // Yes!
+                                if( DEV.name != "\'\'" ) //  variant have '' ?
+                                    nameString = str_replace( "?", DEV.name, nameString ); // No '', so we can used the variant name.. for device name.
+                                else
+                                {   // Yes we have package name variant of '',  and we have a place holder for it in the name, so replace the '?' with nothing
+                                    nameString = str_replace( "?", "", nameString );
+                                }
+                            }
+                            else // No ! place holder for variant name !
+                            {   // So just append the Variant named to the device name.
+                                nameString = nameString + ((DEV.name != "\'\'") ? DEV.name : "");
+                            }
 
 
-                  if(( strstr(D.name, "*", 0) == -1 ) && (strstr(D.name, "?", 0) != -1 ))  // Is there no place holder for Tec alias but place holder for package alias ?
-                    aliasList += str_replace( "?", DEV.name, D.name ) + alias[count++];  // And append the Alias's, and put the  package alias in
+                            /*
+                              if( DEV.name == "\'\'" ) // '' dose it have a package variant name of '', Note this is not the package name !!
+                              nameString = D.name;   // if package variant name = ''  don't add it to deivce name
+                              else
+                              {
+                              //    if( strstr(D.name, "*", 0) != -1 ) // is there place holder for part tec ?
+                              nameString = str_replace( "*", alias[0], D.name );
 
-                  if(( strstr(D.name, "*", 0) == -1) && (strstr(D.name, "?", 0) == -1 )) // No place holders for Alias's ?
-                    aliasList +=  D.name + alias[count++] + DEV.name;  // No place holders so append to the end
-                }
-                else  // DEV.name not found,  so check for Tec/Alias to add
-                {
-                  /* printf("\nX2\n"); */
-                  /* printf("|%d :%s :%s :%s", count, alias[count], D.name, DEV.name ); */
-
-                  if( strstr(D.name, "*", 0) != -1)  // is there a place to put the Tec ?
-                    aliasList += str_replace( "*", alias[count++], str_replace( "?", "", D.name )); // Strip out ? first then add Tec
-                  //                    aliasList += str_replace( "*", alias[count++], D.name );                  
-                  else
-                    aliasList +=  str_replace( "?", "", D.name ) + alias[count++];    // No so just add to end
-                }  
-			    
-                if( aliasCt )  // check for zero count ?
-                  aliasCt--; 
-
-                if( aliasCt )  // last one ?
-                  aliasList += " ";  // Not last so add space
-
-                // Do we have part name in Alisa list ?
-                if( strstr( aliasList, nameString, 0) != -1 )
-                {
-                  //				printf("\n# found !");
-                  //				aliasList = str_replace( nameString, "", aliasList ); // yes so remove !
-                }
-              }  // while( aliasCt )
-            }   // if( outPutAlias )  // output alias if enabled
-
-            // combine common footprints ?
-            if( eaglePartToKiCadPartConversion  == 0 )
-            {
-              for( ; ct1; ct1--) 			// ct1 contians DevSetPackageCount;
-              {
-                if( ct == 0 )  // first package ?
-                {     // allways put out the first package
-                  output_part = 1;  // force output of part
-                  ct1--;
-                  ct ++;
-                  break;
-                }
-
-                for( int j = 0; j < ct; j++)  // Seach to see if we have a package/pin match ?
-                {
-                  if ( strstr( packageNameListMatch[ j ], packageNameList[ ct ] ) != -1 )
-                  {  // Match found so dont out put part
-                    output_part = 0;
-                    break;
-                  }
-
-                  // Match not found so continue looking
-                  output_part = 1;
-                }
-                ct++;
-                break;
-              }
-            }
-            else //  Ok seprate part for every device !
-            {
-              output_part = 1;	
-            }
-
-            footPrintList = "";
-
-            if( outPutFootPrints && DEV.package )
-            {
-              string ws[];
-              int c = 0;
-
-              switch ( outPutFootPrints )
-              {
-                case 1:
-                  footPrintList += escape_quotes(packageNameList[ currentDeviceCt ] + " " + packageNameListMatch[ currentDeviceCt ]);
-                  break;
-                case 2:
-                  footPrintList += escape_quotes(DEV.library + ":" + packageNameList[ currentDeviceCt ] + " " + packageNameListMatch[ currentDeviceCt ]);
-                  break;
-              }
-
-              c = strsplit( ws, footPrintList, ' ');
-              footPrintList = "";
-
-              for( int c1 = 0; c1 < c ; c1++ )
-              {
-                if( ws[c1] == "" )
-                  continue;
-
-                ws[c1] = ( wildCardPrefix ? "*" : "") + ws[c1] +  (wildPostfix ? "*\n" : "\n");
-              }
-
-              for( c1 = 0; c1 < c ; c1++ )
-              {
-                if( ws[c1] == "" )
-                  continue;
-
-                footPrintList += " " + escape_quotes(ws[c1]);
-              }
-            }
+                              if( strstr(D.name, "?", 0) != -1 ) // is there a place to put the package name alias ?
+                              nameString = str_replace( "?", DEV.name, nameString);
+                              else // Ok no place holder for package name alias so put at end
+                              nameString = nameString + DEV.name;
+                              }
+                            */
+                        }
 
 
-            if(output_part)
-            {
-              printf("\n#");
-              printf("\n# %s", nameString);
-              printf("     # %s", charstr_replace( ",/", "_", nameString));              
-              printf("\n#");
+                        /*
+                                        nameString = str_replace( "?", DEV.name, D.name);
+                                        nameString = str_replace( "*", DEV.name, nameString);
+                                        int aliasCt = strsplit(alias, DEV.technologies, ' ');
+                                        str_replace( "*", "", D.name ));
+                        */
 
-              
-              //              string conflictPartsLibsList[];4
-              //              int conflictPartsLibsListsize = 0;
+                        /*
 
-              string tmpsx = partlistSearchAdd( escape_quotes(nameString), 0);
-              
+                          if( DEV.name == "\'\'" ) // '' dose it have a package variant name of the package, Note this is not the package name !!
+                          {
+                            nameString =  str_replace( "?", "", str_replace( "*", "", D.name ));
+                          }
+                          else
+                          {
+                            if( eaglePartToKiCadPartConversion ) // yes so clean up the mess to alow the eagle to kicad sch to work
+                              nameString =  str_replace( "*", "", D.name ) + DEV.name; // Add package variant name,  part name
+                            else
+                              nameString =  str_replace( "*", "", D.name );
+                          //		      nameString =  str_replace( "*", "", D.name ) + DEV.package.name;
+                          //		      nameString =  str_replace( "*", "", D.name ) + DEV.name;
 
-              //              if( countGates == 2 )
-              //                printf("\n####DEF %s_%s %s %d %d %s %s %d %c %c\n", g_lib_prefix, escape_quotes( nameString + tmpsx ) , prefixString, 0, 40, drawPinNumberStr, drawPinNameStr, countGates, 'L', 'N');
+                          if( eaglePartToKiCadPartConversion ) // combine common footprints ?
+                          {	// Replace all spaces or '/' with '_' in part number
+                            for (int idx = 0; nameString[idx]; ++idx)
+                            {
+                              if( nameString[idx] == ' ' || nameString[idx] == '/')
+                                nameString[idx] = '_';
+                            }
+                          }
+                          }
+                          //                    string nameString   = D.name + DEV.name;
+                          */
 
-              
-              if( add_libnamePrefixToPartName )
-                printf("\nDEF %s_%s %s %d %d %s %s %d %c %c\n", g_lib_prefix, escape_quotes( charstr_replace( ",/()", "_",nameString ) + tmpsx  ) , prefixString, 0, 40, drawPinNumberStr, drawPinNameStr, countGates, 'L', partType );
-              //                printf("\nDEF %s_%s %s %d %d %s %s %d %c %c\n", g_lib_prefix, escape_quotes( str_replace( ",", "_",nameString ) + tmpsx  ) , prefixString, 0, 40, drawPinNumberStr, drawPinNameStr, countGates, 'L', 'N');              
-              else
-                printf("\nDEF %s %s %d %d %s %s %d %c %c\n", escape_quotes( charstr_replace( ",/()", "_", nameString ) + tmpsx), prefixString, 0, 40, drawPinNumberStr, drawPinNameStr, countGates, 'L', partType );
-              //              printf("\nDEF %s %s %d %d %s %s %d %c %c\n", escape_quotes( str_replace( ",", "_", nameString ) + tmpsx), prefixString, 0, 40, drawPinNumberStr, drawPinNameStr, countGates, 'L', 'N');                        
-
-              int gatePos = 0;
-              DEV.gates(G)
-              {
-                gatePos++;    // Inc gate number
-
-                if ( gatePos == 1)  // first gate.. or only first of multi gate ?
-                {  // write it !
-                  // Write kicad alias entries
-                  write_kikad_def_alias(DEV, G, escape_quotes( nameString + tmpsx ), gatePos, prefixString );
-                  printf("DRAW\n");
-                }
-                write_kikad_elements(G, gatePos);
-              }
-              printf("ENDDRAW\n");
-              printf("ENDDEF");
-            }
-
-            currentDeviceCt++;
-          } // D.devices(DEV)
-
-          // clear device's info
-          ct1 = DevSetPackageCount;      
-          for( ct = 0 ; ct1; ct1--)  // clear list
-          {
-            packageNameList[ct] = "";
-            packageNameListMatch[ct] = "";
-            pinNamePnumberList[ct] = "";
-            ct++;
-          }
-        } // devicesets(D)
-        printf("\n#End Library");
-      }// library(LIB)
-    }// if (library)
-  }// output(fileName, "wt")
-}
+                        string prefixString = DEV.prefix;
+                        string drawPinNumberStr  = "N";
+                        string drawPinNameStr  = "N";
+                        char partType = 'N';
 
 
-//------------------------------------------------------
-// Select the path where the modfile will be saved
-//------------------------------------------------------
-void openModPath( string startPath )
-{
-  string dirName = "";
-  dirName = dlgDirectory("Select a directory", startPath);
+                        // Scan thou  pins looking for visabele not visable status
+                        int pinNameVisable = 0;
+                        int pinNumberVisable = 0;
+                        int pinCt = 0;
+                        int pinPower = 0;
 
-  if ( dirName != "" )
+                        DEV.gates(G)
+                        {
+                            G.symbol.pins(P)
+                            {
+                                pinCt++;
+
+                                if( P.direction == PIN_DIRECTION_SUP ) // power supply pin pin ?
+                                    pinPower = 1; // yes
+
+                                if( P.visible == 0)
+                                    continue;
+                                else
+                                {
+                                    if ( P.visible == 1 || P.visible == 3 )
+                                        pinNameVisable++;
+
+                                    if ( P.visible == 2 || P.visible == 3 )
+                                        pinNumberVisable++;
+                                }
+                            }
+                        }
+
+                        // check for missing prefix
+                        if ( DEV.prefix == "" )
+                        {
+                            string c;
+                            if((!( DEV.package )) && ( pinCt <= 1 )) // dose it have a package ?
+                            {   // No so print NO-PACKAGE
+                                sprintf(c, "\nMissing Prefix Part =%s\t\t\t\t%s\t\t\t\t\t%s\t\t%s", DEV.name, "NO-PACKAGE", DEV.library, undefinedPartPreFix );
+                                logfile += c;
+                            }
+                            else
+                            {
+                                sprintf(c, "\nMissing Prefix Part =%s\t\t\t\t%s\t\t\t\t\t%s\t\t%s", DEV.name, DEV.package.name, DEV.library, undefinedPartPreFix );
+                                logfile += c;
+                            }
+
+                            missingPrefixLog[ g_missingPrefix ] += c;
+                            g_missingPrefix++;
+                            sprintf( prefixString, "%s", undefinedPartPreFix);
+                        }
+                        if( (!( DEV.package )) && ( pinCt <= 1 )) // dos it have package and pint count <= 1 ?
+                        {
+                            prefixString = "#" + prefixString; //  No, so mark as virtual componet
+                            if( pinPower == 1 )  // Is it a power supply pin ?
+                                partType = 'P';   // Ok mark as vuiral Power supply
+                        }
+
+
+                        switch (drawPinNumber)
+                        {
+                        case 0:   // Always show pin numbers ?,   as KiCad only has globale controle !
+                            drawPinNumberStr = "Y";
+                            break;
+
+                        case 1:  // Never show pin numbers ?,   as KiCad only has globale controle !
+                            if( pinNumberVisable )
+                                drawPinNumberStr = "Y";
+                            break;
+
+                        case 2: // Never show Number
+                            drawPinNumberStr = "N";
+                            break;
+                        }
+
+
+
+                        switch (drawPinName)
+                        {
+                        case 0:   // Always show pin Names ?,   as KiCad only has globale controle !
+                            drawPinNameStr = "Y";
+                            break;
+
+                        case 1:   // Show pin name base on eagle sysmbol ?,   as KiCad only has globale controle !
+                            if( pinNameVisable )
+                                drawPinNameStr = "Y";
+                            break;
+
+                        case 2: // Dont show pin names
+                            drawPinNameStr = "N";
+                            break;
+                        }
+
+
+                        aliasList = "";
+                        if( outPutAlias )  // output alias if enabled
+                        {
+                            string alias[];
+                            int count = 0;
+                            int aliasCt = strsplit(alias, DEV.technologies, ' ');
+
+                            //              printf("\n#technologies = %s| activetechnology = %s", DEV.technologies, DEV.activetechnology );
+
+
+                            while( aliasCt )
+                            {
+                                if( alias[count] == "''" )
+                                {
+                                    alias[count] = "";
+                                    count++;
+                                    aliasCt--;
+                                    continue;
+                                }
+
+                                if( DEV.name != "''" ) // We DEV.name ? then  add it.
+                                {   // DEV.nanme found so add it
+                                    if(( strstr(D.name, "*", 0) != -1 ) && (strstr(D.name, "?", 0) != -1) )  // is there a place to put the Tec alias and package alas ?
+                                    {
+                                        /* printf("\nX1\n"); */
+                                        /* printf("|%d :%s :%s :%s", count, alias[count], D.name, DEV.name ); */
+                                        aliasList += str_replace( "*", alias[count++],  str_replace( "?", DEV.name, D.name ));  // Put the Alias's in.
+                                    }
+
+                                    if(( strstr(D.name, "*", 0) != -1 ) && (strstr(D.name, "?", 0) == -1 ))  // Is there a place for Tec alias but no package alias ?
+                                    {
+                                        //                                  printf("|%d :%s :%s :%s", count, alias[count], D.name, DEV.name );
+                                        //                                  printf("\nXXX\n");
+                                        aliasList += str_replace( "*", alias[count++], D.name ) + DEV.name;  // Put the Alias's in. and apend the package alias
+                                    }
+                                    //		  aliasList += str_replace( "*", alias[count++], D.name );  // Put the Alias's in. and apend the package alias
+
+
+                                    if(( strstr(D.name, "*", 0) == -1 ) && (strstr(D.name, "?", 0) != -1 ))  // Is there no place holder for Tec alias but place holder for package alias ?
+                                        aliasList += str_replace( "?", DEV.name, D.name ) + alias[count++];  // And append the Alias's, and put the  package alias in
+
+                                    if(( strstr(D.name, "*", 0) == -1) && (strstr(D.name, "?", 0) == -1 )) // No place holders for Alias's ?
+                                        aliasList +=  D.name + alias[count++] + DEV.name;  // No place holders so append to the end
+                                }
+                                else  // DEV.name not found,  so check for Tec/Alias to add
+                                {
+                                    /* printf("\nX2\n"); */
+                                    /* printf("|%d :%s :%s :%s", count, alias[count], D.name, DEV.name ); */
+
+                                    if( strstr(D.name, "*", 0) != -1)  // is there a place to put the Tec ?
+                                        aliasList += str_replace( "*", alias[count++], str_replace( "?", "", D.name )); // Strip out ? first then add Tec
+                                    //                    aliasList += str_replace( "*", alias[count++], D.name );
+                                    else
+                                        aliasList +=  str_replace( "?", "", D.name ) + alias[count++];    // No so just add to end
+                                }
+
+                                if( aliasCt )  // check for zero count ?
+                                    aliasCt--;
+
+                                if( aliasCt )  // last one ?
+                                    aliasList += " ";  // Not last so add space
+
+                                // Do we have part name in Alisa list ?
+                                if( strstr( aliasList, nameString, 0) != -1 )
+                                {
+                                    //				printf("\n# found !");
+                                    //				aliasList = str_replace( nameString, "", aliasList ); // yes so remove !
+                                }
+                            }  // while( aliasCt )
+                        }   // if( outPutAlias )  // output alias if enabled
+
+                        // combine common footprints ?
+                        if( eaglePartToKiCadPartConversion  == 0 )
+                        {
+                            for( ; ct1; ct1--) 			// ct1 contians DevSetPackageCount;
+                            {
+                                if( ct == 0 )  // first package ?
+                                {   // allways put out the first package
+                                    output_part = 1;  // force output of part
+                                    ct1--;
+                                    ct ++;
+                                    break;
+                                }
+
+                                for( int j = 0; j < ct; j++)  // Seach to see if we have a package/pin match ?
+                                {
+                                    if ( strstr( packageNameListMatch[ j ], packageNameList[ ct ] ) != -1 )
+                                    {   // Match found so dont out put part
+                                        output_part = 0;
+                                        break;
+                                    }
+
+                                    // Match not found so continue looking
+                                    output_part = 1;
+                                }
+                                ct++;
+                                break;
+                            }
+                        }
+                        else //  Ok seprate part for every device !
+                        {
+                            output_part = 1;
+                        }
+
+                        footPrintList = "";
+
+                        if( outPutFootPrints && DEV.package )
+                        {
+                            string ws[];
+                            int c = 0;
+
+                            switch ( outPutFootPrints )
+                            {
+                            case 1:
+                                footPrintList += escape_quotes(packageNameList[ currentDeviceCt ] + " " + packageNameListMatch[ currentDeviceCt ]);
+                                break;
+                            case 2:
+                                footPrintList += escape_quotes(DEV.library + ":" + packageNameList[ currentDeviceCt ] + " " + packageNameListMatch[ currentDeviceCt ]);
+                                break;
+                            }
+
+                            c = strsplit( ws, footPrintList, ' ');
+                            footPrintList = "";
+
+                            for( int c1 = 0; c1 < c ; c1++ )
+                            {
+                                if( ws[c1] == "" )
+                                    continue;
+
+                                ws[c1] = ( wildCardPrefix ? "*" : "") + ws[c1] +  (wildPostfix ? "*\n" : "\n");
+                            }
+
+                            for( c1 = 0; c1 < c ; c1++ )
+                            {
+                                if( ws[c1] == "" )
+                                    continue;
+
+                                footPrintList += " " + escape_quotes(ws[c1]);
+                            }
+                        }
+
+
+                        if(output_part)
+                        {
+                            printf("\n#");
+                            printf("\n# %s", nameString);
+                            printf("     # %s", charstr_replace( ",/", "_", nameString));
+                            printf("\n#");
+
+
+                            //              string conflictPartsLibsList[];4
+                            //              int conflictPartsLibsListsize = 0;
+
+                            string tmpsx = partlistSearchAdd( escape_quotes(nameString), 0);
+
+
+                            //              if( countGates == 2 )
+                            //                printf("\n####DEF %s_%s %s %d %d %s %s %d %c %c\n", g_lib_prefix, escape_quotes( nameString + tmpsx ) , prefixString, 0, 40, drawPinNumberStr, drawPinNameStr, countGates, 'L', 'N');
+
+
+                            if( add_libnamePrefixToPartName )
+                                printf("\nDEF %s_%s %s %d %d %s %s %d %c %c\n", g_lib_prefix, escape_quotes( charstr_replace( ",/()", "_",nameString ) + tmpsx  ) , prefixString, 0, 40, drawPinNumberStr, drawPinNameStr, countGates, 'L', partType );
+                            //                printf("\nDEF %s_%s %s %d %d %s %s %d %c %c\n", g_lib_prefix, escape_quotes( str_replace( ",", "_",nameString ) + tmpsx  ) , prefixString, 0, 40, drawPinNumberStr, drawPinNameStr, countGates, 'L', 'N');
+                            else
+                                printf("\nDEF %s %s %d %d %s %s %d %c %c\n", escape_quotes( charstr_replace( ",/()", "_", nameString ) + tmpsx), prefixString, 0, 40, drawPinNumberStr, drawPinNameStr, countGates, 'L', partType );
+                            //              printf("\nDEF %s %s %d %d %s %s %d %c %c\n", escape_quotes( str_replace( ",", "_", nameString ) + tmpsx), prefixString, 0, 40, drawPinNumberStr, drawPinNameStr, countGates, 'L', 'N');
+
+                            int gatePos = 0;
+                            DEV.gates(G)
+                            {
+                                gatePos++;    // Inc gate number
+
+                                if ( gatePos == 1)  // first gate.. or only first of multi gate ?
+                                {   // write it !
+                                    // Write kicad alias entries
+                                    write_kikad_def_alias(DEV, G, escape_quotes( nameString + tmpsx ), gatePos, prefixString );
+                                    printf("DRAW\n");
+                                }
+                                write_kikad_elements(G, gatePos);
+                            }
+                            printf("ENDDRAW\n");
+                            printf("ENDDEF");
+                        }
+
+                        currentDeviceCt++;
+                    } // D.devices(DEV)
+
+                    // clear device's info
+                    ct1 = DevSetPackageCount;
+                    for( ct = 0 ; ct1; ct1--)  // clear list
+                    {
+                        packageNameList[ct] = "";
+                        packageNameListMatch[ct] = "";
+                        pinNamePnumberList[ct] = "";
+                        ct++;
+                    }
+                } // devicesets(D)
+                printf("\n#End Library");
+            }// library(LIB)
+        }// if (library)
+    }// output(fileName, "wt")
+    if(fileerror())
     {
-      library(L)
-      {
-	L.devices(DEV)
-	  {
-	    g_mod_name = dirName + "/" + DEV.library + ".mod";
-	  }
-      }
+        string c;
+        sprintf(c, "Problem writing in %s", fileName);
+        errorLog[errors_count] = c;
+        errors_count++;
     }
 }
 
-//------------------------------------------------------
-// Select the path where the libfile will be saved
-//------------------------------------------------------
+
+/**
+ * Select the path where the modfile will be saved
+ * @param startPath mod path
+ */
+void openModPath( string startPath )
+{
+    string dirName = "";
+    dirName = dlgDirectory("Select a directory", startPath);
+
+    if ( dirName != "" )
+    {
+        library(L)
+        {
+            L.devices(DEV)
+            {
+                g_mod_name = dirName + "/" + DEV.library + ".mod";
+            }
+        }
+    }
+}
+
+/**
+ * Select the path where libfile will be saved
+ * @param startPath lib path
+ */
 void openLibPath( string startPath )
 {
     string dirName = "";
@@ -2355,312 +2433,389 @@ int width = 2;
 int height = 2;
 
 
+/**
+ * @brief  main window for script configration
+ * @param  titleString window title
+ * @return             if the dialog is simply closed, the return value will be 0.
+ */
 int mainDialog( string titleString )
 {
-  int result;
+    int result;
 
-  result = dlgDialog( titleString )
+    result = dlgDialog( titleString )
     {
-      dlgHBoxLayout dlgSpacing(600);
-      dlgStretch(0);
-      dlgLabel("Output Module/Pcb lib footprint file:");
-      dlgStretch(0);
-      dlgHBoxLayout
-      {
-	dlgStringEdit(g_mod_name);
-	dlgPushButton("Edit") openModPath("C:\\");
-      }
-      dlgHBoxLayout
-      {
+        dlgHBoxLayout dlgSpacing(600);
+        dlgStretch(0);
+        dlgLabel("Output Module/Pcb lib footprint file:");
+        dlgStretch(0);
+        dlgHBoxLayout
+        {
+            dlgStringEdit(g_mod_name);
+            dlgPushButton("Edit") openModPath("C:\\");
+        }
+        dlgHBoxLayout
+        {
 
-      }
+        }
 
-      dlgStretch(0);
-      dlgLabel("Output Sch lib file:");
-      dlgStretch(0);
-      dlgHBoxLayout
-      {
-	dlgStringEdit(g_lib_name);
-	dlgPushButton("Edit") openLibPath("C:\\");
-      }
-      dlgVBoxLayout
-      {
-	dlgComboBox(showPinNames, drawPinName ); dlgStretch(0);
-	dlgComboBox(showPinNumbers, drawPinNumber ); dlgStretch(0);
+        dlgStretch(0);
+        dlgLabel("Output Sch lib file:");
+        dlgStretch(0);
+        dlgHBoxLayout
+        {
+            dlgStringEdit(g_lib_name);
+            dlgPushButton("Edit") openLibPath("C:\\");
+        }
+        dlgVBoxLayout
+        {
+            dlgComboBox(showPinNames, drawPinName );
+            dlgStretch(0);
+            dlgComboBox(showPinNumbers, drawPinNumber );
+            dlgStretch(0);
 
-	dlgHBoxLayout
-	{
-	  dlgLabel("FootPrint Lib Prefix and over ride");
-	  dlgStretch(0); dlgStringEdit(footPrintPreFix);
-	  dlgStretch(0); dlgPushButton("Info") { if (dlgMessageBox(infoFootPrintPrefix, "Ok") == 0); }  dlgSpacing(20);
-	}
+            dlgHBoxLayout
+            {
+                dlgLabel("FootPrint Lib Prefix and over ride");
+                dlgStretch(0);
+                dlgStringEdit(footPrintPreFix);
+                dlgStretch(0);
+                dlgPushButton("Info") {
+                    if (dlgMessageBox(infoFootPrintPrefix, "Ok") == 0);
+                }
+                dlgSpacing(20);
+            }
 
-	dlgHBoxLayout
-	{
-	  dlgComboBox( outPutFootPrintOptions, outPutFootPrint );
-	  dlgStretch(0); dlgPushButton("Info") { if (dlgMessageBox(infoFootPrint, "Ok") == 0); }  dlgSpacing(20);
-	}
-	dlgHBoxLayout
-	{
-	  dlgComboBox( addFootPrintList, outPutFootPrints );
-	  dlgStretch(0); dlgPushButton("Info") { if (dlgMessageBox(infoFootPrintList, "Ok") == 0); }   dlgSpacing(20);
-	}
-	dlgHBoxLayout
-	{
-	  dlgComboBox( eaglePartToKiCadPartConversiontion, eaglePartToKiCadPartConversion );
-	  dlgStretch(0); dlgPushButton("Info") { if (dlgMessageBox( infoDeviceConversion, "Ok") == 0); }  dlgSpacing(20);
-	}
-	dlgHBoxLayout
-	{
-	  dlgLabel("Defult Prefix for for sch parts which have no prefix");
-	  dlgStringEdit(undefinedPartPreFix);
-	  dlgStretch(0); dlgPushButton("Info") { if (dlgMessageBox( infoNoPrefix, "Ok") == 0); }  dlgSpacing(20);
-	}
+            dlgHBoxLayout
+            {
+                dlgComboBox( outPutFootPrintOptions, outPutFootPrint );
+                dlgStretch(0);
+                dlgPushButton("Info") {
+                    if (dlgMessageBox(infoFootPrint, "Ok") == 0);
+                }
+                dlgSpacing(20);
+            }
+            dlgHBoxLayout
+            {
+                dlgComboBox( addFootPrintList, outPutFootPrints );
+                dlgStretch(0);
+                dlgPushButton("Info") {
+                    if (dlgMessageBox(infoFootPrintList, "Ok") == 0);
+                }
+                dlgSpacing(20);
+            }
+            dlgHBoxLayout
+            {
+                dlgComboBox( eaglePartToKiCadPartConversiontion, eaglePartToKiCadPartConversion );
+                dlgStretch(0);
+                dlgPushButton("Info") {
+                    if (dlgMessageBox( infoDeviceConversion, "Ok") == 0);
+                }
+                dlgSpacing(20);
+            }
+            dlgHBoxLayout
+            {
+                dlgLabel("Defult Prefix for for sch parts which have no prefix");
+                dlgStringEdit(undefinedPartPreFix);
+                dlgStretch(0);
+                dlgPushButton("Info") {
+                    if (dlgMessageBox( infoNoPrefix, "Ok") == 0);
+                }
+                dlgSpacing(20);
+            }
 
 
-	dlgHBoxLayout
-	{
-	  dlgCheckBox("Add LibName prefix to Part Name", add_libnamePrefixToPartName );
-	  dlgStretch(0); dlgPushButton("Info") { if (dlgMessageBox( infoLibNamePartNamePrefix, "Ok") == 0); }  dlgSpacing(20);
-	}
+            dlgHBoxLayout
+            {
+                dlgCheckBox("Add LibName prefix to Part Name", add_libnamePrefixToPartName );
+                dlgStretch(0);
+                dlgPushButton("Info") {
+                    if (dlgMessageBox( infoLibNamePartNamePrefix, "Ok") == 0);
+                }
+                dlgSpacing(20);
+            }
 
-	dlgHBoxLayout
-	{
-	  dlgCheckBox("Use eagle Technologies to gerate KiCad part Alias", outPutAlias);
-	  dlgStretch(0); dlgPushButton("Info") { if (dlgMessageBox( infoTechnologies, "Ok") == 0); }  dlgSpacing(20);
-	}
-	dlgHBoxLayout
-	{
-	  dlgCheckBox("Delete Text after \'@\'", deleteTextArfterATsysbolInPinName );
-	  dlgStretch(0); dlgPushButton("Info") { if (dlgMessageBox( infoDeleArfter, "Ok") == 0); }   dlgSpacing(20);
-	}
-	dlgHBoxLayout
-	{
-	  dlgCheckBox("Add wild card '*' prefix to FootPrint list parts", wildCardPrefix );
-	  dlgStretch(0); dlgPushButton("Info") { if (dlgMessageBox( infoPreFixSeach, "Ok") == 0); }   dlgSpacing(20);
-	}
-	dlgHBoxLayout
-	{
-	  dlgCheckBox("Add wild card '*' postfix to FootPrint list parts", wildPostfix );
-	  dlgStretch(0); dlgPushButton("Info") { if (dlgMessageBox( infoPostFixSeach, "Ok") == 0); }   dlgSpacing(20);
-	}
+            dlgHBoxLayout
+            {
+                dlgCheckBox("Use eagle Technologies to gerate KiCad part Alias", outPutAlias);
+                dlgStretch(0);
+                dlgPushButton("Info") {
+                    if (dlgMessageBox( infoTechnologies, "Ok") == 0);
+                }
+                dlgSpacing(20);
+            }
+            dlgHBoxLayout
+            {
+                dlgCheckBox("Delete Text after \'@\'", deleteTextArfterATsysbolInPinName );
+                dlgStretch(0);
+                dlgPushButton("Info") {
+                    if (dlgMessageBox( infoDeleArfter, "Ok") == 0);
+                }
+                dlgSpacing(20);
+            }
+            dlgHBoxLayout
+            {
+                dlgCheckBox("Add wild card '*' prefix to FootPrint list parts", wildCardPrefix );
+                dlgStretch(0);
+                dlgPushButton("Info") {
+                    if (dlgMessageBox( infoPreFixSeach, "Ok") == 0);
+                }
+                dlgSpacing(20);
+            }
+            dlgHBoxLayout
+            {
+                dlgCheckBox("Add wild card '*' postfix to FootPrint list parts", wildPostfix );
+                dlgStretch(0);
+                dlgPushButton("Info") {
+                    if (dlgMessageBox( infoPostFixSeach, "Ok") == 0);
+                }
+                dlgSpacing(20);
+            }
 
-	dlgHBoxLayout
-	{
-	  dlgCheckBox("", limitTextLineWidth ); dlgLabel("Set Text Strings Max/Min line Width"); dlgStretch(0);
-	}
-	dlgHBoxLayout
-	{
-	  dlgLabel("Max");
-	  dlgStretch(0); dlgRealEdit( linMaxWidth, 0.001, 10000.0);  dlgLabel("   Min");  dlgRealEdit( linMinWidth, 0.001, 10000.0);
-	  dlgComboBox(minMaxUnits, minMaxUnitsSelect )
-	  {
-	    if( minMaxUnitsSelect !=  minMaxUnitsSelectOld )
-	      {
-		linMaxWidth =  unitConver( minMaxUnitsSelect, minMaxUnitsSelectOld, linMaxWidth);
-		linMinWidth =  unitConver( minMaxUnitsSelect, minMaxUnitsSelectOld, linMinWidth);
-		minMaxUnitsSelectOld  = minMaxUnitsSelect; 
-	      }
-	    if( linMaxWidth < linMinWidth )
-	      {
-		dlgMessageBox(":<h3><font color=red>Text line MAX Width Can't be less Text line MIN Width!!!</font></h3>", "", "+OK", "                 ");
-		linMaxWidth = linMinWidth;
-	      }
+            dlgHBoxLayout
+            {
+                dlgCheckBox("", limitTextLineWidth );
+                dlgLabel("Set Text Strings Max/Min line Width");
+                dlgStretch(0);
+            }
+            dlgHBoxLayout
+            {
+                dlgLabel("Max");
+                dlgStretch(0);
+                dlgRealEdit( linMaxWidth, 0.001, 10000.0);
+                dlgLabel("   Min");
+                dlgRealEdit( linMinWidth, 0.001, 10000.0);
+                dlgComboBox(minMaxUnits, minMaxUnitsSelect )
+                {
+                    if( minMaxUnitsSelect !=  minMaxUnitsSelectOld )
+                    {
+                        linMaxWidth =  unitConver( minMaxUnitsSelect, minMaxUnitsSelectOld, linMaxWidth);
+                        linMinWidth =  unitConver( minMaxUnitsSelect, minMaxUnitsSelectOld, linMinWidth);
+                        minMaxUnitsSelectOld  = minMaxUnitsSelect;
+                    }
+                    if( linMaxWidth < linMinWidth )
+                    {
+                        dlgMessageBox(":<h3><font color=red>Text line MAX Width Can't be less Text line MIN Width!!!</font></h3>", "", "+OK", "                 ");
+                        linMaxWidth = linMinWidth;
+                    }
 
-	  }; dlgStretch(0);//      dlgStretch(0); dlgStringEdit(footPrintPreFix);
-	  dlgStretch(0); dlgPushButton("Info") { if( dlgMessageBox( infoTextMaxMinValue, "+Ok") == 0); }  dlgSpacing(20);
-	}
-      }
-      dlgVBoxLayout
-      {
-	dlgStretch(0);
-	dlgVBoxLayout
-	{
-	  dlgHBoxLayout
-	    {
-	      dlgStretch(0);
-	      dlgPushButton("+OK")
-		{
-		  width = defaultWidth;
-		  height = defaultHeight;
+                };
+                dlgStretch(0);//      dlgStretch(0); dlgStringEdit(footPrintPreFix);
+                dlgStretch(0);
+                dlgPushButton("Info") {
+                    if( dlgMessageBox( infoTextMaxMinValue, "+Ok") == 0);
+                }
+                dlgSpacing(20);
+            }
+        }
+        dlgVBoxLayout
+        {
+            dlgStretch(0);
+            dlgVBoxLayout
+            {
+                dlgHBoxLayout
+                {
+                    dlgStretch(0);
+                    dlgPushButton("+OK")
+                    {
+                        width = defaultWidth;
+                        height = defaultHeight;
 
-		  if( linMaxWidth < linMinWidth )
-		    {
-		      dlgMessageBox(":<h3><font color=red>Text line MAX Width Can't be less Text line MIN Width!!!</font></h3>", "", "+Ok", "                ");
-		      linMaxWidth = linMinWidth;
-		    }
-		  else
-		    dlgAccept();
-		}
-	      dlgStretch(0);
-	    }
-	}
-	dlgVBoxLayout
-	{
-	  dlgHBoxLayout
-	  {
-	    dlgStretch(0);
-	    //	dlgPushButton("Cancel") dlgReject();
-	    //	dlgPushButton("+Cancel") exit(0);
-	    dlgPushButton("-Cancel") dlgReject();
-	    dlgStretch(0);
-	  }
-	}
-	dlgVBoxLayout
-	{
-	  dlgHBoxLayout
-	  {
-	    dlgStretch(0);
-	    dlgPushButton("How to use this program") { if( dlgMessageBox( infoProgramHowTo, "+Ok") == 0); };
-	    dlgStretch(0);
-	  }
-	}
-	dlgStretch(0);
-      }
+                        if( linMaxWidth < linMinWidth )
+                        {
+                            dlgMessageBox(":<h3><font color=red>Text line MAX Width Can't be less Text line MIN Width!!!</font></h3>", "", "+Ok", "                ");
+                            linMaxWidth = linMinWidth;
+                        }
+                        else
+                            dlgAccept();
+                    }
+                    dlgStretch(0);
+                }
+            }
+            dlgVBoxLayout
+            {
+                dlgHBoxLayout
+                {
+                    dlgStretch(0);
+                    //	dlgPushButton("Cancel") dlgReject();
+                    //	dlgPushButton("+Cancel") exit(0);
+                    dlgPushButton("-Cancel") dlgReject();
+                    dlgStretch(0);
+                }
+            }
+            dlgVBoxLayout
+            {
+                dlgHBoxLayout
+                {
+                    dlgStretch(0);
+                    dlgPushButton("How to use this program") {
+                        if( dlgMessageBox( infoProgramHowTo, "+Ok") == 0);
+                    };
+                    dlgStretch(0);
+                }
+            }
+            dlgStretch(0);
+        }
     };
-  return result;
+    return result;
 }
 
-//
-//*****************************
-// main program
-//*****************************
-//
+/**
+ * @brief  main program function
+ * @return 0for successful program execution, -1 for failed execution
+ */
 int main()
 {
-  string myname = filename( argv[0]);
-  string datetime = t2string(time(), "dd-MM-yyyy :hh:mm:ss");
-  sprintf(logfile, "\n#********** START OF %s %s %s LOG **********#", myname, Version, datetime);
+    string myname = filename( argv[0]);
+    string datetime = t2string(time(), "dd-MM-yyyy :hh:mm:ss");
+    sprintf(logfile, "\n#********** START OF %s %s %s LOG **********#", myname, Version, datetime);
 
-  sprintf( titleString, "Eagle To KiCAD lib/mod, Version:%.2f\nBuild Date:%s USE THIS PROGRAM AT YOUR OWN RISK!", VERSION, BUILD_DATE );
+    sprintf( titleString, "Eagle To KiCAD lib/mod, Version:%.2f\nBuild Date:%s USE THIS PROGRAM AT YOUR OWN RISK!", VERSION, BUILD_DATE );
 
-  if (library)
+    if (library)
     {
-      library(L)
-      {
-	L.devices(DEV)
-	  {
-	    g_lib_prefix = DEV.library;
-	    footPrintPreFix = DEV.library;
-	  }
-	g_mod_name = strsub(L.name, 0, strlen(L.name) - 3) + "mod";
-	g_lib_name = strsub(L.name, 0, strlen(L.name) - 3) + "lib";
-      }
-    }
-  else
-    {
-      dlgMessageBox("Please run from library or board editor." );
-      exit(EXIT_FAILURE);
-    }
-
-  string tmpXX;
-
-  // If add libname prefix was set in eagle6,  it has added the libname so don't add again.
-  tmpXX = cfgget( cfg_addLibPrefix);
-  if( ( strlen(tmpXX) >= 1 ))   // Has it been set ?
-    if ( strtol( tmpXX ) == 1 ) // Yes
-    {
-      add_libnamePrefixToPartName = 0; // Dont add lib name's to deivce name's for now *** !!
-      outPutFootPrint = 0; // Don't add lib name to foot print name as it has aready been added for now ****!!
+        library(L)
+        {
+            L.devices(DEV)
+            {
+                g_lib_prefix = DEV.library;
+                footPrintPreFix = DEV.library;
+            }
+            g_mod_name = strsub(L.name, 0, strlen(L.name) - 3) + "mod";
+            g_lib_name = strsub(L.name, 0, strlen(L.name) - 3) + "lib";
+        }
     }
     else
     {
-      add_libnamePrefixToPartName = 0; // Dont add lib name to part name as it has aready been added.
-      outPutFootPrint = 0; // Don't add lib name to foot print name as it has aready been added.
+        dlgMessageBox("Please run from library or board editor." );
+        exit(EXIT_FAILURE);
     }
 
-  // we are aready where the target dir is.
-  tmpXX = cfgget( cfg_TARGET_DIR );
-  if( strlen( tmpXX ))
-    outputPath = tmpXX;
-  else
-    outputPath = filedir( g_mod_name );
+    string tmpXX;
 
-  tmpXX = cfgget( cfg_ConversionLogFileName );
-  if( strlen( tmpXX ) )
-    logfileName = tmpXX;
-  else
-  {
-    logfileName = filesetext( filedir(g_mod_name), "_conversion_log.txt");
-  }
-    
-  
-  result = mainDialog( titleString );
+    // If add libname prefix was set in eagle6,  it has added the libname so don't add again.
+    tmpXX = cfgget( cfg_addLibPrefix);
+    if( ( strlen(tmpXX) >= 1 ))   // Has it been set ?
+        if ( strtol( tmpXX ) == 1 ) // Yes
+        {
+            add_libnamePrefixToPartName = 0; // Dont add lib name's to deivce name's for now *** !!
+            outPutFootPrint = 0; // Don't add lib name to foot print name as it has aready been added for now ****!!
+        }
+        else
+        {
+            add_libnamePrefixToPartName = 0; // Dont add lib name to part name as it has aready been added.
+            outPutFootPrint = 0; // Don't add lib name to foot print name as it has aready been added.
+        }
 
-  if (result)
+    // we are aready where the target dir is.
+    tmpXX = cfgget( cfg_TARGET_DIR );
+    if( strlen( tmpXX ))
+        outputPath = tmpXX;
+    else
+        outputPath = filedir( g_mod_name );
+
+    tmpXX = cfgget( cfg_ConversionLogFileName );
+    if( strlen( tmpXX ) )
+        logfileName = tmpXX;
+    else
     {
-      write_kikad_mod(g_mod_name);
-      write_kikad_lib(g_lib_name);
-      // A success message is useful
+        logfileName = filesetext( filedir(g_mod_name), "_conversion_log.txt");
     }
-  else
-    exit(-1);
 
-  int spos = 0;
-  int iC = 0;
-  string c;  
-  while( (spos = strchr( logfile, 0x0a, spos )) != -1 )
-  {
-    if( ++iC > 2 )
-      break;
-    spos++;
-  }
-  if( iC < 3 )
-    logfile += "\n    Conversion completed with no Messages";
-  sprintf(c, "\n#********** END OF %s %s %s LOG **********#\n\n", myname, Version, datetime);
-  logfile += c;
-  output(logfileName, "at") printf("%s", logfile);
 
-  int messagersult;
-  
-  /* if ( g_missingPrefix || warnings_count || errors_count ) */
-  /*   { */
-  /*     string msgString, msgString1,  msgString2; */
+    result = mainDialog( titleString );
 
-  /*     //string conflictPartsLibsList[]; */
+    if (result)
+    {
+        write_kikad_mod(g_mod_name);
+        write_kikad_lib(g_lib_name);
+        // A success message is useful
+    }
+    else
+        exit(-1);
 
-  /*     if( conflictPartsLibsListsize ) */
-  /*       sprintf( msgString, ":\n<h2><font color=\"red\">There are duplict part names, which have been rename to XXXXX--CONFLICKING-PART-errrorCount: number of duplcate partnames =%d</font></h3>\n", conflictPartsLibsListsize ); */
-      
-  /*     if( errors_count ) */
-  /*       sprintf( msgString, ":\n<h2><font color=\"red\">There are: %d   ERRORS.</font></h3>\n",  errors_count); */
+    int spos = 0;
+    int iC = 0;
+    string c;
+    while( (spos = strchr( logfile, 0x0a, spos )) != -1 )
+    {
+        if( ++iC > 2 )
+            break;
+        spos++;
+    }
+    if( iC < 3 )
+        logfile += "\n    Conversion completed with no Messages";
+    sprintf(c, "\n#********** END OF %s %s %s LOG **********#\n\n", myname, Version, datetime);
+    logfile += c;
 
-  /*     if( warnings_count ) */
-  /*       sprintf( msgString1, "!\n<h3><font color=\"brown\">!There are: %d   Warnings.</font></h2>\n", warnings_count); */
+    fileerror();
+    output(logfileName, "at") printf("%s", logfile);
+    if(fileerror())
+    {
+        string c;
+        sprintf(c, "Problem creating %s", logfileName);
+        errorLog[errors_count] = c;
+        errors_count++;
+    }
 
-  /*     if( g_missingPrefix ) */
-  /*       sprintf( msgString2, ";\nThere are: %d  missing part prefix(s)\n", g_missingPrefix); */
+    if( warnings_count || errors_count )
+    {
+        string msgString, msgString1,  msgString2;
 
-  /*     dlgMessageBox(msgString + msgString1 + msgString2  ); */
-  /*   } */
-  /* else */
-  /*   dlgMessageBox("Conversion finished"+messagersult); */
+      if( conflictPartsLibsListsize )
+          sprintf( msgString, ":\n<h2><font color=\"red\">There are duplict part names, which have been rename to XXXXX--CONFLICKING-PART-errrorCount: number of duplcate partnames =%d</font></h2>\n", conflictPartsLibsListsize );
 
-  /* if ( g_missingPrefix || warnings_count || errors_count ) */
-  /* { */
-  string logmessags;
-  int result;
-  fileread( logmessags, logfileName); // Read the message
-  result = dlgDialog( filename(logfileName) )
+      if( warnings_count )
+          sprintf( msgString1, "!\n<h2><font color=\"brown\">!There are: %d   Warnings.</font></h2>\n", warnings_count);
+
+      if( errors_count )
       {
+          sprintf( msgString2, ":\n<h2><font color=\"red\">There are: %d   ERRORS.</font></h2>\n",  errors_count);
+          errors_count--;
+          while(errors_count>-1)
+          {
+              string msgTmp;
+              sprintf(msgTmp, "\n<h2><font color=\"red\"> %s </font></h2>\n", errorLog[errors_count--]);
+              msgString2 += msgTmp;
+          }
+      }
+          dlgMessageBox(msgString + msgString1 + msgString2);
+     }
+     else
+     {
+         string msgString, msgString1;
+
+         if( g_missingPrefix )
+             sprintf( msgString, "<h3> There are: %d  missing part prefix(s).<h3>\n", g_missingPrefix);
+
+         sprintf( msgString1, "<h3><font color=\"green\"> Conversion finished! </front></h3>\n");
+
+         dlgMessageBox(msgString + msgString1);
+     }
+
+
+    string logmessags;
+    int result;
+    fileread( logmessags, logfileName); // Read the message
+    result = dlgDialog( filename(logfileName) )
+    {
         dlgHBoxLayout {
-          dlgSpacing(1000);
+            dlgSpacing(1000);
         };
         dlgVBoxLayout
         {
-          dlgLabel( "There were <b>warnings/error's</b> during the conversion, Here is the contents of <b><i>"+ filename(logfileName) +
-                    "  </i></b>File located at-"+
-                    "<br><b>:<i>"+logfileName);
-          dlgTextView( logmessags );
-          dlgPushButton("OK") dlgAccept();
+            dlgLabel( "There were <b>warnings/error's</b> during the conversion, Here is the contents of <b><i>"+ filename(logfileName) +
+            "  </i></b>File located at-"+
+            "<br><b>:<i>"+logfileName);
+            dlgTextView( logmessags );
+            dlgPushButton("OK") dlgAccept();
         }
-      };
-  /* }else */
-  /*   dlgMessageBox("Conversion finished"); */
-  
-  cfgset( cfg_ConversionLogFileName, "" ); // Set to Null for next time so we dont get confused if the conversion programe has not been run first.
-  
-  exit(EXIT_SUCCESS);
+    };
+    /* }else */
+    /*   dlgMessageBox("Conversion finished"); */
 
-  return EXIT_SUCCESS;
+    cfgset( cfg_ConversionLogFileName, "" ); // Set to Null for next time so we dont get confused if the conversion programe has not been run first.
+
+    exit(EXIT_SUCCESS);
+
+    return EXIT_SUCCESS;
 }
