@@ -1,4 +1,4 @@
-#usage "<b>KiCAD lib and module exporting tool version 1.1)</b>\n"
+#usage "<b>KiCAD lib and module exporting tool version 2.1)</b>\n"
 "<p>"
 "This ULP can exports Eagle CAD Package and Symbol contents into KiCAD lib and module formats."
 "<p>"
@@ -15,6 +15,11 @@
 
 /*
  * CHANGELOG=(dd.mm.yyyy)===============================================
+ * 03.05.2016  Fix layers in Text string's so will place correctly on the layers.
+ *             Thanks to: Lachlan  "lachlanusa (at) gmail.com"
+ *
+ * 29.04.2016  Fix loging file name, and add user option to select loging directory.
+ *             Thanks to: Lachlan  "lachlanusa (at) gmail.com"
  *
  * 08.02.2016  Change Default size of F0 and F1, Refance/value to 45
  *             Thanks to: Lachlan  "lachlanusa (at) gmail.com"
@@ -156,8 +161,8 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-real VERSION   = 2.0;
-string Version = "2.0";
+real VERSION   = 2.1;
+string Version = "2.1";
 
 int add_libnamePrefixToPartName = 0;
 
@@ -978,7 +983,7 @@ void write_kicad_mod_text(UL_PACKAGE PAC)
             if ( nameCt == 0 )
             {
                 NAME = strupr(T.value);
-                sprintf(NAME, "T%d %d %d %d %d %d %d N %d V \"%s\"\n",
+                sprintf(NAME, "T%d %d %d %d %d %d %d N V %d N \"%s\"\n",
                         0, egl2ki(T.x + xoffs), -egl2ki(T.y + yoffs),
                         size, size,
                         int((abs(T.angle)) * 10), textWidth, layer_lut[T.layer], strupr(T.value) );
@@ -999,7 +1004,7 @@ void write_kicad_mod_text(UL_PACKAGE PAC)
         {
             if ( valueCt == 0 )
             {
-                sprintf(VALUE, "T%d %d %d %d %d %d %d N %d V \"%s\"\n",
+                sprintf(VALUE, "T%d %d %d %d %d %d %d N V %d N \"%s\"\n",
                         1, egl2ki(T.x + xoffs), -egl2ki(T.y + yoffs),
                         size, size,
                         int((abs(T.angle)) * 10), textWidth, layer_lut[T.layer], strupr(T.value) );
@@ -1083,10 +1088,15 @@ void write_kicad_mod_text(UL_PACKAGE PAC)
             continue;
         else
         {
-            printf("T%d %d %d %d %d %d %d N %d V \"%s\"\n",
-                   textnum, egl2ki(T.x + xoffs), -egl2ki(T.y + yoffs),
+            /* printf("T%d %d %d %d %d %d %d N V %d N \"%s\"\n", */
+            /*        2, egl2ki(T.x + xoffs), -egl2ki(T.y + yoffs), */
+            /*        size, size, */
+            /*        int((abs(T.angle)) * 10), textWidth, layer_lut[T.layer], T.value); */
+
+            printf("T%d %d %d %d %d %d %d %c V %d N \"%s\"\n",
+                   2, egl2ki(T.x + xoffs), -egl2ki(T.y + yoffs),
                    size, size,
-                   int((abs(T.angle)) * 10), textWidth, layer_lut[T.layer], T.value);
+                   int((abs(T.angle)) * 10), textWidth, T.mirror ? 'M' : 'N', layer_lut[T.layer], T.value);
             textnum++;
         }
     }
@@ -2384,7 +2394,7 @@ void openModPath( string startPath )
 }
 
 /**
- * Select the path where libfile will be saved
+ * Select the path where lib file will be saved
  * @param startPath lib path
  */
 void openLibPath( string startPath )
@@ -2399,6 +2409,27 @@ void openLibPath( string startPath )
             L.devices(DEV)
             {
                 g_lib_name = dirName + "/" + DEV.library + ".lib";
+            }
+        }
+    }
+}
+
+/**
+ * Select the path where logfile will be saved
+ * @param startPath lib path
+ */
+void openLogFilePath( string startPath )
+{
+    string dirName = "";
+    dirName = dlgDirectory("Select a directory", startPath);
+
+    if ( dirName != "" )
+    {
+        library(L)
+        {
+            L.devices(DEV)
+            {
+                logfileName = dirName + "/" + DEV.library + "_conversion_log.txt";
             }
         }
     }
@@ -2466,6 +2497,18 @@ int mainDialog( string titleString )
             dlgStringEdit(g_lib_name);
             dlgPushButton("Edit") openLibPath("C:\\");
         }
+
+        dlgStretch(0);
+        dlgLabel("Output Conversion Log file:");
+        dlgStretch(0);
+        dlgHBoxLayout
+        {
+            dlgStringEdit(logfileName);
+            dlgPushButton("Edit") openLogFilePath("C:\\");
+        }
+
+
+        
         dlgVBoxLayout
         {
             dlgComboBox(showPinNames, drawPinName );
@@ -2718,7 +2761,8 @@ int main()
         logfileName = tmpXX;
     else
     {
-        logfileName = filesetext( filedir(g_mod_name), "_conversion_log.txt");
+        status("KiCad MOD " + g_mod_name );
+        logfileName = filesetext( g_mod_name, "_conversion_log.txt");
     }
 
 
@@ -2726,7 +2770,9 @@ int main()
 
     if (result)
     {
+        status("Writing KiCad MOD " + g_mod_name );
         write_kikad_mod(g_mod_name);
+        status("Writing KiCad LIB " + g_lib_name );
         write_kikad_lib(g_lib_name);
         // A success message is useful
     }
