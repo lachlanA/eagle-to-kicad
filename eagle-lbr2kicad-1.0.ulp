@@ -1,4 +1,4 @@
-#usage "<b>KiCAD lib and module exporting tool version 2.1)</b>\n"
+#usage "<b>KiCAD lib and module exporting tool version 2.2)</b>\n"
 "<p>"
 "This ULP can exports Eagle CAD Package and Symbol contents into KiCAD lib and module formats."
 "<p>"
@@ -15,6 +15,9 @@
 
 /*
  * CHANGELOG=(dd.mm.yyyy)===============================================
+ * 03.05.2016  Fix F1 feild to match Def feild,  IE remove any illgial charters.
+ *             Thanks to: Lachlan  "lachlanusa (at) gmail.com"
+ *
  * 03.05.2016  Fix layers in Text string's so will place correctly on the layers.
  *             Thanks to: Lachlan  "lachlanusa (at) gmail.com"
  *
@@ -161,8 +164,8 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-real VERSION   = 2.1;
-string Version = "2.1";
+real VERSION   = 2.2;
+string Version = "2.2";
 
 int add_libnamePrefixToPartName = 0;
 
@@ -1736,9 +1739,9 @@ void write_kikad_def_alias( UL_DEVICE DEV, UL_GATE G, string symbolName, int cou
     //    }
 
     if ( hasValue )
-        printf("F1 \"%s\" %d %d %d %c %c %c %cNN\n", charstr_replace( ",/", "_", symbolName), name_X, name_Y, 45, orient, 'V', hAlign, vAlign);  // Display then
+        printf("F1 \"%s\" %d %d %d %c %c %c %cNN\n", charstr_replace( ",/()", "_", symbolName), name_X, name_Y, 45, orient, 'V', hAlign, vAlign);  // Display then
     else
-        printf("F1 \"%s\" %d %d %d %c %c %c %cNN\n", charstr_replace( ",/", "_", symbolName), name_X, name_Y, 45, orient, 'I', hAlign, vAlign);  // Else no display
+        printf("F1 \"%s\" %d %d %d %c %c %c %cNN\n", charstr_replace( ",/()", "_", symbolName), name_X, name_Y, 45, orient, 'I', hAlign, vAlign);  // Else no display
 
 
     if ( DEV.package )
