@@ -1,4 +1,4 @@
-#usage "<b>KiCAD lib and module exporting tool version 2.2)</b>\n"
+#usage "<b>KiCAD lib and module exporting tool version 2.3)</b>\n"
 "<p>"
 "This ULP can exports Eagle CAD Package and Symbol contents into KiCAD lib and module formats."
 "<p>"
@@ -15,6 +15,9 @@
 
 /*
  * CHANGELOG=(dd.mm.yyyy)===============================================
+ * 07.05.2016  Fix device with no package which has more than 1 pin
+ *             Thanks to: Lachlan  "lachlanusa (at) gmail.com"
+ *
  * 03.05.2016  Fix F1 feild to match Def feild,  IE remove any illgial charters.
  *             Thanks to: Lachlan  "lachlanusa (at) gmail.com"
  *
@@ -164,8 +167,8 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-real VERSION   = 2.2;
-string Version = "2.2";
+real VERSION   = 2.3;
+string Version = "2.3";
 
 int add_libnamePrefixToPartName = 0;
 
@@ -2106,7 +2109,8 @@ void write_kikad_lib( string fileName )
                         if ( DEV.prefix == "" )
                         {
                             string c;
-                            if((!( DEV.package )) && ( pinCt <= 1 )) // dose it have a package ?
+//                            if((!( DEV.package )) && ( pinCt <= 1 )) // dose it have a package ?
+                            if( !DEV.package ) // dose it have a package ?
                             {   // No so print NO-PACKAGE
                                 sprintf(c, "\nMissing Prefix Part =%s\t\t\t\t%s\t\t\t\t\t%s\t\t%s", DEV.name, "NO-PACKAGE", DEV.library, undefinedPartPreFix );
                                 logfile += c;
