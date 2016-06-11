@@ -13,6 +13,10 @@
        
 /*
  * CHANGELOG================================================
+ * 11-06-2016 Fix enableNetListLableFix lable not being using.
+ *            Thanks to https://github.com/pgroe  for this nice fix !
+
+
  * 12.02.2016  Disable display of KiCad footprint Field in schematic.
  *             Thanks to: Lachlan  "lachlanusa (at) gmail.com"
  *
@@ -105,8 +109,8 @@
 
 
 int debug = 0;       
-real VERSION   = 1.8;
-string Version = "1.8";
+real VERSION   = 1.9;
+string Version = "1.9";
 string myname;
 int datetime;
 real fontSize_PartPreFix_Ajust = 1.0;
@@ -3001,7 +3005,9 @@ void write_kicad_schematics( string fileName, int current_sheet, int number_of_s
                   write_kicad_wire_segments( SH );
                   write_kicad_bus_segments( SH );
                   write_kicad_dotted_segments( SH );
-                  write_kicad_netNames( SH, current_sheet );
+                  if (enableNetListLableFix) {
+                    write_kicad_netNames( SH, current_sheet );
+                  }
                   printf("$EndSCHEMATC\n");
                 }
               }
