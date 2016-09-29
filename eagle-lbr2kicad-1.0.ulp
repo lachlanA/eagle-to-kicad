@@ -313,7 +313,7 @@ int layer_lut[] =
     21,         //LAYER_UNROUTED
     21,         //LAYER_DIMENSION
     21,         //LAYER_TPLACE
-    20,         //LAYER_BPLACE
+    21,         //LAYER_BPLACE
     21,         //LAYER_TORIGINS
     20,         //LAYER_BORIGINS
     21,         //LAYER_TNAMES
@@ -381,7 +381,7 @@ int pad_lut[] =
     0x00008000 | 0x00800000 | 0x00080000,       //LAYER_TOP
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   //inner layers
     0x00000001 | 0x00400000,                    //LAYER_BOTTOM
-    0x00008001 | 0x00A00000 | 0x00080000,       //LAYER_PADS
+    0x00008001 | 0x00E00000 | 0x00080000,       //LAYER_PADS
     0x00008001 | 0x00800000 | 0x00400000,       //LAYER_VIAS
     0,              //LAYER_UNROUTED
     0,              //LAYER_DIMENSION
