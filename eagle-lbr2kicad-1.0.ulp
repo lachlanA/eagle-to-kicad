@@ -167,8 +167,8 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-real VERSION   = 2.3;
-string Version = "2.3";
+real VERSION   = 2.5;
+string Version = "2.5";
 
 int add_libnamePrefixToPartName = 0;
 
