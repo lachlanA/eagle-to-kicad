@@ -167,8 +167,8 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-real VERSION   = 2.5;
-string Version = "2.5";
+real VERSION   = 2.6;
+string Version = "2.6";
 
 int add_libnamePrefixToPartName = 0;
 
@@ -339,10 +339,10 @@ int layer_lut[] =
     21,         //LAYER_HOLES
     21,         //LAYER_MILLING
     21,         //LAYER_MEASURES
-    21,         //LAYER_DOCUMENT
+    24,         //LAYER_DOCUMENT
     21,         //LAYER_REFERENCE
-    21,         //LAYER_TDOCU
-    20,         //LAYER_BDOCU
+    24,         //LAYER_TDOCU
+    24,         //LAYER_BDOCU
     21,         //LAYER_NETS
     21,         //LAYER_BUSSES
     21,         //LAYER_PINS
@@ -381,7 +381,7 @@ int pad_lut[] =
     0x00008000 | 0x00800000 | 0x00080000,       //LAYER_TOP
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   //inner layers
     0x00000001 | 0x00400000,                    //LAYER_BOTTOM
-    0x00008001 | 0x00E00000 | 0x00080000,       //LAYER_PADS
+    0x0000FFFF | 0x00C00000 | 0x000C0000,       //LAYER_PADS
     0x00008001 | 0x00800000 | 0x00400000,       //LAYER_VIAS
     0,              //LAYER_UNROUTED
     0,              //LAYER_DIMENSION
@@ -514,7 +514,7 @@ real unitConver(int unitConvertTo, int unitConvertFrom, real inputValue)
  */
 int layer_lookup(int layer)
 {
-    if (layer > 42) return 21;
+    if (layer > 42) return 24;
     return layer_lut[layer + 1];
 }
 
