@@ -167,8 +167,8 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-real VERSION   = 2.3;
-string Version = "2.3";
+real VERSION   = 2.5;
+string Version = "2.5";
 
 int add_libnamePrefixToPartName = 0;
 
@@ -191,7 +191,7 @@ string aliasList = "";     // list of part alias's
 int wildCardPrefix = 1;  // 1 = pre add * wild card to $FPLIST footprint list names
 int wildPostfix  = 1; // 1 = post add * wild card to $FPLIST footprint list names
 
-int eaglePartToKiCadPartConversion = 1; // control's if we cobine footprints or not, 0 = combine, 1 = dont combine
+int eaglePartToKiCadPartConversion = 0; // control's if we cobine footprints or not, 0 = combine, 1 = dont combine
 
 int devicesetsCount = 0;
 int devicesCount = 0;
@@ -1747,7 +1747,7 @@ void write_kikad_def_alias( UL_DEVICE DEV, UL_GATE G, string symbolName, int cou
         printf("F1 \"%s\" %d %d %d %c %c %c %cNN\n", charstr_replace( ",/()", "_", symbolName), name_X, name_Y, 45, orient, 'I', hAlign, vAlign);  // Else no display
 
 
-    if ( DEV.package )
+    if ( DEV.package && eaglePartToKiCadPartConversion == 1 )
         switch( outPutFootPrint )
         {
         case 0: // Dont prefix lib name to footprint name
@@ -2014,8 +2014,10 @@ void write_kikad_lib( string fileName )
                                     nameString = str_replace( "?", "", nameString );
                                 }
                             }
-                            else // No ! place holder for variant name !
-                            {   // So just append the Variant named to the device name.
+                            else if (eaglePartToKiCadPartConversion)
+                            {
+                                // No ! place holder for variant name if not combining devices !
+                                // So just append the Variant named to the device name.
                                 nameString = nameString + ((DEV.name != "\'\'") ? DEV.name : "");
                             }
 
@@ -2515,7 +2517,7 @@ int mainDialog( string titleString )
         }
 
 
-        
+
         dlgVBoxLayout
         {
             dlgComboBox(showPinNames, drawPinName );
