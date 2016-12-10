@@ -1,6 +1,6 @@
 ###**Converting from Eagle to KiCad.**
 *    [Quick Introduction Video](http://cosmosc.com/video/testtital.mp4)  
-     *Recommended video player [Firefox 46+](https://www.mozilla.org/en-US/firefox/desktop/) with [VLC video player plugin](http://www.videolan.org/vlc/)*  
+     *Recommended video player [Firefox 50.0.2+](https://www.mozilla.org/en-US/firefox/desktop/) with [VLC video player plugin](http://www.videolan.org/vlc/)*  
 
 
 * The following 5 **ulp** (eagle user script file) and one **ulp** include file, work together or stand alone to convert **Eagle** *sch/pcb* version 6.xx*(7.xx maybe?)* file(s) and any version of Eagle lib(*lbr*) to **KiCad** *sch/pcb* and *lib/mod* files.  
@@ -12,7 +12,7 @@
 	* Build KiCad PCB modules and SCH libs from Eagle SCH.  
 	* Make project director to store all the converted files.  
 	* And basic error checking.  
-	* Eagle 6.xx PCB files can be directly import to KiCad.  
+	* Eagle 6.xx(7.xx?) PCB files can be directly import to KiCad.  
 	* Eagle *LBR's*(any version of Eagel libs or size ) can be converted to KiCad lib/mod using eagle-lbr2kicad-1.0.ulp see  
 	* [Eagle Lib conversion]( https://github.com/lachlanA/eagle-to-kicad-libs) for more details.  
 	* Converts Via's to Pads, which helps with KiCad's flood fill, when Via's have no connections.  
