@@ -3112,7 +3112,7 @@ int mainDialog( string titleString, int sheetcount, string schName )
                 }
                 else
                 {
-                  tmpSX = cfgget( cfg_SCRIP_ULP, myULP_HOME );
+                  tmpSX = cfgget( cfg_SCRIPT_ULP, myULP_HOME );
                   if( strlen(tmpSX ) )
                     myULP_HOME = tmpSX;
                 }
@@ -3383,7 +3383,7 @@ int mainDialog( string titleString, int sheetcount, string schName )
                 /*   cfgset( cfg_TARGET_DIR, "" ); */
 
                 if( saveAsDefaultULP_Path )
-                  cfgset( cfg_SCRIP_ULP, myULP_HOME );
+                  cfgset( cfg_SCRIPT_ULP, myULP_HOME );
                 /* else */
                 /*   cfgset(cfg_TARGET_DIR, "" ); */
 
