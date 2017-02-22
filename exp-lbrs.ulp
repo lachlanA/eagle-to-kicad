@@ -1244,7 +1244,7 @@ int Result = dlgDialog(TR("Export EAGLE libraries from drawing")) {
           //          wright_log_to_disk( logfile );
         }
         
-        tmpS1 = cfgget( cfg_SCRIP_ULP );
+        tmpS1 = cfgget( cfg_SCRIPT_ULP );
         if( strlen( tmpS1 ) > 1 )
           myULP_HOME = tmpS1;
 
