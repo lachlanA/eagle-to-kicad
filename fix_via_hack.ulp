@@ -269,7 +269,7 @@ string infoTargetDirectory  =  "<b>Set the target directory for the KiCad/Eagle 
                              "<b>Note this directory should be a clean directory<br>"+
                              "With out any other file's, as the contents-<br><center><font color=\"red\"><font color=\"red\">WILL BE OVER WRITTEN WITHOUT WARNING!</b></center>";
 
-string infoConvertViaToPad  =  "<b>Eagle use's VIAs for connections to fills and power planes, this works well for Eagle<br>"+
+string infoConvertViaToPad  =  "<b>Eagle uses VIAs for connections to fills and power planes, this works well for Eagle<br>"+
     "<b>But will not work for KiCad, because KiCad does not retain Net list information for unconnected VIAs and tracks<br>"+
     "<b>It only retains net information when the via is connected to a PAD, using a track<br>"+
     "<b>By converting the unconnected VIAs to pads KiCad will keep the net information and allow fills and power planes to work like<br>"+

@@ -81,7 +81,7 @@
  * 26.07.2014: Fix >NAME and >VALUE in in module, so eagle text is not lost, or confused with module prefix/value
  *             Thanks to: Lachlan  "lachlanusa (at) gmail.com"
  *
- * 26.07.2014: Fix text width in module, so module text use's eagles text width.
+ * 26.07.2014: Fix text width in module, so module text uses eagles text width.
  *             Thanks to: Lachlan  "lachlanusa (at) gmail.com"
  *
  * 26.07.2014: Fix Squ Pad size 0 problem in module
@@ -262,7 +262,7 @@ string infoPostFixSeach = "Add a wild card post-fix '*' to each footprint in the
 
 string infoNoPrefix = "If a eagle lib part has no prefix IE:  \"U\", \"R\", \"C\" etc, then we use this letter(s) for SCH/Part Prefix";
 
-string infoFootPrintList = "KiCad use's the footprint list to help select from the list of PCB module/footprint(s) in KiCad's module lib.<br>This option controls the output, and output format"+
+string infoFootPrintList = "KiCad uses the footprint list to help select from the list of PCB module/footprint(s) in KiCad's module lib.<br>This option controls the output, and output format"+
                            " given to KiCad<br>Note: This is not the same as KiCad footprint";
 
 string infoFootPrint = "<pre>You have 2 options, for the footprint name in KiCad.<br>Just use eagle device name for the footprint name in KiCad,<br>"+
@@ -274,7 +274,7 @@ string infoFootPrint = "<pre>You have 2 options, for the footprint name in KiCad
 
 string infoFootPrintPrefix = "You can override the default eagle lib name, which is the prefix to the KiCad footprint name.<br>Note: that this program always adds '_' between  prefix name and foot print name.";
 
-string infoTextMaxMinValue = "<pre>You can override text font line width size in eagle, and use the Max and Min line width,<br>which KiCad use's to draw the text<br>"+
+string infoTextMaxMinValue = "<pre>You can override text font line width size in eagle, and use the Max and Min line width,<br>which KiCad uses to draw the text<br>"+
                              "IE:  Any text line width which is bigger than Max line will be replaced with Max value.<br>"+
                              "     Any text line width which is less than Min line will be replaced with Min width value.</pre>";
 
