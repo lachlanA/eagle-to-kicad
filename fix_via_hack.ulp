@@ -269,10 +269,10 @@ string infoTargetDirectory  =  "<b>Set the target directory for the KiCad/Eagle 
                              "<b>Note this directory should be a clean directory<br>"+
                              "With out any other file's, as the contents-<br><center><font color=\"red\"><font color=\"red\">WILL BE OVER WRITTEN WITHOUT WARNING!</b></center>";
 
-string infoConvertViaToPad  =  "<b>Eagle use's VIAs for connections to fills and power plane's, this works well for Eagle<br>"+
+string infoConvertViaToPad  =  "<b>Eagle use's VIAs for connections to fills and power planes, this works well for Eagle<br>"+
     "<b>But will not work for KiCad, because KiCad does not retain Net list information for unconnected VIAs and tracks<br>"+
     "<b>It only retains net information when the via is connected to a PAD, using a track<br>"+
-    "<b>By converting the unconnected VIAs to pads KiCad will keep the net information and allow fills and power plane's to work like<br>"+
+    "<b>By converting the unconnected VIAs to pads KiCad will keep the net information and allow fills and power planes to work like<br>"+
     "<b>they do on Eagle. But there  are some problems with this fix-<br><br>"+
     "1: Blind VIAs wont work, as Pads will go thou all layers,  while blind vie's only go thou the configured layers.<br>"+
     "2: The fix change's the Eagle SCH/PCB file's by converting VIAs to Pads, the hack change's the SCH by adding 1 Pin pads<br>"+
@@ -855,7 +855,7 @@ void menue(void)
 
         /* "This is needed because KiCad does not support Net Names on unconected VIAs/Tracks and blind Vias which have no Pad conecsion.!<br>"+ */
         /* "while unconected VIAs can be automatic coveted to pads blind VIAs and unconnected tracks need manual conversion</i>)<br>"+ */
-        /* "will lose net names, and will not connect to fills or power plane's!<br>"+ */
+        /* "will lose net names, and will not connect to fills or power planes!<br>"+ */
         /* "This hack will help out by converting all those unconnected VIAs to Pads<br>"+ */
         /* "<i>Click on Info for more, information and problem's which is could fix/make!</i><br>"+ */
         /* "<b>NOTE:<i> This hack modifies both the eagle sch and PCB file,  which are saved in the TARGET-DIRECTORY/modified_eagle_files/</i>"); */
