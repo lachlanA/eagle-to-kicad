@@ -1207,7 +1207,7 @@ int Result = dlgDialog(TR("Export EAGLE libraries from drawing")) {
 
         if( ( ConflictPartsCount > 0 ) && ( AddLibPrefix != 1 ))
         {
-          if( dlgMessageBox("!Warning there are Part's with have the same name's,  but from diffent libs" +
+          if( dlgMessageBox("!Warning there are Part's with have the same names,  but from diffent libs" +
                             " KICAD will reject part which have name!" +
                             " Please tick the Add library names as prefix to get around this problem" +
                             " Or fix the part name in the lib refance"+

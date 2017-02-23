@@ -131,10 +131,10 @@ string infoHelp             = "This ULP is a converts from Eagle SCH/PCB to KiCa
                               " ";
 string infoULPdir           = "<b>Eagle ULP conversion script location</b>";
 
-string infoPartNameConflict = "Eagle allows duplicate part name's in SCH/PCB if they come from different lib's<br>"+
+string infoPartNameConflict = "Eagle allows duplicate part names in SCH/PCB if they come from different lib's<br>"+
                               "<b>IE:</b><br><i><b> libfred<b></i>:74LS00:,<br>"+
                               "<i><b> libnerd<b></i>:74LS00,<br><br>"+
-                              "While KiCad dose not allow duplication's in part name's<br>"+
+                              "While KiCad dose not allow duplication's in part names<br>"+
                               "In most case's there is no conflict, but if there is a conflict.<br>"+
                               "You have 2 options:<br><br> 1: Rename the part in ealge's LIB/SCH/PCB. <i>If you have access to them</i><br> 2: Tick this option <b><i>Adding lib name to Part Name</b></i><br><br>"+
                               "Which allowing this program to add lib prefix to the part name. This also fix's the problem.<br>"+

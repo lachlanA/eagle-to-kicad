@@ -50,7 +50,7 @@
  * 27.08.2015:  Fix Power systembal to correct for KiCad Power fills, change power supllie to opersit of Eagle.
  *              Change pin to hide when power. supply system.
  *
- * 19.07.2015:  Fix / slash in Ealge's lib and part name's and device name
+ * 19.07.2015:  Fix / slash in Ealge's lib and part names and device name
  *              Add faster string replace/subsute sub "string charstr_replace(string search, string replace, string subject)"
  *              Thanks to: Lachlan  "lachlanusa (at) gmail.com"
  *
@@ -202,7 +202,7 @@ int eaglePartToKiCadPartConversion = 0; // control's if we cobine footprints or 
 int devicesetsCount = 0;
 int devicesCount = 0;
 
-int deleteTextArfterATsysbolInPinName = 1;   //Eagle dos not show any text in pin name's arfter the @ sysbold.
+int deleteTextArfterATsysbolInPinName = 1;   //Eagle dos not show any text in pin names arfter the @ sysbold.
 int deleteNameTextSCH = 1;   //Delete >Name from schematic
 int deleteValueTextSCH = 1;   //Delete >Value from schematic
 string  symbolicPrefix;      /*list  symbolic prefix(s)(commer seperated) not to show pin's or pads or Part, or symbolic prefix for,  Note list format is D, C, X, V, #  */
@@ -1861,7 +1861,7 @@ void write_kikad_lib( string fileName )
                     devicesCount = 0;
 
                     //********************************
-                    // Find the number of deivce's and add the name's to a aray list of device names/package name lists,
+                    // Find the number of deivce's and add the names to a aray list of device names/package name lists,
                     // Also pin list for compair
                     int DevSetPackageCount = 0;
                     D.devices(DEV)
@@ -2755,7 +2755,7 @@ int main()
     if( ( strlen(tmpXX) >= 1 ))   // Has it been set ?
         if ( strtol( tmpXX ) == 1 ) // Yes
         {
-            add_libnamePrefixToPartName = 0; // Dont add lib name's to deivce name's for now *** !!
+            add_libnamePrefixToPartName = 0; // Dont add lib names to deivce names for now *** !!
             outPutFootPrint = 0; // Don't add lib name to foot print name as it has aready been added for now ****!!
         }
         else
