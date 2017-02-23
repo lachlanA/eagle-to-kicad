@@ -2234,7 +2234,7 @@ void write_kicad_components( UL_SHEET S )
 	      // But in  I.gate.symbol.texts(T) section, Also note that depending on weather the 
 	      // >NAME and/or >VALUE have been changed/deleted then added back in the Eagle lib,  and the sch is update from
 	      // that Eagle libs, the >NAME and/or >VALUE could be in any order in I.gate.symbol.texts(T)
-	      // section's !! how brain dead is that.. !!
+	      // sections !! how brain dead is that.. !!
 	      I.texts(T)
 		{
 		  strItext[ ItextCount ] = T.value;
@@ -2555,7 +2555,7 @@ void write_kicad_components( UL_SHEET S )
 	      // But in  I.gate.symbol.texts(T) section, Also note that depending on weather the 
 	      // >NAME and/or >VALUE have been changed/deleted then added back in the Eagle lib,  and the sch is update from
 	      // that Eagle libs, the >NAME and/or >VALUE could be in any order in I.gate.symbol.texts(T)
-	      // section's !! how brain dead is that.. !!
+	      // sections !! how brain dead is that.. !!
               count = 0;
               string prefixToValue = "";
 
