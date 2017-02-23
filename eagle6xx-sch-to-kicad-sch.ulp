@@ -127,7 +127,7 @@ string infoTargetDirectory  = "<h3>Set the target directory for all the converte
                              "With out any other file's, as the contents may be<center><font color=\"red\">OVER WRITTEN WITHOUT WARNING!</b></center>";
 
 string infoHelp             = "This ULP is a converts from Eagle SCH/PCB to KiCad sch/PCB<br>"+
-                              "It consist of 3 different ULP's hack to work together<br>"+
+                              "It consist of 3 different ULPs hack to work together<br>"+
                               " ";
 string infoULPdir           = "<b>Eagle ULP conversion script location</b>";
 
@@ -3134,7 +3134,7 @@ int mainDialog( string titleString, int sheetcount, string schName )
                 dlgCheckBox("Save as default", saveAsDefaultULP_Path );
                 dlgPushButton("Edit") {
                   string xs;int it;
-                  xs = dlgDirectory("Select directory containing conversion ULP's", "C:\\");
+                  xs = dlgDirectory("Select directory containing conversion ULPs", "C:\\");
                   if( strlen(xs) )
                     tmpS10 = myULP_HOME = ( xs + '/');
                 }
