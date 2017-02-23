@@ -38,7 +38,7 @@
  * 16.10.2015: Ajust offset for sch postion, to fit sheet a bit better.
  *             Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
  *
- * 16.10.2015: Add check for name conflict on libs package and symbol's,
+ * 16.10.2015: Add check for name conflict on libs package and symbols,
  *             and enable add libname prefix if there is.
  *             Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
  *
