@@ -845,18 +845,18 @@ void menue(void)
   int saveAsDefaultULP_Path = 1;
   string tmpS10 = "";
   
-  result = dlgDialog("Via's to Pad, and Track Check:" + "  BUILD DATE:" + BUILD_DATE )
+  result = dlgDialog("VIAs to Pad, and Track Check:" + "  BUILD DATE:" + BUILD_DATE )
       {
-        dlgLabel("<b><font color=\"red\">This ULP will change unconnected VIA's to PADS<br>" + 
-                 "<font color=\"blue\">It will also Documents on user defined layer's unconnected VIA'S and Tracks<br>" +
+        dlgLabel("<b><font color=\"red\">This ULP will change unconnected VIAs to PADS<br>" + 
+                 "<font color=\"blue\">It will also Documents on user defined layer's unconnected VIAs and Tracks<br>" +
                  "<i>Click on <i>Info</> for importand Note's!</i><br>"+
                  "<b>NOTE:<i> This hack modifies both the Eagle SCH and PCB file,<br>"+
                  "which are saved in the <i>TARGET-DIRECTORY</i>/modified_eagle_files/");
 
-        /* "This is needed because KiCad does not support Net Names on unconected Via's/Tracks and blind Vias which have no Pad conecsion.!<br>"+ */
+        /* "This is needed because KiCad does not support Net Names on unconected VIAs/Tracks and blind Vias which have no Pad conecsion.!<br>"+ */
         /* "while unconected VIAs can be automatic coveted to pads blind VIAs and unconnected tracks need manual conversion</i>)<br>"+ */
         /* "will lose net names, and will not connect to fill's or power plane's!<br>"+ */
-        /* "This hack will help out by converting all those unconnected VIA'S to Pads<br>"+ */
+        /* "This hack will help out by converting all those unconnected VIAs to Pads<br>"+ */
         /* "<i>Click on Info for more, information and problem's which is could fix/make!</i><br>"+ */
         /* "<b>NOTE:<i> This hack modifies both the eagle sch and PCB file,  which are saved in the TARGET-DIRECTORY/modified_eagle_files/</i>"); */
 
@@ -936,7 +936,7 @@ void menue(void)
         {
           dlgStretch(10);
           dlgSpacing(space);
-          dlgLabel("Convert unconnected VIA's to pads");
+          dlgLabel("Convert unconnected VIAs to pads");
           dlgCheckBox("", enable_via_to_pad );
           dlgPushButton("Info") { if (dlgMessageBox( infoConvertViaToPad, "Ok") == 0); };
           dlgStretch(0);
@@ -976,7 +976,7 @@ void menue(void)
         {
           dlgStretch(10);
           dlgSpacing(space);
-          dlgLabel("Documents unconnected VIA's");
+          dlgLabel("Documents unconnected VIAs");
           dlgCheckBox("", docment_via_to_pad );
           dlgLabel("Text Layer");
           dlgIntEdit(ViaEagleReportLayerTxt, 100, 255);
@@ -992,7 +992,7 @@ void menue(void)
         {
           dlgStretch(10);
           dlgSpacing(space);
-          dlgLabel("Documents unconnected Blind VIA's");
+          dlgLabel("Documents unconnected Blind VIAs");
           dlgCheckBox("", docment_blind_via_to_pad );
           dlgLabel("Text Layer");
           dlgIntEdit( BlindEagleReportLayerTxt, 100, 255);
