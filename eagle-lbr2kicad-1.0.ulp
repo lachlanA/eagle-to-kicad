@@ -245,7 +245,7 @@ string outputPath;
 string infoDeviceConversion = "<pre>Allows combining of device's into one KiCad lib part if the pin name/number match exactly.<br>"+
                               "Note pin number/name not package type or the number of pins on the package is the deciding factor.<br>"+
                               "If not enabled conversion will make a new KiCad library part/module for every one of eagle<br>devices/footprint this of course "+
-                              "make's for a very large KiCad library so this give's<br>the option of combining the eagle part's where"+
+                              "makes for a very large KiCad library so this give's<br>the option of combining the eagle part's where"+
                               " possible to make a Kicad library,<br>there is some risk to this, as the matching process could have<br>"+
                               "<b><br>So it's import you check the results when using this option<b>!!!</b></pre>";
 

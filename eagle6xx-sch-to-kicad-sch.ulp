@@ -144,7 +144,7 @@ string infoPartNameConflict = "Eagle allows duplicate part names in SCH/PCB if t
                               "The only way to get this problem, is to turn the <i>Adding lib name to Part Name: back on!" ;
 
 string infoCombineLibNames  = "Combine all the separate Eagle libs into one KiCad lib<br>"+
-                              "This make's the conversion process easy and faster.<br>"+
+                              "This makes the conversion process easy and faster.<br>"+
                               "<b>But means that you may lose tack of which parts<br>"+
                               "come from which Eagle lib</b><br>";
 
@@ -3632,7 +3632,7 @@ int main()
     output(logfileName, "at") printf("%s", logfile);
 
     // check to see if we have a pcb ready,
-    // if we dont make up,  for the save as from pcbnew, just make's things bit simpler
+    // if we dont make up,  for the save as from pcbnew, just makes things bit simpler
     // 
     string pcbfilename;
     pcbfilename = filesetext( outputPath + rootschname, ".kicad_pcb");

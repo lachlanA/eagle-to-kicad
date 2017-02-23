@@ -33,7 +33,7 @@ int TEMP_HOLD_FOR_OVER_LAPPING_SMD_PAD = 19180;  //  Tempory of the sysmbole edi
 
 
 string infoCombineLibNames  = "Combine all the seprate Eagle libs into one KiCad lib<br>"+
-                              "This make's the conversion preccess easy and faster.<br>"+
+                              "This makes the conversion preccess easy and faster.<br>"+
                               "<b>But means that you lose tack of which parts<br>"+
                               "come from which Eagle lib</b><br>";
 
