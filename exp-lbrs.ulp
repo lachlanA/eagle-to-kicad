@@ -15,7 +15,7 @@
 //-------------------------------------------------------------------------------- 
 // Change log.
 // Date:    Note:
-// 09-Oct-2015  Fix layer's for limted version of Eagle L. A.
+// 09-Oct-2015  Fix layers for limted version of Eagle L. A.
 // 25-Aug-2015  Fix space in Path problem, for windows by adding ' ' L. A.
 // 31-Jul-2015  Fix some spelling mistakes.  L. A.
 // 28-Jul-2015  Fix a number of problems where,  Pin and pads over lap, and add error reporting log file.

@@ -848,7 +848,7 @@ void menue(void)
   result = dlgDialog("VIAs to Pad, and Track Check:" + "  BUILD DATE:" + BUILD_DATE )
       {
         dlgLabel("<b><font color=\"red\">This ULP will change unconnected VIAs to PADS<br>" + 
-                 "<font color=\"blue\">It will also Documents on user defined layer's unconnected VIAs and Tracks<br>" +
+                 "<font color=\"blue\">It will also Documents on user defined layers unconnected VIAs and Tracks<br>" +
                  "<i>Click on <i>Info</> for importand Note's!</i><br>"+
                  "<b>NOTE:<i> This hack modifies both the Eagle SCH and PCB file,<br>"+
                  "which are saved in the <i>TARGET-DIRECTORY</i>/modified_eagle_files/");
