@@ -38,14 +38,14 @@
  * 16.10.2015: Ajust offset for sch postion, to fit sheet a bit better.
  *             Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
  *
- * 16.10.2015: Add check for name conflict on lib's package and symbol's,
+ * 16.10.2015: Add check for name conflict on libs package and symbol's,
  *             and enable add libname prefix if there is.
  *             Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
  *
  * 13.10.2015: Fix Quoteing of lib name in ft_tables
  *             Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
  *
- * 31.07.2015: Add warning about Eagle lib's Ghost parts
+ * 31.07.2015: Add warning about Eagle libs Ghost parts
  *             Add check/warning for wrong path to converstion scripts.
  *             Fix some spelling stuff.
  *             Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
@@ -131,7 +131,7 @@ string infoHelp             = "This ULP is a converts from Eagle SCH/PCB to KiCa
                               " ";
 string infoULPdir           = "<b>Eagle ULP conversion script location</b>";
 
-string infoPartNameConflict = "Eagle allows duplicate part names in SCH/PCB if they come from different lib's<br>"+
+string infoPartNameConflict = "Eagle allows duplicate part names in SCH/PCB if they come from different libs<br>"+
                               "<b>IE:</b><br><i><b> libfred<b></i>:74LS00:,<br>"+
                               "<i><b> libnerd<b></i>:74LS00,<br><br>"+
                               "While KiCad dose not allow duplication's in part names<br>"+
@@ -139,11 +139,11 @@ string infoPartNameConflict = "Eagle allows duplicate part names in SCH/PCB if t
                               "You have 2 options:<br><br> 1: Rename the part in ealge's LIB/SCH/PCB. <i>If you have access to them</i><br> 2: Tick this option <b><i>Adding lib name to Part Name</b></i><br><br>"+
                               "Which allowing this program to add lib prefix to the part name. This also fixes the problem.<br>"+
                               "<br><b><font color=\"purple\">Note 1: This program automatically check's for conflicts and set's the option if needed<br><br></b>"+
-                              "<b><font color=\"red\">Note 2: Eagle has some nasty bugs in there library management,  which is some case's there will be ghost parts in the lib's!<br>"+
+                              "<b><font color=\"red\">Note 2: Eagle has some nasty bugs in there library management,  which is some case's there will be ghost parts in the libs!<br>"+
                               "<b>IE: parts which you don't use in your SCH but are still output from the lib-export stage of this program,  which will magically be used instead of the part you have designed with !<br>"+
                               "The only way to get this problem, is to turn the <i>Adding lib name to Part Name: back on!" ;
 
-string infoCombineLibNames  = "Combine all the separate Eagle lib's into one KiCad lib<br>"+
+string infoCombineLibNames  = "Combine all the separate Eagle libs into one KiCad lib<br>"+
                               "This make's the conversion process easy and faster.<br>"+
                               "<b>But means that you may lose tack of which parts<br>"+
                               "come from which Eagle lib</b><br>";
@@ -168,7 +168,7 @@ string infoNetLableFix      = "<u><b><font color=\"red\">The problem:</font></b>
                               " While this solution is a real hack it's on the only way to get get around the net label placement problems"+
                               " KiCad has";
 
-string infoExportLibsFromEagle = "Extract lib's from Eagle SCH/PCB for KiCad <i>lib module.</i><br>"+
+string infoExportLibsFromEagle = "Extract libs from Eagle SCH/PCB for KiCad <i>lib module.</i><br>"+
                                  "<b><i>NOTE:</b></i> If you <b><i><u>don't</b></i></u> use this option, you will need to find<br>"+
                                  "the Eagle <i>.lbr(s)</i> library's files and convert those across<br>"+
                                  " one by one using the Eagle-lbr2kicad-1.0.ulp";
@@ -783,7 +783,7 @@ int getCurrentTimeHack()
 }
 
 //
-// Make list of all the lib's used.
+// Make list of all the libs used.
 //
 int makeLibeList( UL_SCHEMATIC SCH )
 {
@@ -798,7 +798,7 @@ int makeLibeList( UL_SCHEMATIC SCH )
 }
 
 //***************
-// Make list of all the device lib's refaces used.
+// Make list of all the device libs refaces used.
 // And seach for conflicts
 // returns 0 if ok,
 // or confict count
@@ -2233,7 +2233,7 @@ void write_kicad_components( UL_SHEET S )
 	      // if >NAME and >VALUE are not smashed, they wont apear here.
 	      // But in  I.gate.symbol.texts(T) section, Also note that depending on weather the 
 	      // >NAME and/or >VALUE have been changed/deleted then added back in the Eagle lib,  and the sch is update from
-	      // that Eagle lib's, the >NAME and/or >VALUE could be in any order in I.gate.symbol.texts(T)
+	      // that Eagle libs, the >NAME and/or >VALUE could be in any order in I.gate.symbol.texts(T)
 	      // section's !! how brain dead is that.. !!
 	      I.texts(T)
 		{
@@ -2554,7 +2554,7 @@ void write_kicad_components( UL_SHEET S )
 	      // if >NAME and >VALUE are not smashed, they wont apear here.
 	      // But in  I.gate.symbol.texts(T) section, Also note that depending on weather the 
 	      // >NAME and/or >VALUE have been changed/deleted then added back in the Eagle lib,  and the sch is update from
-	      // that Eagle lib's, the >NAME and/or >VALUE could be in any order in I.gate.symbol.texts(T)
+	      // that Eagle libs, the >NAME and/or >VALUE could be in any order in I.gate.symbol.texts(T)
 	      // section's !! how brain dead is that.. !!
               count = 0;
               string prefixToValue = "";
