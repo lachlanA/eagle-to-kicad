@@ -137,7 +137,7 @@ string infoPartNameConflict = "Eagle allows duplicate part names in SCH/PCB if t
                               "While KiCad dose not allow duplication's in part names<br>"+
                               "In most case's there is no conflict, but if there is a conflict.<br>"+
                               "You have 2 options:<br><br> 1: Rename the part in ealge's LIB/SCH/PCB. <i>If you have access to them</i><br> 2: Tick this option <b><i>Adding lib name to Part Name</b></i><br><br>"+
-                              "Which allowing this program to add lib prefix to the part name. This also fix's the problem.<br>"+
+                              "Which allowing this program to add lib prefix to the part name. This also fixes the problem.<br>"+
                               "<br><b><font color=\"purple\">Note 1: This program automatically check's for conflicts and set's the option if needed<br><br></b>"+
                               "<b><font color=\"red\">Note 2: Eagle has some nasty bugs in there library management,  which is some case's there will be ghost parts in the lib's!<br>"+
                               "<b>IE: parts which you don't use in your SCH but are still output from the lib-export stage of this program,  which will magically be used instead of the part you have designed with !<br>"+
@@ -163,7 +163,7 @@ string infoNetLableFix      = "<u><b><font color=\"red\">The problem:</font></b>
                               " GLOBAL, <i>(works on all sheets)</i><br>"+
                               " The Eagle script first check to see if the net label is only on the current sheet, or on"+
                               " multiple sheets and then assigns a local or global KiCad net label at the wire/part juction<br>"+
-                              " This fix's any problems with placement of net label name in Eagle.<br>"+
+                              " This fixes any problems with placement of net label name in Eagle.<br>"+
                               " And for KiCad, we have a option to set the net label name size, so it's not too much of a eyesore.<br>"+
                               " While this solution is a real hack it's on the only way to get get around the net label placement problems"+
                               " KiCad has";

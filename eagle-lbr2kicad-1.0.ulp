@@ -73,7 +73,7 @@
  * 05.09.2014: Inc version number to 1.1
  *             Thanks to: Lachlan  "lachlanusa (at) gmail.com"
  *
- * 05.09.2014: Try a number of fix's for part name, and ALISA list,  to work better with eagle2kicad_sch.ulp
+ * 05.09.2014: Try a number of fixes for part name, and ALISA list,  to work better with eagle2kicad_sch.ulp
  *             Note there are many problems here. See as badly name eagle lib's will make for lot's of devices name collisions!
  *             Which will make KiCad stop loading the lib/mod!
  *             Thanks to: Lachlan  "lachlanusa (at) gmail.com"
