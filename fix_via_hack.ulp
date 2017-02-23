@@ -119,7 +119,7 @@ string ckname[];
 string cmd;  // holds the script to renumbing in sch
 string lib_cmd; // hold's script for building lib pads
 string pcb_cmd; // Hold scrtip for removeing VIAs and adding pads in it's place.
-string sch_cmd; // Hold script for sch pad's add.
+string sch_cmd; // Hold script for sch pads add.
 
 string c;
 
@@ -183,7 +183,7 @@ int docment_unnconeted_wires = 1;
 // Note this looks bit old, as we dont have a end X,Y
 // but old/end is the marker..  IE index 10 is start, index of 11 is end of same track.
 // layer start finish are,  always the same vale,
-// so that same rutine can check for connection's for pad's
+// so that same rutine can check for connection's for pads
 // VIAs,  wire's  
 int wire_X[];
 int wire_Y[];
@@ -196,8 +196,8 @@ int wire_index[];
 int wire_indexS[];
 int wire_indexF[];
 
-// Holds table of vire's pad's smd pad's
-// with pad's Sl and Fl 
+// Holds table of vire's pads smd pads
+// with pads Sl and Fl 
 int via_X[];
 int via_Y[];
 char via_Sl[];
@@ -206,8 +206,8 @@ string via_netname[];
 char via_pad_connectFlag[];   // Marks the pad as having connection to PAD, even if via a wire or direct,  via in pad.
 int via_counter;
 int via_index[];
-// Holds table of PAD's
-// for Pad's pad_Sl = 1  pad_Fl=16  ie all layers
+// Holds table of pads
+// for pads pad_Sl = 1  pad_Fl=16  ie all layers
 int pad_X[];
 int pad_Y[];
 char pad_Sl[];
@@ -272,11 +272,11 @@ string infoTargetDirectory  =  "<b>Set the target directory for the KiCad/Eagle 
 string infoConvertViaToPad  =  "<b>Eagle use's VIAs for connections to fill's and power plane's, this works well for Eagle<br>"+
     "<b>But will not work for KiCad, because KiCad does not retain Net list information for unconnected VIAs and tracks<br>"+
     "<b>It only retains net information when the via is connected to a PAD, using a track<br>"+
-    "<b>By converting the unconnected VIAs to Pad's KiCad will keep the net information and allow fill's and power plane's to work like<br>"+
+    "<b>By converting the unconnected VIAs to pads KiCad will keep the net information and allow fill's and power plane's to work like<br>"+
     "<b>they do on Eagle. But there  are some problems with this fix-<br><br>"+
     "1: Blind VIAs wont work, as Pads will go thou all layers,  while blind vie's only go thou the configured layers.<br>"+
-    "2: The fix change's the Eagle SCH/PCB file's by converting VIAs to Pads, the hack change's the SCH by adding 1 Pin Pad's<br>"+
-    "&nbsp;&nbsp;&nbsp;&nbsp;this is a very big hack, you will see x=0 y=0-number diffident net's and pad's in the Eagle SCH file<br>"+
+    "2: The fix change's the Eagle SCH/PCB file's by converting VIAs to Pads, the hack change's the SCH by adding 1 Pin pads<br>"+
+    "&nbsp;&nbsp;&nbsp;&nbsp;this is a very big hack, you will see x=0 y=0-number diffident net's and pads in the Eagle SCH file<br>"+
     "&nbsp;&nbsp;&nbsp;&nbsp;this mod-filed Eagle file's are saved in the $TARGETDIRECTOR/modified_eagle_files/";
 
 string infoDocFillOverPad  =  "<b>SMD Pads & Normal Pads can be covered with copper when Thermal connection is turned off<br>"+
@@ -290,11 +290,11 @@ string infoDocFillOverPad  =  "<b>SMD Pads & Normal Pads can be covered with cop
 
 
 string infoDocomentUnconnectVias  =  "<b>This Option add's a \">\" to the via or converted pad,<br>"+
-    "Making it easy to find the changed VIAs/pad's on the PCB<br>"+
+    "Making it easy to find the changed VIAs/pads on the PCB<br>"+
     "Note this will show up as layer eagleReportLayerTxt (tDocu) on Eagle's PCB, and Dwgs.User on KiCad pcbnew.<br>";
 
 string infoDocomentUnconnectWires  =  "<b>This Option add's a \">\" to the via or converted pad,<br>"+
-    "Making it easy to find the changed VIAs/pad's on the PCB<br>"+
+    "Making it easy to find the changed VIAs/pads on the PCB<br>"+
     "Note this will show up as layer eagleReportLayerTxt (tDocu) on Eagle's PCB, and Dwgs.User on KiCad pcbnew.<br>";
 
 
@@ -854,7 +854,7 @@ void menue(void)
                  "which are saved in the <i>TARGET-DIRECTORY</i>/modified_eagle_files/");
 
         /* "This is needed because KiCad does not support Net Names on unconected Via's/Tracks and blind Vias which have no Pad conecsion.!<br>"+ */
-        /* "while unconected VIAs can be automatic coveted to Pad's blind VIAs and unconnected tracks need manual conversion</i>)<br>"+ */
+        /* "while unconected VIAs can be automatic coveted to pads blind VIAs and unconnected tracks need manual conversion</i>)<br>"+ */
         /* "will lose net names, and will not connect to fill's or power plane's!<br>"+ */
         /* "This hack will help out by converting all those unconnected VIA'S to Pads<br>"+ */
         /* "<i>Click on Info for more, information and problem's which is could fix/make!</i><br>"+ */
@@ -936,7 +936,7 @@ void menue(void)
         {
           dlgStretch(10);
           dlgSpacing(space);
-          dlgLabel("Convert unconnected VIA's to PAD's");
+          dlgLabel("Convert unconnected VIA's to pads");
           dlgCheckBox("", enable_via_to_pad );
           dlgPushButton("Info") { if (dlgMessageBox( infoConvertViaToPad, "Ok") == 0); };
           dlgStretch(0);
@@ -1230,7 +1230,7 @@ int buildconnectintable()
 /*     { */
 
 /*       if( ( aIndex[ i ] ==  aindex[ j ] ) // pointing to our self's ? */
-/*         {  // Ok  step over then as pad's should not connect to pads.. I think !!! */
+/*         {  // Ok  step over then as pads should not connect to pads.. I think !!! */
 /*           j++; */
 /*           continue; */
 /*         } */
@@ -1682,7 +1682,7 @@ int main()
           {
             aX[ pad_counter ] = C.pad.x;
             aY[ pad_counter ] = C.pad.y;
-            aSl[ pad_counter ] = 1;    // thou hole pad's allways go's from top to Bottome
+            aSl[ pad_counter ] = 1;    // thou hole pads allways go's from top to Bottome
             aFl[ pad_counter ] = 16;
             aNet[ pad_counter ] = C.pad.signal;  // set the name up for now. 
             aType[ pad_counter ] = 0;   // PAD type
@@ -1743,7 +1743,7 @@ int main()
       {
         polygonCount++;
 
-        for( i = 0; i < pad_counter; i++ ) // check for pad's and fill netname match
+        for( i = 0; i < pad_counter; i++ ) // check for pads and fill netname match
         {
           if( aNet[i] == S.name ) // match the net ?
             if( (aSl[ i ] >= P.layer && (aFl[ i ] <= P.layer ))) // check to see if it's a pad or SMD pad,  only Mark SMD pad is on the same layer
@@ -1827,7 +1827,7 @@ int main()
         int t;
         if( overLappingPads )
         {
-          for( p = 0; p < pad_counter; p++)  // this looks strange but there may be a case when  the are two pad's at the same lowcation !
+          for( p = 0; p < pad_counter; p++)  // this looks strange but there may be a case when  the are two pads at the same lowcation !
           {
             t = findTableViaWire( i, via_counter, p,  1 ); // find first match and layers check
             if( t != 0 )
@@ -2358,7 +2358,7 @@ int main()
       }  // if( aStatus[i] == 0 )
 
     // Display marker for possable fill over pad.
-    for( i = 0; i < pad_counter; i++) // scan pad's for possable connections to fills
+    for( i = 0; i < pad_counter; i++) // scan pads for possable connections to fills
     {
       if((aFillPad[ i ]) == 1)// possable fill over pad ?
       {
@@ -2399,7 +2399,7 @@ int main()
       sprintf(c, "DISPLAY %s;\n", "NONE" );    
       pcb_cmd += c;
       sprintf(c, "DISPLAY %d %d %d %d %d %d %d %d %d %d %d %d;\n", ViaEagleReportLayerTxt, ViaEagleReportLayerDrawing, WireEagleReportLayerTxt, WireEagleReportLayerDrawing, PadEagleReportLayerText, PadEagleReportLayerDrawing,
-              BlindEagleReportLayerDrawing, BlindEagleReportLayerTxt, 17, 18, 23, 24 ); // dispaly VIAs pad's, and top/bottom orgiine
+              BlindEagleReportLayerDrawing, BlindEagleReportLayerTxt, 17, 18, 23, 24 ); // dispaly VIAs pads, and top/bottom orgiine
       pcb_cmd += c;
 
       for( i = 0; i < displayCt; i++ ) // Show layers with possable fill over pad
@@ -2420,7 +2420,7 @@ int main()
         np = findIntInArray( np, unc_wLayer[ i ] );
         if( np == 0 )
         {  // Not found so, we did not display before, so display it now!
-          sprintf(c, "DISPLAY %d;\n", unc_wLayer[ i ]); // dispaly VIAs pad's, and top/bottom orgiine
+          sprintf(c, "DISPLAY %d;\n", unc_wLayer[ i ]); // dispaly VIAs pads, and top/bottom orgiine
           pcb_cmd += c;
           sprintf(c, "SET FILL_LAYER %d 0;\n", unc_wLayer[ i ]);
           pcb_cmd += c;
@@ -2478,7 +2478,7 @@ int main()
     logfile += c;
     output(logfileName, "at") printf("%s", logfile);
 
-    // Write out the list of polygon's which have pad's VIAs for track's having the same net name.
+    // Write out the list of polygon's which have pads VIAs for track's having the same net name.
     if( polygons_linesCt )
     {
       polygons_message_FileName = filesetext( outputPath + filename(B.name), "_polygon_messagex.txt");

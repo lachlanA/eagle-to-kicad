@@ -205,10 +205,10 @@ int devicesCount = 0;
 int deleteTextArfterATsysbolInPinName = 1;   //Eagle dos not show any text in pin name's arfter the @ sysbold.
 int deleteNameTextSCH = 1;   //Delete >Name from schematic
 int deleteValueTextSCH = 1;   //Delete >Value from schematic
-string  symbolicPrefix;      /*list  symbolic prefix(s)(commer seperated) not to show pin's or pad's or Part, or symbolic prefix for,  Note list format is D, C, X, V, #  */
+string  symbolicPrefix;      /*list  symbolic prefix(s)(commer seperated) not to show pin's or pads or Part, or symbolic prefix for,  Note list format is D, C, X, V, #  */
 
 int dontShowPin = 1;   //Dont show pin's from symbloicPrefix list
-int dontShowPad = 1;   //Dont show Pad's from symbloicPrefix list
+int dontShowPad = 1;   //Dont show pads from symbloicPrefix list
 int dontShowPartName = 1;   //Dont show part name from symbloicPrefix list
 int dontShowPartValue = 1;   //Dont show part name from symbloicPrefix list
 

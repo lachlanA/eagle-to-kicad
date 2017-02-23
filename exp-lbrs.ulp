@@ -18,7 +18,7 @@
 // 09-Oct-2015  Fix layer's for limted version of Eagle L. A.
 // 25-Aug-2015  Fix space in Path problem, for windows by adding ' ' L. A.
 // 31-Jul-2015  Fix some spelling mistakes.  L. A.
-// 28-Jul-2015  Fix a number of problems where,  Pin and Pad's over lap, and add error reporting log file.
+// 28-Jul-2015  Fix a number of problems where,  Pin and pads over lap, and add error reporting log file.
 // 13-Mar-2015  Add more help to info boxs.  L. A.
 // 10-Feb-2015  Change hooks to work the other conversion programs.  L. A.
 //  
@@ -28,7 +28,7 @@
 string Version = "6.6";
 
 int TEMP_HOLD_FOR_OVER_LAPPING_PIN = 19180;  //  Tempory of the sysmbole editor when we have over lapping pin's to deal with
-int TEMP_HOLD_FOR_OVER_LAPPING_SMD_PAD = 19180;  //  Tempory of the sysmbole editor when we have over lapping hole/smd pad's to deal with
+int TEMP_HOLD_FOR_OVER_LAPPING_SMD_PAD = 19180;  //  Tempory of the sysmbole editor when we have over lapping hole/smd pads to deal with
 
 
 
