@@ -87,7 +87,7 @@
  * 26.07.2014: Fix Squ Pad size 0 problem in module
  *             Thanks to: Lachlan  "lachlanusa (at) gmail.com"
  *
- * 14.07.2014: Add option allows combining of device's into one KiCad lib part if the pin name/number match exactly.
+ * 14.07.2014: Add option allows combining of devices into one KiCad lib part if the pin name/number match exactly.
  *             Note: Pin number/name IS the deciding factor! NOT package type or package pin count.
  *             Thanks to: Lachlan  "lachlanusa (at) gmail.com"
  *
@@ -242,7 +242,7 @@ string logfileName;
 string logfile;
 string outputPath;
 
-string infoDeviceConversion = "<pre>Allows combining of device's into one KiCad lib part if the pin name/number match exactly.<br>"+
+string infoDeviceConversion = "<pre>Allows combining of devices into one KiCad lib part if the pin name/number match exactly.<br>"+
                               "Note pin number/name not package type or the number of pins on the package is the deciding factor.<br>"+
                               "If not enabled conversion will make a new KiCad library part/module for every one of eagle<br>devices/footprint this of course "+
                               "makes for a very large KiCad library so this give's<br>the option of combining the eagle part's where"+
@@ -2363,7 +2363,7 @@ void write_kikad_lib( string fileName )
                         currentDeviceCt++;
                     } // D.devices(DEV)
 
-                    // clear device's info
+                    // clear devices info
                     ct1 = DevSetPackageCount;
                     for( ct = 0 ; ct1; ct1--)  // clear list
                     {

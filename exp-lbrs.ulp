@@ -1042,7 +1042,7 @@ void make_lbr(void) {
 
 
 //---------------------------------------
-// make one lib for all deives
+// make one lib for all devices
 //---------------------------------------
 void make_one_lbr(void) {
 
@@ -1219,9 +1219,9 @@ int Result = dlgDialog(TR("Export EAGLE libraries from drawing")) {
 
         
         if( Merge > 0)
-          make_one_lbr(); // one lib for all deives
+          make_one_lbr(); // one lib for all devices
         else
-          make_lbr();  //  septrate libs for all device's
+          make_lbr();  //  septrate libs for all devices
         show_save_script_file(cmd);
 
 
