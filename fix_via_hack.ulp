@@ -276,7 +276,7 @@ string infoConvertViaToPad  =  "<b>Eagle use's VIAs for connections to fill's an
     "<b>they do on Eagle. But there  are some problems with this fix-<br><br>"+
     "1: Blind VIAs wont work, as Pads will go thou all layers,  while blind vie's only go thou the configured layers.<br>"+
     "2: The fix change's the Eagle SCH/PCB file's by converting VIAs to Pads, the hack change's the SCH by adding 1 Pin pads<br>"+
-    "&nbsp;&nbsp;&nbsp;&nbsp;this is a very big hack, you will see x=0 y=0-number diffident net's and pads in the Eagle SCH file<br>"+
+    "&nbsp;&nbsp;&nbsp;&nbsp;this is a very big hack, you will see x=0 y=0-number diffident nets and pads in the Eagle SCH file<br>"+
     "&nbsp;&nbsp;&nbsp;&nbsp;this mod-filed Eagle file's are saved in the $TARGETDIRECTOR/modified_eagle_files/";
 
 string infoDocFillOverPad  =  "<b>SMD Pads & Normal Pads can be covered with copper when Thermal connection is turned off<br>"+
