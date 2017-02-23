@@ -15,10 +15,10 @@
 //-------------------------------------------------------------------------------- 
 // Change log.
 // Date:    Note:
-// 09-Oct-2015  Fix layer's for limted version of Eagle L. A.
+// 09-Oct-2015  Fix layers for limted version of Eagle L. A.
 // 25-Aug-2015  Fix space in Path problem, for windows by adding ' ' L. A.
 // 31-Jul-2015  Fix some spelling mistakes.  L. A.
-// 28-Jul-2015  Fix a number of problems where,  Pin and Pad's over lap, and add error reporting log file.
+// 28-Jul-2015  Fix a number of problems where,  Pin and pads over lap, and add error reporting log file.
 // 13-Mar-2015  Add more help to info boxs.  L. A.
 // 10-Feb-2015  Change hooks to work the other conversion programs.  L. A.
 //  
@@ -28,12 +28,12 @@
 string Version = "6.6";
 
 int TEMP_HOLD_FOR_OVER_LAPPING_PIN = 19180;  //  Tempory of the sysmbole editor when we have over lapping pin's to deal with
-int TEMP_HOLD_FOR_OVER_LAPPING_SMD_PAD = 19180;  //  Tempory of the sysmbole editor when we have over lapping hole/smd pad's to deal with
+int TEMP_HOLD_FOR_OVER_LAPPING_SMD_PAD = 19180;  //  Tempory of the sysmbole editor when we have over lapping hole/smd pads to deal with
 
 
 
 string infoCombineLibNames  = "Combine all the seprate Eagle libs into one KiCad lib<br>"+
-                              "This make's the conversion preccess easy and faster.<br>"+
+                              "This makes the conversion preccess easy and faster.<br>"+
                               "<b>But means that you lose tack of which parts<br>"+
                               "come from which Eagle lib</b><br>";
 
@@ -1042,7 +1042,7 @@ void make_lbr(void) {
 
 
 //---------------------------------------
-// make one lib for all deives
+// make one lib for all devices
 //---------------------------------------
 void make_one_lbr(void) {
 
@@ -1207,7 +1207,7 @@ int Result = dlgDialog(TR("Export EAGLE libraries from drawing")) {
 
         if( ( ConflictPartsCount > 0 ) && ( AddLibPrefix != 1 ))
         {
-          if( dlgMessageBox("!Warning there are Part's with have the same name's,  but from diffent libs" +
+          if( dlgMessageBox("!Warning there are Part's with have the same names,  but from diffent libs" +
                             " KICAD will reject part which have name!" +
                             " Please tick the Add library names as prefix to get around this problem" +
                             " Or fix the part name in the lib refance"+
@@ -1219,9 +1219,9 @@ int Result = dlgDialog(TR("Export EAGLE libraries from drawing")) {
 
         
         if( Merge > 0)
-          make_one_lbr(); // one lib for all deives
+          make_one_lbr(); // one lib for all devices
         else
-          make_lbr();  //  septrate lib's for all device's
+          make_lbr();  //  septrate libs for all devices
         show_save_script_file(cmd);
 
 

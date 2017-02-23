@@ -50,7 +50,7 @@
  * 27.08.2015:  Fix Power systembal to correct for KiCad Power fills, change power supllie to opersit of Eagle.
  *              Change pin to hide when power. supply system.
  *
- * 19.07.2015:  Fix / slash in Ealge's lib and part name's and device name
+ * 19.07.2015:  Fix / slash in Ealge's lib and part names and device name
  *              Add faster string replace/subsute sub "string charstr_replace(string search, string replace, string subject)"
  *              Thanks to: Lachlan  "lachlanusa (at) gmail.com"
  *
@@ -73,21 +73,21 @@
  * 05.09.2014: Inc version number to 1.1
  *             Thanks to: Lachlan  "lachlanusa (at) gmail.com"
  *
- * 05.09.2014: Try a number of fix's for part name, and ALISA list,  to work better with eagle2kicad_sch.ulp
- *             Note there are many problems here. See as badly name eagle lib's will make for lot's of devices name collisions!
+ * 05.09.2014: Try a number of fixes for part name, and ALISA list,  to work better with eagle2kicad_sch.ulp
+ *             Note there are many problems here. See as badly name eagle libs will make for lot's of devices name collisions!
  *             Which will make KiCad stop loading the lib/mod!
  *             Thanks to: Lachlan  "lachlanusa (at) gmail.com"
  *
  * 26.07.2014: Fix >NAME and >VALUE in in module, so eagle text is not lost, or confused with module prefix/value
  *             Thanks to: Lachlan  "lachlanusa (at) gmail.com"
  *
- * 26.07.2014: Fix text width in module, so module text use's eagles text width.
+ * 26.07.2014: Fix text width in module, so module text uses eagles text width.
  *             Thanks to: Lachlan  "lachlanusa (at) gmail.com"
  *
  * 26.07.2014: Fix Squ Pad size 0 problem in module
  *             Thanks to: Lachlan  "lachlanusa (at) gmail.com"
  *
- * 14.07.2014: Add option allows combining of device's into one KiCad lib part if the pin name/number match exactly.
+ * 14.07.2014: Add option allows combining of devices into one KiCad lib part if the pin name/number match exactly.
  *             Note: Pin number/name IS the deciding factor! NOT package type or package pin count.
  *             Thanks to: Lachlan  "lachlanusa (at) gmail.com"
  *
@@ -202,13 +202,13 @@ int eaglePartToKiCadPartConversion = 0; // control's if we cobine footprints or 
 int devicesetsCount = 0;
 int devicesCount = 0;
 
-int deleteTextArfterATsysbolInPinName = 1;   //Eagle dos not show any text in pin name's arfter the @ sysbold.
+int deleteTextArfterATsysbolInPinName = 1;   //Eagle dos not show any text in pin names arfter the @ sysbold.
 int deleteNameTextSCH = 1;   //Delete >Name from schematic
 int deleteValueTextSCH = 1;   //Delete >Value from schematic
-string  symbolicPrefix;      /*list  symbolic prefix(s)(commer seperated) not to show pin's or pad's or Part, or symbolic prefix for,  Note list format is D, C, X, V, #  */
+string  symbolicPrefix;      /*list  symbolic prefix(s)(commer seperated) not to show pin's or pads or Part, or symbolic prefix for,  Note list format is D, C, X, V, #  */
 
 int dontShowPin = 1;   //Dont show pin's from symbloicPrefix list
-int dontShowPad = 1;   //Dont show Pad's from symbloicPrefix list
+int dontShowPad = 1;   //Dont show pads from symbloicPrefix list
 int dontShowPartName = 1;   //Dont show part name from symbloicPrefix list
 int dontShowPartValue = 1;   //Dont show part name from symbloicPrefix list
 
@@ -242,10 +242,10 @@ string logfileName;
 string logfile;
 string outputPath;
 
-string infoDeviceConversion = "<pre>Allows combining of device's into one KiCad lib part if the pin name/number match exactly.<br>"+
+string infoDeviceConversion = "<pre>Allows combining of devices into one KiCad lib part if the pin name/number match exactly.<br>"+
                               "Note pin number/name not package type or the number of pins on the package is the deciding factor.<br>"+
                               "If not enabled conversion will make a new KiCad library part/module for every one of eagle<br>devices/footprint this of course "+
-                              "make's for a very large KiCad library so this give's<br>the option of combining the eagle part's where"+
+                              "makes for a very large KiCad library so this give's<br>the option of combining the eagle part's where"+
                               " possible to make a Kicad library,<br>there is some risk to this, as the matching process could have<br>"+
                               "<b><br>So it's import you check the results when using this option<b>!!!</b></pre>";
 
@@ -262,7 +262,7 @@ string infoPostFixSeach = "Add a wild card post-fix '*' to each footprint in the
 
 string infoNoPrefix = "If a eagle lib part has no prefix IE:  \"U\", \"R\", \"C\" etc, then we use this letter(s) for SCH/Part Prefix";
 
-string infoFootPrintList = "KiCad use's the footprint list to help select from the list of PCB module/footprint(s) in KiCad's module lib.<br>This option controls the output, and output format"+
+string infoFootPrintList = "KiCad uses the footprint list to help select from the list of PCB module/footprint(s) in KiCad's module lib.<br>This option controls the output, and output format"+
                            " given to KiCad<br>Note: This is not the same as KiCad footprint";
 
 string infoFootPrint = "<pre>You have 2 options, for the footprint name in KiCad.<br>Just use eagle device name for the footprint name in KiCad,<br>"+
@@ -274,13 +274,13 @@ string infoFootPrint = "<pre>You have 2 options, for the footprint name in KiCad
 
 string infoFootPrintPrefix = "You can override the default eagle lib name, which is the prefix to the KiCad footprint name.<br>Note: that this program always adds '_' between  prefix name and foot print name.";
 
-string infoTextMaxMinValue = "<pre>You can override text font line width size in eagle, and use the Max and Min line width,<br>which KiCad use's to draw the text<br>"+
+string infoTextMaxMinValue = "<pre>You can override text font line width size in eagle, and use the Max and Min line width,<br>which KiCad uses to draw the text<br>"+
                              "IE:  Any text line width which is bigger than Max line will be replaced with Max value.<br>"+
                              "     Any text line width which is less than Min line will be replaced with Min width value.</pre>";
 
 string infoProgramHowTo = "This program converts a eagle lib to KiCad lib and mod lib.<br>You have a number of options to how this conversion is done.<br>"+
                           "<b><br><i>WARNING: You should check the results of the conversion!<br>As there is no way this program will make a perfect conversion<i></b>"+
-                          "<pre><b><font color=red>BUGS and and warnings:<br>  1: Text can appear on any layer in Eagle lib's, where as KiCad only allows Text on top layer<br>"+
+                          "<pre><b><font color=red>BUGS and and warnings:<br>  1: Text can appear on any layer in Eagle libs, where as KiCad only allows Text on top layer<br>"+
                           "     This will result in all text from eagle appearing on the top silk screen layer,<br>     and mirrored text will no longer be mirrored !</pre></font>"+
                           "<i>This version of eagle-to-kicad is hosted on <a href=\"http://github.com/lachlanA/eagle-to-kicad/\">https://github.com/lachlanA/eagle-to-kicad</a><br>"+
                           "Please check this site for latest version, bug reports, and to make suggestions/improvement<br><i>";
@@ -1861,7 +1861,7 @@ void write_kikad_lib( string fileName )
                     devicesCount = 0;
 
                     //********************************
-                    // Find the number of deivce's and add the name's to a aray list of device names/package name lists,
+                    // Find the number of deivce's and add the names to a aray list of device names/package name lists,
                     // Also pin list for compair
                     int DevSetPackageCount = 0;
                     D.devices(DEV)
@@ -2363,7 +2363,7 @@ void write_kikad_lib( string fileName )
                         currentDeviceCt++;
                     } // D.devices(DEV)
 
-                    // clear device's info
+                    // clear devices info
                     ct1 = DevSetPackageCount;
                     for( ct = 0 ; ct1; ct1--)  // clear list
                     {
@@ -2755,7 +2755,7 @@ int main()
     if( ( strlen(tmpXX) >= 1 ))   // Has it been set ?
         if ( strtol( tmpXX ) == 1 ) // Yes
         {
-            add_libnamePrefixToPartName = 0; // Dont add lib name's to deivce name's for now *** !!
+            add_libnamePrefixToPartName = 0; // Dont add lib names to deivce names for now *** !!
             outPutFootPrint = 0; // Don't add lib name to foot print name as it has aready been added for now ****!!
         }
         else
