@@ -28,10 +28,10 @@ string Version = "ULP Version 4.6.0";
  * 11.02.2016:  Change ! to ~ for onver bard on KiCad
  *              Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
  *
- * 19.10.2015:  Add reporting of fill's over pads.  And clean up other reports.
+ * 19.10.2015:  Add reporting of fills over pads.  And clean up other reports.
  *              Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
  *
- * 14.09.2015: Star adding reporting code for unnected tracks, and multi blind via's
+ * 14.09.2015: Star adding reporting code for unnected tracks, and multi blind VIAs
  *              Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
  *
  * 09.09.2015: Add better plot of via pad change, Doc marker
@@ -118,8 +118,8 @@ string ckname[];
 
 string cmd;  // holds the script to renumbing in sch
 string lib_cmd; // hold's script for building lib pads
-string pcb_cmd; // Hold scrtip for removeing via's and adding pads in it's place.
-string sch_cmd; // Hold script for sch pad's add.
+string pcb_cmd; // Hold scrtip for removeing VIAs and adding pads in it's place.
+string sch_cmd; // Hold script for sch pads add.
 
 string c;
 
@@ -149,7 +149,7 @@ int aWireConnectionCt[]; // Holds the number of connections from wire to wire fo
 char aStatus[];	// the connection status,  0=NoConnected, 1=PadConnection.
 char aFillPad[]; // Marks the pad as having possable fill
 int wirenumber[];	// holds the wire number
-int aindex[];	// order storted index of pad/tracks/via's
+int aindex[];	// order storted index of pad/tracks/VIAs
 int index_size; // Holds the table size
 int table_error = 0; // Counter's any error's in the connection table,  should not heppen !
 
@@ -183,8 +183,8 @@ int docment_unnconeted_wires = 1;
 // Note this looks bit old, as we dont have a end X,Y
 // but old/end is the marker..  IE index 10 is start, index of 11 is end of same track.
 // layer start finish are,  always the same vale,
-// so that same rutine can check for connection's for pad's
-// via's,  wire's  
+// so that same rutine can check for connection's for pads
+// VIAs,  wire's  
 int wire_X[];
 int wire_Y[];
 char wire_Sl[];  // layer start
@@ -196,8 +196,8 @@ int wire_index[];
 int wire_indexS[];
 int wire_indexF[];
 
-// Holds table of vire's pad's smd pad's
-// with pad's Sl and Fl 
+// Holds table of vire's pads smd pads
+// with pads Sl and Fl 
 int via_X[];
 int via_Y[];
 char via_Sl[];
@@ -206,8 +206,8 @@ string via_netname[];
 char via_pad_connectFlag[];   // Marks the pad as having connection to PAD, even if via a wire or direct,  via in pad.
 int via_counter;
 int via_index[];
-// Holds table of PAD's
-// for Pad's pad_Sl = 1  pad_Fl=16  ie all layers
+// Holds table of pads
+// for pads pad_Sl = 1  pad_Fl=16  ie all layers
 int pad_X[];
 int pad_Y[];
 char pad_Sl[];
@@ -273,19 +273,19 @@ string infoTargetDirectory  =  "<b>Set the target directory for the KiCad/Eagle 
                              "<b>Note this directory should be a clean directory<br>"+
                              "With out any other file's, as the contents-<br><center><font color=\"red\"><font color=\"red\">WILL BE OVER WRITTEN WITHOUT WARNING!</b></center>";
 
-string infoConvertViaToPad  =  "<b>Eagle use's via's for connections to fill's and power plane's, this works well for Eagle<br>"+
-    "<b>But will not work for KiCad, because KiCad does not retain Net list information for unconnected via's and tracks<br>"+
+string infoConvertViaToPad  =  "<b>Eagle uses VIAs for connections to fills and power planes, this works well for Eagle<br>"+
+    "<b>But will not work for KiCad, because KiCad does not retain Net list information for unconnected VIAs and tracks<br>"+
     "<b>It only retains net information when the via is connected to a PAD, using a track<br>"+
-    "<b>By converting the unconnected via's to Pad's KiCad will keep the net information and allow fill's and power plane's to work like<br>"+
+    "<b>By converting the unconnected VIAs to pads KiCad will keep the net information and allow fills and power planes to work like<br>"+
     "<b>they do on Eagle. But there  are some problems with this fix-<br><br>"+
-    "1: Blind via's wont work, as Pads will go thou all layers,  while blind vie's only go thou the configured layers.<br>"+
-    "2: The fix change's the Eagle SCH/PCB file's by converting via's to Pads, the hack change's the SCH by adding 1 Pin Pad's<br>"+
-    "&nbsp;&nbsp;&nbsp;&nbsp;this is a very big hack, you will see x=0 y=0-number diffident net's and pad's in the Eagle SCH file<br>"+
+    "1: Blind VIAs wont work, as Pads will go thou all layers,  while blind vie's only go thou the configured layers.<br>"+
+    "2: The fix change's the Eagle SCH/PCB file's by converting VIAs to Pads, the hack change's the SCH by adding 1 Pin pads<br>"+
+    "&nbsp;&nbsp;&nbsp;&nbsp;this is a very big hack, you will see x=0 y=0-number diffident nets and pads in the Eagle SCH file<br>"+
     "&nbsp;&nbsp;&nbsp;&nbsp;this mod-filed Eagle file's are saved in the $TARGETDIRECTOR/modified_eagle_files/";
 
 string infoDocFillOverPad  =  "<b>SMD Pads & Normal Pads can be covered with copper when Thermal connection is turned off<br>"+
     "<b>During importing of Eagle PCB, there is no control per PAD as to which  PAD is covered,  only global control per fill<br>"+
-    "<b>This leads to a problem's when you have via to Pad turned on, as if  thermal relief's is turned on for that fill, and via's<br>"+
+    "<b>This leads to a problem's when you have via to Pad turned on, as if  thermal relief's is turned on for that fill, and VIAs<br>"+
     "<b>to PAD been turned on, Thermal relief's are generated for each via/pad conversion which is not what you need.<br>"+
     "<b>In KiCad you have Global control and individual PAD control on thermal relive, so by turning Thermal relief off for the fill,<br>"+
     "<b>and turn each smd/pad Thermal relief on and needed.  Doing this manual<br>"+
@@ -294,11 +294,11 @@ string infoDocFillOverPad  =  "<b>SMD Pads & Normal Pads can be covered with cop
 
 
 string infoDocomentUnconnectVias  =  "<b>This Option add's a \">\" to the via or converted pad,<br>"+
-    "Making it easy to find the changed via's/pad's on the PCB<br>"+
+    "Making it easy to find the changed VIAs/pads on the PCB<br>"+
     "Note this will show up as layer eagleReportLayerTxt (tDocu) on Eagle's PCB, and Dwgs.User on KiCad pcbnew.<br>";
 
 string infoDocomentUnconnectWires  =  "<b>This Option add's a \">\" to the via or converted pad,<br>"+
-    "Making it easy to find the changed via's/pad's on the PCB<br>"+
+    "Making it easy to find the changed VIAs/pads on the PCB<br>"+
     "Note this will show up as layer eagleReportLayerTxt (tDocu) on Eagle's PCB, and Dwgs.User on KiCad pcbnew.<br>";
 
 
@@ -849,18 +849,18 @@ void menue(void)
   int saveAsDefaultULP_Path = 1;
   string tmpS10 = "";
   
-  result = dlgDialog("Via's to Pad, and Track Check:" + "  BUILD DATE:" + BUILD_DATE )
+  result = dlgDialog("VIAs to Pad, and Track Check:" + "  BUILD DATE:" + BUILD_DATE )
       {
-        dlgLabel("<b><font color=\"red\">This ULP will change unconnected VIA's to PADS<br>" + 
-                 "<font color=\"blue\">It will also Documents on user defined layer's unconnected VIA'S and Tracks<br>" +
+        dlgLabel("<b><font color=\"red\">This ULP will change unconnected VIAs to PADS<br>" + 
+                 "<font color=\"blue\">It will also Documents on user defined layers unconnected VIAs and Tracks<br>" +
                  "<i>Click on <i>Info</> for importand Note's!</i><br>"+
                  "<b>NOTE:<i> This hack modifies both the Eagle SCH and PCB file,<br>"+
                  "which are saved in the <i>TARGET-DIRECTORY</i>/modified_eagle_files/");
 
-        /* "This is needed because KiCad does not support Net Names on unconected Via's/Tracks and blind Vias which have no Pad conecsion.!<br>"+ */
-        /* "while unconected via's can be automatic coveted to Pad's blind via's and unconnected tracks need manual conversion</i>)<br>"+ */
-        /* "will lose net names, and will not connect to fill's or power plane's!<br>"+ */
-        /* "This hack will help out by converting all those unconnected VIA'S to Pads<br>"+ */
+        /* "This is needed because KiCad does not support Net Names on unconected VIAs/Tracks and blind Vias which have no Pad conecsion.!<br>"+ */
+        /* "while unconected VIAs can be automatic coveted to pads blind VIAs and unconnected tracks need manual conversion</i>)<br>"+ */
+        /* "will lose net names, and will not connect to fills or power planes!<br>"+ */
+        /* "This hack will help out by converting all those unconnected VIAs to Pads<br>"+ */
         /* "<i>Click on Info for more, information and problem's which is could fix/make!</i><br>"+ */
         /* "<b>NOTE:<i> This hack modifies both the eagle sch and PCB file,  which are saved in the TARGET-DIRECTORY/modified_eagle_files/</i>"); */
 
@@ -899,7 +899,7 @@ void menue(void)
           dlgCheckBox("Save as default", saveAsDefaultULP_Path );
           dlgPushButton("Edit") {
             string xs;int it;
-            xs = dlgDirectory("Select directory containing conversion ULP's", "C:\\");
+            xs = dlgDirectory("Select directory containing conversion ULPs", "C:\\");
             if( strlen(xs) )
               tmpS10 = myULP_HOME = ( xs + '/');
           }
@@ -940,7 +940,7 @@ void menue(void)
         {
           dlgStretch(10);
           dlgSpacing(space);
-          dlgLabel("Convert unconnected VIA's to PAD's");
+          dlgLabel("Convert unconnected VIAs to pads");
           dlgCheckBox("", enable_via_to_pad );
           dlgPushButton("Info") { if (dlgMessageBox( infoConvertViaToPad, "Ok") == 0); };
           dlgStretch(0);
@@ -980,7 +980,7 @@ void menue(void)
         {
           dlgStretch(10);
           dlgSpacing(space);
-          dlgLabel("Documents unconnected VIA's");
+          dlgLabel("Documents unconnected VIAs");
           dlgCheckBox("", docment_via_to_pad );
           dlgLabel("Text Layer");
           dlgIntEdit(ViaEagleReportLayerTxt, 100, 255);
@@ -996,7 +996,7 @@ void menue(void)
         {
           dlgStretch(10);
           dlgSpacing(space);
-          dlgLabel("Documents unconnected Blind VIA's");
+          dlgLabel("Documents unconnected Blind VIAs");
           dlgCheckBox("", docment_blind_via_to_pad );
           dlgLabel("Text Layer");
           dlgIntEdit( BlindEagleReportLayerTxt, 100, 255);
@@ -1234,7 +1234,7 @@ int buildconnectintable()
 /*     { */
 
 /*       if( ( aIndex[ i ] ==  aindex[ j ] ) // pointing to our self's ? */
-/*         {  // Ok  step over then as pad's should not connect to pads.. I think !!! */
+/*         {  // Ok  step over then as pads should not connect to pads.. I think !!! */
 /*           j++; */
 /*           continue; */
 /*         } */
@@ -1686,7 +1686,7 @@ int main()
           {
             aX[ pad_counter ] = C.pad.x;
             aY[ pad_counter ] = C.pad.y;
-            aSl[ pad_counter ] = 1;    // thou hole pad's allways go's from top to Bottome
+            aSl[ pad_counter ] = 1;    // thou hole pads allways go's from top to Bottome
             aFl[ pad_counter ] = 16;
             aNet[ pad_counter ] = C.pad.signal;  // set the name up for now. 
             aType[ pad_counter ] = 0;   // PAD type
@@ -1747,7 +1747,7 @@ int main()
       {
         polygonCount++;
 
-        for( i = 0; i < pad_counter; i++ ) // check for pad's and fill netname match
+        for( i = 0; i < pad_counter; i++ ) // check for pads and fill netname match
         {
           if( aNet[i] == S.name ) // match the net ?
             if( (aSl[ i ] >= P.layer && (aFl[ i ] <= P.layer ))) // check to see if it's a pad or SMD pad,  only Mark SMD pad is on the same layer
@@ -1824,20 +1824,20 @@ int main()
       /* } */
 
       //      buildconnectintable();
-      // Mark via's with pad conntion.
+      // Mark VIAs with pad conntion.
       int p = 0; // Point to start PAD table
       for( i = wire_counter; i < via_counter; i++)
       {
         int t;
         if( overLappingPads )
         {
-          for( p = 0; p < pad_counter; p++)  // this looks strange but there may be a case when  the are two pad's at the same lowcation !
+          for( p = 0; p < pad_counter; p++)  // this looks strange but there may be a case when  the are two pads at the same lowcation !
           {
             t = findTableViaWire( i, via_counter, p,  1 ); // find first match and layers check
             if( t != 0 )
             {
               t--;
-              aStatus[ t ] = 1; // mark via as connected to pad.. fix for smd/birred via's
+              aStatus[ t ] = 1; // mark via as connected to pad.. fix for smd/birred VIAs
               aNet[ p ] = S.name;  // Set net name of PAD
               aPadP[ i ] = t;	// Point via to pad
               via_to_padconnections++;
@@ -2231,7 +2231,7 @@ int main()
       logfile += c;
     }
     
-    for( i = 0; i < unnconnected_vias_Ct; i++) // scan table for unconnect via's
+    for( i = 0; i < unnconnected_vias_Ct; i++) // scan table for unconnect VIAs
     {
       // No, so docment and build scripts to add to sch and pcb and temporty lbr
 
@@ -2362,7 +2362,7 @@ int main()
       }  // if( aStatus[i] == 0 )
 
     // Display marker for possable fill over pad.
-    for( i = 0; i < pad_counter; i++) // scan pad's for possable connections to fills
+    for( i = 0; i < pad_counter; i++) // scan pads for possable connections to fills
     {
       if((aFillPad[ i ]) == 1)// possable fill over pad ?
       {
@@ -2395,7 +2395,7 @@ int main()
 
         sprintf( c, "\nPADFILL\tPadCount=%d\t\tNet=%s\t\t\t\t(X=%f Y=%f)\tLayerStart=%d\tLayerEnd=%d", i+1, aNet[ i ], u2mic( aX[i]), u2mic( aY[i]), aSl[ i ],  aFl[ i ]);
         logfile += c;
-      }  // for( i = 0; i < unnconnected_vias_Ct; i++) // scan table for unconnect via's
+      }  // for( i = 0; i < unnconnected_vias_Ct; i++) // scan table for unconnect VIAs
     }
     
     if( display_error_layers && ( unnconnected_wires_Ct || unnconnected_vias_Ct ))
@@ -2403,7 +2403,7 @@ int main()
       sprintf(c, "DISPLAY %s;\n", "NONE" );    
       pcb_cmd += c;
       sprintf(c, "DISPLAY %d %d %d %d %d %d %d %d %d %d %d %d;\n", ViaEagleReportLayerTxt, ViaEagleReportLayerDrawing, WireEagleReportLayerTxt, WireEagleReportLayerDrawing, PadEagleReportLayerText, PadEagleReportLayerDrawing,
-              BlindEagleReportLayerDrawing, BlindEagleReportLayerTxt, 17, 18, 23, 24 ); // dispaly via's pad's, and top/bottom orgiine
+              BlindEagleReportLayerDrawing, BlindEagleReportLayerTxt, 17, 18, 23, 24 ); // dispaly VIAs pads, and top/bottom orgiine
       pcb_cmd += c;
 
       for( i = 0; i < displayCt; i++ ) // Show layers with possable fill over pad
@@ -2424,7 +2424,7 @@ int main()
         np = findIntInArray( np, unc_wLayer[ i ] );
         if( np == 0 )
         {  // Not found so, we did not display before, so display it now!
-          sprintf(c, "DISPLAY %d;\n", unc_wLayer[ i ]); // dispaly via's pad's, and top/bottom orgiine
+          sprintf(c, "DISPLAY %d;\n", unc_wLayer[ i ]); // dispaly VIAs pads, and top/bottom orgiine
           pcb_cmd += c;
           sprintf(c, "SET FILL_LAYER %d 0;\n", unc_wLayer[ i ]);
           pcb_cmd += c;
@@ -2439,7 +2439,7 @@ int main()
       viacount++;
     
 
-    //}  // for() // scan table for unconnect track/via's
+    //}  // for() // scan table for unconnect track/VIAs
     //  Do we have any polygons on this net ?
 
 
@@ -2482,7 +2482,7 @@ int main()
     logfile += c;
     output(logfileName, "at") printf("%s", logfile);
 
-    // Write out the list of polygon's which have pad's via's for track's having the same net name.
+    // Write out the list of polygon's which have pads VIAs for track's having the same net name.
     if( polygons_linesCt )
     {
       polygons_message_FileName = filesetext( outputPath + filename(B.name), "_polygon_messagex.txt");
@@ -2525,7 +2525,7 @@ int main()
 
     /* if( blindviaCt ) */
     /* { */
-    /*     sprintf( blindviamessage, "%s","\t\t<font color=\"red\"><b>UNCONNECTED BLIND VIA(s)&nbsp;=%d\t<i>Remember to connect blind/birred via's to pad of the same netname with a track!<br><font color=\"black\">" ); */
+    /*     sprintf( blindviamessage, "%s","\t\t<font color=\"red\"><b>UNCONNECTED BLIND VIA(s)&nbsp;=%d\t<i>Remember to connect blind/birred VIAs to pad of the same netname with a track!<br><font color=\"black\">" ); */
     /* } */
     /* else */
     /*   sprintf( blindviamessage, "%s","\t\t<font color=\"green\"><b>UNCONNECTED BLIND VIA(s)\t\t=%d<br>" ); */
@@ -2547,12 +2547,12 @@ int main()
     
     if( unnconnected_wires_Ct || unnconnected_vias_Ct  )
     {
-      result = dlgDialog("Unnconnected via's and wire list")
+      result = dlgDialog("Unnconnected VIAs and wire list")
           {
             if( unnconnected_wires_Ct )
             {
               string c;
-              dlgLabel( "Consult log file for unnconted via's and tracks<br><b><i>" + logfileName +
+              dlgLabel( "Consult log file for unnconted VIAs and tracks<br><b><i>" + logfileName +
                         "</b></i><br> to help with fixing any warning's and errors");
               dlgLabel( x );
               sprintf(c, "<b><font color=\"red\">There are %d unnconnected Track(s)", unnconnected_wires_Ct );

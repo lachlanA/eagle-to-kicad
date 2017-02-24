@@ -531,7 +531,7 @@ void menue(void)
           dlgCheckBox("Save as default", saveAsDefaultULP_Path );
           dlgPushButton("Edit") {
             string xs;int it;
-            xs = dlgDirectory("Select directory containing conversion ULP's", "C:\\");
+            xs = dlgDirectory("Select directory containing conversion ULPs", "C:\\");
             if( strlen(xs) )
               tmpS10 = myULP_HOME = xs + '/';
           }
@@ -617,7 +617,9 @@ if (pos >= 0)
 { 
   string tmpSX = ""; 
 
+
   ULP_Path = strsub( argv[0], 0, pos + 1);
+
   tmpSX = cfgget( cfg_SCRIPT_ULP, myULP_HOME );
   if( strlen(tmpSX ) )
     myULP_HOME = tmpSX;
