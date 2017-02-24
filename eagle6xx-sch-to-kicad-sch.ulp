@@ -2113,7 +2113,7 @@ void write_kicad_components( UL_SHEET S )
       if(P.device.package)  // Do we have a package ?..   IF not ouput if in diffant way
       {  // ******* Yes we have a package !
 
-        printf("#P.device.name:%s, P.deviceset.name:%s, P.name:%s, P.device.package.name:%s\n", P.device.name, P.deviceset.name, P.name, P.device.package.name );
+//        printf("#P.device.name:%s, P.deviceset.name:%s, P.name:%s, P.device.package.name:%s\n", P.device.name, P.deviceset.name, P.name, P.device.package.name );
 
 
           string deviceName = P.device.name;
@@ -2861,7 +2861,7 @@ void write_kicad_schematics( string fileName, int current_sheet, int number_of_s
             /*            
             if( P.device.package )
             {
-              printf("\n# P.name=%s, P.populate=%d, P.value=%s P.device.name=%s P.deviceset.name=%s, P.device.package=%s",
+//              printf("\n# P.name=%s, P.populate=%d, P.value=%s P.device.name=%s P.deviceset.name=%s, P.device.package=%s",
                    P.name, P.populate, P.value, P.device.name, P.deviceset.name, P.device.package.name );
             }
 
