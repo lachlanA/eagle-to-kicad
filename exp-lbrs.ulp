@@ -15,6 +15,7 @@
 //-------------------------------------------------------------------------------- 
 // Change log.
 // Date:    Note:
+// 23-Feb-2017  Inc Version number. L. A
 // 09-Oct-2015  Fix layer's for limted version of Eagle L. A.
 // 25-Aug-2015  Fix space in Path problem, for windows by adding ' ' L. A.
 // 31-Jul-2015  Fix some spelling mistakes.  L. A.
@@ -25,7 +26,7 @@
 #require 6.0301
 #include "eagle_to_kicad_include.inc"
 //
-string Version = "6.6";
+string Version = "6.7";
 
 int TEMP_HOLD_FOR_OVER_LAPPING_PIN = 19180;  //  Tempory of the sysmbole editor when we have over lapping pin's to deal with
 int TEMP_HOLD_FOR_OVER_LAPPING_SMD_PAD = 19180;  //  Tempory of the sysmbole editor when we have over lapping hole/smd pad's to deal with
@@ -140,7 +141,8 @@ int    Merge = 0;
 int    AddLibPrefix = 0;
 int    ConflictPartsCount = 0;
 //int    OverWrieNoWarning = 0;
-string myULP_HOME = EAGLE_HOME + '/';
+//string myULP_HOME = EAGLE_HOME + '/';
+string myULP_HOME = "";
 
 char   ascii127[]       =   { 181,  196,  214,  220,  223, 0 }; // not allowed character 2010-05-12
 // www: In 8859-1 these chars are { � ,Ä ,Ö, Ü, ß } and therefore actually allowed as object names.
@@ -1244,7 +1246,7 @@ int Result = dlgDialog(TR("Export EAGLE libraries from drawing")) {
           //          wright_log_to_disk( logfile );
         }
         
-        tmpS1 = cfgget( cfg_SCRIP_ULP );
+        tmpS1 = cfgget( cfg_SCRIPT_ULP );
         if( strlen( tmpS1 ) > 1 )
           myULP_HOME = tmpS1;
 

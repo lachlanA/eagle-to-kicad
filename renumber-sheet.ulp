@@ -94,8 +94,10 @@ string lbr[], dev[], sym[];
 int maxRefNumber = 0;   // Hold the maxium refance number on this schmatic
 // this will be the start of the number parts which dont have a refance
 
-string outputPath = EAGLE_HOME + '/';
-string myULP_HOME = EAGLE_HOME + '/';
+//string outputPath = EAGLE_HOME + '/';
+//string myULP_HOME = EAGLE_HOME + '/';
+string outputPath = "";
+string myULP_HOME = "";
 
 string schname = "";
 string pcbname = "";
@@ -507,7 +509,7 @@ void menue(void)
           }
           else
           {
-            tmpSX = cfgget( cfg_SCRIP_ULP, myULP_HOME );
+            tmpSX = cfgget( cfg_SCRIPT_ULP, myULP_HOME );
             if( strlen(tmpSX ) )
               myULP_HOME = tmpSX;
           }
@@ -555,11 +557,11 @@ void menue(void)
           dlgLabel("Target Dirctory For KiCAD files");
           tmpSX = cfgget( cfg_TARGET_DIR, outputPath );
 
-          if( strlen(tmpSX ) )
-            outputPath = tmpSX;
+          //          if( strlen(tmpSX ) )
+          //            outputPath = tmpSX;
 
           dlgStringEdit( outputPath );
-          dlgCheckBox("Save as default", saveAsDefault );
+          //          dlgCheckBox("Save as default", saveAsDefault );
           dlgPushButton("Edit") {
             string xs;int it;
             xs = dlgDirectory("Select Targget directory", "C:\\");
@@ -578,13 +580,13 @@ void menue(void)
             dlgStretch(1);
             dlgPushButton("+OK")
             {
-              if( saveAsDefault )
+              //              if( saveAsDefault )
                 cfgset( cfg_TARGET_DIR, outputPath );
               /* else */
               /*   cfgset( cfg_TARGET_DIR, "" ); */
 
               if( saveAsDefaultULP_Path )
-                cfgset( cfg_SCRIP_ULP, myULP_HOME );
+                cfgset( cfg_SCRIPT_ULP, myULP_HOME );
               /* else */
               /*   cfgset(cfg_TARGET_DIR, "" ); */
 
@@ -607,29 +609,31 @@ void menue(void)
 
 
 
+//
 //--------------------------------------------------------------------------------
 // Main
 //
-
 if (pos >= 0) 
 { 
   string tmpSX = ""; 
 
-  ULP_Path = strsub(argv[0], 0, pos + 1);
-  tmpSX = cfgget( cfg_SCRIP_ULP, myULP_HOME );
+  ULP_Path = strsub( argv[0], 0, pos + 1);
+  tmpSX = cfgget( cfg_SCRIPT_ULP, myULP_HOME );
   if( strlen(tmpSX ) )
     myULP_HOME = tmpSX;
   else
     myULP_HOME = ULP_Path; 
 }
 
+
+  schematic(S) {
+    outputPath = filedir( S.name ) + "kicad/";
+    myULP_HOME = filedir( argv[ 0 ] );
+  }
+
 string myname = filename( argv[0]);
 string datetime = t2string(time(), "dd-MM-yyyy :hh:mm:ss");
 sprintf(logfile, "#********** START OF %s %s %s LOG **********#", myname, Version, datetime);
-
-//dlgMessageBox(  "ULP_Path=" + ULP_Path);
-
-
 
 if (schematic) {
   if (sheet) {
@@ -782,28 +786,29 @@ if (schematic) {
     cmd += c;
     visible(S);
 
-
-    
     //    dlgMessageBox(ULP_Path,"aroo","aree");                       //opens a dialog box with the path in the notification area
-
-        
-
-
 
     if( IsWindows() == 0 ) // Returns 0 for Linux/Mac
     { // Linux
-      system( "mkdir " +"'"+ outputPath + "modified_eagle_files"+"'"  );
+      if( system( "mkdir -p " +"'"+ outputPath + "modified_eagle_files"+"'" ) != 0 )
+      {
+        dlgMessageBox("Could not Make Director " +"'"+ outputPath + "modified_eagle_files"+"'" ); 
+        exit (-1);
+      }
     }
     else
     { // Windows
-      string t = "'" + str_replace("/", "\\\\", outputPath + "modified_eagle_files"  )+"'";
+      //      string t = "'" + str_replace("/", "\\\\", outputPath + "modified_eagle_files"  )+"'";
       //      dlgMessageBox(  "cmd.exe /c mkdir " + t );
       //      dlgMessageBox(  "cmd.exe /c mkdir " +"'" + str_replace("/", "\\\\", outputPath + "modified_eagle_files"  )+"'");
-      system( "cmd.exe /c mkdir \"" + str_replace("/", "\\\\", outputPath + "modified_eagle_files"  )+"\"");
+      //      system( "cmd.exe /c mkdir \"" + str_replace("/", "\\\\", outputPath )+"\"");
+      if( system( "cmd.exe /c mkdir \"" + str_replace("/", "\\\\", outputPath + "modified_eagle_files"  )+"\""))
+      {
+        dlgMessageBox("Could not Make Director " +"'"+ outputPath + "modified_eagle_files"+"'" ); 
+        exit (-1);
+      }
     }
       
-      
-    
     // write save command
     if( IsWindows() == 0 ) // Returns 0 for Linux/Mac
       sprintf(c, "write '@%s';\n", outputPath + "modified_eagle_files" +"/"+ schname );

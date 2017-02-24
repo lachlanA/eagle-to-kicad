@@ -262,8 +262,12 @@ string shapeTablePad[] = {"Square", "Round", "Octagon"};
 
 string schname = "";
 
-string outputPath = EAGLE_HOME + '/';
-string myULP_HOME = EAGLE_HOME + '/';
+//string outputPath = EAGLE_HOME + '/';
+//string myULP_HOME = EAGLE_HOME + '/';
+string outputPath = "";
+string myULP_HOME = "";
+
+
 
 string infoTargetDirectory  =  "<b>Set the target directory for the KiCad/Eagle files.<br>"+
                              "<b>Note this directory should be a clean directory<br>"+
@@ -874,7 +878,7 @@ void menue(void)
           }
           else
           {
-            tmpSX = cfgget( cfg_SCRIP_ULP, myULP_HOME );
+            tmpSX = cfgget( cfg_SCRIPT_ULP, myULP_HOME );
             if( strlen(tmpSX ) )
               myULP_HOME = tmpSX;
           }
@@ -1019,7 +1023,7 @@ void menue(void)
               /*   cfgset( cfg_TARGET_DIR, "" ); */
 
               if( saveAsDefaultULP_Path )
-                cfgset( cfg_SCRIP_ULP, myULP_HOME );
+                cfgset( cfg_SCRIPT_ULP, myULP_HOME );
               /* else */
               /*   cfgset(cfg_TARGET_DIR, "" ); */
 
@@ -1576,7 +1580,7 @@ int main()
     string tmpSX = ""; 
     ULP_Path = strsub(argv[0], 0, pos + 1);
 
-    tmpSX = cfgget( cfg_SCRIP_ULP, myULP_HOME );
+    tmpSX = cfgget( cfg_SCRIPT_ULP, myULP_HOME );
     if( strlen(tmpSX ) )
       myULP_HOME = tmpSX;
     else
@@ -2583,7 +2587,7 @@ int main()
                   /* /\*   cfgset( cfg_TARGET_DIR, "" ); *\/ */
 
                   /* if( saveAsDefaultULP_Path ) */
-                  /*   cfgset( cfg_SCRIP_ULP, myULP_HOME ); */
+                  /*   cfgset( cfg_SCRIPT_ULP, myULP_HOME ); */
                   /* /\* else *\/ */
                   /* /\*   cfgset(cfg_TARGET_DIR, "" ); *\/ */
 

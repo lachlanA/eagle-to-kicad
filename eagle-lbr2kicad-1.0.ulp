@@ -197,7 +197,7 @@ string aliasList = "";     // list of part alias's
 int wildCardPrefix = 1;  // 1 = pre add * wild card to $FPLIST footprint list names
 int wildPostfix  = 1; // 1 = post add * wild card to $FPLIST footprint list names
 
-int eaglePartToKiCadPartConversion = 0; // control's if we cobine footprints or not, 0 = combine, 1 = dont combine
+int eaglePartToKiCadPartConversion = 1; // control's if we cobine footprints or not, 0 = combine, 1 = dont combine
 
 int devicesetsCount = 0;
 int devicesCount = 0;

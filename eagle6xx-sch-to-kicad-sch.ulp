@@ -13,10 +13,19 @@
        
 /*
  * CHANGELOG================================================
+ * 23-02-2017  Inc Version number,
+ *             Thanks to: Lachlan  "lachlanusa (at) gmail.com"
+ *
+ * 23-02-2017  Change cfg_SCRIP_ULP, cfg_SCRIPT_ULP
+ *             And lot's of spelling corrections !
+ *             Thanks to: Peter Lawler, https://github.com/PeteLawler
+ *
+ * 23-02-2017 Fix GLabel format to match the actual format not the docs!
+ *             Thanks to: Lachlan  "lachlanusa (at) gmail.com"
+ *
  * 11-06-2016 Fix enableNetListLableFix lable not being using.
  *            Thanks to https://github.com/pgroe  for this nice fix !
-
-
+ *
  * 12.02.2016  Disable display of KiCad footprint Field in schematic.
  *             Thanks to: Lachlan  "lachlanusa (at) gmail.com"
  *
@@ -109,8 +118,8 @@
 
 
 int debug = 0;       
-real VERSION   = 1.9;
-string Version = "1.9";
+real VERSION   = 2.0;
+string Version = "2.0";
 string myname;
 int datetime;
 real fontSize_PartPreFix_Ajust = 1.0;
@@ -1912,7 +1921,7 @@ void writeTextNetLabel( string textString, real textAngle, int fontSize, int pos
      }     
 
    if( global )
-     printf("Text GLabel %d %d %d %d %s\n", posX, -posY, Xorient, fontSize, "UnSpc");
+     printf("Text GLabel %d %d %d %d %s %s %d\n", posX, -posY, Xorient, fontSize, "UnSpc", "~", 0 );
    else
      printf("Text Label %d %d %d    %d   ~ 0\n", posX, -posY, Xorient, fontSize);
 
@@ -2104,10 +2113,11 @@ void write_kicad_components( UL_SHEET S )
       if(P.device.package)  // Do we have a package ?..   IF not ouput if in diffant way
       {  // ******* Yes we have a package !
 
-	  //  	  printf("\nP.deviceset.name:%s, P.name:%s, P.device.package.name:%s\n", P.deviceset.name, P.name, P.device.package.name );
+        printf("#P.device.name:%s, P.deviceset.name:%s, P.name:%s, P.device.package.name:%s\n", P.device.name, P.deviceset.name, P.name, P.device.package.name );
 
 
-	  string deviceName = P.device.name;
+          string deviceName = P.device.name;
+          //          string deviceName = P.deviceset.name;
 	  string refanceName  = P.name;
 	  int instanceCount = 0;
 	  int numberOfSubParts = 0;
@@ -2476,9 +2486,10 @@ void write_kicad_components( UL_SHEET S )
 	{  //*******  Ok no package but it may be a power/ground.. ?
 
 	  //	  printf("\nP.deviceset.name:%s, P.name:%s, P.device.package.name:%s\n", P.deviceset.name, P.name, P.device.package.name );
+          //        printf("#P.device.name:%s, P.deviceset.name:%s, P.name:%s, P.device.package.name:%s\n", P.device.name, P.deviceset.name, P.name, P.device.package.name );
 
-
-	  string deviceName = P.device.name;
+          string deviceName = P.device.name;
+          //          string deviceName = P.deviceset.name;
 	  string refanceName  = P.name;
 	  int instanceCount = 1;
 	  int numberOfSubParts = 0;
@@ -2548,7 +2559,7 @@ void write_kicad_components( UL_SHEET S )
 
 	      //	      printf( "\n## I.name:%s  I.gate.name:%s  I.gate.symbol.name:%s  X:%d  Y:%d\n", I.name, I.gate.name, I.gate.symbol.name,  I.x, I.y );
 
-	      printf( "P %d %d\n", posX, posY );
+	      printf( "P %d %d\n", posX, -posY );
 
 	      // Smash text section, note only the >NAME and >VALUE can be smashed !
 	      // if >NAME and >VALUE are not smashed, they wont apear here.
@@ -3112,7 +3123,7 @@ int mainDialog( string titleString, int sheetcount, string schName )
                 }
                 else
                 {
-                  tmpSX = cfgget( cfg_SCRIP_ULP, myULP_HOME );
+                  tmpSX = cfgget( cfg_SCRIPT_ULP, myULP_HOME );
                   if( strlen(tmpSX ) )
                     myULP_HOME = tmpSX;
                 }
@@ -3383,7 +3394,7 @@ int mainDialog( string titleString, int sheetcount, string schName )
                 /*   cfgset( cfg_TARGET_DIR, "" ); */
 
                 if( saveAsDefaultULP_Path )
-                  cfgset( cfg_SCRIP_ULP, myULP_HOME );
+                  cfgset( cfg_SCRIPT_ULP, myULP_HOME );
                 /* else */
                 /*   cfgset(cfg_TARGET_DIR, "" ); */
 

@@ -1,11 +1,11 @@
 // Glboba defs for the 4 ulps
 
-string BUILD_DATE = "10-DEC-2016";
+string BUILD_DATE = "23-FEB-2017";
 
 string cfg_LIBS = "Eagle.To.KiCad.Libs.LIBS";
 string cfg_conflictPartsLibsListsize = "Eagle.To.KiCad.Libs.conflictPartsLibsListsize";
 string cfg_addLibPrefix = "Eagle.To.KiCad.Libs.addLibPrefix";
-string cfg_SCRIP_ULP = "Eagle.To.KiCad.Libs.SCRIP_ULP";
+string cfg_SCRIPT_ULP = "Eagle.To.KiCad.Libs.SCRIPT_ULP";
 string cfg_TARGET_DIR = "Eagle.To.KiCad.Libs.TARGET_DIR";
 string cfg_F0 = "Eagle.To.KiCad.Libs.SCHf0.REF.SCALING";
 string cfg_F1 = "Eagle.To.KiCad.Libs.SCHf1.VALUE.SCALING";
