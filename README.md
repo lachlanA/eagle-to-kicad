@@ -26,6 +26,7 @@
 ***KiCad flood fill will not connect to them!!! There is an option to convert and document on layers 150,152,153,154 of (Eagle) the unconnected VIAs and tracks which will make finding and fixing the problem much easier.***
 * ***Schematics wire's/Nets can terminate in a buss or onto another wire/net and still be not be connected in Eagle!!***  
 * ***Where as KiCad schematic wire which terminates at the same location as any other wires start/end will be connected!!***  
+* ***Eagle Oval pads shape's are not supported in KiCad, you will only end up with a round pad!!***
 
 ###Installing.
 * Download the zip file, and unzip using your favorite zip program to your target directory *OR* if your prefer git:
