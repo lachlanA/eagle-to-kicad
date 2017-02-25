@@ -617,7 +617,6 @@ if (pos >= 0)
 { 
   string tmpSX = ""; 
 
-
   ULP_Path = strsub( argv[0], 0, pos + 1);
 
   tmpSX = cfgget( cfg_SCRIPT_ULP, myULP_HOME );

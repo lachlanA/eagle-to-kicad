@@ -6,13 +6,18 @@
        "<p>"
        "<author>Author: juergen.messerer (at) freesurf.ch</author>"
 
-#require 6.0000
+       //#require 6.0000
 	//#require 5.0000
 
 #include "eagle_to_kicad_include.inc"
        
 /*
  * CHANGELOG================================================
+ * 23-02-2017  Inc Version number,
+ *             And remove EAGLE_HOME
+ *             "lachlanusa (at) gmail.com"
+ *             And and comment out require 6.0000
+ *
  * 23-02-2017  Inc Version number,
  *             Thanks to: Lachlan  "lachlanusa (at) gmail.com"
  *
@@ -364,8 +369,8 @@ int hack_time = 0;
 // Global mod_ and lib_name
 //------------------------------------------------------
 string sch_name[];   
-string outputPath = EAGLE_HOME + '/';
-string myULP_HOME = EAGLE_HOME + '/';
+string outputPath = "";
+string myULP_HOME = "";
 
 string StmpS = "";
 string mulitiGateList[];

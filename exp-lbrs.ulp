@@ -15,6 +15,7 @@
 //-------------------------------------------------------------------------------- 
 // Change log.
 // Date:    Note:
+// 25-Feb-2017  Inc Version number. L. A, and comment out requires 6.0301
 // 23-Feb-2017  Inc Version number. L. A
 // 09-Oct-2015  Fix layers for limted version of Eagle L. A.
 // 25-Aug-2015  Fix space in Path problem, for windows by adding ' ' L. A.
@@ -23,10 +24,10 @@
 // 13-Mar-2015  Add more help to info boxs.  L. A.
 // 10-Feb-2015  Change hooks to work the other conversion programs.  L. A.
 //  
-#require 6.0301
+//#require 6.0301
 #include "eagle_to_kicad_include.inc"
 //
-string Version = "6.7";
+string Version = "6.8";
 
 int TEMP_HOLD_FOR_OVER_LAPPING_PIN = 19180;  //  Tempory of the sysmbole editor when we have over lapping pin's to deal with
 int TEMP_HOLD_FOR_OVER_LAPPING_SMD_PAD = 19180;  //  Tempory of the sysmbole editor when we have over lapping hole/smd pads to deal with

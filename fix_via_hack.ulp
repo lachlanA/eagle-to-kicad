@@ -11,16 +11,19 @@
 "<p>"
 "<author>Author: support@cadsoft.de</author>"
 
-#require 6.0000
+//#require 6.0000
 
 #include "eagle_to_kicad_include.inc"
 
 // THIS PROGRAM IS PROVIDED AS IS AND WITHOUT WARRANTY OF ANY KIND, EXPRESSED OR IMPLIED
 
-string Version = "ULP Version 4.6.0";
+string Version = "ULP Version 4.7.0";
 
 /*
  * CHANGELOG================================================
+ * 25.02.2017:  Comment out requires 6.0000, and Inc version
+ *              Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
+ *
  * 11.02.2016:  Put new pads top/left corner of sch file, so not to very write other
  *              connections.
  *              Thanks to: Lachlan  "lachlanusa (at) gmail.com" 

@@ -8,13 +8,19 @@
 "<author>Author: juergen.messerer (at) freesurf.ch</author>"
 "<author>Author: \"lachlanusa (at) gmail.com\"</author>"
 
-#require 6.0000
+//#require 6.0000
 //#require 5.0000
 
 #include "eagle_to_kicad_include.inc"
 
 /*
  * CHANGELOG=(dd.mm.yyyy)===============================================
+ *
+ * 24.02.2017  Inc version number to 2.8
+ *             remove requires 6.000 see if that fix's problem with eagle 8.0
+ *             set the default to not combine foot print (eaglePartToKiCadPartConversion=1), as this give's too many problems
+ *             Thanks to: Lachlan laudasusa (at) gmail.com
+ *
  * 10.12.2016  Inc version number to 2.7
  *             Thanks to: Lachlan laudasusa (at) gmail.com
  *
@@ -173,8 +179,8 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-real VERSION   = 2.7;
-string Version = "2.7";
+real VERSION   = 2.8;
+string Version = "2.8";
 
 int add_libnamePrefixToPartName = 0;
 
@@ -1920,7 +1926,7 @@ void write_kikad_lib( string fileName )
                     ct = 0;
 
                     //		printf("\n****\n****DevSetPackageCount=%d\n****\n", DevSetPackageCount);
-                    // ****************  Device's section *******************
+                    // ****************  Devices section *******************
                     D.devices(DEV)
                     {
                         //		    printf("\nDevSetPackageCount=%d", DevSetPackageCount);
