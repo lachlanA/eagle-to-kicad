@@ -6,14 +6,14 @@
 * The following 5 **ulp** (eagle user script file) and one **ulp** include file, work together or stand alone to convert **Eagle** *sch/pcb* version 6.xx*(7.xx maybe?)* file(s) and any version of Eagle lib(*lbr*) to **KiCad** *sch/pcb* and *lib/mod* files.  
 
 * The Programs will do
-	* Eagle multi sheet sch to KiCad multi sheets.  
+    * Eagle multi sheet sch to KiCad multi sheets.  
 	* Global and local net labels for multi sheets. *(This is a real nasty bit of hacking!)*
-	* Mulit part gates.  
+	* Multi part gates.  
 	* Build KiCad PCB modules and SCH libs from Eagle SCH.  
 	* Make project director to store all the converted files.  
 	* And basic error checking.  
 	* Eagle 6.xx(7.xx?) PCB files can be directly import to KiCad.  
-	* Eagle *LBR*s (any version of Eagel libs or size ) can be converted to KiCad lib/mod using eagle-lbr2kicad-1.0.ulp see [Eagle Lib conversion]( https://github.com/lachlanA/eagle-to-kicad-libs) for more details.  
+	* Eagle *LBR*s (any version of Eagle libs or size ) can be converted to KiCad lib/mod using eagle-lbr2kicad-1.0.ulp see [Eagle Lib conversion]( https://github.com/lachlanA/eagle-to-kicad-libs) for more details.  
 	* Converts VIA to Pads, which helps with KiCad's flood fill, when VIAs have no connections.  
 	* Documents fills over SMD pads on Eagle Layer 155,156  
 	* Documents on layer's 150,152,153,154 of (Eagle) the unconnected VIAs and tracks.  
@@ -21,10 +21,11 @@
 
 * By using the following **ulp**s  a consistent link from the SCH to PCB is maintained so forward and backward net-list annotations work under KiCad!  
 
-**WARNING KiCad VIAs and tracks don't retain NET information from Eagle when they are not connect to a PAD!**
-
-KiCad flood fill will not connect to them!!! There is an option to convert and document on layers 150,152,153,154 of (Eagle) the unconnected VIAs and tracks which will make finding and fixing the problem much easier.
-
+* **WARNING'S**
+* ***KiCad VIAs and tracks don't retain NET information from Eagle when they are not connect to a PAD!***  
+***KiCad flood fill will not connect to them!!! There is an option to convert and document on layers 150,152,153,154 of (Eagle) the unconnected VIAs and tracks which will make finding and fixing the problem much easier.***
+* ***Schematics wire's/Nets can terminate in a buss or onto another wire/net and still be not be connected in Eagle!!***  
+* ***Where as KiCad schematic wire which terminates at the same location as any other wires start/end will be connected!!***  
 
 ###Installing.
 * Download the zip file, and unzip using your favorite zip program to your target directory *OR* if your prefer git:
