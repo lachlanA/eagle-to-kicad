@@ -25,8 +25,10 @@
 * ***On KiCad Eagle PCB import of vias and tracks don't retain there NET information if they are not connected to a pad with a track, where as Ealge when they do, (KiCad assigned a null net-name on Eagle PCB import in KiCad's PCBNEW).***  
 ***The result will be KiCad flood fill will not connect to them!!! There is an option to convert and document on layers 150,152,153,154 of (Eagle) the unconnected VIAs and tracks which will make finding and fixing the problem much easier.***
 * ***Schematics wire's/nets can terminate in a buss or onto another wire/net/pad and not be connected in Eagle!!
- Where as in KiCad schematic wires to wires and wires to pads which terminates at the same location will be connected!!***  
-* ***Eagle Oval pads shape's are not supported in KiCad, you will only end up with a round pad!!***
+Where as in KiCad schematic wires to wires and wires to pads which terminates at the same location will be connected!!***  
+* ***Eagle Oval pads shape's are not supported in KiCad, you will only end up with a round pad!!***  
+* ***Eagle PCB design rules are not imported by KiCads PCBNEW.***  
+ 
 
 ###Installing.
 * Download the zip file, and unzip using your favorite zip program to your target directory *OR* if your prefer git:
