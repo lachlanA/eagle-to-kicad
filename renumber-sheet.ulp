@@ -1,6 +1,6 @@
 #usage "<b>Renumber the parts of a schematic</b><p>"
-"This version renumbers only devices with packages (no supply) "
-"sorted by sheets and coordinates (vertical/descending, horizontal/ascending).<br>"
+"This version renumbers only devices with packages (no supply)."
+"Sorted by sheets and coordinates (vertical/descending, horizontal/ascending).<br>"
 "Optional: The starting point for the numeration of parts on the first sheet "
 "defines an offset value for the following pages.<br>"
 "Example:<br>"
@@ -28,22 +28,22 @@ string Version = "ULP Version 4.4.4";
  *             to save the change's
  *             Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
  *
- * 27.02.2015: Programed moded to only add refance numbers
- *             to parts which have no refance numbers
+ * 27.02.2015: Programed moded to only add reference numbers
+ *             to parts which have no reference numbers
  *             Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
  *
  * 2006.08.23 alf@cadsoft.de
  * correct counter if crossing page by same prefix
  * 2008.01.30 alf@cadsoft.de
  * renumber only the current sheet by start sheet-number * numerical_order
- * 2012-06-21 - corrected sort by Weighting of emphasis in Y-direction
+ * 2012-06-21 - corrected sort by weighting of emphasis in Y-direction
  * alf@cadsoft.de
  */
 
 string Info = "ATTENTION<p>" +
-    "Please verify that the corresponding pcb layout (if it existing) " +
-    "has been loaded, and is consistant with the PCB.<p>" +
-    "Otheriwse renumbering of parts wont work, KiCad sch part to pcb part match wont work !";
+    "Please verify that the corresponding PCB layout (if it exists) " +
+    "has been loaded and is consistant with the PCB.<p>" +
+    "Otherwise renumbering of parts won't work and KiCad schematic part to PCB part matching will fail!";
 
 string Infoplus =
     " You can change the following sorting parameters:<p>" +
@@ -56,7 +56,7 @@ string Infoplus =
 int    descy = 1;               // set to 0 sorting ascending
 int    descx = 0;               // set to 1 sorting descending
 int    numerical_order = 0;     // sort from sheet 1, or sort by start counter for sheet
-int    emphases = 0;            // weighting of emphases first X second Y or first Y second X
+int    emphases = 0;            // weighting of emphasis, first X second Y or first Y second X
 
 int    actual_sheet = 0;        // 2008.01.30
 int    only_actual_sheet = 0;   // 2008.01.30
@@ -73,26 +73,26 @@ int Snr = 0;
 int Dnr = 0;
 
 string Error = "";
-string SymPrefix[];    // holds Refance/prefix - any traling number
+string SymPrefix[];    // holds Reference/prefix - any trailing number
 string DevPrefix[];
-string DevName[];      // holds Refnace/prefix with traling number
-string SymDevName[];      // holds Refnace/prefix with traling number
+string DevName[];      // holds Reference/prefix with trailing number
+string SymDevName[];      // holds Reference/prefix with trailing number
 
-string NoPrefixRenumber = ""; // Prefix do not renumber Testpoints
+string NoPrefixRenumber = ""; // Prefix do not renumber testpoints
 
 int    ckx[], cky[], cksh[];
 string ckname[];
 
 
-string cmd;  // holds the script to renumbing in sch
+string cmd;  // holds the script to renumbering in schematic
 string c;
 
 real Grid = 100; // in 100 Mil
 string lbr[], dev[], sym[];
 
 
-int maxRefNumber = 0;   // Hold the maxium refance number on this schmatic
-// this will be the start of the number parts which dont have a refance
+int maxRefNumber = 0;   // Hold the maxium reference number on this schematic
+// this will be the start of the number parts which don't have a reference
 
 //string outputPath = EAGLE_HOME + '/';
 //string myULP_HOME = EAGLE_HOME + '/';
@@ -104,7 +104,7 @@ string pcbname = "";
 
 string infoTargetDirectory  = "<b>Set the target directory for the KiCad/Eagle files.<br>"+
     "<b>Note this directory should be a clean directory<br>"+
-    "With out any other file's, as the contents-<br><center><font color=\"red\">WILL BE OVER WRITTEN WITHOUT WARNING!</b></center>";
+    "with no other files. The directory contents <br><center><font color=\"red\">WILL BE OVER WRITTEN WITHOUT WARNING!</b></center>";
 
 string infoULPdir           = "<b>Eagle ULP conversion script location</b>";
 
@@ -129,7 +129,7 @@ int IsWindows()
 
 //--------------------
 // check for existing file
-// Return's 1 if found
+// Returns 1 if found
 int check_for_exist_file(string FileName) {
   string a[];
   int n = fileglob(a, FileName);
@@ -139,7 +139,7 @@ int check_for_exist_file(string FileName) {
 
 
 //------------------------------------------------------
-// Replaces all occurrences of a charter in a string with a string
+// Replaces all occurrences of a character in a string with a string
 //------------------------------------------------------
 string charstr_replace(string search, string replace, string subject)
 {
@@ -171,7 +171,7 @@ string str_replace(string search, string replace, string subject)
   string before;
   string after;
 
-  // Check if there is any thing to replace
+  // Check if there is anything to replace
   if( strstr(subject, search, lastpos) == -1)
     return subject;  // No so just return input string
     
@@ -214,7 +214,7 @@ int GetNumberIndex(string Name)
 }
 
 //--------------------------------------------------------------------------------
-// return Refance with out traling number
+// Return reference without trailing number
 // 
 string prefix(string name) {     // Prefix of Device
   int num = GetNumberIndex(name);
@@ -222,7 +222,7 @@ string prefix(string name) {     // Prefix of Device
     return name;
   else {
     string pfx = name;
-    pfx[num] = 0;   //  put in 0 to termant string
+    pfx[num] = 0;   //  put in 0 to terminate string
     return pfx;
   }
 }
@@ -313,7 +313,7 @@ void GenerateNames(void) {
     int k;
     for (int n = 0; n <= nrNames - 1; ++n)
     {
-      if (memprefix != NewNames[Index[n]])   // Start of new Refance prefix name ?
+      if (memprefix != NewNames[Index[n]])   // Start of new reference prefix name ?
       {
         memprefix = NewNames[Index[n]];
         //         k = 0;                             // Reset to zero
@@ -340,7 +340,7 @@ void GenerateNames(void) {
       newdevnr++;
       if (newdevnr-(Sheet[Index[n]]*numerical_order) >= numerical_order)
       {
-        sprintf(h, "<qt><nobr>More parts with prefix '%s' than starting point %d on sheet %d<br>Start the ulp with <b>numerical order</b> >= %d</nobr>",
+        sprintf(h, "<qt><nobr>More parts with prefix '%s' than starting point %d on sheet %d<br>Start the ULP with <b>numerical order</b> >= %d</nobr>",
                 memprefix, numerical_order, Sheet[Index[n]], numerical_order*10);
         dlgMessageBox(h, "Break");
         exit(0);
@@ -489,13 +489,13 @@ void menue(void)
   string tmpS10 = "";
 
   
-  result = dlgDialog("Add numbers to unnumbered part reference's:  " + "BUILD DATE:" + BUILD_DATE )
+  result = dlgDialog("Add numbers to unnumbered part references. " + "BUILD DATE: " + BUILD_DATE )
       {
 
-        dlgLabel("<b><font color=\"red\">This ULP will add numbers to any part Reference which dose not have " + 
-                 "Number post-fix, IE: 'C' will become 'C1' etc!<br>"+
-                 "<font color=\"blue\">Note 1:<i> Any parts which do have a numeric post-fix will not be chance.</i><br>"+
-                 "Note 2:<i> This will modify the Eagle SCH/PCB files and save the results in TARGET-DIRECTORY/modified_eagle_files/</i>");
+        dlgLabel("<b><font color=\"red\">This ULP will add any missing part references.</font></b><br>" +
+				 "For example: 'C' will become 'C1', etc.<br>"+
+                 "Note 1: Parts with proper numeric references will not be changed.<br>"+
+                 "Note 2: This will modify the Eagle SCH/PCB files and save the results in TARGET-DIRECTORY/modified_eagle_files/");
 
         dlgHBoxLayout dlgSpacing(900);
         dlgHBoxLayout
@@ -516,13 +516,13 @@ void menue(void)
           //                dlgMessageBox( myULP_HOME + "/exp-lbrs.ulp");
           if( !(check_for_exist_file( myULP_HOME + "exp-lbrs.ulp" ) &&  check_for_exist_file( myULP_HOME + "eagle-lbr2kicad-1.0.ulp") && check_for_exist_file( myULP_HOME + "renumber-sheet.ulp" )) )
           {
-            dlgLabel("<b><font color=\"red\">ULP conversion script files Location Not correct!");
+            dlgLabel("<b><font color=\"red\">ULP conversion script files location not correct!");
             tmpS10 = myULP_HOME;
             rs = 1;
           }
           else
           {
-            dlgLabel("<font color=\"green\">ULP conversion script files Location");
+            dlgLabel("<nobr>ULP conversion script files location</nobr>");
             rs = 0;
             tmpS10 = "";                  
           }
@@ -536,7 +536,7 @@ void menue(void)
               tmpS10 = myULP_HOME = xs + '/';
           }
 
-          //                { tmpS10 = myULP_HOME = dlgDirectory("Select Targget directory", "C:\\") + '/' ; rs = 1; dlgAccept(); };
+          //                { tmpS10 = myULP_HOME = dlgDirectory("Select Target directory", "C:\\") + '/' ; rs = 1; dlgAccept(); };
 
                 
           dlgPushButton("Info") { if (dlgMessageBox( infoULPdir, "Ok") == 0); };
@@ -554,7 +554,7 @@ void menue(void)
         {
           dlgStretch(0);
           dlgSpacing(space);
-          dlgLabel("Target Dirctory For KiCAD files");
+          dlgLabel("Target directory for KiCad files");
           tmpSX = cfgget( cfg_TARGET_DIR, outputPath );
 
           //          if( strlen(tmpSX ) )
@@ -564,10 +564,10 @@ void menue(void)
           //          dlgCheckBox("Save as default", saveAsDefault );
           dlgPushButton("Edit") {
             string xs;int it;
-            xs = dlgDirectory("Select Targget directory", "C:\\");
+            xs = dlgDirectory("Select target directory", "C:\\");
             if( strlen(xs) )
               outputPath = xs + '/';
-          }// ( outputPath = dlgDirectory("Select Targget directory", "C:\\") + '/' );
+          }// ( outputPath = dlgDirectory("Select target directory", "C:\\") + '/' );
           dlgPushButton("Info") { if (dlgMessageBox( infoTargetDirectory, "Ok") == 0); };
           dlgStretch(0);
         }
@@ -650,7 +650,7 @@ if (schematic) {
     int l = 1;
     int chk;
 
-    // find the hightest number part of the refance name
+    // find the hightest number part of the reference name
     S.sheets(SH) 
     {
       int  tmpn;
@@ -673,29 +673,29 @@ if (schematic) {
         ; // do not change the actual sheet number
       }
       else {
-        actual_sheet = SH.number;  // set the numer to actuel sheet number
+        actual_sheet = SH.number;  // set the numer to actual sheet number
       }
       if (actual_sheet == SH.number) { // 2008.01.30
 
         SH.parts(P)
         {
-          int n = GetNumberIndex(P.name);  // index to start of Refance number in Refance
+          int n = GetNumberIndex(P.name);  // index to start of reference number in reference
 
-          if( n == -1 )           // Only renumber parts which have no numbers !
+          if( n == -1 )           // Only renumber parts which have no numbers!
             n = strlen(P.name);
           else
-            n = 0;  // Has Refance number so invert the meaning for the next check.
+            n = 0;  // Has reference number so invert the meaning for the next check.
             
-          if (n > 0)  // do we have a refance number on the end ?
+          if (n > 0)  // do we have a reference number on the end?
           { // Yes !
             if (P.device.package)    // **** only Devices with Packages
             {                        // **** without Supply symbol Frames ect...
               // **** DO NOT RENUMBER Elements with this PREFIX
-              if (prefix(P.name) == NoPrefixRenumber)    // returns Refance without any traling number
+              if (prefix(P.name) == NoPrefixRenumber)    // returns reference without any trailing number
                 ;    // Do thing is match
               else {
-                DevPrefix[Dnr] = prefix(P.name);   // Treturns Refnace without any traling number
-                DevName[Dnr] = P.name; // holds Refnace/prefix with traling number
+                DevPrefix[Dnr] = prefix(P.name);   // Returns reference without any trailing number
+                DevName[Dnr] = P.name; // holds reference prefix with trailing number
                 ++Dnr;
                 P.instances(I) {
                   int found = -1;
@@ -712,7 +712,7 @@ if (schematic) {
                     OldNames[nrNames] = P.name; // in version 3.50
                     NewNames[nrNames] = strsub(P.name, 0, n);
                     Sheet[nrNames] = I.sheet;
-                    Prefix[nrNames] = prefix(P.name);   // Treturns Refnace without any traling number
+                    Prefix[nrNames] = prefix(P.name);   // Returns reference without any trailing number
                     ++nrNames;
                   }
 
@@ -730,11 +730,11 @@ if (schematic) {
                   }
                 }
               }
-            }   // if (P.device.package) {    // **** only Devices with Packages    // Only Symbol (Supply, Port, Frame...)
+            }   // if (P.device.package) {    // **** only devices with packages    // Only Symbol (Supply, Port, Frame...)
             else
             {  // *** check PartName on Symbols Supply, Port, Frame ... ***
-              SymPrefix[Snr] = prefix(P.name);  // Treturns Refnace without any traling number
-              SymDevName[Snr] = P.name; // holds Refnace/prefix with traling number
+              SymPrefix[Snr] = prefix(P.name);  // Returns reference without any trailing numbers
+              SymDevName[Snr] = P.name; // Holds reference/prefix with trailing number
               P.instances(I) {
                 SymNames[Snr] = P.name;     // Device-Name of Symbol
                 SymX[Snr] = u2mil(I.x);       // cannot use E.x/y directly because of
@@ -744,7 +744,7 @@ if (schematic) {
                 break;
               }
             }
-          }   // if (n > 0)  // do we have a refance number on the end ?
+          }   // if (n > 0)  // do we have a reference number on the end?
 
           P.instances(I) {
             ckx[chk] = u2mil(I.x);  // cannot use E.x/y directly because of
@@ -759,7 +759,7 @@ if (schematic) {
 
     CheckSameOrigin(chk);
     SortElements();
-    GenerateNames();  // Add new number to Refances and put in NewNames
+    GenerateNames();  // Add new number to reference and put in NewNames
     setgridmil ();
     GenerateScript();
 
@@ -848,6 +848,6 @@ if (schematic) {
 }  // if (schematic) {
 else
 {
-  dlgMessageBox("\n    Start this ULP in a Schematic    \n");
+  dlgMessageBox("\n    Start this ULP in a schematic    \n");
   exit (0);
 }
