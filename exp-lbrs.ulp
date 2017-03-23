@@ -29,19 +29,19 @@
 //
 string Version = "6.8";
 
-int TEMP_HOLD_FOR_OVER_LAPPING_PIN = 19180;  //  Tempory of the sysmbole editor when we have over lapping pin's to deal with
-int TEMP_HOLD_FOR_OVER_LAPPING_SMD_PAD = 19180;  //  Tempory of the sysmbole editor when we have over lapping hole/smd pads to deal with
+int TEMP_HOLD_FOR_OVER_LAPPING_PIN = 19180;  //  Temporary of the symbol editor when we have overlapping pins to deal with
+int TEMP_HOLD_FOR_OVER_LAPPING_SMD_PAD = 19180;  //  Temporary of the symbol editor when we have overlapping hole/smd pads to deal with
 
 
 
-string infoCombineLibNames  = "Combine all the seprate Eagle libs into one KiCad lib<br>"+
-                              "This makes the conversion preccess easy and faster.<br>"+
-                              "<b>But means that you lose tack of which parts<br>"+
-                              "come from which Eagle lib</b><br>";
+string infoCombineLibNames  = "Combine all the separate Eagle libraries into one KiCad library<br>"+
+                              "This makes the conversion proccess easy and faster,<br>"+
+                              "<b>but means that you lose tack of which parts<br>"+
+                              "come from which Eagle library</b><br>";
 
-string infoLibNameToSymbolPackageDevice = "When <i>Combining librarys</i> it's help to add the library name<br>"+
+string infoLibNameToSymbolPackageDevice = "When combining libraries it is helpful to add the library name<br>"+
                                           "to Part/Device/Footprint to reduce the name conflict if more than<br>"+
-                                          "part has the same name in the diffrent librarys";
+                                          "one part has the same name from different libraries";
 
 // 
 //
@@ -185,7 +185,7 @@ string HelpText[] = {
 
 int PinX[]; //  space for checking over lapping x/y
 int PinY[];
-string Pname[]; // Name of the overlape
+string Pname[]; // Name of the overlap
 int overLappingPinErrorCount = 0;
 int waring_count = 0;
 int error_count = 0;
@@ -197,7 +197,7 @@ string checkFor_bad = "";
 string checkFor_badPostion = "";
 
 //------------------------------------------------------
-// Replaces all occurrences of a charter in a string with a string
+// Replaces all occurrences of a character in a string with a string
 //------------------------------------------------------
 string charstr_replace(string search, string replace, string subject)
 {
@@ -220,11 +220,11 @@ string charstr_replace(string search, string replace, string subject)
   return subject;
 }
 
-// Check for Bad Charters
-// Return int count of bad charters.
+// Check for Bad Characters
+// Return int count of bad characters.
 // and set 
-// string checkFor_bad: list of bad charters"";
-// string checkFor_badPostion: postion of bad charter;
+// string checkFor_bad: list of bad characters"";
+// string checkFor_badPostion: postion of bad character;
 //
 int checkForBadCharstr( string search, string subject)
 {
@@ -262,17 +262,17 @@ int checkForBadCharstr( string search, string subject)
 // *******************************************
 //
 // Output a string to a file.
-// openOverWriteCrateAppendMode set's optin's
-// openOverWriteCrateAppendMode = 0,   Append to a existining file only, return's -2 if the file is not found.
-// openOverWriteCrateAppendMode = 1,   Append to a existining file or crate a new file if it dose exist.
-// openOverWriteCrateAppendMode = 2,   Over write a existining file or crate a new file if it dose exist.
+// openOverWriteCreateAppendMode sets options
+// openOverWriteCreateAppendMode = 0,   Append to a existing file only, returns -2 if the file is not found.
+// openOverWriteCreateAppendMode = 1,   Append to a existing file or create a new file if it does exist.
+// openOverWriteCreateAppendMode = 2,   Over write a existing file or create a new file if it does exist.
 // binaryText ='B' or 'b' for output binary mode
-//   binaryText ='T' or 't' for output binary text mode
-// return's -1 if input errror
+// binaryText ='T' or 't' for output binary text mode
+// returns -1 if input error
 // or -2 if no file found
-// or output of fileerror,   which I have no idea what it will be,  just if 0,  then write was ok.
+// or output of file error, which I have no idea what it will be, just if 0, then write was ok.
 //
-int outputStringToFile( string fileName, string outputString, char openOverWriteCrateAppendMode, char binaryText )
+int outputStringToFile( string fileName, string outputString, char openOverWriteCreateAppendMode, char binaryText )
 {
   string fa[];
   int n;
@@ -295,7 +295,7 @@ int outputStringToFile( string fileName, string outputString, char openOverWrite
       return -1;
   }
 
-  switch( openOverWriteCrateAppendMode )
+  switch( openOverWriteCreateAppendMode )
   {
     case 0:
       if( fileglob( fa, fileName ) == 0 )
@@ -325,7 +325,7 @@ int outputStringToFile( string fileName, string outputString, char openOverWrite
 }
 
 // **************
-// check for overlapping pin's
+// check for overlapping pins
 //
 int check_overlap( UL_PIN P, int pincount )
 {
@@ -1210,11 +1210,11 @@ int Result = dlgDialog(TR("Export EAGLE libraries from drawing")) {
 
         if( ( ConflictPartsCount > 0 ) && ( AddLibPrefix != 1 ))
         {
-          if( dlgMessageBox("!Warning there are Part's with have the same names,  but from diffent libs" +
-                            " KICAD will reject part which have name!" +
-                            " Please tick the Add library names as prefix to get around this problem" +
-                            " Or fix the part name in the lib refance"+
-                            " Cotinue with this,  Or Change to add libprefix ?", "&Continue", "Change" ) == 1 )
+          if( dlgMessageBox("Warning! There are parts with the same names but from diffent libraries" +
+                            " KiCad will reject parts which have identical names." +
+                            " Please check the <i>Add library names as prefix</i> to get around this problem." +
+                            " Or fix the part name in the library reference"+
+                            " Continue or Add a prefix to conflicting names?", "&Continue", "&Add Prefix" ) == 1 )
             AddLibPrefix = 1;
         }
 
@@ -1236,14 +1236,14 @@ int Result = dlgDialog(TR("Export EAGLE libraries from drawing")) {
 
           if( overLappingPinErrorCount )
             dlgMessageBox( "<font color=\"purple\">There were OverLappingPinPad warnings<br>"+
-                           "during the export please read the log for more information<br><b>File:<i>" + logfileName  );
+                           "during export. Please read the log for more information<br><b>File:</b> " + logfileName  );
 
           if( error_count )
-            dlgMessageBox( "<font color=\"red\">There were Errors during the export please read the log for more information<br><b>File:<i>" + logfileName  );
+            dlgMessageBox( "<font color=\"red\">There were errors during export. Please read the log for more information<br><b>File:</b> " + logfileName  );
         }
         else
         {
-          logfile += "\nOK: Eagle lib export from SCH/PCB OK";
+          logfile += "\nOK: Eagle library export from SCH/PCB successful";
           //          wright_log_to_disk( logfile );
         }
         
@@ -1261,7 +1261,7 @@ int Result = dlgDialog(TR("Export EAGLE libraries from drawing")) {
           spos++;
         }
         if( iC < 3 )
-          logfile += "\n    Conversion completed with no Messages";
+          logfile += "\n    Conversion completed with no messages";
         sprintf(c, "\n#********** END OF %s %s %s LOG **********#\n\n", myname, Version, datetime);
         logfile += c;
         output(logfileName, "at") printf("%s", logfile);
