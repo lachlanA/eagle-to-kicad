@@ -851,13 +851,13 @@ void menue(void)
   int saveAsDefaultULP_Path = 1;
   string tmpS10 = "";
   
-  result = dlgDialog("VIAs to Pad, and Track Check:" + "  BUILD DATE:" + BUILD_DATE )
+  result = dlgDialog("Vias to Pads, and Trace Check. " + " BUILD DATE: " + BUILD_DATE )
       {
-        dlgLabel("<b><font color=\"red\">This ULP will change unconnected vias to pads.<br>" + 
-                 "<font color=\"blue\">It will also document, on user defined layers, the unconnected vias and traces<br>" +
-                 "<i>Click on <i>Info</> for important notes!</i><br>"+
-                 "<b>Note:<i> This hack modifies both the Eagle SCH and PCB files<br>"+
-                 "which are saved to the <i>TARGET-DIRECTORY</i>/modified_eagle_files/.");
+        dlgLabel("<b><font color=\"red\">This ULP will change unconnected vias to pads.</font></b><br>" + 
+                 "It will also document the unconnected vias and traces to layers specified by the user.<br>" +
+                 "Click on any <i>Info</i> button for details.<br>"+
+                 "<b>Note:</b> This hack modifies both the Eagle SCH and PCB files "+
+                 "which are saved to the TARGET-DIRECTORY/modified_eagle_files/.");
 
         /* "This is needed because KiCad does not support Net Names on unconected VIAs/Traces and blind Vias which have no Pad conecsion.!<br>"+ */
         /* "while unconected VIAs can be automatic coveted to pads blind VIAs and unconnected traces need manual conversion</i>)<br>"+ */
@@ -893,7 +893,7 @@ void menue(void)
           }
           else
           {
-            dlgLabel("<font color=\"green\">ULP conversion script file location");
+            dlgLabel("<nobr>ULP conversion script file location</nobr>");
             rs = 0;
             tmpS10 = "";                  
           }
@@ -920,7 +920,7 @@ void menue(void)
         {
           dlgStretch(0);
           dlgSpacing(space);
-          dlgLabel("Target Dirctory For KiCAD files");
+          dlgLabel("Target directory for KiCad files");
           tmpSX = cfgget( cfg_TARGET_DIR, outputPath );
 
           if( strlen(tmpSX ) )
@@ -942,7 +942,7 @@ void menue(void)
         {
           dlgStretch(10);
           dlgSpacing(space);
-          dlgLabel("Convert unconnected VIAs to pads");
+          dlgLabel("Convert unconnected vias to pads");
           dlgCheckBox("", enable_via_to_pad );
           dlgPushButton("Info") { if (dlgMessageBox( infoConvertViaToPad, "Ok") == 0); };
           dlgStretch(0);
@@ -952,7 +952,7 @@ void menue(void)
         {
           dlgStretch(10);
           dlgSpacing(space);
-          dlgLabel("Doc Possible Fills over PADS");
+          dlgLabel("Document possible fills over pads");
           dlgCheckBox("", docment_fill_over_pad );
           dlgLabel("Layer");
           dlgIntEdit( PadEagleReportLayerText, 16, 255);
@@ -966,7 +966,7 @@ void menue(void)
         {
           dlgStretch(10);
           dlgSpacing(space);
-          dlgLabel("Documents unconnected WIRES");
+          dlgLabel("Document unconnected wires");
           dlgCheckBox("", document_unconnected_wires );
           dlgLabel("Text Layer");
           dlgIntEdit( WireEagleReportLayerTxt, 100, 255);
@@ -982,7 +982,7 @@ void menue(void)
         {
           dlgStretch(10);
           dlgSpacing(space);
-          dlgLabel("Documents unconnected VIAs");
+          dlgLabel("Document unconnected vias");
           dlgCheckBox("", docment_via_to_pad );
           dlgLabel("Text Layer");
           dlgIntEdit(ViaEagleReportLayerTxt, 100, 255);
@@ -998,7 +998,7 @@ void menue(void)
         {
           dlgStretch(10);
           dlgSpacing(space);
-          dlgLabel("Documents unconnected Blind VIAs");
+          dlgLabel("Document unconnected blind vias");
           dlgCheckBox("", docment_blind_via_to_pad );
           dlgLabel("Text Layer");
           dlgIntEdit( BlindEagleReportLayerTxt, 100, 255);

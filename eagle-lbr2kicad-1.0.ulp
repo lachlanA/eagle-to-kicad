@@ -1,6 +1,6 @@
-#usage "<b>KiCAD library and module exporting tool, version 2.3</b>\n"
+#usage "<b>KiCad library and module exporting tool, version 2.3</b>\n"
 "<p>"
-"This ULP exports Eagle CAD Package and Symbol contents into KiCAD library and module formats."
+"This ULP exports Eagle Package and Symbol contents into KiCad library and module formats."
 "<p>"
 "Load any library and execute the ULP."
 "<p>"
@@ -112,7 +112,7 @@
  *	       found,  but returned the replacement string !!
  *	       thanks to: Lachlan  "lachlanusa (at) gmail.com"
  *
- * 12.06.2014: Fix \r \n in value import,  which Eagle allows but KiCAD does not like.
+ * 12.06.2014: Fix \r \n in value import,  which Eagle allows but KiCad does not like.
  * 	       also remove any other charters which are not printable
  *	       thanks to: Lachlan  "lachlanusa (at) gmail.com"
  *
@@ -2149,7 +2149,7 @@ void write_kikad_lib( string fileName )
 
                         switch (drawPinNumber)
                         {
-                        case 0:   // Always show pin numbers?  KiCad only has global control!
+                        case 0:   // Always show pin numbers? KiCad only has global control!
                             drawPinNumberStr = "Y";
                             break;
 
@@ -2467,9 +2467,9 @@ string ref;
 int sameDir = 0;
 string titleString;
 string showPinNames[] = { "Always show pin names",  "Only show pin names if enabled in Eagle symbol", "Never show pin names" };
-string showPinNumbers[] = { "Always show pin Numbers",  "Only show pin Numbers if enabled in Eagle symbol", "Never show pin numbers" };
-string addFootPrintList[] = { "No footprints list",  "Output footprint list", "Output library prefix in footprint list" };
-string outPutFootPrintOptions[] = { "Don't prefix the library name to the footprint name in mod", "Prefix the library name to the footprint name in mod" };
+string showPinNumbers[] = { "Always show pin numbers",  "Only show pin numbers if enabled in Eagle symbol", "Never show pin numbers" };
+string addFootPrintList[] = { "No footprint list",  "Output footprint list", "Output library prefix in footprint list" };
+string outPutFootPrintOptions[] = { "Don't prefix the library name to the footprint name in module", "Prefix the library name to the footprint name in module" };
 string eaglePartToKiCadPartConversiontion[] = {"Combine parts and package variants where possible", "Output a new part for every footprint type"};
 
 int showPinNamesSelected = 1; // initially "
@@ -2733,7 +2733,7 @@ int main()
     string datetime = t2string(time(), "dd-MM-yyyy :hh:mm:ss");
     sprintf(logfile, "\n#********** START OF %s %s %s LOG **********#", myname, Version, datetime);
 
-    sprintf( titleString, "Eagle To KiCAD lib/mod, Version:%.2f\nBuild Date:%s USE THIS PROGRAM AT YOUR OWN RISK!", VERSION, BUILD_DATE );
+    sprintf( titleString, "Eagle To KiCad Library/Module Version:%.2f Build Date: %s", VERSION, BUILD_DATE );
 
     if (library)
     {

@@ -1,6 +1,6 @@
 #usage "<b>Eagle schematic exporting tool, version 1.4</b>\n"
        "<p>"
-       "This ULP converts an Eagle CAD schematic into KiCAD schematic."
+       "This ULP converts an Eagle schematic into KiCad schematic."
        "<p>"
        "Load any Eagle schematic and execute the ULP."
        "<p>"
@@ -3114,7 +3114,7 @@ int mainDialog( string titleString, int sheetcount, string schName )
           dlgTabWidget 
           {
             //=====================TAB1=============================================================
-            dlgTabPage("Output:") 
+            dlgTabPage("Output") 
             {
               string tmpSX;
           
@@ -3143,7 +3143,7 @@ int mainDialog( string titleString, int sheetcount, string schName )
                 }
                 else
                 {
-                  dlgLabel("<font color=\"green\">ULP conversion script files location");
+                  dlgLabel("<nobr>ULP conversion script files location</nobr>");
                   rs = 0;
                   tmpS10 = "";                  
                 }
@@ -3172,7 +3172,7 @@ int mainDialog( string titleString, int sheetcount, string schName )
               {
                 dlgStretch(0);
                 dlgSpacing(space);
-                dlgLabel("Target directory For KiCAD files");
+                dlgLabel("Target directory for KiCad files");
                 tmpSX = cfgget( cfg_TARGET_DIR, outputPath );
 
                 if( strlen(tmpSX ) )
@@ -3187,6 +3187,7 @@ int mainDialog( string titleString, int sheetcount, string schName )
                     outputPath = xs + '/';
                 }
 
+                //                ( outputPath = dlgDirectory("Select target directory", "C:\\") + '/' );
                 //                ( outputPath = dlgDirectory("Select target directory", "C:\\") + '/' );
                 dlgPushButton("Info") { if (dlgMessageBox( infoTargetDirectory, "Ok") == 0); };
                 dlgStretch(0);
@@ -3204,17 +3205,17 @@ int mainDialog( string titleString, int sheetcount, string schName )
 
                   if(( i == 0 ) && ( sheetcount > 1 ))
                   {
-                    dlgLabel("Names Of KiCAD Master Sheet"); dlgStringEdit( sch_name[ i ] ); 
+                    dlgLabel("Names of KiCad master sheet"); dlgStringEdit( sch_name[ i ] ); 
                   }
                   else
                   {
                     if( sheetcount == 1 )
                     {
-                      dlgLabel("Names Of KiCAD Sheet"); dlgStringEdit( sch_name[ i ] );
+                      dlgLabel("Names of KiCad sheet"); dlgStringEdit( sch_name[ i ] );
                     }
                     else
                     {
-                      dlgLabel("Names Of KiCAD Sub Sheet"); dlgStringEdit( sch_name[ i ] );
+                      dlgLabel("Names of KiCad sub sheet"); dlgStringEdit( sch_name[ i ] );
                     }
                   }
               
@@ -3237,32 +3238,32 @@ int mainDialog( string titleString, int sheetcount, string schName )
                 if( conflictPartsLibsListsize )            
                 {
                   addLibPrefix = 1;
-                  dlgCheckBox("", addLibPrefix ); dlgLabel("<font color=\"orange\"><nobr><b>ADDING LIBRARY NAME TO PART NAME IS REQUIRED TO AVOID PART-LIB CONFLICT FOR KICAD!</b></nobr></font>"); dlgStretch(1);
+                  dlgCheckBox("", addLibPrefix ); dlgLabel("<nobr><font color=\"orange\"><b>Conflicting part names detected.</font></b> Add library name prefix to part names (recommended)</nobr>"); dlgStretch(1);
                   dlgSpacing(2); dlgPushButton("Info") { if (dlgMessageBox( infoPartNameConflict, "Ok") == 0); } dlgSpacing(10);              
                 }
                 else
                 {
                   addLibPrefix = 0;
-                  dlgCheckBox("", addLibPrefix ); dlgLabel("<nobr><font color=\"green\"><b>Adding library name to part name:</font><font color=\"purple\"> <b>MAY NOT BE REQUIRED</b>, but Click on <b><i>Info</i></b> for details on some nasty surprises!</b></font></nobr>"); dlgStretch(0);
+                  dlgCheckBox("", addLibPrefix ); dlgLabel("<nobr><font color=\"green\"><b>No conflicting part names detected.</font></b> Add library name prefix to part names (recommended)</font></nobr>"); dlgStretch(0);
                   dlgSpacing(2); dlgPushButton("Info") { if (dlgMessageBox( infoPartNameConflict, "Ok") == 0); } dlgStretch(10); dlgSpacing(20);
                 }
               }
               dlgHBoxLayout
               {
-                dlgCheckBox("", enableNetListLableFix ); dlgLabel("<nobr><b>Enable netlist label fix</b></nobr>"); dlgSpacing(20); dlgStretch(0);
+                dlgCheckBox("", enableNetListLableFix ); dlgLabel("<nobr>Enable netlist label fix</nobr>"); dlgSpacing(20); dlgStretch(0);
                 dlgSpacing(2); dlgPushButton("Info") { if (dlgMessageBox( infoNetLableFix, "Ok") == 0); } dlgStretch(10); dlgSpacing(20);
               }
 
               dlgHBoxLayout
               {
-                dlgCheckBox("", exportLibsFromEagle ); dlgLabel("<nobr><b>Extract libraries from Eagle SCH/PCB</b></nobr>"); dlgSpacing(20);
+                dlgCheckBox("", exportLibsFromEagle ); dlgLabel("<nobr>Extract libraries from Eagle schematic and PCB</nobr>"); dlgSpacing(20);
                 dlgPushButton("Info") { if (dlgMessageBox( infoExportLibsFromEagle, "Ok") == 0); } dlgStretch(0); dlgSpacing(20);            
               }
 
           
               dlgHBoxLayout
               {
-                dlgCheckBox("", combineLibs ); dlgLabel("<nobr><b>Combine all libraries into one library</b></nobr>"); dlgStretch(0);
+                dlgCheckBox("", combineLibs ); dlgLabel("<nobr>Combine all libraries into one library</nobr>"); dlgStretch(0);
                 dlgStringEdit( combineLibsName );
                 dlgSpacing(2);  dlgPushButton("Edit") { combineLibsName = dlgFileSave( "Name of combined library", outputPath + filesetext( schName, ".lbr"), "*.lbr");}             
                 dlgPushButton("Info") { if (dlgMessageBox( infoCombineLibNames, "Ok") == 0); } dlgStretch(0); dlgSpacing(20);            
@@ -3277,7 +3278,7 @@ int mainDialog( string titleString, int sheetcount, string schName )
               dlgStretch(10);
             }
             //=====================TAB2=============================================================
-            dlgTabPage("Sheet Size:") 
+            dlgTabPage("Sheet Size") 
             { 
               dlgSpacing(space);
               dlgHBoxLayout
@@ -3308,7 +3309,7 @@ int mainDialog( string titleString, int sheetcount, string schName )
               }
             }
             //=====================TAB1=============================================================
-            dlgTabPage("Comments:") 
+            dlgTabPage("Comments") 
             {  
               dlgHBoxLayout
               {
@@ -3362,27 +3363,27 @@ int mainDialog( string titleString, int sheetcount, string schName )
         
             if( conflictPartsLibsListsize )
             {
-              dlgTabPage("CONFLICTING PARTS-LIB'S") 
+              dlgTabPage("Conflicting Parts") 
               {
                 //          string Colors[] = { "red\tThe color RED\tConverted", "green\tThe color GREEN", "blue\tThe color BLUE" };
                 int Selected = 0; // 
-                dlgListView("DEVICE\tLIB\tREFERENCE\tCONFLICT'S WITH\tDEVICE\tLIB\tREFERENCE>", conflictPartsLibsList, Selected) dlgMessageBox("More info "); 
+                dlgListView("DEVICE\tLIB\tREFERENCE\tCONFLICTS WITH\tDEVICE\tLIB\tREFERENCE", conflictPartsLibsList, Selected) dlgMessageBox("More info"); 
           
               }
             }
             else
             {
-              dlgTabPage("THERE ARE NO CONFLICTING PARTS-LIBS") 
+              dlgTabPage("Conflicting Parts") 
               {
-                dlgLabel("<H1>THERE ARE NO CONFLICTING PARTS-LIBS</H1>");
+                dlgLabel("<H1>Congrats! There are no conflicting part names.</H1>");
               }
             }
 
           
-            dlgTabPage("Eagle Libraries Used") 
+            dlgTabPage("Libraries Used") 
             {
               int Selected = 0; // 
-              dlgListView("LIB\tConversion Compelete\tDate of Conversion", libsUsedList, Selected) dlgMessageBox("More info "); 
+              dlgListView("Library Name\tConversion Compelete\tDate of Conversion", libsUsedList, Selected) dlgMessageBox("More info "); 
             }
 
 
@@ -3437,7 +3438,7 @@ int main()
   string datetime = t2string(time(), "dd-MM-yyyy :hh:mm:ss");
   sprintf(logfile, "#********** START OF %s %s %s LOG **********#", myname, Version, datetime);
 
-  sprintf(titleStr, "Export Eagle schematic to KiCAD, Version:%.1f\n Build Date:%s  USE THIS PROGRAM AT YOUR OWN RISK!", VERSION, BUILD_DATE);
+  sprintf(titleStr, "Export Eagle schematic to KiCad Version: %.1f Build Date: %s", VERSION, BUILD_DATE);
 
   if (schematic)  
   {

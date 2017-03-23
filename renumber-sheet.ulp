@@ -340,7 +340,7 @@ void GenerateNames(void) {
       newdevnr++;
       if (newdevnr-(Sheet[Index[n]]*numerical_order) >= numerical_order)
       {
-        sprintf(h, "<qt><nobr>More parts with prefix '%s' than starting point %d on sheet %d<br>Start the ulp with <b>numerical order</b> >= %d</nobr>",
+        sprintf(h, "<qt><nobr>More parts with prefix '%s' than starting point %d on sheet %d<br>Start the ULP with <b>numerical order</b> >= %d</nobr>",
                 memprefix, numerical_order, Sheet[Index[n]], numerical_order*10);
         dlgMessageBox(h, "Break");
         exit(0);
@@ -489,13 +489,13 @@ void menue(void)
   string tmpS10 = "";
 
   
-  result = dlgDialog("Add numbers to unnumbered part references:  " + "BUILD DATE:" + BUILD_DATE )
+  result = dlgDialog("Add numbers to unnumbered part references. " + "BUILD DATE: " + BUILD_DATE )
       {
 
-        dlgLabel("<b><font color=\"red\">This ULP will add numbers to any part reference which does not have " + 
-                 "a number following the reference. For example: 'C' will become 'C1', etc.<br>"+
-                 "<font color=\"blue\">Note 1:<i> Parts with proper numeric references will not be changed.</i><br>"+
-                 "Note 2:<i> This will modify the Eagle SCH/PCB files and save the results in TARGET-DIRECTORY/modified_eagle_files/</i>");
+        dlgLabel("<b><font color=\"red\">This ULP will add any missing part references.</font></b><br>" +
+				 "For example: 'C' will become 'C1', etc.<br>"+
+                 "Note 1: Parts with proper numeric references will not be changed.<br>"+
+                 "Note 2: This will modify the Eagle SCH/PCB files and save the results in TARGET-DIRECTORY/modified_eagle_files/");
 
         dlgHBoxLayout dlgSpacing(900);
         dlgHBoxLayout
@@ -522,7 +522,7 @@ void menue(void)
           }
           else
           {
-            dlgLabel("<font color=\"green\">ULP conversion script files location");
+            dlgLabel("<nobr>ULP conversion script files location</nobr>");
             rs = 0;
             tmpS10 = "";                  
           }
@@ -536,7 +536,7 @@ void menue(void)
               tmpS10 = myULP_HOME = xs + '/';
           }
 
-          //                { tmpS10 = myULP_HOME = dlgDirectory("Select Targget directory", "C:\\") + '/' ; rs = 1; dlgAccept(); };
+          //                { tmpS10 = myULP_HOME = dlgDirectory("Select Target directory", "C:\\") + '/' ; rs = 1; dlgAccept(); };
 
                 
           dlgPushButton("Info") { if (dlgMessageBox( infoULPdir, "Ok") == 0); };
@@ -554,7 +554,7 @@ void menue(void)
         {
           dlgStretch(0);
           dlgSpacing(space);
-          dlgLabel("Target Dirctory For KiCAD files");
+          dlgLabel("Target directory for KiCad files");
           tmpSX = cfgget( cfg_TARGET_DIR, outputPath );
 
           //          if( strlen(tmpSX ) )
