@@ -1,4 +1,4 @@
-###**Converting from Eagle to KiCad.**
+### **Converting from Eagle to KiCad.**
 *    [Quick Introduction Video](http://cosmosc.com/video/testtital.mp4)  
      *Recommended video player [Firefox 51.0.1+](https://www.mozilla.org/en-US/firefox/desktop/) with [VLC video player plugin](http://www.videolan.org/vlc/)*  
 
@@ -30,7 +30,7 @@ Where as in KiCad schematic wires to wires and wires to pads which terminates at
 * ***Eagle PCB design rules are not imported by KiCads PCBNEW.***  
  
 
-###Installing.
+### Installing.
 * Download the zip file, and unzip using your favorite zip program to your target directory *OR* if your prefer git:
 
 			git clone https://github.com/lachlanA/eagle-to-kicad.git  
@@ -46,7 +46,7 @@ Where as in KiCad schematic wires to wires and wires to pads which terminates at
 ***eagle-lbr2kicad-1.0.ulp***....................  stage 5: Converts Eagle lbr to KiCad lib/mod  
 ***eagle_to_kicad_include.inc*** ..........  Include file used by the other 4 ULP\s  
 
-####HOW TO RUN THE ULPs 
+### HOW TO RUN THE ULPs 
  
  **WARNING Always backup your Eagle SCH/PCB files before running this program!**  
  
