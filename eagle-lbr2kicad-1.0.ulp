@@ -16,7 +16,12 @@
 /*
  * CHANGELOG=(dd.mm.yyyy)===============================================
  *
- * 24.02.2017  Inc version number to 2.8
+ * 07-04.2017  Inc version number to 2.9
+ *             Fixes problems with converting circles, holes and text
+ *             Thanks to Paul Andrews, https://github.com/judge2005
+ *             Remove /022  from file, and do spelling fix's, Thanks to  Nathan Seidle, https://github.com/nseidle
+ *
+ * 24.02.2017  Inc version number to 2.9
  *             remove required 6.000, see if that fixes problem with Eagle 8.0
  *             set the default to not combine footprint (eaglePartToKiCadPartConversion=1), as this gives too many problems
  *             Thanks to: Lachlan laudasusa (at) gmail.com
@@ -179,8 +184,8 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-real VERSION   = 2.8;
-string Version = "2.8";
+real VERSION   = 2.9;
+string Version = "2.9";
 
 int add_libnamePrefixToPartName = 0;
 
@@ -203,7 +208,7 @@ string aliasList = "";     // list of part aliases
 int wildCardPrefix = 1;  // 1 = pre add * wild card to $FPLIST footprint list names
 int wildPostfix  = 1; // 1 = post add * wild card to $FPLIST footprint list names
 
-int eaglePartToKiCadPartConversion = 1; // controls if we combine footprints or not, 0 = combine, 1 = don’t combine
+int eaglePartToKiCadPartConversion = 1; // controls if we combine footprints or not, 0 = combine, 1 = don't combine
 
 int devicesetsCount = 0;
 int devicesCount = 0;
@@ -213,8 +218,8 @@ int deleteNameTextSCH = 1;   //Delete >Name from schematic
 int deleteValueTextSCH = 1;   //Delete >Value from schematic
 string  symbolicPrefix;      /*list symbolic prefix(s)(comma seperated) not to show pins or pads or Part, or symbolic prefix for. Note list format is D, C, X, V, #  */
 
-int dontShowPin = 1;   //Don’t show pins from symbolicPrefix list
-int dontShowPad = 1;   //Don’t show pads from symbolicPrefix list
+int dontShowPin = 1;   //Don't show pins from symbolicPrefix list
+int dontShowPad = 1;   //Don't show pads from symbolicPrefix list
 int dontShowPartName = 1;   //Dont show part name from symbolicPrefix list
 int dontShowPartValue = 1;   //Dont show part name from symbolicPrefix list
 
@@ -260,7 +265,7 @@ string infoTechnologies = "Make KiCad part Aliases from the <i>Eagle</i> technol
 string infoLibNamePartNamePrefix = "Prefix the library name to the part name. For example: LibCapacitors_PartName";
 
 string infoDeleArfter = "<pre>Eagle SCH/PCB will not show any characters after \'@\' in pin names<br>"+
-                        "Checking this box will delete any characters after and including the <b>'@'</b><br>so that it won’t show in KiCad</pre>";
+                        "Checking this box will delete any characters after and including the <b>'@'</b><br>so that it won't show in KiCad</pre>";
 
 string infoPreFixSeach = "Add a wildcard prefix '*' to each footprint in the footprint list. This allows easy footprint searching in CvPCB.";
 
@@ -824,6 +829,26 @@ void write_kikad_mod_pad(UL_PACKAGE PAC)
         printf("$EndPAD\n");
     }
 
+    if (holes_conv)
+        PAC.holes(H)
+    {
+        // write PAD start tag
+        printf("$PAD\n");
+
+        // pad shape
+        printf("Sh \"\" C %d %d 0 0 0\n", egl2ki(H.drill), egl2ki(H.drill));
+
+        printf("Dr %d %d %d \n", egl2ki(H.drill), 0, 0);
+
+        printf("At HOLE N 00C0FFFF\n");
+
+        printf("Ne 0 \"%s\"\n", "");    // should always be a null not signal name !
+
+        printf("Po %d %d \n", egl2ki(H.x), -egl2ki(H.y));
+
+        // write PAD end tag
+        printf("$EndPAD\n");
+	}
 }
 
 
@@ -890,20 +915,25 @@ void write_kicad_mod_shapes(UL_PACKAGE PAC)
 
         layer = layer_lookup(C.layer);
 
-        printf("DC %d %d %d %d %d %d\n", egl2ki(C.x) , -egl2ki(C.y) ,
-               egl2ki(C.x) + ((egl2ki(C.x) > 0) ? 1 : (-1)) *  egl2ki(C.radius / 2),
-               -egl2ki(C.y) - ((egl2ki(C.y) > 0) ? 1 : (-1)) * egl2ki(C.radius / 2), egl2ki(C.width / 2), layer);
+        printf("DC %d %d %d %d %d %d\n",
+			egl2ki(C.x),
+			-egl2ki(C.y),
+            egl2ki(C.x),
+            -egl2ki(C.y) - egl2ki(C.radius),
+			egl2ki(C.width),
+			layer);
     }
+	
     if (holes_conv)
         PAC.holes(H)
     {
-
+/*
         layer = 21;
 
         printf("DC %d %d %d %d %d %d\n",
                egl2ki(H.x), -egl2ki(H.y),
-               egl2ki(H.x) + ((egl2ki(H.x) > 0) ? 1 : (-1)) * egl2ki(H.drill / 4),
-               -egl2ki(H.y) - ((egl2ki(H.y) > 0) ? 1 : (-1)) * egl2ki(H.drill / 4),
+               egl2ki(H.x),
+               -egl2ki(H.y) - egl2ki(H.drill / 2),
                50, layer);
 
         printf("DS %d %d %d %d %d %d\n",
@@ -913,6 +943,7 @@ void write_kicad_mod_shapes(UL_PACKAGE PAC)
         printf("DS %d %d %d %d %d %d\n",
                egl2ki(H.x), -egl2ki(H.y - (H.drill / 2)),
                egl2ki(H.x), -egl2ki(H.y + (H.drill / 2)), 50, layer);
+*/
     }
 
     //converting (always from wires)arcs ----------------------------------------------------
@@ -1040,8 +1071,11 @@ void write_kicad_mod_text(UL_PACKAGE PAC)
         textCt++;
     } //PAC.text
 
-
-    textnum = 0;
+	if( nameCt )
+		printf("%s", NAME );
+		
+	if( valueCt )
+		printf("%s", VALUE );
 
     PAC.texts(T)
     {
@@ -1086,22 +1120,6 @@ void write_kicad_mod_text(UL_PACKAGE PAC)
             break;
         }
 
-        // check for part prefix/>NAME
-        if( textnum == 0 )
-        {
-            if( nameCt )
-                printf("%s", NAME );
-            textnum++;
-            continue;
-        }
-        if( textnum == 1 )
-        {
-            if( valueCt )
-                printf("%s", VALUE );
-            textnum++;
-            continue;
-        }
-
         if (strupr(T.value) == ">NAME" || strupr(T.value) == ">VALUE" )
             continue;
         else
@@ -1115,7 +1133,6 @@ void write_kicad_mod_text(UL_PACKAGE PAC)
                    2, egl2ki(T.x + xoffs), -egl2ki(T.y + yoffs),
                    size, size,
                    int((abs(T.angle)) * 10), textWidth, T.mirror ? 'M' : 'N', layer_lut[T.layer], T.value);
-            textnum++;
         }
     }
 }
@@ -1423,7 +1440,7 @@ void write_kikad_text( UL_GATE G, int transX, int transY, int gatePos )
 
         }
 
-        if ((strupr(T.value) == ">NAME") || (strupr(T.value) == ">VALUE" )) // Don’t write place holders
+        if ((strupr(T.value) == ">NAME") || (strupr(T.value) == ">VALUE" )) // Don't write place holders
             continue;
         else
             printf("T %d %d %d %.0f %d %d %d \"%s\"  Normal 0 C C\n", orient, posX, posY,
@@ -1762,7 +1779,7 @@ void write_kikad_def_alias( UL_DEVICE DEV, UL_GATE G, string symbolName, int cou
     if ( DEV.package && eaglePartToKiCadPartConversion == 1 )
         switch( outPutFootPrint )
         {
-        case 0: // Don’t prefix lib name to footprint name
+        case 0: // Don't prefix lib name to footprint name
             printf("F2 \"%s\" 30 150 20 H I C CNN\n", escape_quotes( charstr_replace(",/()", "_", DEV.package.name)));
             break;
         case 1: // Prefix lib name to footprint name
@@ -2176,7 +2193,7 @@ void write_kikad_lib( string fileName )
                                 drawPinNameStr = "Y";
                             break;
 
-                        case 2: // Don’t show pin names
+                        case 2: // Don't show pin names
                             drawPinNameStr = "N";
                             break;
                         }
@@ -2269,7 +2286,7 @@ void write_kikad_lib( string fileName )
                                 for( int j = 0; j < ct; j++)  // Search to see if we have a package/pin match?
                                 {
                                     if ( strstr( packageNameListMatch[ j ], packageNameList[ ct ] ) != -1 )
-                                    {   // Match found so don’t output part
+                                    {   // Match found so don't output part
                                         output_part = 0;
                                         break;
                                     }
@@ -2733,7 +2750,7 @@ int main()
     string datetime = t2string(time(), "dd-MM-yyyy :hh:mm:ss");
     sprintf(logfile, "\n#********** START OF %s %s %s LOG **********#", myname, Version, datetime);
 
-    sprintf( titleString, "Eagle To KiCad Library/Module Version:%.2f Build Date: %s", VERSION, BUILD_DATE );
+    sprintf( titleString, "Eagle To KiCAD lib/mod, Version:%.2f\nBuild Date:%s USE THIS PROGRAM AT YOUR OWN RISK!", VERSION, BUILD_DATE );
 
     if (library)
     {
@@ -2761,12 +2778,12 @@ int main()
     if( ( strlen(tmpXX) >= 1 ))   // Has it been set ?
         if ( strtol( tmpXX ) == 1 ) // Yes
         {
-            add_libnamePrefixToPartName = 0; // Don’t add lib names to device names for now *** !!
+            add_libnamePrefixToPartName = 0; // Don't add lib names to device names for now *** !!
             outPutFootPrint = 0; // Don't add lib name to foot print name as it has already been added for now ****!!
         }
         else
         {
-            add_libnamePrefixToPartName = 0; // Don’t add lib name to part name as it has already been added.
+            add_libnamePrefixToPartName = 0; // Don't add lib name to part name as it has already been added.
             outPutFootPrint = 0; // Don't add lib name to foot print name as it has already been added.
         }
 
@@ -2880,11 +2897,9 @@ int main()
     /* }else */
     /*   dlgMessageBox("Conversion finished"); */
 
-    cfgset( cfg_ConversionLogFileName, "" ); // Set to Null for next time so we don’t get confused if the conversion program has not been run first.
+    cfgset( cfg_ConversionLogFileName, "" ); // Set to Null for next time so we don't get confused if the conversion program has not been run first.
 
     exit(EXIT_SUCCESS);
 
     return EXIT_SUCCESS;
 }
-
-
