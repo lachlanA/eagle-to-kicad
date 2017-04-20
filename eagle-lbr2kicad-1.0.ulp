@@ -16,6 +16,9 @@
 /*
  * CHANGELOG=(dd.mm.yyyy)===============================================
  *
+ * 20-04.2017  Fixes problems double "" not being escape in "T " string
+ *             Inc version number to 3.0
+ *
  * 07-04.2017  Inc version number to 2.9
  *             Fixes problems with converting circles, holes and text
  *             Thanks to Paul Andrews, https://github.com/judge2005
@@ -184,8 +187,8 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-real VERSION   = 2.9;
-string Version = "2.9";
+real VERSION   = 3.0;
+string Version = "3.0";
 
 int add_libnamePrefixToPartName = 0;
 
@@ -1444,7 +1447,7 @@ void write_kikad_text( UL_GATE G, int transX, int transY, int gatePos )
             continue;
         else
             printf("T %d %d %d %.0f %d %d %d \"%s\"  Normal 0 C C\n", orient, posX, posY,
-                   fontSize, 0, gatePos, 0, charstr_replace( "!", "~", textString ));
+                   fontSize, 0, gatePos, 0, escape_quotes(charstr_replace( "!", "~", textString )));
     }
 }
 
