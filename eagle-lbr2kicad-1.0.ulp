@@ -16,6 +16,11 @@
 /*
  * CHANGELOG=(dd.mm.yyyy)===============================================
  *
+ * 18.07.2017  Fix translation of irregular pads: Fix polygon and layer translation. Fix text alignment translation.
+ *             Thanks to Paul Andrews, https://github.com/judge2005
+ *             Inc version number
+ *             
+ *
  * 20-04.2017  Fixes problems double "" not being escape in "T " string
  *             Inc version number to 3.0
  *
@@ -187,8 +192,8 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-real VERSION   = 3.0;
-string Version = "3.0";
+real VERSION   = 3.1;
+string Version = "3.1";
 
 int add_libnamePrefixToPartName = 0;
 
@@ -333,25 +338,25 @@ int layer_lut[] =
     21,         //LAYER_UNROUTED
     21,         //LAYER_DIMENSION
     21,         //LAYER_TPLACE
-    21,         //LAYER_BPLACE
+    20,         //LAYER_BPLACE
     21,         //LAYER_TORIGINS
     20,         //LAYER_BORIGINS
     21,         //LAYER_TNAMES
     20,         //LAYER_BNAMES
     21,         //LAYER_TVALUES
     20,         //LAYER_BVALUES
-    21,         //LAYER_TSTOP
-    21,         //LAYER_BSTOP
-    21,         //LAYER_TCREAM
-    21,         //LAYER_BCREAM
+    23,         //LAYER_TSTOP
+    22,         //LAYER_BSTOP
+    19,         //LAYER_TCREAM
+    18,         //LAYER_BCREAM
     21,         //LAYER_TFINISH
     21,         //LAYER_BFINISH
     21,         //LAYER_TGLUE
     21,         //LAYER_BGLUE
     21,         //LAYER_TTEST
     21,         //LAYER_BTEST
-    21,         //LAYER_TKEEPOUT
-    21,         //LAYER_BKEEPOUT
+    24,         //LAYER_TKEEPOUT
+    24,         //LAYER_BKEEPOUT
     21,         //LAYER_TRESTRICT
     21,         //LAYER_BRESTRICT
     21,         //LAYER_VRESTRICT
@@ -535,7 +540,7 @@ real unitConver(int unitConvertTo, int unitConvertFrom, real inputValue)
 int layer_lookup(int layer)
 {
     if (layer > 42) return 24;
-    return layer_lut[layer + 1];
+    return layer_lut[layer];
 }
 
 /**
@@ -901,14 +906,29 @@ void write_kicad_mod_shapes(UL_PACKAGE PAC)
     if (poly_conv)
         PAC.polygons(P)
     {
+		int wireCount = 0;
+		int wireWidth = 1;
+		int layer = 21;
+		
+		P.contours(CONT) {
+			wireCount++;
+			layer = layer_lookup(CONT.layer);
+			wireWidth = egl2ki(CONT.width);
+		}
 
+		wireCount++;	// Want to repeat first vertex
+		printf("DP 0 0 0 0 %d %d %d\n", wireCount, wireWidth, layer);
+		
+		int lastX = 0;
+		int lastY = 0;
         P.contours(CONT)
         {
-            layer = layer_lookup(CONT.layer);
-
-            printf("DS %d %d %d %d %d %d\n",
-                   egl2ki(CONT.x1), -egl2ki(CONT.y1), egl2ki(CONT.x2), -egl2ki(CONT.y2), egl2ki(CONT.width), layer);
+			lastX = CONT.x2;
+			lastY = CONT.y2;
+            printf("Dl %d %d\n", egl2ki(CONT.x1), -egl2ki(CONT.y1));
         }
+		
+        printf("Dl %d %d\n", egl2ki(lastX), -egl2ki(lastY));
     }
 
     //circles (always from Eagle's circles and optional from holes)
@@ -1006,26 +1026,64 @@ void write_kicad_mod_text(UL_PACKAGE PAC)
         }
 
         size = egl2ki(T.size );
+		xoffs = (T.size * strlen(T.value)) / 2;
+		yoffs = T.size / 2;
+		
+		switch (T.align) {
+		case ALIGN_BOTTOM_LEFT:
+			break;
+		case ALIGN_BOTTOM_CENTER:
+			xoffs = 0;
+			break;
+		case ALIGN_BOTTOM_RIGHT:
+			xoffs = -xoffs;
+			break;
+		case ALIGN_CENTER_LEFT:
+			yoffs = 0;
+			break;
+		case ALIGN_CENTER:
+			xoffs = 0;
+			yoffs = 0;
+			break;
+		case ALIGN_CENTER_RIGHT:
+			xoffs = -xoffs;
+			yoffs = 0;
+			break;
+		case ALIGN_TOP_LEFT:
+			yoffs = -yoffs;
+			break;
+		case ALIGN_TOP_CENTER:
+			xoffs = 0;
+			yoffs = -yoffs;
+			break;
+		case ALIGN_TOP_RIGHT:
+			xoffs = -xoffs;
+			yoffs = -yoffs;
+			break;
+		}
+		
+		int tmpOff;
+		
         switch (int(T.angle))
         {
         case 0:
-            xoffs = (T.size * strlen(T.value)) / 2;
-            yoffs = T.size / 2;
             break;
 
         case 90:
-            xoffs = -T.size / 2;
-            yoffs = (T.size * strlen(T.value)) / 2;
+			tmpOff = xoffs;
+            xoffs = -yoffs;
+            yoffs = tmpOff;
             break;
 
         case 180:
-            xoffs = -(T.size * strlen(T.value)) / 2;
-            yoffs = -T.size / 2;
+            xoffs = -xoffs;
+            yoffs = -yoffs;
             break;
 
         case 270:
-            xoffs = (T.size / 2);
-            yoffs = -(T.size * strlen(T.value)) / 2;
+			tmpOff = xoffs;
+            xoffs = yoffs;
+            yoffs = -tmpOff;
             break;
         }
 
@@ -1100,26 +1158,64 @@ void write_kicad_mod_text(UL_PACKAGE PAC)
         }
 
         size = egl2ki(T.size );
+		xoffs = (T.size * strlen(T.value)) / 2;
+		yoffs = T.size / 2;
+		
+		switch (T.align) {
+		case ALIGN_BOTTOM_LEFT:
+			break;
+		case ALIGN_BOTTOM_CENTER:
+			xoffs = 0;
+			break;
+		case ALIGN_BOTTOM_RIGHT:
+			xoffs = -xoffs;
+			break;
+		case ALIGN_CENTER_LEFT:
+			yoffs = 0;
+			break;
+		case ALIGN_CENTER:
+			xoffs = 0;
+			yoffs = 0;
+			break;
+		case ALIGN_CENTER_RIGHT:
+			xoffs = -xoffs;
+			yoffs = 0;
+			break;
+		case ALIGN_TOP_LEFT:
+			yoffs = -yoffs;
+			break;
+		case ALIGN_TOP_CENTER:
+			xoffs = 0;
+			yoffs = -yoffs;
+			break;
+		case ALIGN_TOP_RIGHT:
+			xoffs = -xoffs;
+			yoffs = -yoffs;
+			break;
+		}
+		
+		int tmpOff;
+		
         switch (int(T.angle))
         {
         case 0:
-            xoffs = (T.size * strlen(T.value)) / 2;
-            yoffs = T.size / 2;
             break;
 
         case 90:
-            xoffs = -T.size / 2;
-            yoffs = (T.size * strlen(T.value)) / 2;
+			tmpOff = xoffs;
+            xoffs = -yoffs;
+            yoffs = tmpOff;
             break;
 
         case 180:
-            xoffs = -(T.size * strlen(T.value)) / 2;
-            yoffs = -T.size / 2;
+            xoffs = -xoffs;
+            yoffs = -yoffs;
             break;
 
         case 270:
-            xoffs = (T.size / 2);
-            yoffs = -(T.size * strlen(T.value)) / 2;
+			tmpOff = xoffs;
+            xoffs = yoffs;
+            yoffs = -tmpOff;
             break;
         }
 

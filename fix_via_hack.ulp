@@ -1,15 +1,5 @@
-#usage "<b>Renumber the parts of a schematic</b><p>"
-"This version renumbers only devices with packages (no supply) "
-"sorted by sheets and coordinates (vertical/descending, horizontal/ascending).<br>"
-"Optional: The starting point for the numeration of parts on the first sheet "
-"defines an offset value for the following pages.<br>"
-"Example:<br>"
-" - 0 = R1 ... Rn<br>"
-" - 100 sheet 1: R101..R199 sheet 2: R201..R299 ...<br>"
-" - 500 sheet 1: R501..R999 sheet 2: R1001..R1499 ...<br>"
-" - 1000 sheet 1: R1001..R1999 sheet 2: R2001..R2999 ...<br>"
-"<p>"
-"<author>Author: support@cadsoft.de</author>"
+#usage "<b>fix via hack</b><p>"
+"<author>Lachlan</author>"
 
 //#require 6.0000
 
@@ -17,15 +7,17 @@
 
 // THIS PROGRAM IS PROVIDED AS IS AND WITHOUT WARRANTY OF ANY KIND, EXPRESSED OR IMPLIED
 
-string Version = "ULP Version 4.7.0";
+string Version = "ULP Version 4.8.0";
 
 /*
  * CHANGELOG================================================
+ * 07.04.2017:  Remove unused code, inc version number
+ *              Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
+ *
  * 25.02.2017:  Comment out requires 6.0000, and Inc version
  *              Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
  *
- * 11.02.2016:  Put new pads top/left corner of sch file, so not to very write other
- *              connections.
+ * 11.02.2016:  Put new pads top/left corner of sch file, so not to over write other connections.
  *              Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
  *
  * 11.02.2016:  Change ! to ~ for onver bard on KiCad
@@ -56,12 +48,12 @@ string Version = "ULP Version 4.7.0";
  * alf@cadsoft.de
  */
 
-int ViaEagleReportLayerTxt = 160;     // which eagle layer reporting text should to too. ( Eco1_User)
+int ViaEagleReportLayerTxt = 160;     // which eagle layer reporting text should go too. ( Eco1_User)
 int ViaEagleReportLayerTxtColor = 3;
-int ViaEagleReportLayerDrawing = 161;     // which eagle layer reporting Graphics should to too ( Eco2_User)
-int WireEagleReportLayerTxt = 160;     // which eagle layer reporting text should to too. ( Eco1_User)
-int WireEagleReportLayerTxtColor = 4;     // which eagle layer reporting text should to too. ( Eco1_User)
-int WireEagleReportLayerDrawing = 161;     // which eagle layer reporting Graphics should to too ( Eco2_User)
+int ViaEagleReportLayerDrawing = 161;     // which eagle layer reporting Graphics should go too ( Eco2_User)
+int WireEagleReportLayerTxt = 160;     // which eagle layer reporting text should go too. ( Eco1_User)
+int WireEagleReportLayerTxtColor = 4;     // which eagle layer reporting text should go too. ( Eco1_User)
+int WireEagleReportLayerDrawing = 161;     // which eagle layer reporting Graphics should go too ( Eco2_User)
 int PadEagleReportLayerText = 160;
 int PadEagleReportLayerTextColor = 5;
 int PadEagleReportLayerDrawing = 160;
@@ -72,18 +64,6 @@ int BlindEagleReportLayerDrawing = 161;
 //int ViaEagleReportLayerTxtListSizie = 2;
 
 int display_error_layers = 1;	// Display error layers only
-
-string Info = "ATTENTION<p>" +
-    "Please verify that the corresponding PCB layout (if it exists) " +
-    "has been loaded and is consistant with the PCB.<p>" +
-    "Otherwise renumbering of parts won't work and KiCad schematic part to PCB part matching will fail!";
-
-string Infoplus =
-       " You can change the following sorting parameters:<p>" +
-       " descx = 0 (X ascending [left >> right])<br>" +
-       " descx = 1 (X descending [right >> left])<br>" +
-       " Descy = 0 (Y ascending [bottom >> top])<br>" +
-       " descy = 1 (Y descending [top >> bottom])<br>";
 
 string debugBuf[];
 int debugIdex = 0;
@@ -650,54 +630,6 @@ void CheckSameOrigin(int chk) {  // eagle can not rename an element
       }
     };
     exit(0);
-  }
-  return;
-}
-
-//--------------------------------------------------------------------------------
-//
-//--------------------------------------------------------------------------------
-void GenerateNames(void) {
-  string memprefix = "";
-  int mem_sh = 0;
-  if(!numerical_order) {
-    // Generates new numeric parts to the element names in NewNames
-    int k;
-    for (int n = 0; n <= nrNames - 1; ++n)
-    {
-      if (memprefix != NewNames[Index[n]])   // Start of new reference prefix name?
-      {
-         memprefix = NewNames[Index[n]];
-         //         k = 0;                             // Reset to zero
-         k = maxRefNumber;
-      }
-      sprintf(NewNames[Index[n]], "%s%d", NewNames[Index[n]], ++k);
-    }
-  }
-  else {   // renumber sheets by 100.. 200.. 300..
-    string h;
-    int newdevnr;
-    for(int n = 0; n < nrNames  ; ++n) {
-      if (memprefix != NewNames[Index[n]])
-      {
-         memprefix = NewNames[Index[n]];
-         newdevnr = numerical_order * Sheet[Index[n]] +1;
-      }
-      if (mem_sh != Sheet[Index[n]])
-      {  // a new Sheet is starting by old prefix *** 2006.08.23 alf@cadsoft.de
-        mem_sh = Sheet[Index[n]];
-        newdevnr = numerical_order * Sheet[Index[n]] +1;
-      }
-      sprintf(NewNames[Index[n]], "%s%d", NewNames[Index[n]], newdevnr);
-      newdevnr++;
-      if (newdevnr-(Sheet[Index[n]]*numerical_order) >= numerical_order)
-      {
-        sprintf(h, "<qt><nobr>More parts with prefix '%s' than starting point %d on sheet %d<br>Start the ulp with <b>numerical order</b> >= %d</nobr>",
-                memprefix, numerical_order, Sheet[Index[n]], numerical_order*10);
-        dlgMessageBox(h, "Break");
-        exit(0);
-      }
-    }
   }
   return;
 }

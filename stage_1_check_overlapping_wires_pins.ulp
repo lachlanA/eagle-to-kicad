@@ -115,6 +115,17 @@ int pos = strrchr(argv[0], bkslash);
 string logfile;
 string logfileName;
 int renamedCt = 0;
+
+
+int netlistsX[]; // Holds array of wire/pads intersections
+int netlistsY[];
+string netnames[]; // Netname for wire/pads
+int netcount;      // Holds the total netcount
+int netlistStart[]; // Holds index into netlistsX/Y[] for netname start
+int netlistEnd[]; // Holds index into netlistsX/Y[] for netname end
+int  netwirepad_count;
+
+
 //
 //--------------------------------------------------------------------------------
 //Returns 1, if EAGLE is running under Windows (0 for Linux/Mac)
@@ -475,6 +486,63 @@ void visible(UL_SCHEMATIC S) {
   return;
 }
 
+
+
+//-------------------------------------------------------------------------------- 
+// Builds wire/pad table to check or over lapping wire/pad which dont belong to the same
+// Netname
+void build_wire_pad_table( void )
+{
+
+    schematic(S) // Build searchable table
+    {
+        S.sheets(SH)
+        {
+            netcount = 0;
+            netlistStart = 0;
+            netlistEnd = 0;
+            netwirepad_count = 0;
+            SH.nets(N)
+
+            {
+                netnames[ netcount ] = N.name;
+                netlistStart[ netcount ] = ??;
+
+                N.segments(SEG)
+                {
+                    SEG.wires(W)  // print wires out
+                    {
+                        netlistsX[ count ] = W.x1;
+                        netlistsY[ count ] = W.y1;
+                        count++;
+                        netwirepad_count++;
+                        netlistsX[ count ] = W.x2;
+                        netlistsY[ count ] = W.y2;
+                        netWiresTotal++;
+                        count++;
+                    }
+                    SEG.pinrefs(PREF)
+                    {
+                        PREF.pins(P)
+                        {
+                            netlistsX[ count ] = P.x;
+                            netlistsY[ count ] = P.y;
+                            count++;
+                            netwirepad_count++;                            
+                        }
+                    }
+                    netlistEnd = netwirepad_count;
+                    
+
+
+                }
+            }
+        }
+    }
+
+}
+
+
 //--------------------------------------------------------------------------------
 //
 //
@@ -489,13 +557,14 @@ void menue(void)
   string tmpS10 = "";
 
   
-  result = dlgDialog("Add numbers to unnumbered part references. " + "BUILD DATE: " + BUILD_DATE )
+  result = dlgDialog("Check for overlapping wires/pads" + "BUILD DATE: " + BUILD_DATE )
       {
 
-        dlgLabel("<b><font color=\"red\">This ULP will add any missing part references.</font></b><br>" +
-				 "For example: 'C' will become 'C1', etc.<br>"+
-                 "Note 1: Parts with proper numeric references will not be changed.<br>"+
-                 "Note 2: This will modify the Eagle SCH/PCB files and save the results in TARGET-DIRECTORY/modified_eagle_files/");
+        dlgLabel("<b><font color=\"red\">Check wires ending at same lowcation have the same net.</font></b><br>" +
+		 "Eagle alows 2 wire's to begin/end at the same lowcation,  and yet not be connected, IE don't have the same net!.<br>"+
+                 "While KiCad will connect them, to the same net, this will make for a very nasty subprise!<br>"+
+                 "If the script fine's a over laping wire's, it  will make a copy of the sch,  with lowcation of the over lap displayed as a \"X\"<br>"+
+                 "You should correct the over lap(s) in the origonal Eagle Sch file and rerun the conversion script<br>");
 
         dlgHBoxLayout dlgSpacing(900);
         dlgHBoxLayout
