@@ -13,6 +13,10 @@
        
 /*
  * CHANGELOG================================================
+ * 23-02-2019  Fix Bug where (comma)"," was not being replaced with "_" int the  Foot print F 2 field (sugest footprint to be  used from lib)
+ *             Inc version number.
+ *             "lachlanusa (at) gmail.com"
+ *
  * 23-02-2017  Inc Version number,
  *             And remove EAGLE_HOME
  *             "lachlanusa (at) gmail.com"
@@ -123,8 +127,8 @@
 
 
 int debug = 0;       
-real VERSION   = 2.0;
-string Version = "2.0";
+real VERSION   = 2.1;
+string Version = "2.1";
 string myname;
 int datetime;
 real fontSize_PartPreFix_Ajust = 1.0;
@@ -2322,10 +2326,13 @@ void write_kicad_components( UL_SHEET S )
                                   {
                                     string tmpXA[];
                                     strsplit( tmpXA, strItextOutPut[ ct1 ], ' ' );
-                                    tmpXA[ 0 ] = stripQutes( str_replace( ",", "_", tmpXA[ 0 ] ));
+                                    tmpXA[ 0 ] = stripQutes( charstr_replace( ",", "_", tmpXA[ 0 ] ));
                                     tmpXA[ 0 ] = "\"" + strupr( libName ) + libNamePartNameSeperator + tmpXA[ 0 ] + "\"";
                                     tmpXA[ 6 ] = "0001";  // Dont display
-                                    printf("F %d %s", ct, strjoin( tmpXA, ' ' ));    // Print smashed text
+				    //                                    printf("F %d %s", ct, strjoin( tmpXA, ' ' ));    // Print smashed text
+
+				    printf("F %d %s", ct, charstr_replace( ",", "_", strjoin( tmpXA, ' ' )));    // Print smashed text
+  //				    printf("F %d %s", ct, str_replace( ",", "_", strjoin( tmpXA, ' ' )));    // Print smashed text
                                     
                                     //                                    printf("F %d %s\n", ct, "\"" + strupr( libName ) + libNamePartNameSeperator + stripQutes( str_replace( ",", "_", strItextOutPut[ ct1 ])));    // Print smashed text
                                   }
@@ -2334,7 +2341,8 @@ void write_kicad_components( UL_SHEET S )
                                     string tmpXA[];
                                     strsplit( tmpXA, strItextOutPut[ ct1 ], ' ' );
                                     tmpXA[ 6 ] = "0001";  // Dont display
-                                    printf("F %d %s", ct, str_replace( ",", "_", strjoin( tmpXA, ' ' )));    // Print smashed text
+                                    printf("F %d %s", ct, charstr_replace( ",", "_", strjoin( tmpXA, ' ' )));    // Print smashed text
+				    //                                    printf("F %d %s", ct, str_replace( ",", "_", strjoin( tmpXA, ' ' )));    // Print smashed text
                                     //  printf("F %d %s", ct,  str_replace( ",", "_", strItextOutPut[ ct1 ]));    // Print smashed text
                                   }
                                 }
@@ -2382,11 +2390,14 @@ void write_kicad_components( UL_SHEET S )
                                   {
                                     string tmpXA[];
                                     strsplit( tmpXA, IgateSymTextOutPut[ ct1 ], ' ' );
-                                    tmpXA[ 0 ] = stripQutes( str_replace( ",", "_", tmpXA[ 0 ] ));
+                                    tmpXA[ 0 ] = stripQutes( charstr_replace( ",", "_", tmpXA[ 0 ] ));
                                     tmpXA[ 0 ] = "\"" + strupr( libName ) + libNamePartNameSeperator + tmpXA[ 0 ] + "\"";
                                     //                                    if( numberOfSubParts > 1 ) // If we have subparts then dont show package in sch
                                       tmpXA[ 6 ] = "0001";
-                                    printf("F %d %s", ct, strjoin( tmpXA, ' ' ));    // Print smashed text
+
+				      printf("F %d %s", ct, charstr_replace(",", "_", strjoin( tmpXA, ' ' )));     // Print smashed text
+
+				      //				      printf("F %d %s", ct, str_replace( ",", "_", strjoin( tmpXA, ' ' )));    // Print smashed text
                                     //                                    printf("F %d \"%s\"\n", ct, strupr( libName ) + libNamePartNameSeperator + stripQutes( str_replace( ",", "_", IgateSymTextOutPut[ ct1 ])));
                                   }
                                   else
@@ -2396,10 +2407,10 @@ void write_kicad_components( UL_SHEET S )
                                       string tmpXA[];
                                       strsplit( tmpXA, IgateSymTextOutPut[ ct1 ], ' ' );
                                       tmpXA[ 6 ] = "0001";
-                                      printf("F %d %s", ct,  str_replace( ",", "_", strjoin( tmpXA, ' ' )));
+                                      printf("F %d %s", ct,  charstr_replace( ",", "_", strjoin( tmpXA, ' ' )));
                                     }
                                     else
-                                      printf("F %d %s", ct,  str_replace( ",", "_", IgateSymTextOutPut[ ct1 ]));
+                                      printf("F %d %s", ct,  charstr_replace( ",", "_", IgateSymTextOutPut[ ct1 ]));
                                   }
                                 }
                                 else
@@ -2737,7 +2748,7 @@ void write_kicad_header( UL_SCHEMATIC SCH, int current_sheet, int number_of_shee
            //	   printf("S %d %d %d %d\n", ( 1800 + ( sc -1) * 205) , 1600, (1500 + ( sc -1) * 205) , 1500);
            
 	   printf("F0 \"%s\" %d\n", name2, 60);
-	   printf("F1 \"%s\" %d\n", str_replace( ",", "_", name), 60);
+	   printf("F1 \"%s\" %d\n", charstr_replace( ",", "_", name), 60);
            //!!!fixme	   printf("F0 %s %d\n", name + "-%d" + ".sch", sc, 60);
            //!!!fixme	   printf("F1 %s %d\n",  name + "-%d" + ".sch", sc, 60);
 	   printf("$EndSheet\n");
