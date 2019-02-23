@@ -39,7 +39,7 @@ Whereas in KiCad schematic wires to wires and wires to pads which terminates at 
   **DO NOT install them in Eagle's ULP directory**  
 
 * There are 5 **ULPs** and one **ULP** include file have been hack together.  
-***run-me-first-from-eagle-sch.ulp*** ...............   stage 1: Start here,  script missing number(s) to parts prefixes.  
+***run-me-first-from-eagle-sch.ulp*** .....   stage 1: Start here,  script missing number(s) to parts prefixes.  
 ***fix_via_hack.ulp*** ..............................   stage 2: Converts unconnected VIAs to pads.  
 ***eagle6xx-sch-to-kicad-sch.ulp*** ....    stage 3: Build sch and project files, etc  
 ***exp-lbrs.ulp*** .......................................   stage 4: Extract libs from eagle schematic/PCB  
@@ -56,7 +56,7 @@ Whereas in KiCad schematic wires to wires and wires to pads which terminates at 
 
 3. Next Open the top left hand  **File menu** and select  **Run ULP**  
 
-4. A file requester window will open. Use this to select find or type the location of the ***run-me-first-from-eagle-sch.ulp*** ULP you download from this website. We use this script to make sure all part prefixes are ending in a number  IE:   R0,  X1   etc. as KiCad will ask to renumber any prefix which does not end in a number. *(It may do this any way, but don't worry it won't change any prefixes which have already been numbered unless you tell it too!)*  Keeping prefixes consistent from schematic to PCB will allow net-list forward and back annotation to work in KiCad. Select **OK** *(this will run the script)*.  When this completes all references without a number should have a number appended to them. Note: This number will start from the largest reference number on the sch/PCB.
+4. A file requester window will open. Use this to find the location of the ***run-me-first-from-eagle-sch.ulp*** ULP you download from this website. We use this script to make sure all part prefixes are ending in a number  IE:   R0,  X1   etc. as KiCad will ask to renumber any prefix which does not end in a number. *(It may do this any way, but don't worry it won't change any prefixes which have already been numbered unless you tell it too!)*  Keeping prefixes consistent from schematic to PCB will allow net-list forward and back annotation to work in KiCad. Select **OK** *(this will run the script)*.  When this completes all references without a number should have a number appended to them. Note: This number will start from the largest reference number on the sch/PCB.
 
 5. Next stage will run automatically, ***fix_via_hack.ulp*** This will check for free unconnected VIAs and convert them to pads,  this is very much a hack, as it changes the Eagle sch/PCB files.  The changed files are saved in ***targetdir/modified_eagle_files/*** There are 2 option's Document the VIAs/pads buy putting a ***>*** and net lable name on the VIA/pad on **layer 51** for Eagle, and **Dwgs.User** for KiCad. Second option is to Not to convert the VIAs to pads.  
 The ulp hack adds pad's to the sch file, at **X,Y 0,0** this may conflict with any net/part at this location, so please move the sch/PCB contents so there are no parts/nets at this location before running the script.
