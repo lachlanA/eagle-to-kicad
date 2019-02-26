@@ -15,6 +15,9 @@
 //-------------------------------------------------------------------------------- 
 // Change log.
 // Date:    Note:
+// 26.02.2019: Change ulp script check name from renumber-sheet.ulp to run-me-first-from-eagle-sch.ulp
+//             Inc version.
+//             Thanks to: Lachlan  "lachlanusa (at) gmail.com"
 // 25-Feb-2017  Inc Version number. L. A, and comment out requires 6.0301
 // 23-Feb-2017  Inc Version number. L. A
 // 09-Oct-2015  Fix layers for limted version of Eagle L. A.
@@ -27,7 +30,7 @@
 //#require 6.0301
 #include "eagle_to_kicad_include.inc"
 //
-string Version = "6.8";
+string Version = "6.81";
 
 int TEMP_HOLD_FOR_OVER_LAPPING_PIN = 19180;  //  Temporary of the symbol editor when we have overlapping pins to deal with
 int TEMP_HOLD_FOR_OVER_LAPPING_SMD_PAD = 19180;  //  Temporary of the symbol editor when we have overlapping hole/smd pads to deal with

@@ -7,10 +7,18 @@
 
 // THIS PROGRAM IS PROVIDED AS IS AND WITHOUT WARRANTY OF ANY KIND, EXPRESSED OR IMPLIED
 
-string Version = "ULP Version 4.8.0";
+string Version = "ULP Version 4.8.1";
 
 /*
  * CHANGELOG================================================
+ * 26.02.2019: Change ulp script check name from renumber-sheet.ulp to run-me-first-from-eagle-sch.ulp
+ *             Inc version.
+ *             Thanks to: Lachlan  "lachlanusa (at) gmail.com"
+ *
+ * 26.02.2019: Change ulp script check name from renumber-sheet.ulp to run-me-first-from-eagle-sch.ulp
+ *             Inc version.
+ *             Thanks to: Lachlan  "lachlanusa (at) gmail.com"
+ *
  * 07.04.2017:  Remove unused code, inc version number
  *              Thanks to: Lachlan  "lachlanusa (at) gmail.com" 
  *
@@ -817,7 +825,7 @@ void menue(void)
               myULP_HOME = tmpSX;
           }
           //                dlgMessageBox( myULP_HOME + "/exp-lbrs.ulp");
-          if( !(check_for_exist_file( myULP_HOME + "exp-lbrs.ulp" ) &&  check_for_exist_file( myULP_HOME + "eagle-lbr2kicad-1.0.ulp") && check_for_exist_file( myULP_HOME + "renumber-sheet.ulp" )) )
+          if( !(check_for_exist_file( myULP_HOME + "exp-lbrs.ulp" ) &&  check_for_exist_file( myULP_HOME + "eagle-lbr2kicad-1.0.ulp") && check_for_exist_file( myULP_HOME + "run-me-first-from-eagle-sch.ulp" )) )
           {
             dlgLabel("<b><font color=\"red\">ULP conversion script file location not correct!");
             tmpS10 = myULP_HOME;

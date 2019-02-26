@@ -13,6 +13,10 @@
        
 /*
  * CHANGELOG================================================
+ * 26.02.2019: Change ulp script check name from renumber-sheet.ulp to run-me-first-from-eagle-sch.ulp
+ *             Inc version.
+ *             Thanks to: Lachlan  "lachlanusa (at) gmail.com"
+ *
  * 23-02-2019  Fix Bug where (comma)"," was not being replaced with "_" int the  Foot print F 2 field (sugest footprint to be  used from lib)
  *             Inc version number.
  *             "lachlanusa (at) gmail.com"
@@ -127,8 +131,8 @@
 
 
 int debug = 0;       
-real VERSION   = 2.1;
-string Version = "2.1";
+real VERSION   = 2.2;
+string Version = "2.2";
 string myname;
 int datetime;
 real fontSize_PartPreFix_Ajust = 1.0;
@@ -3146,7 +3150,7 @@ int mainDialog( string titleString, int sheetcount, string schName )
                     myULP_HOME = tmpSX;
                 }
                 //                dlgMessageBox( myULP_HOME + "/exp-lbrs.ulp");
-                if( !(check_for_exist_file( myULP_HOME + "exp-lbrs.ulp" ) &&  check_for_exist_file( myULP_HOME + "eagle-lbr2kicad-1.0.ulp") && check_for_exist_file( myULP_HOME + "renumber-sheet.ulp" )) )
+                if( !(check_for_exist_file( myULP_HOME + "exp-lbrs.ulp" ) &&  check_for_exist_file( myULP_HOME + "eagle-lbr2kicad-1.0.ulp") && check_for_exist_file( myULP_HOME + "run-me-first-from-eagle-sch.ulp" )) )
                 {
                   dlgLabel("<b><font color=\"red\">ULP conversion script files location not correct!");
                   tmpS10 = myULP_HOME;
