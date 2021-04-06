@@ -1,6 +1,6 @@
 ### **Converting from Eagle to KiCad.**
-*    [Quick Introduction Video](http://cosmosc.com/video/testtital.mp4)  
-     *Recommended video player [Firefox 85.0+](https://www.mozilla.org/en-US/firefox/desktop/) with [VLC video player plugin](http://www.videolan.org/vlc/)*  
+*    [Quick Introduction Video (DEAD LINK, MOVING to NEW SERVER)](http://cosmosc.com/video/testtital.mp4)  
+     *Recommended video player [Firefox 87.0+](https://www.mozilla.org/en-US/firefox/desktop/) with [VLC video player plugin](http://www.videolan.org/vlc/)*  
 
 
 * The following 5 **ulp** (eagle *user script file*) and one **ulp** include file, work together or stand alone to convert **Eagle** *sch/pcb* version 6.xx*(7.xx-8.xx maybe?)* file(s) and any version of Eagle lib(*lbr*) to **KiCad** *sch/pcb* and *lib/mod* files.  
