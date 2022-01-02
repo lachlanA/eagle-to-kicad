@@ -1,4 +1,4 @@
-#usage "<b>KiCad library and module exporting tool, version 2.3</b>\n"
+#usage "<b>KiCad library and module exporting tool, version 2.3.1</b>\n"
 "<p>"
 "This ULP exports Eagle Package and Symbol contents into KiCad library and module formats."
 "<p>"
@@ -15,6 +15,10 @@
 
 /*
  * CHANGELOG=(dd.mm.yyyy)===============================================
+ *
+ * 02.01.2022  Fix string escape as \n inside text might break the created file
+ *             Thanks to Steffen Mauch, https://github.com/steffenmauch
+ *             Inc version number
  *
  * 18.07.2017  Fix translation of irregular pads: Fix polygon and layer translation. Fix text alignment translation.
  *             Thanks to Paul Andrews, https://github.com/judge2005
@@ -500,6 +504,46 @@ string stripLfCrToEscCRLF( string textString )
         }
     }
     return newString;
+}
+
+
+/**
+ * @brief   escape string CR LF
+ * @param   string
+ * @return  escaped string without \n / \r character
+ */
+string escapeStringCRLF( string s )
+{
+    int sizedqA = 2;
+    string dqA[] = {"\n", "\r"};
+    string dqAClean[] = {"\\n", "\\r"};
+
+    string c;
+    string out;
+
+    int slen = strlen( s );
+
+    for( int i = 0; i < slen; i++ )
+    {
+        c = strsub( s, i, 1);
+
+        int found = 0;
+        for( int j = 0; j < sizedqA; j++ )
+        {
+            if( c == dqA[j] )
+            {
+                out += dqAClean[j];
+                found = 1;
+            }
+        }
+
+        if( found == 0 )
+        {
+            out += s[i];
+        }
+
+    }
+    return out;
 }
 
 /**
@@ -1226,12 +1270,12 @@ void write_kicad_mod_text(UL_PACKAGE PAC)
             /* printf("T%d %d %d %d %d %d %d N V %d N \"%s\"\n", */
             /*        2, egl2ki(T.x + xoffs), -egl2ki(T.y + yoffs), */
             /*        size, size, */
-            /*        int((abs(T.angle)) * 10), textWidth, layer_lut[T.layer], T.value); */
+            /*        int((abs(T.angle)) * 10), textWidth, layer_lut[T.layer], escapeStringCRLF(T.value)); */
 
             printf("T%d %d %d %d %d %d %d %c V %d N \"%s\"\n",
                    2, egl2ki(T.x + xoffs), -egl2ki(T.y + yoffs),
                    size, size,
-                   int((abs(T.angle)) * 10), textWidth, T.mirror ? 'M' : 'N', layer_lut[T.layer], T.value);
+                   int((abs(T.angle)) * 10), textWidth, T.mirror ? 'M' : 'N', layer_lut[T.layer], escapeStringCRLF(T.value));
         }
     }
 }
